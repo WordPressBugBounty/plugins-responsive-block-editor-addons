@@ -5,7 +5,7 @@ Tags: block, blocks, block editor, page builder, gutenberg templates
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,9 +14,9 @@ Use professional starter block patterns & templates to create websites within mi
 
 == Description ==
 
-<a href = "https://cyberchimps.com/blocks/">Responsive Blocks</a> is a free WordPress Gutenberg Blocks plugin that offers a library of 50+ fully functional native WordPress blocks and 100+ WordPress Website Templates and sections. This way, you can create stunning pages in the default WordPress editor without any coding.
+<a href = "https://cyberchimps.com/blocks/">Responsive Blocks</a> is a free WordPress Gutenberg Blocks plugin that offers a library of 50+ fully functional native WordPress blocks and 100+ WordPress Website Templates and sections. This way, you can create stunning pages in the default WordPress editor without any coding. 
 
-The settings in the plugin allow easy customization and build stunning pages without adding any extra page builder plugins. Also, the free Gutenberg Starter Templates help you build designer content layouts for your website in minutes.
+The settings in the plugin allow easy customization and build stunning pages without adding any extra page builder plugins. Also, the free Gutenberg Starter Templates help you build designer content layouts for your website in minutes. 
 
 Additionally, you can import patterns to incorporate preferred page and section layouts into your existing website.
 
@@ -149,7 +149,7 @@ Great plugin. Not as well known as other plugins with gutenberg blocks. But I fo
 - Join our [Facebook](https://www.facebook.com/groups/responsive.theme) Group for the latest updates.
 
 == What’s Next?==
-If you like Responsive Blocks, consider checking out our other WordPress Plugins: 
+If you like Responsive Blocks, consider checking out our other WordPress Plugins:
 
 1. **[Responsive Theme](https://wordpress.org/themes/responsive/)**: Responsive Theme is a free WordPress theme built by Cyberchimps that is fast, lightweight, and fully customizable. It loads completely under 100 KB. With a blazing GTMetrix performance score of 100%, it helps your website load super fast, ensuring customers get a better user experience. The theme powers more than 30,000 websites and more than 500+ 5-star ratings on WordPress.
 
@@ -235,6 +235,12 @@ This is how you can easily install the Responsive Gutenberg Blocks plugin on you
 8. Gutenberg Starter Templates
 
 == Changelog ==
+
+= 1.9.2 - 18th October 2024 =
+* Improvement - UI changes in Block's Inspector.
+* Improvement - Improved Border radius control in Section Block.
+* Improvement - Ranamed Masonary Block to Image Gallery.
+* Fix - Minor bug fixes.
 
 = 1.9.1 - 25th September 2024 =
 * Fix - Fixed assets loading issue for inner blocks.
