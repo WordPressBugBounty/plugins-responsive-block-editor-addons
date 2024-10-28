@@ -5,6 +5,7 @@ import classnames from "classnames";
 import InspectorTab from "../../../components/InspectorTab";
 import InspectorTabs from "../../../components/InspectorTabs";
 import EditorStyles from "./editor-styles";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
 
 /**
  * WordPress dependencies
@@ -163,7 +164,7 @@ class SpacerEdit extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Height Mobile",
                               "responsive-block-editor-addons"
@@ -179,7 +180,7 @@ class SpacerEdit extends Component {
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Height Tablet",
                               "responsive-block-editor-addons"
@@ -195,7 +196,7 @@ class SpacerEdit extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__("Height in pixels", "responsive-block-editor-addons")}
                             min={MIN_SPACER_HEIGHT}
                             max={Math.max(MAX_SPACER_HEIGHT, height)}
@@ -281,7 +282,7 @@ class SpacerEdit extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -295,7 +296,7 @@ class SpacerEdit extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -309,7 +310,7 @@ class SpacerEdit extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

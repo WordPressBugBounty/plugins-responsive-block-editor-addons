@@ -7,7 +7,9 @@ import renderSVG from "../../../../renderIcon";
 import ResponsiveBlocksIcon from "../../../../ResponsiveBlocksIcon.json";
 import InspectorTab from "../../../../components/InspectorTab";
 import InspectorTabs from "../../../../components/InspectorTabs";
-
+import RbeaColorControl from "../../../../utils/components/rbea-color-control";
+import RbeaMediaUploadControl from "../../../../utils/components/rbea-media-upload-control";
+import RbeaTabRadioControl from "../../../../utils/components/rbea-tab-radio-control";
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -115,126 +117,73 @@ export default class Inspector extends Component {
 
       color_control = (
         <Fragment>
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Text Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: label_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={label_color}
-            onChange={(value) => setAttributes({ label_color: value })}
-            allowReset
+          <RbeaColorControl
+            label = {__("Text Color", "responsive-block-editor-addons")}
+            colorValue={label_color}
+            onChange={(colorValue) =>
+              setAttributes({ label_color: colorValue })
+            }
+            resetColor={() => setAttributes({ label_color: "" })}
           />
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Icon Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: icon_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={icon_color}
-            onChange={(value) => setAttributes({ icon_color: value })}
-            allowReset
+          <RbeaColorControl
+            label = {__("Icon Color", "responsive-block-editor-addons")}
+            colorValue={icon_color}
+            onChange={(colorValue) =>
+              setAttributes({ icon_color: colorValue })
+            }
+            resetColor={() => setAttributes({ icon_color: "" })}
           />
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Icon Background Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: icon_bg_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={icon_bg_color}
-            onChange={(value) => setAttributes({ icon_bg_color: value })}
-            allowReset
+          <RbeaColorControl
+            label = {__("Icon Background Color", "responsive-block-editor-addons")}
+            colorValue={icon_bg_color}
+            onChange={(colorValue) =>
+              setAttributes({ icon_bg_color: colorValue })
+            }
+            resetColor={() => setAttributes({ icon_bg_color: "" })}
           />
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Icon Border Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: icon_border_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={icon_border_color}
-            onChange={(value) => setAttributes({ icon_border_color: value })}
-            allowReset
+          <RbeaColorControl
+            label = {__("Icon Border Color", "responsive-block-editor-addons")}
+            colorValue={icon_border_color}
+            onChange={(colorValue) =>
+              setAttributes({ icon_border_color: colorValue })
+            }
+            resetColor={() => setAttributes({ icon_border_color: "" })}
           />
         </Fragment>
       );
       color_control_hover = (
         <Fragment>
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Text Hover Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: label_hover_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={label_hover_color}
-            onChange={(value) => setAttributes({ label_hover_color: value })}
-            allowReset
-          />
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Icon Hover Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: icon_hover_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={icon_hover_color}
-            onChange={(value) => setAttributes({ icon_hover_color: value })}
-            allowReset
-          />
-          <p className="responsive-block-editor-addons-setting-label">
-            {__(
-              "Icon Background Hover Color",
-              "responsive-block-editor-addons"
-            )}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: icon_bg_hover_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={icon_bg_hover_color}
-            onChange={(value) => setAttributes({ icon_bg_hover_color: value })}
-            allowReset
-          />
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Icon Border Hover Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: icon_border_hover_color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={icon_border_hover_color}
-            onChange={(value) =>
-              setAttributes({ icon_border_hover_color: value })
+          <RbeaColorControl
+            label = {__("Text Hover Color", "responsive-block-editor-addons")}
+            colorValue={label_hover_color}
+            onChange={(colorValue) =>
+              setAttributes({ label_hover_color: colorValue })
             }
-            allowReset
+            resetColor={() => setAttributes({ label_hover_color: "" })}
+				  />
+          <RbeaColorControl
+            label = {__("Icon Hover Color", "responsive-block-editor-addons")}
+            colorValue={icon_hover_color}
+            onChange={(colorValue) =>
+              setAttributes({ icon_hover_color: colorValue })
+            }
+            resetColor={() => setAttributes({ icon_hover_color: "" })}
+          />
+          <RbeaColorControl
+            label = {__("Icon Background Hover Color", "responsive-block-editor-addons")}
+            colorValue={icon_bg_hover_color}
+            onChange={(colorValue) =>
+              setAttributes({ icon_bg_hover_color: colorValue })
+            }
+            resetColor={() => setAttributes({ icon_bg_hover_color: "" })}
+          />
+          <RbeaColorControl
+            label = {__("Icon Border Hover Color", "responsive-block-editor-addons")}
+            colorValue={icon_border_hover_color}
+            onChange={(colorValue) =>
+              setAttributes({ icon_border_hover_color: colorValue })
+            }
+            resetColor={() => setAttributes({ icon_border_hover_color: "" })}
           />
         </Fragment>
       );
@@ -278,7 +227,7 @@ export default class Inspector extends Component {
                 title={__("Icon Settings", "responsive-block-editor-addons")}
                 initialOpen={true}
               >
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__("Select Source", "responsive-block-editor-addons")}
                   value={source_type}
                   onChange={(value) => setAttributes({ source_type: value })}
@@ -295,35 +244,16 @@ export default class Inspector extends Component {
                 />
                 {"image" == source_type && (
                   <Fragment>
-                    <BaseControl
-                      className="editor-bg-image-control"
+                    <RbeaMediaUploadControl
                       label={__("Image", "responsive-block-editor-addons")}
-                    >
-                      <MediaUpload
-                        title={__(
-                          "Select Image",
-                          "responsive-block-editor-addons"
-                        )}
-                        onSelect={this.onSelectImage}
-                        allowedTypes={["image"]}
-                        value={image}
-                        render={({ open }) => (
-                          <Button isDefault onClick={open}>
-                            {image_name}
-                          </Button>
-                        )}
-                      />
-                      {image && image.url !== "null" && image.url !== "" && (
-                        <Button
-                          className="responsive-block-editor-addons-rm-btn"
-                          onClick={this.onRemoveImage}
-                          isLink
-                          isDestructive
-                        >
-                          {__("Remove Image", "responsive-block-editor-addons")}
-                        </Button>
-                      )}
-                    </BaseControl>
+                      value={{
+                          url: image.url,
+                      }}
+                      onChange={(media) => {
+                        this.props.setAttributes({ image: media });
+                      }}
+                      mediaType={'image'}
+                    />
                   </Fragment>
                 )}
                 {"icon" == source_type && (

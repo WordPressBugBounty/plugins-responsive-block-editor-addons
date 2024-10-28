@@ -5,6 +5,8 @@ import InspectorTabs from "../../../components/InspectorTabs";
 import TypographyHelperControl from "../../../settings-components/TypographySettings";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 /**
  * Inspector Controls
@@ -215,7 +217,7 @@ export default class Inspector extends Component {
                 title={__("General", "responsive-block-editor-addons")}
                 initialOpen={true}
               >
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__("Layout", "responsive-block-editor-addons")}
                   value={icon_layout}
                   options={[
@@ -336,7 +338,7 @@ export default class Inspector extends Component {
                   onChange={(value) => this.changeChildAttr(value)}
                 />
                 <hr className="responsive-block-editor-addons-editor__separator" />
-                <RangeControl
+                <RbeaRangeControl
                   label={__(
                     "Gap between Items",
                     "responsive-block-editor-addons"
@@ -350,7 +352,7 @@ export default class Inspector extends Component {
                   max={100}
                 />
                 {!hideLabel && (
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Gap between Icon and Label", "responsive-block-editor-addons")}
                     value={inner_gap}
                     onChange={(value) => setAttributes({ inner_gap: value })}
@@ -359,7 +361,7 @@ export default class Inspector extends Component {
                   />
                 )}
                 <hr className="responsive-block-editor-addons-editor__separator" />
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__("Icon Alignment", "responsive-block-editor-addons")}
                   value={iconPosition}
                   options={[
@@ -399,7 +401,7 @@ export default class Inspector extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Icon Size Mobile",
                               "responsive-block-editor-addons"
@@ -419,7 +421,7 @@ export default class Inspector extends Component {
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Icon Size Tablet",
                               "responsive-block-editor-addons"
@@ -439,7 +441,7 @@ export default class Inspector extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Icon Size",
                               "responsive-block-editor-addons"
@@ -492,7 +494,7 @@ export default class Inspector extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Background Size Mobile",
                               "responsive-block-editor-addons"
@@ -512,7 +514,7 @@ export default class Inspector extends Component {
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Background Size Tablet",
                               "responsive-block-editor-addons"
@@ -532,7 +534,7 @@ export default class Inspector extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Background Size",
                               "responsive-block-editor-addons"
@@ -554,7 +556,7 @@ export default class Inspector extends Component {
                     return <div>{tabout}</div>;
                   }}
                 </TabPanel>
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Border", "responsive-block-editor-addons")}
                   value={border}
                   onChange={(value) => setAttributes({ border: value })}
@@ -564,7 +566,7 @@ export default class Inspector extends Component {
                   min={0}
                   max={10}
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Border Radius", "responsive-block-editor-addons")}
                   value={borderRadius}
                   onChange={(value) => setAttributes({ borderRadius: value })}
@@ -681,7 +683,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -695,7 +697,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -709,7 +711,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

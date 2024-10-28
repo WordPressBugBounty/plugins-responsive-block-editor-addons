@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { RangeControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { Icon, rotateLeft } from '@wordpress/icons';
+import RbeaRangeControl from '../rbea-range-control';
 
 const RbeaAngleRangeControl = ( props ) => {
     const { value, onChange, min = 0, max = 100, label = '', initialValue = 0 ,resetFallbackValue } = props;

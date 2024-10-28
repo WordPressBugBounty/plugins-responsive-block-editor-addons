@@ -12,6 +12,9 @@ import { __experimentalText as Text } from '@wordpress/components';
 import presets from "./button-presets";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -269,7 +272,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                           label={__("Popup Width (Mobile)", "responsive-block-editor-addons")}
                           value={popupContainerWidthMobile}
                           onChange={(value) =>
@@ -279,14 +282,13 @@ export default class Inspector extends Component {
                           }
                           min={0}
                           max={1500}
-                          beforeIcon=""
                           allowReset
                           initialPosition={600}
                         />
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                           label={__("Popup Width (Tablet)", "responsive-block-editor-addons")}
                           value={popupContainerWidthTablet}
                           onChange={(value) =>
@@ -296,14 +298,13 @@ export default class Inspector extends Component {
                           }
                           min={0}
                           max={1500}
-                          beforeIcon=""
                           allowReset
                           initialPosition={600}
                         />
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                           label={__("Popup Width", "responsive-block-editor-addons")}
                           value={popupContainerWidth}
                           onChange={(value) =>
@@ -313,7 +314,6 @@ export default class Inspector extends Component {
                           }
                           min={0}
                           max={1500}
-                          beforeIcon=""
                           allowReset
                           initialPosition={600}
                         />
@@ -324,7 +324,7 @@ export default class Inspector extends Component {
                   }}
                 </TabPanel>
 
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__("Popup Height", "responsive-block-editor-addons")}
                   value={popupHeightType}
                   onChange={(value) =>
@@ -368,7 +368,7 @@ export default class Inspector extends Component {
 
                       if ("mobile" === tab.name) {
                         tabout = (
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__("Popup Height (Mobile)", "responsive-block-editor-addons")}
                             value={popupHeightCustomMobile}
                             onChange={(value) =>
@@ -378,14 +378,13 @@ export default class Inspector extends Component {
                             }
                             min={0}
                             max={1500}
-                            beforeIcon=""
                             allowReset
                             initialPosition={500}
                           />
                         );
                       } else if ("tablet" === tab.name) {
                         tabout = (
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__("Popup Height (Tablet)", "responsive-block-editor-addons")}
                             value={popupHeightCustomTablet}
                             onChange={(value) =>
@@ -395,14 +394,13 @@ export default class Inspector extends Component {
                             }
                             min={0}
                             max={1500}
-                            beforeIcon=""
                             allowReset
                             initialPosition={500}
                           />
                         );
                       } else {
                         tabout = (
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__("Popup Height", "responsive-block-editor-addons")}
                             value={popupHeightCustom}
                             onChange={(value) =>
@@ -412,7 +410,6 @@ export default class Inspector extends Component {
                             }
                             min={0}
                             max={1500}
-                            beforeIcon=""
                             allowReset
                             initialPosition={500}
                           />
@@ -555,7 +552,7 @@ export default class Inspector extends Component {
                 title={__("Trigger Settings", "responsive-block-editor-addons")}
                 initialOpen={false}
               >
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__("Open Trigger", "responsive-block-editor-addons")}
                   value={popupTrigger}
                   onChange={(value) => setAttributes({ popupTrigger: value })}
@@ -566,7 +563,7 @@ export default class Inspector extends Component {
                 />
 
                 {popupTrigger === 'load' &&
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Trigger Delay (in seconds)", "responsive-block-editor-addons")}
                     value={popupTriggerDelay}
                     onChange={(value) =>
@@ -576,13 +573,12 @@ export default class Inspector extends Component {
                     }
                     min={0}
                     max={100}
-                    beforeIcon=""
                     allowReset
                     initialPosition={1}
                   />}
 
                 {popupTrigger === 'click' && <>
-                  <SelectControl
+                  <RbeaTabRadioControl
                     label={__("Popup Trigger Type", "responsive-block-editor-addons")}
                     value={popupTriggerType}
                     onChange={(value) => setAttributes({ popupTriggerType: value })}
@@ -783,7 +779,7 @@ export default class Inspector extends Component {
                   }
                 />
                 {popupToggleCloseBtn &&
-                  <SelectControl
+                  <RbeaTabRadioControl
                     label={__("Close Button Position", "responsive-block-editor-addons")}
                     value={popupToggleCloseBtnPosition}
                     onChange={(value) => setAttributes({ popupToggleCloseBtnPosition: value })}
@@ -809,12 +805,11 @@ export default class Inspector extends Component {
                     </div>
 
                     {!popupButtonHoverState && <>
-
-                      <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Text Color", "responsive-block-editor-addons")}</Text>
-                      <ColorPalette
-                        colors={colors}
-                        value={popupButtonColor}
-                        onChange={(value) => setAttributes({ popupButtonColor: value })}
+                      <RbeaColorControl
+                        label = {__("Button Text Color", "responsive-block-editor-addons")}
+                        colorValue={popupButtonColor}
+                        onChange={(colorValue) => setAttributes({ popupButtonColor: colorValue })}
+                        resetColor={() => setAttributes({ popupButtonColor: "" })}
                       />
 
                       <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Background Type", "responsive-block-editor-addons")}</Text>
@@ -827,12 +822,13 @@ export default class Inspector extends Component {
                       </div>
 
                       {popupButtonBGState === 'solid' && <>
-                        <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Background Color", "responsive-block-editor-addons")}</Text>
-                        <ColorPalette
-                          colors={colors}
-                          value={popupButtonBGColor}
-                          onChange={(value) => setAttributes({ popupButtonBGColor: value })}
-                        /> </>}
+                        <RbeaColorControl
+                          label = {__("Button Background Color", "responsive-block-editor-addons")}
+                          colorValue={popupButtonBGColor}
+                          onChange={(colorValue) => setAttributes({ popupButtonBGColor: colorValue })}
+                          resetColor={() => setAttributes({ popupButtonBGColor: "" })}
+                        />
+                         </>}
 
                       {popupButtonBGState === 'gradient' && <>
                         <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Gradient", "responsive-block-editor-addons")}</Text>
@@ -865,12 +861,11 @@ export default class Inspector extends Component {
                     </>}
 
                     {popupButtonHoverState && <>
-
-                      <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Text Hover Color", "responsive-block-editor-addons")}</Text>
-                      <ColorPalette
-                        colors={colors}
-                        value={popupButtonHoverColor}
-                        onChange={(value) => setAttributes({ popupButtonHoverColor: value })}
+                      <RbeaColorControl
+                        label = {__("Button Text Hover Color", "responsive-block-editor-addons")}
+                        colorValue={popupButtonHoverColor}
+                        onChange={(colorValue) => setAttributes({ popupButtonHoverColor: colorValue })}
+                        resetColor={() => setAttributes({ popupButtonHoverColor: "" })}
                       />
 
                       <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Hover Background Type", "responsive-block-editor-addons")}</Text>
@@ -883,12 +878,13 @@ export default class Inspector extends Component {
                       </div>
 
                       {popupButtonBGHoverState === 'solid' && <>
-                        <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Background Hover Color", "responsive-block-editor-addons")}</Text>
-                        <ColorPalette
-                          colors={colors}
-                          value={popupButtonBGHoverColor}
-                          onChange={(value) => setAttributes({ popupButtonBGHoverColor: value })}
-                        /></>}
+                        <RbeaColorControl
+                          label = {__("Button Background Hover Color", "responsive-block-editor-addons")}
+                          colorValue={popupButtonBGHoverColor}
+                          onChange={(colorValue) => setAttributes({ popupButtonBGHoverColor: colorValue })}
+                          resetColor={() => setAttributes({ popupButtonBGHoverColor: "" })}
+                        />
+                        </>}
 
                       {popupButtonBGHoverState === 'gradient' && <>
                         <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Button Gradient", "responsive-block-editor-addons")}</Text>
@@ -1003,22 +999,20 @@ export default class Inspector extends Component {
                       setAttributes={setAttributes}
                       {...this.props}
                     />
-
-                    <p className="responsive-setting-label">{__("Border Hover Color", "responsive-block-editor-addons")}</p>
-                    <ColorPalette
-                      colors={colors}
-                      value={popupButtonBorderHoverColor}
-                      onChange={(value) => setAttributes({ popupButtonBorderHoverColor: value })}
+                    <RbeaColorControl
+                      label = {__("Border Hover Color", "responsive-block-editor-addons")}
+                      colorValue={popupButtonBorderHoverColor}
+                      onChange={(colorValue) => setAttributes({ popupButtonBorderHoverColor: colorValue })}
+                      resetColor={() => setAttributes({ popupButtonBorderHoverColor: "" })}
                     />
-
                   </>}
 
                   {popupTriggerType === 'text' && <>
-                    <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Text Color", "responsive-block-editor-addons")}</Text>
-                    <ColorPalette
-                      colors={colors}
-                      value={popupTextColor}
-                      onChange={(value) => setAttributes({ popupTextColor: value })}
+                    <RbeaColorControl
+                      label = {__("Text Color", "responsive-block-editor-addons")}
+                      colorValue={popupTextColor}
+                      onChange={(colorValue) => setAttributes({ popupTextColor: colorValue })}
+                      resetColor={() => setAttributes({ popupTextColor: "" })}
                     />
 
                     <TypographyHelperControl
@@ -1044,7 +1038,7 @@ export default class Inspector extends Component {
                   </>}
 
                   {popupTriggerType === 'icon' && <>
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__("Icon Size", "responsive-block-editor-addons")}
                       value={popupIconTriggerSize}
                       onChange={(value) =>
@@ -1054,16 +1048,14 @@ export default class Inspector extends Component {
                       }
                       min={0}
                       max={150}
-                      beforeIcon=""
                       allowReset
                       initialPosition={30}
                     />
-
-                    <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Icon Color", "responsive-block-editor-addons")}</Text>
-                    <ColorPalette
-                      colors={colors}
-                      value={popupIconTriggerColor}
-                      onChange={(value) => setAttributes({ popupIconTriggerColor: value })}
+                    <RbeaColorControl
+                      label = {__("Icon Color", "responsive-block-editor-addons")}
+                      colorValue={popupIconTriggerColor}
+                      onChange={(colorValue) => setAttributes({ popupIconTriggerColor: colorValue })}
+                      resetColor={() => setAttributes({ popupIconTriggerColor: "" })}
                     />
                   </>}
 
@@ -1097,7 +1089,7 @@ export default class Inspector extends Component {
 
                         if ("mobile" === tab.name) {
                           tabout = (
-                            <RangeControl
+                            <RbeaRangeControl
                               label={__("Image Width (Mobile)", "responsive-block-editor-addons")}
                               value={popupImageTriggerWidthMobile}
                               onChange={(value) =>
@@ -1107,14 +1099,13 @@ export default class Inspector extends Component {
                               }
                               min={0}
                               max={500}
-                              beforeIcon=""
                               allowReset
                               initialPosition={350}
                             />
                           );
                         } else if ("tablet" === tab.name) {
                           tabout = (
-                            <RangeControl
+                            <RbeaRangeControl
                               label={__("Image Width (Tablet)", "responsive-block-editor-addons")}
                               value={popupImageTriggerWidthTablet}
                               onChange={(value) =>
@@ -1124,14 +1115,13 @@ export default class Inspector extends Component {
                               }
                               min={0}
                               max={500}
-                              beforeIcon=""
                               allowReset
                               initialPosition={350}
                             />
                           );
                         } else {
                           tabout = (
-                            <RangeControl
+                            <RbeaRangeControl
                               label={__("Image Width", "responsive-block-editor-addons")}
                               value={popupImageTriggerWidth}
                               onChange={(value) =>
@@ -1141,7 +1131,6 @@ export default class Inspector extends Component {
                               }
                               min={0}
                               max={500}
-                              beforeIcon=""
                               allowReset
                               initialPosition={350}
                             />
@@ -1152,7 +1141,7 @@ export default class Inspector extends Component {
                       }}
                     </TabPanel>
 
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__("Image Border Radius", "responsive-block-editor-addons")}
                       value={popupImageTriggerBorderRadius}
                       onChange={(value) =>
@@ -1162,7 +1151,6 @@ export default class Inspector extends Component {
                       }
                       min={0}
                       max={100}
-                      beforeIcon=""
                       allowReset
                       initialPosition={0}
                     />
@@ -1182,12 +1170,13 @@ export default class Inspector extends Component {
                 </div>
 
                 {popupBgType === 'color' && <>
-                  <Text style={{ marginTop: '16px' }} variant="title.small" as="h3">{__("Container Background Color", "responsive-block-editor-addons")}</Text>
-                  <ColorPalette
-                    colors={colors}
-                    value={popupBgColor}
-                    onChange={(value) => setAttributes({ popupBgColor: value })}
-                  /> </>
+                  <RbeaColorControl
+                    label = {__("Container Background Color", "responsive-block-editor-addons")}
+                    colorValue={popupBgColor}
+                    onChange={(colorValue) => setAttributes({ popupBgColor: colorValue })}
+                    resetColor={() => setAttributes({ popupBgColor: "" })}
+                  />
+                  </>
                 }
 
                 {popupBgType !== 'color' && <>
@@ -1220,21 +1209,21 @@ export default class Inspector extends Component {
                 }
 
                 {popupToggleCloseBtn && <>
-                  <Text variant="title.small" as="h3">{__("Close Button Color", "responsive-block-editor-addons")}</Text>
-                  <ColorPalette
-                    colors={colors}
-                    value={popupCloseBtnColor}
-                    onChange={(value) => setAttributes({ popupCloseBtnColor: value })}
-                  /> </>}
-
-                <Text variant="title.small" as="h3">{__("Overlay Color", "responsive-block-editor-addons")}</Text>
-                <ColorPalette
-                  colors={colors}
-                  value={popupOverlayColor}
-                  onChange={(value) => setAttributes({ popupOverlayColor: value })}
+                  <RbeaColorControl
+                    label = {__("Close Button Color", "responsive-block-editor-addons")}
+                    colorValue={popupCloseBtnColor}
+                    onChange={(colorValue) => setAttributes({ popupCloseBtnColor: colorValue })}
+                    resetColor={() => setAttributes({ popupCloseBtnColor: "" })}
+                  />
+                  </>}
+                <RbeaColorControl
+                  label = {__("Overlay Color", "responsive-block-editor-addons")}
+                  colorValue={popupOverlayColor}
+                  onChange={(colorValue) => setAttributes({ popupOverlayColor: colorValue })}
+                  resetColor={() => setAttributes({ popupOverlayColor: "" })}
                 />
 
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Overlay Opacity", "responsive-block-editor-addons")}
                   value={popupOverlayOpacity}
                   onChange={(value) =>
@@ -1244,7 +1233,6 @@ export default class Inspector extends Component {
                   }
                   min={0}
                   max={100}
-                  beforeIcon=""
                   allowReset
                   initialPosition={30}
                 />

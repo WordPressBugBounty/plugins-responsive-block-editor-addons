@@ -155,7 +155,7 @@ const deprecated = [
                     <div className="responsive-block-editor-addons-toc__video-wrap">
                         {backgroundVideo && (
                         <video autoplay loop muted playsinline>
-                            <source src={backgroundVideo.url} type="video/mp4" />
+                            <source src={backgroundVideo} type="video/mp4" />
                         </video>
                         )}
                     </div>

@@ -12,6 +12,9 @@ import GradientBackgroundControl from "../../../../settings-components/BlockBack
 import ImageHoverBackgroundSettings from "../../../../settings-components/BlockBackgroundSettings/ImageHoverBackgroundSettings"
 import ResponsiveNewPaddingControl from "../../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../../utils/components/rbea-color-control";
+import RbeaBackgroundTypeControl from "../../../../utils/components/rbea-background-type-control";
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -245,7 +248,6 @@ export default class Inspector extends Component {
 
     // Background Type Options
     const backgroundTypeOptions = [
-      { value: "none", label: __("None", "responsive-block-editor-addons") },
       { value: "color", label: __("Color", "responsive-block-editor-addons") },
       {
         value: "gradient",
@@ -261,7 +263,7 @@ export default class Inspector extends Component {
               title={__("Layout", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Content Width(%)", "responsive-block-editor-addons")}
                 value={width}
                 min={0}
@@ -279,12 +281,13 @@ export default class Inspector extends Component {
               title={__("Background", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <SelectControl
-                label={__("Background Type", "responsive-block-editor-addons")}
+              <RbeaBackgroundTypeControl
+                label={__("Type", "responsive-block-editor-addons")}
                 value={backgroundType}
                 onChange={(value) => setAttributes({ backgroundType: value })}
                 options={backgroundTypeOptions}
               />
+
               {"color" == backgroundType && (
                 <TabPanel
                   className="rbea-inspect-tabs rbea-inspect-tabs-col-2"
@@ -307,24 +310,14 @@ export default class Inspector extends Component {
                     if ("hover" == tabName.name) {
                       tabout = (
                         <Fragment>
-                          <p className="responsive-block-editor-addons-setting-label">
-                            {__("Background Color Hover", "responsive-block-editor-addons")}
-                            <span className="components-base-control__label">
-                              <span
-                                className="component-color-indicator"
-                                style={{
-                                  backgroundColor: backgroundColorHover,
-                                }}
-                              ></span>
-                            </span>
-                          </p>
-                          <ColorPalette
-                            value={backgroundColorHover}
-                            onChange={(value) =>
-                              setAttributes({ backgroundColorHover: value })
-                            }
-                            allowReset
-                          />
+                        <RbeaColorControl
+                          label = {__("Background Color Hover", "responsive-block-editor-addons")}
+                          colorValue={backgroundColorHover}
+                          onChange={(colorValue) =>
+                            setAttributes({ backgroundColorHover: colorValue })
+                          }
+                          resetColor={() => setAttributes({ backgroundColorHover: "" })}
+                        />
                         </Fragment>
                       );
                     } else {
@@ -389,7 +382,7 @@ export default class Inspector extends Component {
                   }}
                 </TabPanel>
               )}
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Opacity", "responsive-block-editor-addons")}
                 value={opacity}
                 onChange={(value) =>

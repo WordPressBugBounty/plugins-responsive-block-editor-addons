@@ -5,6 +5,7 @@ import InspectorTab from "../../../components/InspectorTab";
 import InspectorTabs from "../../../components/InspectorTabs";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -131,7 +132,7 @@ export default class Inspector extends Component {
               </p>
             </PanelBody>
             <PanelBody title={__("Settings", "responsive-block-editor-addons")} initialOpen={false}>
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Number Of Items", "responsive-block-editor-addons")}
                 value={numberOfItems}
                 onChange={(value) => {
@@ -171,7 +172,7 @@ export default class Inspector extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <RangeControl
+                        <RbeaRangeControl
                           label={__("Columns Mobile", "responsive-block-editor-addons")}
                           value={columnsMobile}
                           onChange={(value) => {
@@ -185,7 +186,7 @@ export default class Inspector extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <RangeControl
+                        <RbeaRangeControl
                           label={__("Columns Tablet", "responsive-block-editor-addons")}
                           value={columnsTablet}
                           onChange={(value) => {
@@ -199,7 +200,7 @@ export default class Inspector extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <RangeControl
+                        <RbeaRangeControl
                           label={__("Columns", "responsive-block-editor-addons")}
                           value={columns}
                           onChange={(value) => {
@@ -216,7 +217,7 @@ export default class Inspector extends Component {
                 }}
               </TabPanel>
 
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Spacing", "responsive-block-editor-addons")}
                 value={imagesGap}
                 onChange={(value) => setAttributes({ imagesGap: value })}
@@ -224,7 +225,7 @@ export default class Inspector extends Component {
                 max={30}
               />
 
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Border Radius", "responsive-block-editor-addons")}
                 value={borderRadius}
                 onChange={(borderRadius) => setAttributes({ borderRadius })}
@@ -320,7 +321,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -334,7 +335,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -348,7 +349,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

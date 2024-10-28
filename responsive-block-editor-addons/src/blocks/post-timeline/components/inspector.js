@@ -6,6 +6,9 @@ import TypographyHelperControl from "../../../settings-components/TypographySett
 import ResponsiveSpacingControl from "../../../settings-components/ResponsiveSpacingSettings";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 /**
  * Inspector Controls
@@ -299,7 +302,7 @@ export default class Inspector extends Component {
                 isPost ? null : "responsive-block-editor-addons-hide-query"
               }
             >
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Content Type", "responsive-block-editor-addons")}
                 options={postTypeOptions}
                 value={attributes.postType}
@@ -324,7 +327,7 @@ export default class Inspector extends Component {
                   { value: "menu_order", label: __("Menu Order", "responsive-block-editor-addons") },
                 ]}
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Order", "responsive-block-editor-addons")}
                 value={attributes.order}
                 onChange={(value) => setAttributes({ order: value })}
@@ -334,7 +337,7 @@ export default class Inspector extends Component {
                 ]}
               />
 
-              <RangeControl
+              <RbeaRangeControl
                 label={__(
                   "Number of items to offset",
                   "responsive-block-editor-addons"
@@ -344,7 +347,7 @@ export default class Inspector extends Component {
                 min={0}
                 max={20}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Border Radius", "responsive-block-editor-addons")}
                 value={attributes.borderRadius}
                 onChange={(value) =>
@@ -356,7 +359,7 @@ export default class Inspector extends Component {
                 max={100}
                 allowReset
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Orientation", "responsive-block-editor-addons")}
                 value={attributes.timelinAlignment}
                 onChange={(value) => setAttributes({ timelinAlignment: value })}
@@ -366,16 +369,16 @@ export default class Inspector extends Component {
                     label: __("Left", "responsive-block-editor-addons"),
                   },
                   {
-                    value: "right",
-                    label: __("Right", "responsive-block-editor-addons"),
-                  },
-                  {
                     value: "center",
                     label: __("Center", "responsive-block-editor-addons"),
                   },
+                  {
+                    value: "right",
+                    label: __("Right", "responsive-block-editor-addons"),
+                  },
                 ]}
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Arrow Alignment", "responsive-block-editor-addons")}
                 value={attributes.arrowlinAlignment}
                 onChange={(value) =>
@@ -387,16 +390,16 @@ export default class Inspector extends Component {
                     label: __("Top", "responsive-block-editor-addons"),
                   },
                   {
-                    value: "bottom",
-                    label: __("Bottom", "responsive-block-editor-addons"),
-                  },
-                  {
                     value: "center",
                     label: __("Center", "responsive-block-editor-addons"),
                   },
+                  {
+                    value: "bottom",
+                    label: __("Bottom", "responsive-block-editor-addons"),
+                  },
                 ]}
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Stack on", "responsive-block-editor-addons")}
                 value={attributes.stack}
                 options={[
@@ -516,7 +519,7 @@ export default class Inspector extends Component {
                 }
               />
               {attributes.displayPostExcerpt && (
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Excerpt Length", "responsive-block-editor-addons")}
                   value={attributes.excerptLength}
                   onChange={(value) => setAttributes({ excerptLength: value })}
@@ -588,7 +591,7 @@ export default class Inspector extends Component {
                 )}
               />
               {attributes.sectionTitle && (
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__(
                     "Section Title Heading Tag",
                     "responsive-block-editor-addons"
@@ -607,7 +610,7 @@ export default class Inspector extends Component {
                 />
               )}
               {attributes.displayPostTitle && (
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__(
                     "Post Title Heading Tag",
                     "responsive-block-editor-addons"
@@ -632,7 +635,7 @@ export default class Inspector extends Component {
             >
               <hr className="responsive-block-editor-addons-editor__separator" />
               <FontIconPicker {...icon_props} />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Icon Size", "responsive-block-editor-addons")}
                 value={attributes.iconSize}
                 onChange={(value) =>
@@ -642,7 +645,7 @@ export default class Inspector extends Component {
                 max={500}
               />
               <hr className="responsive-block-editor-addons-editor__separator" />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Background Size", "responsive-block-editor-addons")}
                 value={attributes.bgSize}
                 onChange={(value) =>
@@ -654,7 +657,7 @@ export default class Inspector extends Component {
                 max={90}
                 allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Border Width", "responsive-block-editor-addons")}
                 value={attributes.borderWidth}
                 onChange={(value) =>
@@ -663,7 +666,7 @@ export default class Inspector extends Component {
                 min={0}
                 max={10}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Connector Width", "responsive-block-editor-addons")}
                 value={attributes.connectorWidth}
                 onChange={(value) =>
@@ -696,85 +699,83 @@ export default class Inspector extends Component {
                     let tabout;
                     if ("focus" === tabName.name) {
                       tabout = (
-                        <PanelColorSettings
+                        <PanelBody
                           title={__("Focus Color Settings", "responsive-block-editor-addons")}
                           initialOpen={true}
-                          colorSettings={[
-                            {
-                              value: attributes.separatorFillColor,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  separatorFillColor: colorValue,
-                                }),
-                              label: __("Line Focus Color", "responsive-block-editor-addons"),
-                            },
-                            {
-                              value: attributes.iconFocus,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  iconFocus: colorValue,
-                                }),
-                              label: __("Icon Focus Color", "responsive-block-editor-addons"),
-                            },
-                            {
-                              value: attributes.iconBgFocus,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  iconBgFocus: colorValue,
-                                }),
-                              label: __("Background Focus Color", "responsive-block-editor-addons"),
-                            },
-                            {
-                              value: attributes.borderFocus,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  borderFocus: colorValue,
-                                }),
-                              label: __("Border Focus Color", "responsive-block-editor-addons"),
-                            },
-                          ]}
-                        ></PanelColorSettings>
+                        >
+                           <RbeaColorControl
+                            label = {__("Line Focus Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.separatorFillColor}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ separatorFillColor: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ separatorFillColor: "" })}
+                          />
+                           <RbeaColorControl
+                            label = {__("Icon Focus Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.iconFocus}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ iconFocus: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ iconFocus: "" })}
+                          />
+                           <RbeaColorControl
+                            label = {__("Background Focus Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.iconBgFocus}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ iconBgFocus: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ iconBgFocus: "" })}
+                          />
+                           <RbeaColorControl
+                            label = {__("Border Focus Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.borderFocus}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ borderFocus: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ borderFocus: "" })}
+                          />
+                        </PanelBody>
                       );
                     } else {
                       tabout = (
-                        <PanelColorSettings
+                        <PanelBody
                           title={__("Color Settings", "responsive-block-editor-addons")}
                           initialOpen={true}
-                          colorSettings={[
-                            {
-                              value: attributes.connectorColor,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  connectorColor: colorValue,
-                                }),
-                              label: __("Line Color", "responsive-block-editor-addons"),
-                            },
-                            {
-                              value: attributes.iconColor,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  iconColor: colorValue,
-                                }),
-                              label: __("Icon Color", "responsive-block-editor-addons"),
-                            },
-                            {
-                              value: attributes.separatorBg,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  separatorBg: colorValue,
-                                }),
-                              label: __("Background Color", "responsive-block-editor-addons"),
-                            },
-                            {
-                              value: attributes.separatorBorder,
-                              onChange: (colorValue) =>
-                                this.props.setAttributes({
-                                  separatorBorder: colorValue,
-                                }),
-                              label: __("Border Color", "responsive-block-editor-addons"),
-                            },
-                          ]}
-                        ></PanelColorSettings>
+                        >
+                           <RbeaColorControl
+                            label = {__("Line Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.connectorColor}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ connectorColor: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ connectorColor: "" })}
+                          />
+                           <RbeaColorControl
+                            label = {__("Icon Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.iconColor}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ iconColor: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ iconColor: "" })}
+                          />
+                           <RbeaColorControl
+                            label = {__("Background Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.separatorBg}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ separatorBg: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ separatorBg: "" })}
+                          />
+                           <RbeaColorControl
+                            label = {__("Border Color", "responsive-block-editor-addons")}
+                            colorValue={attributes.separatorBorder}
+                            onChange={(colorValue) =>
+                              this.props.setAttributes({ separatorBorder: colorValue })
+                            }
+                            resetColor={() => this.props.setAttributes({ separatorBorder: "" })}
+                          />
+                        </PanelBody>
                       );
                     }
                     return <div>{tabout}</div>;
@@ -788,83 +789,29 @@ export default class Inspector extends Component {
               title={__("Colors", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <p className="responsive-setting-label">
-                {__("Blog Post Background Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{ backgroundColor: attributes.bgColor }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={attributes.bgColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    bgColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Blog Post Background Color", "responsive-block-editor-addons")}
+                colorValue={attributes.bgColor}
+                onChange={(colorValue) => this.props.setAttributes({ bgColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ bgColor: "" })}
               />
-              <p className="responsive-setting-label">
-                {__("Heading Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{
-                      backgroundColor: attributes.headingColor,
-                    }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={attributes.headingColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    headingColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Heading Color", "responsive-block-editor-addons")}
+                colorValue={attributes.headingColor}
+                onChange={(colorValue) => this.props.setAttributes({ headingColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ headingColor: "" })}
               />
-              <p className="responsive-setting-label">
-                {__("Author Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{
-                      backgroundColor: attributes.authorColor,
-                    }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={attributes.authorColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    authorColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Author Color", "responsive-block-editor-addons")}
+                colorValue={attributes.authorColor}
+                onChange={(colorValue) => setAttributes({ authorColor: colorValue })}
+                resetColor={() => setAttributes({ authorColor: "" })}
               />
-              <p className="responsive-setting-label">
-                {__("Content Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{
-                      backgroundColor: attributes.textColor,
-                    }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={attributes.textColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    textColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Content Color", "responsive-block-editor-addons")}
+                colorValue={attributes.textColor}
+                onChange={(colorValue) => this.props.setAttributes({ textColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ textColor: "" })}
               />
               <Fragment>
                 <PanelBody
@@ -895,136 +842,46 @@ export default class Inspector extends Component {
                       if ("normal" === tabName.name) {
                         btn_color_tab = (
                           <Fragment>
-                            <p className="responsive-block-editor-addons-setting-label">
-                              {__(
-                                "CTA Text Color",
-                                "responsive-block-editor-addons"
-                              )}
-                              <span className="components-base-control__label">
-                                <span
-                                  className="component-color-indicator"
-                                  style={{ color: attributes.continueColor }}
-                                ></span>
-                              </span>
-                            </p>
-                            <ColorPalette
-                              value={attributes.continueColor}
-                              onChange={(value) =>
-                                this.props.setAttributes({
-                                  continueColor: value,
-                                })
-                              }
-                              allowReset
+                            <RbeaColorControl
+                              label = {__("CTA Text Color", "responsive-block-editor-addons")}
+                              colorValue={attributes.continueColor}
+                              onChange={(colorValue) => this.props.setAttributes({ continueColor: colorValue })}
+                              resetColor={() => this.props.setAttributes({ continueColor: "" })}
                             />
-                            <p className="responsive-block-editor-addons-setting-label">
-                              {__(
-                                "CTA Background Color",
-                                "responsive-block-editor-addons"
-                              )}
-                              <span className="components-base-control__label">
-                                <span
-                                  className="component-color-indicator"
-                                  style={{ color: attributes.continuebgColor }}
-                                ></span>
-                              </span>
-                            </p>
-                            <ColorPalette
-                              value={attributes.continuebgColor}
-                              onChange={(value) =>
-                                this.props.setAttributes({
-                                  continuebgColor: value,
-                                })
-                              }
-                              allowReset
+                            <RbeaColorControl
+                              label = {__("CTA Background Color", "responsive-block-editor-addons")}
+                              colorValue={attributes.continuebgColor}
+                              onChange={(colorValue) => this.props.setAttributes({ continuebgColor: colorValue })}
+                              resetColor={() => this.props.setAttributes({ continuebgColor: "" })}
                             />
-                            <p className="responsive-block-editor-addons-setting-label">
-                              {__(
-                                "CTA Border Color",
-                                "responsive-block-editor-addons"
-                              )}
-                              <span className="components-base-control__label">
-                                <span
-                                  className="component-color-indicator"
-                                  style={{
-                                    borderColor: attributes.borderColor,
-                                  }}
-                                ></span>
-                              </span>
-                            </p>
-                            <ColorPalette
-                              value={attributes.borderColor}
-                              onChange={(value) =>
-                                this.props.setAttributes({ borderColor: value })
-                              }
-                              allowReset
+                            <RbeaColorControl
+                              label = {__("CTA Border Color", "responsive-block-editor-addons")}
+                              colorValue={attributes.borderColor}
+                              onChange={(colorValue) => this.props.setAttributes({ borderColor: colorValue })}
+                              resetColor={() => this.props.setAttributes({ borderColor: "" })}
                             />
                           </Fragment>
                         );
                       } else {
                         btn_color_tab = (
                           <Fragment>
-                            <p className="responsive-block-editor-addons-setting-label">
-                              {__(
-                                "CTA Text Hover Color",
-                                "responsive-block-editor-addons"
-                              )}
-                              <span className="components-base-control__label">
-                                <span
-                                  className="component-color-indicator"
-                                  style={{ color: attributes.hColor }}
-                                ></span>
-                              </span>
-                            </p>
-                            <ColorPalette
-                              value={attributes.hColor}
-                              onChange={(value) =>
-                                this.props.setAttributes({ hColor: value })
-                              }
-                              allowReset
+                            <RbeaColorControl
+                              label = {__("CTA Text Hover Color", "responsive-block-editor-addons")}
+                              colorValue={attributes.hColor}
+                              onChange={(colorValue) => this.props.setAttributes({ hColor: colorValue })}
+                              resetColor={() => this.props.setAttributes({ hColor: "" })}
                             />
-                            <p className="responsive-block-editor-addons-setting-label">
-                              {__(
-                                "CTA Background Hover Color",
-                                "responsive-block-editor-addons"
-                              )}
-                              <span className="components-base-control__label">
-                                <span
-                                  className="component-color-indicator"
-                                  style={{ color: attributes.continuebghColor }}
-                                ></span>
-                              </span>
-                            </p>
-                            <ColorPalette
-                              value={attributes.continuebghColor}
-                              onChange={(value) =>
-                                this.props.setAttributes({
-                                  continuebghColor: value,
-                                })
-                              }
-                              allowReset
+                            <RbeaColorControl
+                              label = {__("CTA Background Hover Color", "responsive-block-editor-addons")}
+                              colorValue={attributes.continuebghColor}
+                              onChange={(colorValue) => this.props.setAttributes({ continuebghColor: colorValue })}
+                              resetColor={() => this.props.setAttributes({ continuebghColor: "" })}
                             />
-                            <p className="responsive-block-editor-addons-setting-label">
-                              {__(
-                                "CTA Border Hover Color",
-                                "responsive-block-editor-addons"
-                              )}
-                              <span className="components-base-control__label">
-                                <span
-                                  className="component-color-indicator"
-                                  style={{
-                                    borderColor: attributes.borderHColor,
-                                  }}
-                                ></span>
-                              </span>
-                            </p>
-                            <ColorPalette
-                              value={attributes.borderHColor}
-                              onChange={(value) =>
-                                this.props.setAttributes({
-                                  borderHColor: value,
-                                })
-                              }
-                              allowReset
+                            <RbeaColorControl
+                              label = {__("CTA Border Hover Color", "responsive-block-editor-addons")}
+                              colorValue={attributes.borderHColor}
+                              onChange={(colorValue) => this.props.setAttributes({ borderHColor: colorValue })}
+                              resetColor={() => this.props.setAttributes({ borderHColor: "" })}
                             />
                           </Fragment>
                         );
@@ -1321,7 +1178,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1335,7 +1192,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1349,7 +1206,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

@@ -6,6 +6,8 @@ import ResponsiveSpacingControl from "../../../settings-components/ResponsiveSpa
 import TypographyHelperControl from "../../../settings-components/TypographySettings";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
 
 /**
  * Inspector Controls
@@ -247,27 +249,35 @@ export default class Inspector extends Component {
 					{...this.props}            
 				/>
 			</PanelBody>
-            <PanelColorSettings
+            <PanelBody
               title={__("Color Setting", "responsive-block-editor-addons")}
               initialOpen={false}
-              colorSettings={[
-                {
-                  value: textColor,
-                  onChange: onChangeTextColor,
-                  label: __("Text Color", "responsive-block-editor-addons"),
-                },
-                {
-                  value: linkColor,
-                  onChange: onChangeLinkColor,
-                  label: __("Link Color", "responsive-block-editor-addons"),
-                },
-                {
-                  value: titleColor,
-                  onChange: onChangeTitleColor,
-                  label: __("Title Color", "responsive-block-editor-addons"),
-                },
-              ]}
-            ></PanelColorSettings>
+            >
+               <RbeaColorControl
+									label = {__("Text Color", "responsive-block-editor-addons")}
+									colorValue={textColor}
+									onChange={(colorValue) =>
+										setAttributes({ textColor: colorValue })
+									}
+									resetColor={() => setAttributes({ textColor: "" })}
+								/>
+               <RbeaColorControl
+									label = {__("Link Color", "responsive-block-editor-addons")}
+									colorValue={linkColor}
+									onChange={(colorValue) =>
+										setAttributes({ linkColor: colorValue })
+									}
+									resetColor={() => setAttributes({ linkColor: "" })}
+								/>
+               <RbeaColorControl
+									label = {__("Title Color", "responsive-block-editor-addons")}
+									colorValue={titleColor}
+									onChange={(colorValue) =>
+										setAttributes({ titleColor: colorValue })
+									}
+									resetColor={() => setAttributes({ titleColor: "" })}
+								/>
+            </PanelBody>
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -387,7 +397,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -401,7 +411,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -415,7 +425,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

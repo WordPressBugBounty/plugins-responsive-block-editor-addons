@@ -10,6 +10,7 @@ import InspectorTabs from "../../../../components/InspectorTabs";
 import { debounce } from 'lodash';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+import RbeaColorControl from "../../../../utils/components/rbea-color-control";
 
 // Import block components
 const { InspectorControls, PanelColorSettings, RichText } = wp.blockEditor
@@ -244,17 +245,19 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-          <PanelColorSettings
+          <PanelBody
             title={__("Color", "responsive-block-editor-addons")}
             initialOpen={false}
-            colorSettings={[
-              {
-                value: formInputLabelColor,
-                onChange: (value) => setAttributes({ formInputLabelColor: value }),
-                label: __("Label color", "responsive-block-editor-addons"),
-              },
-            ]}
-          ></PanelColorSettings>
+          >
+             <RbeaColorControl
+									label = {__("Label color", "responsive-block-editor-addons")}
+									colorValue={formInputLabelColor}
+									onChange={(colorValue) =>
+										setAttributes({ formInputLabelColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formInputLabelColor: "" })}
+								/>
+          </PanelBody>
           </InspectorTab>
           <InspectorTab key={"advance"}></InspectorTab>
         </InspectorTabs>

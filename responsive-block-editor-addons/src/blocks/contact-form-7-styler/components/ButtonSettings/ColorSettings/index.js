@@ -6,6 +6,10 @@ const { __ } = wp.i18n;
 
 const { ColorPalette } = wp.blockEditor;
 
+import RbeaRangeControl from "../../../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../../../utils/components/rbea-color-control";
+import RbeaBackgroundTypeControl from "../../../../../utils/components/rbea-background-type-control";
+
 const { SelectControl, RangeControl, PanelBody, TabPanel } = wp.components;
 
 // Extend component
@@ -49,7 +53,6 @@ class ButtonColorControl extends Component {
 
       // Button Background Type Options
       const buttonbackgroundTypeOptions = [
-          { value: "none", label: __("None", "responsive-block-editor-addons") },
           { value: "color", label: __("Color", "responsive-block-editor-addons") },
           {
               value: "gradient",
@@ -58,7 +61,6 @@ class ButtonColorControl extends Component {
       ];
       //Button Background Type Options on Hover
       const buttonHoverbackgroundTypeOptions = [
-        { value: "none", label: __("None", "responsive-block-editor-addons") },
         { value: "color", label: __("Color", "responsive-block-editor-addons") },
         {
             value: "gradient",
@@ -66,7 +68,6 @@ class ButtonColorControl extends Component {
         },
       ];
       const buttonHoverbackgroundTypeAllOptions = [
-        { value: "none", label: __("None", "responsive-block-editor-addons") },
         { value: "color", label: __("Color", "responsive-block-editor-addons") },
         {
             value: "gradient",
@@ -102,51 +103,31 @@ class ButtonColorControl extends Component {
                           tabout = (
                               <Fragment>
                                   <Fragment>
-                                      <p className="responsive-setting-label">
-                                          {__("Text Color", "responsive-block-editor-addons")}
-                                          <span className="components-base-control__label">
-                          <span
-                              className="component-color-indicator"
-                              style={{
-                                  backgroundColor: ctaHoverColor,
-                              }}
-                          ></span>
-                        </span>
-                                      </p>
-                                      <ColorPalette
-                                          value={ctaHoverColor}
-                                          onChange={(value) =>
-                                              this.props.setAttributes({
-                                                  ctaHoverColor: value,
-                                              })
-                                          }
-                                          allowReset
-                                      />
+                                      <RbeaColorControl
+                                            label = {__("Text Color", "responsive-block-editor-addons")}
+                                            colorValue={ctaHoverColor}
+                                            onChange={(colorValue) =>
+                                                this.props.setAttributes({ ctaHoverColor: colorValue })
+                                            }
+                                            resetColor={() => this.props.setAttributes({ ctaHoverColor: "" })}
+                                        />
                                   </Fragment>
                                   <Fragment>
-                                      <p>
-                                          {__("Hover Border Color", "responsive-block-editor-addons")}
-                                          <span className="components-base-control__label">
-                  <span
-                      className="component-color-indicator"
-                      style={{ backgroundColor: ctaHoverBorderColor }}
-                  ></span>
-                </span>
-                                      </p>
-                                      <ColorPalette
-                                          value={ctaHoverBorderColor}
-                                          onChange={(colorValue) =>
-                                              setAttributes({
-                                                  ctaHoverBorderColor:
-                                                      colorValue !== undefined ? colorValue : "",
-                                              })
-                                          }
-                                          allowReset
-                                      />
+                                      <RbeaColorControl
+                                            label = {__("Hover Border Color", "responsive-block-editor-addons")}
+                                            colorValue={ctaHoverBorderColor}
+                                            onChange={(colorValue) =>
+                                                setAttributes({
+                                                    ctaHoverBorderColor:
+                                                        colorValue !== undefined ? colorValue : "",
+                                                })
+                                            }
+                                            resetColor={() => setAttributes({ ctaHoverBorderColor: "" })}
+                                        />
                                   </Fragment>
-                                  <SelectControl
+                                  <RbeaBackgroundTypeControl
                                       label={__(
-                                          "Background Type",
+                                          "Type",
                                           "responsive-block-editor-addons"
                                       )}
                                       value={buttonHbackgroundType}
@@ -157,28 +138,16 @@ class ButtonColorControl extends Component {
                                   />
                                   {"color" == buttonHbackgroundType && (
                                       <Fragment>
-                                          <p className="responsive-setting-label">
-                                              {__("Hover Background Color", "responsive-block-editor-addons")}
-                                              <span className="components-base-control__label">
-                            <span
-                                className="component-color-indicator"
-                                style={{
-                                    backgroundColor: ctaHoverBackColor,
-                                }}
-                            ></span>
-                          </span>
-                                          </p>
-                                          <ColorPalette
-                                              value={ctaHoverBackColor}
-                                              onChange={(value) =>
-                                                  this.props.setAttributes({
-                                                      ctaHoverBackColor: value,
-                                                  })
-                                              }
-                                              allowReset
-                                          />
+                                            <RbeaColorControl
+                                                label = {__("Hover Background Color", "responsive-block-editor-addons")}
+                                                colorValue={ctaHoverBackColor}
+                                                onChange={(colorValue) =>
+                                                    this.props.setAttributes({ ctaHoverBackColor: colorValue })
+                                                }
+                                                resetColor={() => this.props.setAttributes({ ctaHoverBackColor: "" })}
+                                            />
                                           { this.props.showBackColorOpacity == true && (
-                                          <RangeControl
+                                          <RbeaRangeControl
                                               label={__(
                                                   "Opacity",
                                                   "responsive-block-editor-addons"
@@ -199,48 +168,25 @@ class ButtonColorControl extends Component {
                                   )}
                                   {"gradient" == buttonHbackgroundType && (
                                       <Fragment>
-                                          <p className="responsive-setting-label">
-                                              {__("Color 1", "responsive-block-editor-addons")}
-                                              <span className="components-base-control__label">
-                            <span
-                                className="component-color-indicator"
-                                style={{
-                                    backgroundColor: buttonHbackgroundColor1,
-                                }}
-                            ></span>
-                          </span>
-                                          </p>
-                                          <ColorPalette
-                                              value={buttonHbackgroundColor1}
-                                              onChange={(colorValue) =>
-                                                  setAttributes({
-                                                      buttonHbackgroundColor1: colorValue,
-                                                  })
-                                              }
-                                              allowReset
-                                          />
-
-                                          <p className="responsive-setting-label">
-                                              {__("Color 2", "responsive-block-editor-addons")}
-                                              <span className="components-base-control__label">
-                            <span
-                                className="component-color-indicator"
-                                style={{
-                                    backgroundColor: buttonHbackgroundColor2,
-                                }}
-                            ></span>
-                          </span>
-                                          </p>
-                                          <ColorPalette
-                                              value={buttonHbackgroundColor2}
-                                              onChange={(colorValue) =>
-                                                  setAttributes({
-                                                      buttonHbackgroundColor2: colorValue,
-                                                  })
-                                              }
-                                              allowReset
-                                          />
-                                          <RangeControl
+                                            <RbeaColorControl
+                                                label = {__("Color 1", "responsive-block-editor-addons")}
+                                                colorValue={buttonHbackgroundColor1}
+                                                onChange={(colorValue) =>
+                                                    setAttributes({
+                                                        buttonHbackgroundColor1: colorValue,
+                                                    })
+                                                }
+                                                resetColor={() => setAttributes({ buttonHbackgroundColor1: "" })}
+                                            />
+                                            <RbeaColorControl
+                                                label = {__("Color 2", "responsive-block-editor-addons")}
+                                                colorValue={buttonHbackgroundColor2}
+                                                onChange={(colorValue) =>
+                                                    setAttributes({ buttonHbackgroundColor2: colorValue })
+                                                }
+                                                resetColor={() => setAttributes({ buttonHbackgroundColor2: "" })}
+                                            />
+                                          <RbeaRangeControl
                                               label={__(
                                                   "Color Location 1",
                                                   "responsive-block-editor-addons"
@@ -252,7 +198,7 @@ class ButtonColorControl extends Component {
                                                   setAttributes({ buttonHcolorLocation1: value })
                                               }
                                           />
-                                          <RangeControl
+                                          <RbeaRangeControl
                                               label={__(
                                                   "Color Location 2",
                                                   "responsive-block-editor-addons"
@@ -264,7 +210,7 @@ class ButtonColorControl extends Component {
                                                   setAttributes({ buttonHcolorLocation2: value })
                                               }
                                           />
-                                          <RangeControl
+                                          <RbeaRangeControl
                                               label={__(
                                                   "Gradient Direction",
                                                   "responsive-block-editor-addons"
@@ -283,50 +229,32 @@ class ButtonColorControl extends Component {
                       } else {
                           tabout = (
                               <Fragment>
-                                  <p className="responsive-setting-label">
-                                      {__("Text Color", "responsive-block-editor-addons")}
-                                      <span className="components-base-control__label">
-                        <span
-                            className="component-color-indicator"
-                            style={{
-                                backgroundColor: ctaColor,
-                            }}
-                        ></span>
-                      </span>
-                                  </p>
-                                  <ColorPalette
-                                      value={ctaColor}
-                                      onChange={(value) =>
-                                          this.props.setAttributes({
-                                              ctaColor: value,
-                                          })
-                                      }
-                                      allowReset
-                                  />
+                                    <RbeaColorControl
+                                        label = {__("Text Color", "responsive-block-editor-addons")}
+                                        colorValue={ctaColor}
+                                        onChange={(value) =>
+                                            this.props.setAttributes({
+                                                ctaColor: value,
+                                            })
+                                        }
+                                        resetColor={() => this.props.setAttributes({ ctaColor: "" })}
+                                    />
                                   <Fragment>
-                                      <p>
-                                          {__("Border Color", "responsive-block-editor-addons")}
-                                          <span className="components-base-control__label">
-                  <span
-                      className="component-color-indicator"
-                      style={{ backgroundColor: ctaBorderColor }}
-                  ></span>
-                </span>
-                                      </p>
-                                      <ColorPalette
-                                          value={ctaBorderColor}
-                                          onChange={(colorValue) =>
-                                              setAttributes({
-                                                  ctaBorderColor:
-                                                      colorValue !== undefined ? colorValue : "#000",
-                                              })
-                                          }
-                                          allowReset
-                                      />
+                                       <RbeaColorControl
+                                            label = {__("Border Color", "responsive-block-editor-addons")}
+                                            colorValue={ctaBorderColor}
+                                            onChange={(colorValue) =>
+                                                setAttributes({
+                                                    ctaBorderColor:
+                                                        colorValue !== undefined ? colorValue : "#000",
+                                                })
+                                            }
+                                            resetColor={() => setAttributes({ ctaBorderColor: "" })}
+                                        />
                                   </Fragment>
-                                  <SelectControl
+                                  <RbeaBackgroundTypeControl
                                       label={__(
-                                          "Background Type",
+                                          "Type",
                                           "responsive-block-editor-addons"
                                       )}
                                       value={buttonbackgroundType}
@@ -337,28 +265,16 @@ class ButtonColorControl extends Component {
                                   />
                                   {"color" == buttonbackgroundType && (
                                       <Fragment>
-                                          <p className="responsive-setting-label">
-                                              {__("Background Color", "responsive-block-editor-addons")}
-                                              <span className="components-base-control__label">
-                            <span
-                                className="component-color-indicator"
-                                style={{
-                                    backgroundColor: ctaBackColor,
-                                }}
-                            ></span>
-                          </span>
-                                          </p>
-                                          <ColorPalette
-                                              value={ctaBackColor}
-                                              onChange={(value) =>
-                                                  this.props.setAttributes({
-                                                      ctaBackColor: value,
-                                                  })
-                                              }
-                                              allowReset
-                                          />
+                                          <RbeaColorControl
+                                                label = {__("Background Color", "responsive-block-editor-addons")}
+                                                colorValue={ctaBackColor}
+                                                onChange={(colorValue) =>
+                                                    this.props.setAttributes({ ctaBackColor: colorValue })
+                                                }
+                                                resetColor={() =>  this.props.setAttributes({ ctaBackColor: "" })}
+                                            />
                                           { this.props.showBackColorOpacity == true && (
-                                              <RangeControl
+                                              <RbeaRangeControl
                                                   label={__(
                                                       "Opacity",
                                                       "responsive-block-editor-addons"
@@ -378,48 +294,23 @@ class ButtonColorControl extends Component {
                                   )}
                                   {"gradient" == buttonbackgroundType && (
                                       <Fragment>
-                                          <p className="responsive-setting-label">
-                                              {__("Color 1", "responsive-block-editor-addons")}
-                                              <span className="components-base-control__label">
-                            <span
-                                className="component-color-indicator"
-                                style={{
-                                    backgroundColor: buttonbackgroundColor1,
-                                }}
-                            ></span>
-                          </span>
-                                          </p>
-                                          <ColorPalette
-                                              value={buttonbackgroundColor1}
-                                              onChange={(colorValue) =>
-                                                  setAttributes({
-                                                      buttonbackgroundColor1: colorValue,
-                                                  })
-                                              }
-                                              allowReset
-                                          />
-
-                                          <p className="responsive-setting-label">
-                                              {__("Color 2", "responsive-block-editor-addons")}
-                                              <span className="components-base-control__label">
-                            <span
-                                className="component-color-indicator"
-                                style={{
-                                    backgroundColor: buttonbackgroundColor2,
-                                }}
-                            ></span>
-                          </span>
-                                          </p>
-                                          <ColorPalette
-                                              value={buttonbackgroundColor2}
-                                              onChange={(colorValue) =>
-                                                  setAttributes({
-                                                      buttonbackgroundColor2: colorValue,
-                                                  })
-                                              }
-                                              allowReset
-                                          />
-                                          <RangeControl
+                                            <RbeaColorControl
+                                                label = {__("Color 1", "responsive-block-editor-addons")}
+                                                colorValue={buttonbackgroundColor1}
+                                                onChange={(colorValue) =>
+                                                    setAttributes({ buttonbackgroundColor1: colorValue })
+                                                }
+                                                resetColor={() => setAttributes({ buttonbackgroundColor1: "" })}
+                                            />
+                                            <RbeaColorControl
+                                                label = {__("Color 2", "responsive-block-editor-addons")}
+                                                colorValue={buttonbackgroundColor2}
+                                                onChange={(colorValue) =>
+                                                    setAttributes({ buttonbackgroundColor2: colorValue })
+                                                }
+                                                resetColor={() => setAttributes({ buttonbackgroundColor2: "" })}
+                                            />
+                                          <RbeaRangeControl
                                               label={__(
                                                   "Color Location 1",
                                                   "responsive-block-editor-addons"
@@ -431,7 +322,7 @@ class ButtonColorControl extends Component {
                                                   setAttributes({ buttoncolorLocation1: value })
                                               }
                                           />
-                                          <RangeControl
+                                          <RbeaRangeControl
                                               label={__(
                                                   "Color Location 2",
                                                   "responsive-block-editor-addons"
@@ -443,7 +334,7 @@ class ButtonColorControl extends Component {
                                                   setAttributes({ buttoncolorLocation2: value })
                                               }
                                           />
-                                          <RangeControl
+                                          <RbeaRangeControl
                                               label={__(
                                                   "Gradient Direction",
                                                   "responsive-block-editor-addons"
@@ -465,7 +356,7 @@ class ButtonColorControl extends Component {
               </TabPanel>
               {this.props.showTextOpacity===true && (
               <Fragment>
-                <RangeControl
+                <RbeaRangeControl
                     label={__("Text Opacity", "responsive-block-editor-addons")}
                     value={ctaTextOpacity}
                     onChange={(value) => setAttributes({ ctaTextOpacity: value })}

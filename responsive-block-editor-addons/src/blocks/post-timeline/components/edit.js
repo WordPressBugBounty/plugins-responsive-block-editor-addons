@@ -16,6 +16,7 @@ import ResponsiveBlocksIcon from "../../../ResponsiveBlocksIcon.json";
 import React from "react";
 import { loadGoogleFont } from "../../../utils/font";
 import EditorStyles from "./editor-styles";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 import * as JQuery from "jquery";
 const $ = JQuery.default;

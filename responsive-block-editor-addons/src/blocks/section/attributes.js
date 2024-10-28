@@ -284,7 +284,7 @@ const attributes = {
     default: "center center",
   },
   backgroundVideo: {
-    type: "string",
+    type: "object",
   },
   backgroundColor: {
     type: "string",

@@ -11,6 +11,13 @@ const { SelectControl, RangeControl, BaseControl, Button } = wp.components;
 // Extend component
 const { Component, Fragment } = wp.element;
 
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaAngleRangeControl from "../../../utils/components/rbea-angle-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
+import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control";
+import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
+
 class ImageBackgroundControl extends Component {
     constructor() {
         super(...arguments);
@@ -69,42 +76,18 @@ class ImageBackgroundControl extends Component {
         var advancedControls;
         advancedControls = (
             <Fragment>
-                <BaseControl
-                    className="editor-bg-image-control"
-                    label={__("Background Image", "responsive-block-editor-addons")}
-                >
-                    <br/>
-                    <br/>
-                    <MediaUpload
-                        title={__(
-                            "Select Background Image",
-                            "responsive-block-editor-addons"
-                        )}
-                        onSelect={this.onSelectImage}
-                        allowedTypes={["image"]}
-                        value={backgroundImage}
-                        render={({ open }) => (
-                            <Button isDefault onClick={open}>
-                                {!backgroundImage
-                                    ? __(
-                                        "Select Background Image",
-                                        "responsive-block-editor-addons"
-                                    )
-                                    : __("Replace image", "responsive-block-editor-addons")}
-                            </Button>
-                        )}
-                    />
-                    {backgroundImage && (
-                        <Button
-                            className="responsive-rm-btn"
-                            onClick={this.onRemoveImage}
-                            isLink
-                            isDestructive
-                        >
-                            {__("Remove Image", "responsive-block-editor-addons")}
-                        </Button>
-                    )}
-                </BaseControl>
+                <RbeaMediaUploadControl
+                  label={__('Image', 'responsive-block-editor-addons')}
+                  value={{
+                      url: backgroundImage || '',
+                  }}
+                  onChange={(newValue) => {
+                      setAttributes({
+                          backgroundImage: newValue.url,
+                      });
+                  }}
+                  mediaType={'image'}
+                />
 
 
                 { backgroundImage && (this.props.showSomeImageOptions == true || this.props.showMoreImageOptions == true) && (
@@ -140,7 +123,7 @@ class ImageBackgroundControl extends Component {
                                 { value: "repeat-y", label: __("Repeat-y", "responsive-block-editor-addons") },
                             ]}
                         />
-                        <SelectControl
+                        <RbeaTabRadioControl
                             label={__("Size", "responsive-block-editor-addons")}
                             value={backgroundImageSize}
                             onChange={(value) =>
@@ -156,7 +139,7 @@ class ImageBackgroundControl extends Component {
                 )}
                 { backgroundImage && this.props.showMoreImageOptions == true && (
                     <Fragment>
-                        <SelectControl
+                        <RbeaTabRadioControl
                             label={__("Attachment", "responsive-block-editor-addons")}
                             value={backgroundAttachment}
                             onChange={(value) =>
@@ -169,7 +152,7 @@ class ImageBackgroundControl extends Component {
                         />
                         {this.props.showOverlayOptions && (
                             <Fragment>
-                                <SelectControl
+                                <RbeaBackgroundTypeControl
                                     label={__("Image Overlay Type", "responsive-block-editor-addons")}
                                     value={overlayType}
                                     onChange={(value) => setAttributes({ overlayType: value })}
@@ -180,43 +163,23 @@ class ImageBackgroundControl extends Component {
                                 />
                                 {overlayType == "color" && (
                                     <Fragment>
-                                        <p className="responsive-setting-label">
-                                            {__("Image Overlay Color", "responsive-block-editor-addons")}
-                                            <span className="components-base-control__label">
-                                                <span
-                                                    className="component-color-indicator"
-                                                    style={{ backgroundColor: backgroundImageColor }}
-                                                ></span>
-                                            </span>
-                                        </p>
-                                        <ColorPalette
-                                            value={backgroundImageColor}
-                                            onChange={(colorValue) =>
-                                                setAttributes({ backgroundImageColor: colorValue })
-                                            }
-                                            allowReset
+                                        <RbeaColorControl
+                                            label = {__("Image Overlay Color", "responsive-block-editor-addons")}
+                                            colorValue={backgroundImageColor}
+                                            onChange={(colorValue) => setAttributes({ backgroundImageColor: colorValue })}
+                                            resetColor={() => setAttributes({ backgroundImageColor: "" })}
                                         />
                                     </Fragment>
                                 )}
                                 {"gradient" == overlayType && (
                                     <Fragment>
-                                        <p className="responsive-setting-label">
-                                            {__("Color 1", "responsive-block-editor-addons")}
-                                            <span className="components-base-control__label">
-                                                <span
-                                                    className="component-color-indicator"
-                                                    style={{ backgroundColor: gradientOverlayColor1 }}
-                                                ></span>
-                                            </span>
-                                        </p>
-                                        <ColorPalette
-                                            value={gradientOverlayColor1}
-                                            onChange={(colorValue) =>
-                                                setAttributes({ gradientOverlayColor1: colorValue })
-                                            }
-                                            allowReset
+                                        <RbeaColorControl
+                                            label = {__("Color 1", "responsive-block-editor-addons")}
+                                            colorValue={gradientOverlayColor1}
+                                            onChange={(colorValue) => setAttributes({ gradientOverlayColor1: colorValue })}
+                                            resetColor={() => setAttributes({ gradientOverlayColor1: "" })}
                                         />
-                                        <RangeControl
+                                        <RbeaRangeControl
                                             label={__("Location 1", "responsive-block-editor-addons")}
                                             value={gradientOverlayLocation1}
                                             onChange={(value) =>
@@ -226,23 +189,13 @@ class ImageBackgroundControl extends Component {
                                             max={100}
                                             allowReset
                                         />
-                                        <p className="responsive-setting-label">
-                                            {__("Color 2", "responsive-block-editor-addons")}
-                                            <span className="components-base-control__label">
-                                                <span
-                                                    className="component-color-indicator"
-                                                    style={{ backgroundColor: gradientOverlayColor2 }}
-                                                ></span>
-                                            </span>
-                                        </p>
-                                        <ColorPalette
-                                            value={gradientOverlayColor2}
-                                            onChange={(colorValue) =>
-                                                setAttributes({ gradientOverlayColor2: colorValue })
-                                            }
-                                            allowReset
+                                        <RbeaColorControl
+                                            label = {__("Color 2", "responsive-block-editor-addons")}
+                                            colorValue={gradientOverlayColor2}
+                                            onChange={(colorValue) => setAttributes({ gradientOverlayColor2: colorValue })}
+                                            resetColor={() => setAttributes({ gradientOverlayColor2: "" })}
                                         />
-                                        <RangeControl
+                                        <RbeaRangeControl
                                             label={__("Location 2", "responsive-block-editor-addons")}
                                             value={gradientOverlayLocation2}
                                             onChange={(value) =>
@@ -252,7 +205,7 @@ class ImageBackgroundControl extends Component {
                                             max={100}
                                             allowReset
                                         />
-                                        <SelectControl
+                                        <RbeaTabRadioControl
                                             label={__("Type", "responsive-block-editor-addons")}
                                             value={gradientOverlayType}
                                             onChange={(value) =>
@@ -264,7 +217,7 @@ class ImageBackgroundControl extends Component {
                                             ]}
                                         />
                                         {"linear" == gradientOverlayType && (
-                                            <RangeControl
+                                            <RbeaAngleRangeControl
                                                 label={__("Angle", "responsive-block-editor-addons")}
                                                 value={gradientOverlayAngle}
                                                 onChange={(value) =>

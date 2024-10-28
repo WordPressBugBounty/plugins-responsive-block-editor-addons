@@ -7,6 +7,10 @@ import BlockBorderHelperControl from "../../../settings-components/BlockBorderSe
 import ImageBackgroundControl from "../../../settings-components/BlockBackgroundSettings/ImageBackgroundSettings";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control/index.js";
+import RbeaColorControl from "../../../utils/components/rbea-color-control/index.js";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control/index.js";
+import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control/index.js";
 
 
 // Setup the block
@@ -230,27 +234,22 @@ export default class Inspector extends Component {
                 title={__("Popup Options", "responsive-block-editor-addons")}
                 initialOpen={true}
               >
-                <ImageControl
-                  label={__("Upload Video", "responsive-block-editor-addons")}
-                  help={__(
-                    "Use .mp4 format for videos",
-                    "responsive-block-editor-addons"
-                  )}
-                  onRemove={() =>
-                    setAttributes({
-                      videoLink: "",
-                      videoID: "",
-                    })
-                  }
+                <RbeaMediaUploadControl
+                  label={__('Upload Video', 'responsive-block-editor-addons')}
+                  value={{
+                      url: videoLink || '',
+                  }}
                   onChange={(media) => {
                     setAttributes({
                       videoLink: media.url,
                       videoID: media.url,
                     });
                   }}
-                  imageID={urlIsVideo(videoLink) ? videoID : ""}
-                  imageURL={urlIsVideo(videoLink) ? videoLink : ""}
-                  allowedTypes={["video"]}
+                  mediaType={'video'}
+                  help={__(
+                    "Use .mp4 format for videos",
+                    "responsive-block-editor-addons"
+                  )}
                 />
                 <TextControl
                   label={__("Video URL", "responsive-block-editor-addons")}
@@ -304,7 +303,7 @@ export default class Inspector extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Width Mobile",
                               "responsive-block-editor-addons"
@@ -321,7 +320,7 @@ export default class Inspector extends Component {
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Width Tablet",
                               "responsive-block-editor-addons"
@@ -338,7 +337,7 @@ export default class Inspector extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Width",
                               "responsive-block-editor-addons"
@@ -387,7 +386,7 @@ export default class Inspector extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Height Mobile",
                               "responsive-block-editor-addons"
@@ -404,7 +403,7 @@ export default class Inspector extends Component {
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Height Tablet",
                               "responsive-block-editor-addons"
@@ -421,7 +420,7 @@ export default class Inspector extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Height",
                               "responsive-block-editor-addons"
@@ -481,7 +480,7 @@ export default class Inspector extends Component {
                     },
                   ]}
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Size", "responsive-block-editor-addons")}
                   value={playButtonSize}
                   onChange={(value) =>
@@ -493,23 +492,13 @@ export default class Inspector extends Component {
                   max={500}
                   allowReset
                 />
-                <p className="responsive-block-editor-addons-setting-label">
-                  {__("Color", "responsive-block-editor-addons")}
-                  <span className="components-base-control__label">
-                    <span
-                      className="component-color-indicator"
-                      style={{ backgroundColor: playButtonColor }}
-                    ></span>
-                  </span>
-                </p>
-                <ColorPalette
-                  value={playButtonColor}
-                  onChange={(value) =>
-                    setAttributes({ playButtonColor: value })
-                  }
-                  allowReset
+                <RbeaColorControl
+                  label = {__("Color", "responsive-block-editor-addons")}
+                  colorValue={playButtonColor}
+                  onChange={(colorValue) => setAttributes({ playButtonColor: colorValue })}
+                  resetColor={() => setAttributes({ playButtonColor: "" })}
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Opacity", "responsive-block-editor-addons")}
                   value={butopacity}
                   onChange={(value) =>
@@ -545,7 +534,7 @@ export default class Inspector extends Component {
                   ]}
                 />
                 {"none" != blockBorderStyle && (
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Border Width", "responsive-block-editor-addons")}
                     value={blockBorderWidth}
                     onChange={(value) =>
@@ -555,7 +544,7 @@ export default class Inspector extends Component {
                     max={50}
                   />
                 )}
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Border Radius", "responsive-block-editor-addons")}
                   value={blockBorderRadius}
                   onChange={(value) =>
@@ -566,21 +555,11 @@ export default class Inspector extends Component {
                 />
                 {"none" != blockBorderStyle && (
                   <Fragment>
-                    <p className="responsive-setting-label">
-                      {__("Border Color", "responsive-block-editor-addons")}
-                      <span className="components-base-control__label">
-                        <span
-                          className="component-color-indicator"
-                          style={{ backgroundColor: blockBorderColor }}
-                        ></span>
-                      </span>
-                    </p>
-                    <ColorPalette
-                      value={blockBorderColor}
-                      onChange={(colorValue) =>
-                        setAttributes({ blockBorderColor: colorValue })
-                      }
-                      allowReset
+                    <RbeaColorControl
+                      label = {__("Border Color", "responsive-block-editor-addons")}
+                      colorValue={blockBorderColor}
+                      onChange={(colorValue) => setAttributes({ blockBorderColor: colorValue })}
+                      resetColor={() => setAttributes({ blockBorderColor: "" })}
                     />
                   </Fragment>
                 )}
@@ -620,23 +599,13 @@ export default class Inspector extends Component {
                   showMoreImageOptions={false}
                   showOverlayOptions={false}
                 />
-                <p className="responsive-setting-label">
-                  {__("Background Overlay Color", "responsive-block-editor-addons")}
-                  <span className="components-base-control__label">
-                    <span
-                      className="component-color-indicator"
-                      style={{ backgroundColor: vidBackgroundColor }}
-                    ></span>
-                  </span>
-                </p>
-                <ColorPalette
-                  value={vidBackgroundColor}
-                  onChange={(value) =>
-                    setAttributes({ vidBackgroundColor: value })
-                  }
-                  allowReset
+                <RbeaColorControl
+                  label = {__("Background Overlay Color", "responsive-block-editor-addons")}
+                  colorValue={vidBackgroundColor}
+                  onChange={(colorValue) => setAttributes({ vidBackgroundColor: colorValue })}
+                  resetColor={() => setAttributes({ vidBackgroundColor: "" })}
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Opacity", "responsive-block-editor-addons")}
                   value={opacity}
                   onChange={(value) =>
@@ -731,7 +700,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -745,7 +714,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -759,7 +728,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

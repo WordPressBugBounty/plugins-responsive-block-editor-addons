@@ -11,7 +11,7 @@ const RbeaMediaUploadControl = ({ label, description, value, onChange , mediaTyp
     const mediaTypeCapitalCase = mediaType.charAt(0).toUpperCase() + mediaType.slice(1).toLowerCase();
     // Function to handle media selection from media library
     const handleMediaSelect = (media) => {
-        const updatedValue = { ...mediaData, media_url: media.url };
+        const updatedValue = { ...mediaData, url: media.url ,sizes: media.sizes};
         setMediaData(updatedValue);
         onChange(updatedValue);
     };
@@ -37,7 +37,7 @@ const RbeaMediaUploadControl = ({ label, description, value, onChange , mediaTyp
 
     // Function to remove the selected media
     const removeMedia = () => {
-        const updatedValue = { ...mediaData, media_url: '' };
+        const updatedValue = { ...mediaData, url: '' };
         setMediaData(updatedValue);
         onChange(updatedValue);
     };
@@ -52,7 +52,7 @@ const RbeaMediaUploadControl = ({ label, description, value, onChange , mediaTyp
 
             {(
                 <div className="media-control-wrapper" style={{ position: 'relative' }}>
-                    {!mediaData.media_url ? (
+                    {!mediaData.url ? (
                         <div className="media-placeholder" onClick={selectMedia}>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12ZM12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18Z" fill="#666666"/>
@@ -64,13 +64,13 @@ const RbeaMediaUploadControl = ({ label, description, value, onChange , mediaTyp
                             {mediaType == 'image' && 
                               <img
                               
-                               src={mediaData.media_url}
+                               src={mediaData.url}
                                alt={__(`Selected ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons')}
                               />
                             }
                             {mediaType == 'video' && 
                               <video preload="" autoplay="" muted="" playsinline="" loop="">
-                                <source src={`${mediaData.media_url}`} type="video/mp4"/>
+                                <source src={`${mediaData.url}`} type="video/mp4"/>
                               </video> 
                             }
                            
@@ -90,7 +90,7 @@ const RbeaMediaUploadControl = ({ label, description, value, onChange , mediaTyp
                         className = "bgmedia-select-button"
                         onClick={selectMedia}
                     >
-                        {mediaData.media_url ? __(`Change ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons') : __(`Select ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons')}
+                        {mediaData.url ? __(`Change ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons') : __(`Select ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons')}
                     </Button>
                 </div>
             )}
@@ -104,8 +104,7 @@ RbeaMediaUploadControl.propTypes = {
     label: PropTypes.string,
     description: PropTypes.string,
     value: PropTypes.shape({
-        enable: PropTypes.bool,
-        media_url: PropTypes.string,
+        url: PropTypes.string,
     }),
     onChange: PropTypes.func.isRequired,
 };

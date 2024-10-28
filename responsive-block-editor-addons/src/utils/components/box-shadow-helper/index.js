@@ -1,4 +1,7 @@
 import { camelCase } from "lodash";
+import RbeaRangeControl from "../rbea-range-control";
+import RbeaColorControl from "../rbea-color-control";
+import RbeaTabRadioControl from "../rbea-tab-radio-control";
 
 /**
  * Box-Shadow reusable component.
@@ -9,6 +12,7 @@ const { __ } = wp.i18n;
 const { ColorPalette } = wp.blockEditor;
 
 const { Button, SelectControl, RangeControl, Dashicon } = wp.components;
+
 
 // Extend component
 const { Component, Fragment } = wp.element;
@@ -80,32 +84,25 @@ class BoxShadowControl extends Component {
       advancedControls = (
         <div className="responsive-block-editor-addons-box-shadow-advanced">
           <Fragment>
-            <p className="responsive-block-editor-addons-setting-label">
-              {__("Color", "responsive-block-editor-addons")}
-
-              <span className="components-base-control__label">
-                <span
-                  className="component-color-indicator"
-                  style={{
-                    backgroundColor: boxShadowColor.value,
-                  }}
-                ></span>
-              </span>
-            </p>
-            <ColorPalette
-              value={boxShadowColor.value}
+            <RbeaColorControl
+              label = {__("Color", "responsive-block-editor-addons")}
+              colorValue={boxShadowColor.value}
               onChange={(colorValue) =>
                 setAttributes({
                   [getAttrName("boxShadowColor")]:
                     colorValue !== undefined ? colorValue : "#cccccc",
                 })
               }
-              allowReset
+              resetColor={() =>
+                setAttributes({
+                  [getAttrName("boxShadowColor")]:""
+                })
+              }
             />
           </Fragment>
           <Fragment>
             <h2>{__("Horizontal", "responsive-block-editor-addons")}</h2>
-            <RangeControl
+            <RbeaRangeControl
               value={boxShadowHOffset.value}
               onChange={(value) =>
                 setAttributes({
@@ -120,7 +117,7 @@ class BoxShadowControl extends Component {
           </Fragment>
           <Fragment>
             <h2>{__("Vertical", "responsive-block-editor-addons")}</h2>
-            <RangeControl
+            <RbeaRangeControl
               value={boxShadowVOffset.value}
               onChange={(value) =>
                 setAttributes({
@@ -135,7 +132,7 @@ class BoxShadowControl extends Component {
           </Fragment>
           <Fragment>
             <h2>{__("Blur", "responsive-block-editor-addons")}</h2>
-            <RangeControl
+            <RbeaRangeControl
               value={boxShadowBlur.value}
               onChange={(value) =>
                 setAttributes({
@@ -150,7 +147,7 @@ class BoxShadowControl extends Component {
           </Fragment>
           <Fragment>
             <h2>{__("Spread", "responsive-block-editor-addons")}</h2>
-            <RangeControl
+            <RbeaRangeControl
               value={boxShadowSpread.value}
               onChange={(value) =>
                 setAttributes({
@@ -164,15 +161,15 @@ class BoxShadowControl extends Component {
             />
           </Fragment>
           <Fragment>
-            <SelectControl
+            <RbeaTabRadioControl
               label={__("Position", "responsive-block-editor-addons")}
               value={boxShadowPosition.value}
               onChange={(value) =>
                 setAttributes({ [getAttrName("boxShadowPosition")]: value })
               }
               options={[
-                { value: "outset", label: __("Outset", "responsive-block-editor-addons") },
                 { value: "inset", label: __("Inset", "responsive-block-editor-addons") },
+                { value: "outset", label: __("Outset", "responsive-block-editor-addons") },
               ]}
             />
           </Fragment>

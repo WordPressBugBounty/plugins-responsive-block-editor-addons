@@ -5,7 +5,9 @@ import InspectorTab from "../../../components/InspectorTab";
 import InspectorTabs from "../../../components/InspectorTabs";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
-
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -159,7 +161,7 @@ export default class Inspector extends Component {
         <InspectorTabs>
           <InspectorTab key={"content"}>
             <PanelBody>
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Divider Style", "responsive-block-editor-addons")}
                 value={spacerDividerStyle}
                 options={spacerStyleOptions.map(({ value, label }) => ({
@@ -171,8 +173,9 @@ export default class Inspector extends Component {
                     spacerDividerStyle: value,
                   });
                 }}
+                defaultValue={"bars"}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Divider Height", "responsive-block-editor-addons")}
                 value={spacerDividerHeight || ""}
                 onChange={(value) =>
@@ -183,7 +186,7 @@ export default class Inspector extends Component {
                 min={1}
                 max={100}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Divider Width", "responsive-block-editor-addons")}
                 value={spacerDividerWidth || ""}
                 onChange={(value) =>
@@ -197,18 +200,19 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-            <PanelColorSettings
+            <PanelBody
               title={__("Divider Color", "responsive-block-editor-addons")}
               initialOpen={false}
-              colorSettings={[
-                {
-                  colors: dividerColor,
-                  value: spacerDividerColor,
-                  onChange: onChangeDividerColor,
-                  label: __("Divider Color", "responsive-block-editor-addons"),
-                },
-              ]}
-            ></PanelColorSettings>
+            >
+               <RbeaColorControl
+									label = {__("Divider Color", "responsive-block-editor-addons")}
+									colorValue={spacerDividerColor}
+									onChange={(colorValue) =>
+										setAttributes({ spacerDividerColor: colorValue })
+									}
+									resetColor={() => setAttributes({ spacerDividerColor: "" })}
+								/>
+            </PanelBody>
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -295,7 +299,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -309,7 +313,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -323,7 +327,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

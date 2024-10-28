@@ -2,6 +2,7 @@
  * Internal dependencies
  */
 import autoPlayOptions from "./autoplay-options";
+import RbeaTabRadioControl from "../rbea-tab-radio-control";
 
 /**
  * WordPress dependencies

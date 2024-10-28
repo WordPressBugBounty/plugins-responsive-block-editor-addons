@@ -8,6 +8,8 @@ const { ColorPalette } = wp.blockEditor;
 
 const { SelectControl, RangeControl, PanelBody } = wp.components;
 
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+
 // Extend component
 const { Component, Fragment } = wp.element;
 
@@ -77,7 +79,7 @@ class ButtonBorderControl extends Component {
               />
               {"none" != ctaBorderStyle && (
                   <Fragment>
-                      <RangeControl
+                      <RbeaRangeControl
                           label={__("Border Width", "responsive-block-editor-addons")}
                           value={ctaBorderWidth}
                           onChange={(value) =>
@@ -90,7 +92,7 @@ class ButtonBorderControl extends Component {
                           allowReset
                       />
 
-                      <RangeControl
+                      <RbeaRangeControl
                           label={__("Border Radius", "responsive-block-editor-addons")}
                           value={ctaBorderRadius}
                           onChange={(value) =>

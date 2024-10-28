@@ -10,6 +10,7 @@ const { SelectControl, RangeControl } = wp.components;
 
 // Extend component
 const { Component, Fragment } = wp.element;
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
 
 class ColorBackgroundControl extends Component {
   constructor() {
@@ -27,25 +28,15 @@ class ColorBackgroundControl extends Component {
 
     var advancedControls;
       advancedControls = (
-          <Fragment>
-      <p className="responsive-setting-label">
-          {__("Background Color", "responsive-block-editor-addons")}
-      <span className="components-base-control__label">
-          <span
-          className="component-color-indicator"
-          style={{ backgroundColor: backgroundColor }}
-      ></span>
-      </span>
-      </p>
-      <ColorPalette
-          value={backgroundColor}
-          onChange={(colorValue) =>
-          setAttributes({ backgroundColor: colorValue })
-      }
-          allowReset
+        <Fragment>
+          <RbeaColorControl
+            label = {__("Background Color", "responsive-block-editor-addons")}
+            colorValue={backgroundColor}
+            onChange={(colorValue) => setAttributes({ backgroundColor: colorValue })}
+            resetColor={() => setAttributes({ backgroundColor: "" })}
           />
 
-          </Fragment>
+        </Fragment>
       );
 
 

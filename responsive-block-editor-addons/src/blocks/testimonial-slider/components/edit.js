@@ -24,6 +24,10 @@ import TypographyHelperControl from "../../../settings-components/TypographySett
 import ResponsiveBlockEditorAddonsIcons from "../../../block-icons";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
+import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
 
 const { __ } = wp.i18n;
 
@@ -491,36 +495,43 @@ class edit extends Component {
 			/>
         </PanelBody>
 
-        <PanelColorSettings
+        <PanelBody
           title={__("Color Settings", "responsive-block-editor-addons")}
           initialOpen={false}
-          colorSettings={[
-            {
-              value: descColor,
-              onChange: (colorValue) =>
-                setAttributes({ descColor: colorValue }),
-              label: __("Testimonial Color", "responsive-block-editor-addons"),
-            },
-            {
-              value: authorColor,
-              onChange: (colorValue) =>
-                setAttributes({ authorColor: colorValue }),
-              label: __("Name Color", "responsive-block-editor-addons"),
-            },
-            {
-              value: companyColor,
-              onChange: (colorValue) =>
-                setAttributes({ companyColor: colorValue }),
-              label: __("Company Color", "responsive-block-editor-addons"),
-            },
-            {
-              value: arrowColor,
-              onChange: (colorValue) =>
-                setAttributes({ arrowColor: colorValue }),
-              label: __("Arrow & Dots Color", "responsive-block-editor-addons"),
-            },
-          ]}
-        ></PanelColorSettings>
+        >
+           <RbeaColorControl
+					  	label = {__("Testimonial Color", "responsive-block-editor-addons")}
+					  	colorValue={descColor}
+					  	onChange={(colorValue) =>
+					  		setAttributes({ descColor: colorValue })
+					  	}
+					  	resetColor={() => setAttributes({ descColor: "" })}
+					  />
+           <RbeaColorControl
+					  	label = {__("Name Color", "responsive-block-editor-addons")}
+					  	colorValue={authorColor}
+					  	onChange={(colorValue) =>
+					  		setAttributes({ authorColor: colorValue })
+					  	}
+					  	resetColor={() => setAttributes({ authorColor: "" })}
+					  />
+           <RbeaColorControl
+					  	label = {__("Company Color", "responsive-block-editor-addons")}
+					  	colorValue={companyColor}
+					  	onChange={(colorValue) =>
+					  		setAttributes({ companyColor: colorValue })
+					  	}
+					  	resetColor={() => setAttributes({ companyColor: "" })}
+					  />
+           <RbeaColorControl
+					  	label = {__("Arrow & Dots Color", "responsive-block-editor-addons")}
+					  	colorValue={arrowColor}
+					  	onChange={(colorValue) =>
+					  		setAttributes({ arrowColor: colorValue })
+					  	}
+					  	resetColor={() => setAttributes({ arrowColor: "" })}
+					  />
+        </PanelBody>
       </Fragment>
     );
 
@@ -620,12 +631,11 @@ class edit extends Component {
     const background_settings = (
       <Fragment>
         <PanelBody title={__("Background", "responsive-block-editor-addons")} initialOpen={false}>
-          <SelectControl
+          <RbeaBackgroundTypeControl
             label={__("Background Type", "responsive-block-editor-addons")}
             value={backgroundType}
             onChange={(value) => setAttributes({ backgroundType: value })}
             options={[
-              { value: "none", label: __("None", "responsive-block-editor-addons") },
               { value: "color", label: __("Color", "responsive-block-editor-addons") },
               { value: "image", label: __("Image", "responsive-block-editor-addons") },
             ]}
@@ -646,7 +656,7 @@ class edit extends Component {
             />
           )}
           {"image" == backgroundType && backgroundImage && (
-            <RangeControl
+            <RbeaRangeControl
               label={__("Opacity", "responsive-block-editor-addons")}
               value={backgroundOpacity}
               onChange={(value) => setAttributes({ backgroundOpacity: value })}
@@ -815,7 +825,7 @@ class edit extends Component {
           onChange={this.toggleAutoplay}
         />
         {autoplay == true && (
-          <RangeControl
+          <RbeaRangeControl
             label={__("Autoplay Speed (ms)", "responsive-block-editor-addons")}
             value={autoplaySpeed}
             onChange={(value) => setAttributes({ autoplaySpeed: value })}
@@ -828,7 +838,7 @@ class edit extends Component {
           checked={infiniteLoop}
           onChange={this.toggleInfiniteLoop}
         />
-        <RangeControl
+        <RbeaRangeControl
           label={__("Transition Speed (ms)", "responsive-block-editor-addons")}
           value={transitionSpeed}
           onChange={(value) => setAttributes({ transitionSpeed: value })}
@@ -848,7 +858,7 @@ class edit extends Component {
         />
         {"dots" != arrowDots && (
           <Fragment>
-            <RangeControl
+            <RbeaRangeControl
               label={__("Arrow Size", "responsive-block-editor-addons")}
               value={arrowSize}
               onChange={(value) => setAttributes({ arrowSize: value })}
@@ -984,7 +994,7 @@ class edit extends Component {
                   return <div>{tabout}</div>;
                 }}
               </TabPanel>
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Number of Testimonials", "responsive-block-editor-addons")}
                 value={test_item_count}
                 onChange={(newCount) => {
@@ -1052,7 +1062,7 @@ class edit extends Component {
 
                   if ("mobile" === tab.name) {
                     tabout = (
-                      <RangeControl
+                      <RbeaRangeControl
                         label={__("Columns", "responsive-block-editor-addons")}
                         value={mcolumns}
                         onChange={(value) => setAttributes({ mcolumns: value })}
@@ -1062,7 +1072,7 @@ class edit extends Component {
                     );
                   } else if ("tablet" === tab.name) {
                     tabout = (
-                      <RangeControl
+                      <RbeaRangeControl
                         label={__("Columns", "responsive-block-editor-addons")}
                         value={tcolumns}
                         onChange={(value) => setAttributes({ tcolumns: value })}
@@ -1072,7 +1082,7 @@ class edit extends Component {
                     );
                   } else {
                     tabout = (
-                      <RangeControl
+                      <RbeaRangeControl
                         label={__("Columns", "responsive-block-editor-addons")}
                         value={columns}
                         onChange={(value) => setAttributes({ columns: value })}
@@ -1086,7 +1096,7 @@ class edit extends Component {
                 }}
               </TabPanel>
 
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Skin", "responsive-block-editor-addons")}
                 value={skin}
                 onChange={(value) => setAttributes({ skin: value })}
@@ -1099,24 +1109,14 @@ class edit extends Component {
             {skin === "bubble" && (
               <PanelBody title={__("Bubble Settings", "responsive-block-editor-addons")} initialOpen={false}>
                 <Fragment>
-                  <p className="responsive-setting-label">
-                    {__("Background Color", "responsive-block-editor-addons")}
-                    <span className="components-base-control__label">
-                      <span
-                        className="component-color-indicator"
-                        style={{ backgroundColor: bubbleColor }}
-                      ></span>
-                    </span>
-                  </p>
-                  <ColorPalette
-                    value={bubbleColor}
-                    onChange={(colorValue) =>
-                      setAttributes({ bubbleColor: colorValue })
-                    }
-                    allowReset
+                  <RbeaColorControl
+                    label = {__("Background Color", "responsive-block-editor-addons")}
+                    colorValue={bubbleColor}
+                    onChange={(colorValue) => setAttributes({ bubbleColor: colorValue })}
+                    resetColor={() => setAttributes({ bubbleColor: "" })}
                   />
                 </Fragment>
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Padding", "responsive-block-editor-addons")}
                   value={bubblePadding}
                   onChange={(value) => setAttributes({ bubblePadding: value })}
@@ -1124,7 +1124,7 @@ class edit extends Component {
                   max={50}
                   allowReset
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Border Radius", "responsive-block-editor-addons")}
                   value={bubbleBorderRadius}
                   onChange={(value) =>
@@ -1172,7 +1172,7 @@ class edit extends Component {
                           { value: "middle", label: __("Middle", "responsive-block-editor-addons") },
                         ]}
                       />
-                      <SelectControl
+                      <RbeaTabRadioControl
                         label={__("Stack on", "responsive-block-editor-addons")}
                         value={stack}
                         options={[
@@ -1187,7 +1187,7 @@ class edit extends Component {
                       />
                     </Fragment>
                   )}
-                  <SelectControl
+                  <RbeaTabRadioControl
                     label={__("Image Style", "responsive-block-editor-addons")}
                     value={iconimgStyle}
                     onChange={(value) => setAttributes({ iconimgStyle: value })}
@@ -1203,7 +1203,7 @@ class edit extends Component {
                     value={imageSize}
                     onChange={(value) => setAttributes({ imageSize: value })}
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Width", "responsive-block-editor-addons")}
                     value={imageWidth}
                     onChange={(value) => setAttributes({ imageWidth: value })}
@@ -1290,7 +1290,7 @@ class edit extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1304,7 +1304,7 @@ class edit extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1318,7 +1318,7 @@ class edit extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

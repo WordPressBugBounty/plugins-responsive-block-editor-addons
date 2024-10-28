@@ -6,7 +6,9 @@ import ButtonSettingsControl from "../../../settings-components/ButtonSettings";
 import ResponsiveSpacingControl from "../../../settings-components/ResponsiveSpacingSettings";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
-
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 /**
  * Inspector Controls
  */
@@ -565,7 +567,7 @@ export default class Inspector extends Component {
                   }
                 />
                 {attributes.displayPostExcerpt && (
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Excerpt Length",
                       "responsive-block-editor-addons"
@@ -608,7 +610,7 @@ export default class Inspector extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Columns Mobile",
                               "responsive-block-editor-addons"
@@ -619,14 +621,13 @@ export default class Inspector extends Component {
                             }
                             min={1}
                             max={Math.min(4, postCount)}
-                            required
                           />
                         </Fragment>
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Columns Tablet",
                               "responsive-block-editor-addons"
@@ -637,14 +638,13 @@ export default class Inspector extends Component {
                             }
                             min={1}
                             max={Math.min(4, postCount)}
-                            required
                           />
                         </Fragment>
                       );
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Columns",
                               "responsive-block-editor-addons"
@@ -653,7 +653,6 @@ export default class Inspector extends Component {
                             onChange={(value) => columnsCountOnChange(value)}
                             min={1}
                             max={Math.min(4, postCount)}
-                            required
                           />
                         </Fragment>
                       );
@@ -695,7 +694,7 @@ export default class Inspector extends Component {
                 onChange={this.toggleAutoplay}
               />
               {autoplay == true && (
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Autoplay Speed (ms)", "responsive-block-editor-addons")}
                   value={autoplaySpeed}
                   onChange={(value) => setAttributes({ autoplaySpeed: value })}
@@ -708,7 +707,7 @@ export default class Inspector extends Component {
                 checked={infiniteLoop}
                 onChange={this.toggleInfiniteLoop}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Transition Speed (ms)", "responsive-block-editor-addons")}
                 value={transitionSpeed}
                 onChange={(value) => setAttributes({ transitionSpeed: value })}
@@ -727,14 +726,14 @@ export default class Inspector extends Component {
               />
               {"dots" != arrowDots && (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Arrow Size", "responsive-block-editor-addons")}
                     value={arrowSize}
                     onChange={(value) => setAttributes({ arrowSize: value })}
                     min={0}
                     max={50}
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Arrow Border Size", "responsive-block-editor-addons")}
                     value={arrowBorderSize}
                     onChange={(value) =>
@@ -743,7 +742,7 @@ export default class Inspector extends Component {
                     min={0}
                     max={50}
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Arrow Border Radius", "responsive-block-editor-addons")}
                     value={arrowBorderRadius}
                     onChange={(value) =>
@@ -759,7 +758,7 @@ export default class Inspector extends Component {
               title={__("Image Settings", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Image Size", "responsive-block-editor-addons")}
                 value={imageSize}
                 onChange={(value) => setAttributes({ imageSize: value })}
@@ -774,7 +773,7 @@ export default class Inspector extends Component {
                   },
                 ]}
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Image Position", "responsive-block-editor-addons")}
                 value={imagePosition}
                 onChange={(value) => setAttributes({ imagePosition: value })}
@@ -790,7 +789,7 @@ export default class Inspector extends Component {
                 ]}
               />
               {imagePosition == "background" && (
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Opacity", "responsive-block-editor-addons")}
                   value={opacity}
                   onChange={(value) =>
@@ -905,103 +904,35 @@ export default class Inspector extends Component {
               title={__("Color Settings", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <p className="responsive-setting-label">
-                {__("Blog Post Background Color", "responsive-block-editor-addons")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{ backgroundColor: attributes.bgColor }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={attributes.bgColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    bgColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Blog Post Background Color", "responsive-block-editor-addons")}
+                colorValue={attributes.bgColor}
+                onChange={(colorValue) => this.props.setAttributes({ bgColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ bgColorMe: "" })}
               />
-              <p className="responsive-setting-label">
-                {__("Title Color", "responsive-block-editor-addons")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{
-                      backgroundColor: titleColor,
-                    }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={titleColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    titleColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Title Color", "responsive-block-editor-addons")}
+                colorValue={titleColor}
+                onChange={(colorValue) => this.props.setAttributes({ titleColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ titleColor: "" })}
               />
-              <p className="responsive-setting-label">
-                {__("Content Color", "responsive-block-editor-addons")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{
-                      backgroundColor: contentColor,
-                    }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={contentColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    contentColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Content Color", "responsive-block-editor-addons")}
+                colorValue={contentColor}
+                onChange={(colorValue) => this.props.setAttributes({ contentColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ contentColor: "" })}
               />
-              <p className="responsive-setting-label">
-                {__("Meta Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{
-                      backgroundColor: metaColor,
-                    }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={metaColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    metaColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Meta Color", "responsive-block-editor-addons")}
+                colorValue={metaColor}
+                onChange={(colorValue) => this.props.setAttributes({ metaColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ metaColor: "" })}
               />
-              <p className="responsive-setting-label">
-                {__("Arrow & Dots Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{
-                      backgroundColor: arrowDotsColor,
-                    }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={arrowDotsColor}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    arrowDotsColor: value,
-                  })
-                }
-                allowReset
+              <RbeaColorControl
+                label = {__("Arrow & Dots Color", "responsive-block-editor-addons")}
+                colorValue={arrowDotsColor}
+                onChange={(colorValue) => this.props.setAttributes({ arrowDotsColor: colorValue })}
+                resetColor={() => this.props.setAttributes({ arrowDotsColor: "" })}
               />
             </PanelBody>
             <PanelBody
@@ -1029,7 +960,7 @@ export default class Inspector extends Component {
                 setAttributes={setAttributes}
                 {...this.props}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Gap Between Content & Dots", "responsive-block-editor-addons")}
                 value={rowGap}
                 onChange={(value) =>
@@ -1050,7 +981,7 @@ export default class Inspector extends Component {
                 setAttributes={setAttributes}
                 {...this.props}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Title Top Margin", "responsive-block-editor-addons")}
                 value={imageSpace}
                 onChange={(value) =>
@@ -1062,7 +993,7 @@ export default class Inspector extends Component {
                 max={50}
                 allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Title Bottom Margin", "responsive-block-editor-addons")}
                 value={titleSpace}
                 onChange={(value) =>
@@ -1074,7 +1005,7 @@ export default class Inspector extends Component {
                 max={50}
                 allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Meta Bottom Margin", "responsive-block-editor-addons")}
                 value={dateSpace}
                 onChange={(value) =>
@@ -1084,7 +1015,7 @@ export default class Inspector extends Component {
                 max={50}
                 allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Excerpt Bottom Margin", "responsive-block-editor-addons")}
                 value={excerptSpace}
                 onChange={(value) =>
@@ -1096,7 +1027,7 @@ export default class Inspector extends Component {
                 max={50}
                 allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("CTA Bottom Margin", "responsive-block-editor-addons")}
                 value={ctaSpace}
                 onChange={(value) =>
@@ -1178,7 +1109,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1192,7 +1123,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1206,7 +1137,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

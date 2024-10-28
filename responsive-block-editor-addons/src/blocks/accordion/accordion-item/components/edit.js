@@ -10,7 +10,7 @@ import BoxShadowControl from "../../../../utils/components/box-shadow";
 import EditorStyles from "./editor-styles";
 import BlockBorderHelperControl from "../../../../settings-components/BlockBorderSettings";
 import ResponsiveSpacingControl from "../../../../settings-components/ResponsiveSpacingSettings";
-
+import RbeaRangeControl from "../../../../utils/components/rbea-range-control";
 const { __ } = wp.i18n;
 
 const { Component, Fragment } = wp.element;

@@ -9,7 +9,8 @@ import InspectorTabs from "../../../components/InspectorTabs";
 import BlockBorderHelperControl from "../../../settings-components/BlockBorderSettings";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
-
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
 
 /**
  * WordPress dependencies
@@ -221,7 +222,7 @@ class Inspector extends Component {
                     />
                   )}
                   {gutter > 0 && (
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__("Radius", "responsive-block-editor-addons")}
                       value={radius}
                       onChange={this.setRadiusTo}
@@ -238,7 +239,7 @@ class Inspector extends Component {
                     }
                   />
                   {!!customWidth && (
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Width in pixels",
                         "responsive-block-editor-addons"
@@ -309,30 +310,27 @@ class Inspector extends Component {
                 <SliderPanel {...this.props} />
               </InspectorTab>
               <InspectorTab key={"style"}>
-                <PanelColorSettings
+                <PanelBody
                   title={__("Arrow", "responsive-block-editor-addons")}
                   initialOpen={false}
-                  colorSettings={[
-                    {
-                      value: iconColor,
-                      onChange: (newIconColor) =>
-                        setAttributes({ iconColor: newIconColor }),
-                      label: __("Color", "responsive-block-editor-addons"),
-                    },
-                    {
-                      value: iconBackgroundColor,
-                      onChange: (newiconBackgroundColor) =>
-                        setAttributes({
-                          iconBackgroundColor: newiconBackgroundColor,
-                        }),
-                      label: __(
-                        "Background Color",
-                        "responsive-block-editor-addons"
-                      ),
-                    },
-                  ]}
                 >
-                  <RangeControl
+                   <RbeaColorControl
+									label = {__("Color", "responsive-block-editor-addons")}
+									colorValue={iconColor}
+									onChange={(colorValue) =>
+										setAttributes({ iconColor: colorValue })
+									}
+									resetColor={() => setAttributes({ iconColor: "" })}
+								/>
+                   <RbeaColorControl
+									label = {__("Background Color", "responsive-block-editor-addons")}
+									colorValue={iconBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ iconBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ iconBackgroundColor: "" })}
+								/>
+                  <RbeaRangeControl
                     label={__(
                       "Background Opacity",
                       "responsive-block-editor-addons"
@@ -347,7 +345,7 @@ class Inspector extends Component {
                     max={100}
                     step={1}
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Background Radius",
                       "responsive-block-editor-addons"
@@ -362,7 +360,7 @@ class Inspector extends Component {
                     max={50}
                     step={1}
                   />
-                </PanelColorSettings>
+                </PanelBody>
 
                   <PanelBody
                       title={__("Border", "responsive-block-editor-addons")}
@@ -461,7 +459,7 @@ class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -475,7 +473,7 @@ class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -489,7 +487,7 @@ class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

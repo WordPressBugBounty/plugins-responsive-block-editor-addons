@@ -9,7 +9,6 @@ import fontOptions from "../../../utils/googlefonts";
 import { loadGoogleFont } from "../../../utils/font";
 import InspectorTab from "../../../components/InspectorTab";
 import InspectorTabs from "../../../components/InspectorTabs";
-import VideoBackgroundControl from "../../../settings-components/BlockBackgroundSettings/VideoBackgroundSettings";
 import BlockBorderHelperControl from "../../../settings-components/BlockBorderSettings";
 import ColorBackgroundControl from "../../../settings-components/BlockBackgroundSettings/ColorBackgroundSettings";
 import ImageBackgroundControl from "../../../settings-components/BlockBackgroundSettings/ImageBackgroundSettings";
@@ -17,6 +16,11 @@ import GradientBackgroundControl from "../../../settings-components/BlockBackgro
 import TypographyHelperControl from "../../../settings-components/TypographySettings";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
+import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control";
+import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
 
 let svg_icons = Object.keys(ResponsiveBlocksQuoteIcon);
 // Setup the block
@@ -109,7 +113,6 @@ export default class Inspector extends Component {
   render() {
     // Background Type Options
     const backgroundTypeOptions = [
-      { value: "none", label: __("None", "responsive-block-editor-addons") },
       { value: "color", label: __("Color", "responsive-block-editor-addons") },
       {
         value: "gradient",
@@ -293,7 +296,7 @@ export default class Inspector extends Component {
               title={__("General", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-				<SelectControl
+				<RbeaTabRadioControl
 					label={__("Alignment", "responsive-block-editor-addons")}
 					description={__(
 						"Left or right align the cite name and title.",
@@ -306,6 +309,7 @@ export default class Inspector extends Component {
 						quoteAlign: value,
 						})
 					}
+          defaultValue={"left"}
 				/>
             </PanelBody>
             <PanelBody
@@ -338,7 +342,7 @@ export default class Inspector extends Component {
                   noSelectedPlaceholder={__("Select Icon", "responsive-block-editor-addons")}
                 />
               </Fragment>
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Size", "responsive-block-editor-addons")}
                 value={quoteSize}
                 onChange={(value) =>
@@ -350,25 +354,15 @@ export default class Inspector extends Component {
                 max={400}
                 step={1}
               />
-              <p>
-                {__("Quote Color", "responsive-block-editor-addons")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{ backgroundColor: quoteColor }}
-                  ></span>
-                </span>
-              </p>
-
-              <ColorPalette
-                title={__("Color", "responsive-block-editor-addons")}
-                value={quoteColor}
+              <RbeaColorControl
+                label = {__("Quote Color", "responsive-block-editor-addons")}
+                colorValue={quoteColor}
                 onChange={(colorValue) =>
                   setAttributes({ quoteColor: colorValue })
-                }
-                allowReset
-              />
-              <RangeControl
+              }
+              resetColor={() => setAttributes({ quoteColor: "" })}
+            />
+              <RbeaRangeControl
                 label={__(
                   "Horizontal Position",
                   "responsive-block-editor-addons"
@@ -384,7 +378,7 @@ export default class Inspector extends Component {
                 step={1}
                 allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__(
                   "Vertical Position",
                   "responsive-block-editor-addons"
@@ -400,7 +394,7 @@ export default class Inspector extends Component {
                 step={1}
                 allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Opacity", "responsive-block-editor-addons")}
                 value={quoteOpacity}
                 onChange={(value) =>
@@ -419,8 +413,8 @@ export default class Inspector extends Component {
               title={__("Background", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <SelectControl
-                label={__("Background Type", "responsive-block-editor-addons")}
+              <RbeaBackgroundTypeControl
+                label={__("Type", "responsive-block-editor-addons")}
                 value={backgroundType}
                 onChange={(value) => setAttributes({ backgroundType: value })}
                 options={backgroundTypeOptions}
@@ -449,9 +443,22 @@ export default class Inspector extends Component {
                 />
               )}
               {"video" == backgroundType && (
-                <VideoBackgroundControl {...this.props} />
+                <>
+                <RbeaMediaUploadControl
+                label={__('Video', 'responsive-block-editor-addons')}
+                value={{
+                    url: backgroundVideo.url || '',
+                }}
+                onChange={(newValue) => {
+                    setAttributes({
+                      backgroundVideo: newValue,
+                    });
+                }}
+                mediaType={'video'}
+              />
+              </>
               )}
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Opacity", "responsive-block-editor-addons")}
                 value={opacity}
                 onChange={(value) =>
@@ -523,18 +530,14 @@ export default class Inspector extends Component {
                 />
               </PanelBody>
             </PanelBody>
-
-            <PanelColorSettings
-              title={__("Color Settings", "responsive-block-editor-addons")}
-              initialOpen={false}
-              colorSettings={[
-                {
-                  value: quoteTextColor,
-                  onChange: onChangeTextColor,
-                  label: __("Text Color", "responsive-block-editor-addons"),
-                },
-              ]}
-            ></PanelColorSettings>
+            <PanelBody title={__("Color", "responsive-block-editor-addons")} initialOpen={false}>
+             <RbeaColorControl
+                label = {__("Text Color", "responsive-block-editor-addons")}
+                colorValue={quoteTextColor}
+                onChange={onChangeTextColor}
+                resetColor={() => setAttributes({ quoteTextColor: "" })}
+              />
+            </PanelBody>
 
 			<PanelBody
               title={__("Typography", "responsive-block-editor-addons")}
@@ -628,7 +631,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -642,7 +645,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -656,7 +659,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

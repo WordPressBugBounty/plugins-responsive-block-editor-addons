@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import linkOptions from "./options/link-options";
-
+import RbeaTabRadioControl from "../rbea-tab-radio-control";
 /**
  * WordPress dependencies
  */

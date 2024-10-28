@@ -5,6 +5,7 @@ import InspectorTab from "../../../components/InspectorTab";
 import InspectorTabs from "../../../components/InspectorTabs";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -212,7 +213,7 @@ export default class Inspector extends Component {
 								}}
 							</TabPanel>
 							<hr className="responsive-block-editor-addons-editor__separator" />
-							<SelectControl
+							<RbeaTabRadioControl
 								label={__("Stack on", "responsive-block-editor-addons")}
 								value={stack}
 								options={[

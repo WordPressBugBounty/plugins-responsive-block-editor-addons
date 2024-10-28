@@ -7,6 +7,10 @@
  const { ColorPalette } = wp.blockEditor;
  
  const { SelectControl, RangeControl } = wp.components;
+
+import RbeaRangeControl from "../../../../utils/components/rbea-range-control";
+import RbeaAngleRangeControl from "../../../../utils/components/rbea-angle-range-control";
+import RbeaColorControl from "../../../../utils/components/rbea-color-control";
  
  // Extend component
  const { Component, Fragment } = wp.element;
@@ -31,40 +35,19 @@
      var advancedControls;
        advancedControls = (
            <Fragment>
-           <p className="responsive-setting-label">
-           {__("Color 1", "responsive-block-editor-addons")}
-   <span className="components-base-control__label">
-           <span
-       className="component-color-indicator"
-       style={{ backgroundColor: hoverbackgroundColor1 }}
-   ></span>
-       </span>
-       </p>
-       <ColorPalette
-       value={hoverbackgroundColor1}
-       onChange={(colorValue) =>
-       setAttributes({ hoverbackgroundColor1: colorValue })
-   }
-       allowReset
-       />
- 
-       <p className="responsive-setting-label">
-           {__("Color 2", "responsive-block-editor-addons")}
-   <span className="components-base-control__label">
-           <span
-       className="component-color-indicator"
-       style={{ backgroundColor: hoverbackgroundColor2 }}
-   ></span>
-       </span>
-       </p>
-       <ColorPalette
-       value={hoverbackgroundColor2}
-       onChange={(colorValue) =>
-       setAttributes({ hoverbackgroundColor2: colorValue })
-   }
-       allowReset
-       />
-       <RangeControl
+       <RbeaColorControl
+            label = {__("Color 1", "responsive-block-editor-addons")}
+            colorValue={hoverbackgroundColor1}
+            onChange={(colorValue) => setAttributes({ hoverbackgroundColor1: colorValue })}
+            resetColor={() => setAttributes({ hoverbackgroundColor1: "" })}
+        />
+        <RbeaColorControl
+            label = {__("Color 2", "responsive-block-editor-addons")}
+            colorValue={hoverbackgroundColor2}
+            onChange={(colorValue) => setAttributes({ hoverbackgroundColor2: colorValue })}
+            resetColor={() => setAttributes({ hoverbackgroundColor2: "" })}
+        />
+       <RbeaRangeControl
        label={__("Color Location 1", "responsive-block-editor-addons")}
        value={hovercolorLocation1}
        min={0}
@@ -75,7 +58,7 @@
        })
    }
        />
-       <RangeControl
+       <RbeaRangeControl
        label={__("Color Location 2", "responsive-block-editor-addons")}
        value={hovercolorLocation2}
        min={0}
@@ -86,7 +69,7 @@
        })
    }
        />
-       <RangeControl
+       <RbeaAngleRangeControl
        label={__(
            "Gradient Direction",
            "responsive-block-editor-addons"

@@ -10,6 +10,7 @@ import Inspector from "./inspector";
 import PostGridImage from "./image";
 import EditorStyles from "./editor-styles";
 import { loadGoogleFont } from "../../../utils/font";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 const { compose } = wp.compose;
 

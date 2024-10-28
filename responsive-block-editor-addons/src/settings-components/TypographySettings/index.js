@@ -2,6 +2,8 @@ import { camelCase } from "lodash";
 import { sprintf } from "@wordpress/i18n";
 import fontOptions from "../../utils/googlefonts";
 import { loadGoogleFont } from "../../utils/font";
+import RbeaRangeControl from "../../utils/components/rbea-range-control";
+import RbeaTabRadioControl from "../../utils/components/rbea-tab-radio-control";
 
 /**
  * Box-Shadow reusable component.
@@ -12,6 +14,7 @@ const { __ } = wp.i18n;
 const { ColorPalette } = wp.blockEditor;
 
 const { SelectControl, RangeControl, PanelBody, Dashicon, TabPanel } = wp.components;
+
 
 // Extend component
 const { Component, Fragment } = wp.element;
@@ -154,7 +157,7 @@ class TypographyControl extends Component {
                             if ("mobile" === tab.name) {
                             tabout = (
                                 <Fragment>
-                                <RangeControl
+                                <RbeaRangeControl
                                     label={__(
                                     "Font Size",
                                     "responsive-block-editor-addons"
@@ -169,7 +172,7 @@ class TypographyControl extends Component {
                             } else if ("tablet" === tab.name) {
                             tabout = (
                                 <Fragment>
-                                <RangeControl
+                                <RbeaRangeControl
                                     label={__(
                                     "Font Size",
                                     "responsive-block-editor-addons"
@@ -184,7 +187,7 @@ class TypographyControl extends Component {
                             } else {
                             tabout = (
                                 <Fragment>
-                                <RangeControl
+                                <RbeaRangeControl
                                     label={__(
                                     "Font Size",
                                     "responsive-block-editor-addons"
@@ -207,7 +210,7 @@ class TypographyControl extends Component {
                         value={this.props.values.weight}
                         onChange={this.props.onChangeFontWeight}
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                         label={__("Line Height", "responsive-block-editor-addons")}
                         value={this.props.values.height}
                         onChange={this.props.onChangeLineHeight}
@@ -217,7 +220,7 @@ class TypographyControl extends Component {
                         allowReset
                     />
                     {this.props.showLetterSpacing == true && (
-                        <RangeControl
+                        <RbeaRangeControl
                             label={__("Letter Spacing", "responsive-block-editor-addons")}
                             value={this.props.values.spacing}
                             onChange={this.props.onChangeLetterSpacing}

@@ -1,9 +1,13 @@
 import { useState, Fragment } from '@wordpress/element';
 import { RadioControl } from '@wordpress/components';
 
-const RbeaTabRadioControl = ({ label, selectedValue, onChange, options }) => {
+const RbeaTabRadioControl = ({ label, value, onChange, options , defaultValue = ''}) => {
   // Store the currently selected option in state
-  const [activeOption, setActiveOption] = useState(selectedValue);
+  if(defaultValue==='')
+  {
+    defaultValue = options[0].value;
+  }
+  const [activeOption, setActiveOption] = useState(value);
 
   // Handle the option change
   const handleChange = (value) => {

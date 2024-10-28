@@ -8,6 +8,7 @@ const { ColorPalette } = wp.blockEditor;
 
 const { SelectControl, RangeControl, PanelBody, TabPanel, Dashicon } = wp.components;
 
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
 // Extend component
 const { Component, Fragment } = wp.element;
 
@@ -69,7 +70,7 @@ class ButtonSpacingControl extends Component {
             if ("mobile" === tab.name) {
               tabout = (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Horizontal Padding",
                       "responsive-block-editor-addons"
@@ -87,7 +88,7 @@ class ButtonSpacingControl extends Component {
             } else if ("tablet" === tab.name) {
               tabout = (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Horizontal Padding",
                       "responsive-block-editor-addons"
@@ -105,7 +106,7 @@ class ButtonSpacingControl extends Component {
             } else {
               tabout = (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Horizontal Padding",
                       "responsive-block-editor-addons"
@@ -152,7 +153,7 @@ class ButtonSpacingControl extends Component {
               if ("mobile" === tab.name) {
                 tabout = (
                   <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Vertical Padding",
                         "responsive-block-editor-addons"
@@ -170,7 +171,7 @@ class ButtonSpacingControl extends Component {
               } else if ("tablet" === tab.name) {
                 tabout = (
                   <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Vertical Padding",
                         "responsive-block-editor-addons"
@@ -188,7 +189,7 @@ class ButtonSpacingControl extends Component {
               } else {
                 tabout = (
                   <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Vertical Padding",
                         "responsive-block-editor-addons"
@@ -238,7 +239,7 @@ class ButtonSpacingControl extends Component {
                     if ("mobile" === tab.name) {
                         tabout = (
                         <Fragment>
-                            <RangeControl
+                            <RbeaRangeControl
                             label={__(
                                 "Vertical Margin",
                                 "responsive-block-editor-addons"
@@ -258,7 +259,7 @@ class ButtonSpacingControl extends Component {
                     } else if ("tablet" === tab.name) {
                         tabout = (
                         <Fragment>
-                            <RangeControl
+                            <RbeaRangeControl
                             label={__(
                                 "Vertical Margin",
                                 "responsive-block-editor-addons"
@@ -278,7 +279,7 @@ class ButtonSpacingControl extends Component {
                     } else {
                         tabout = (
                         <Fragment>
-                            <RangeControl
+                            <RbeaRangeControl
                             label={__(
                                 "Vertical Margin",
                                 "responsive-block-editor-addons"
@@ -327,7 +328,7 @@ class ButtonSpacingControl extends Component {
                     if ("mobile" === tab.name) {
                         tabout = (
                         <Fragment>
-                            <RangeControl
+                            <RbeaRangeControl
                             label={__(
                                 "Horizontal Margin",
                                 "responsive-block-editor-addons"
@@ -347,7 +348,7 @@ class ButtonSpacingControl extends Component {
                     } else if ("tablet" === tab.name) {
                         tabout = (
                         <Fragment>
-                            <RangeControl
+                            <RbeaRangeControl
                             label={__(
                                 "Horizontal Margin",
                                 "responsive-block-editor-addons"
@@ -367,7 +368,7 @@ class ButtonSpacingControl extends Component {
                     } else {
                         tabout = (
                         <Fragment>
-                            <RangeControl
+                            <RbeaRangeControl
                             label={__(
                                 "Horizontal Margin",
                                 "responsive-block-editor-addons"

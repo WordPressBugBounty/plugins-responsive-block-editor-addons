@@ -2,6 +2,7 @@
  * Internal dependencies
  */
 import icons from "./icons";
+import RbeaRangeControl from "../rbea-range-control";
 
 /**
  * WordPress dependencies
@@ -60,7 +61,7 @@ class ResponsiveTabsControl extends Component {
           {(tab) => {
             if ("mobile" === tab.name) {
               return (
-                <RangeControl
+                <RbeaRangeControl
                   label={sprintf(
                     /* translators: %s: values associated with CSS syntax, 'Width', 'Gutter', 'Height in pixels', 'Width' */
                     __("Mobile %s", "responsive-block-editor-addons"),
@@ -75,7 +76,7 @@ class ResponsiveTabsControl extends Component {
               );
             }
             return (
-              <RangeControl
+              <RbeaRangeControl
                 label={label}
                 value={attributes.gutter}
                 onChange={(value) => onChange(value)}

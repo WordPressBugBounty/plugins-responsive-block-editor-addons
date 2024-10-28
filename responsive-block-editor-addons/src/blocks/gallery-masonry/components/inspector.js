@@ -9,6 +9,8 @@ import InspectorTab from "../../../components/InspectorTab";
 import InspectorTabs from "../../../components/InspectorTabs";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 /**
  * WordPress dependencies
@@ -162,7 +164,7 @@ class Inspector extends Component {
 							title={__("Masonry settings", "responsive-block-editor-addons")}
 						>
 							<ResponsiveTabsControl {...this.props} />
-							<RangeControl
+							<RbeaRangeControl
 									label={__("Columns", "responsive-block-editor-addons")}
 									aria-label={__(
 										"Number of columns for masonary",
@@ -174,7 +176,7 @@ class Inspector extends Component {
 									max={10}
 									step={1}
 								/>
-							<RangeControl
+							<RbeaRangeControl
               label={__("Custom Height", "responsive-block-editor-addons")}
               value={customHeight}
               onChange={this.setCustomHeight}
@@ -183,7 +185,7 @@ class Inspector extends Component {
               step={1}
             />
 
-            <RangeControl
+            <RbeaRangeControl
               label={__("Custom Width", "responsive-block-editor-addons")}
               value={customWidth}
               onChange={(value) => this.setCustomWidth(value)}
@@ -192,7 +194,7 @@ class Inspector extends Component {
               step={1}
             />	
 							{gutter > 0 && (
-								<RangeControl
+								<RbeaRangeControl
 									label={__("Rounded corners", "responsive-block-editor-addons")}
 									aria-label={__(
 										"Add rounded corners to the gallery items.",
@@ -221,7 +223,7 @@ class Inspector extends Component {
 							/>
 
 							{captions && (
-								<SelectControl
+								<RbeaTabRadioControl
 									label={__("Caption style", "responsive-block-editor-addons")}
 									value={captionStyle}
 									onChange={this.setCaptionStyleTo}

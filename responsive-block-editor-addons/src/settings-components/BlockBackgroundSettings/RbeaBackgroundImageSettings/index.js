@@ -11,7 +11,7 @@ const RbeaBackgroundMediaControl = ({ label, description, value, onChange , medi
     const mediaTypeCapitalCase = mediaType.charAt(0).toUpperCase() + mediaType.slice(1).toLowerCase();
 
     const handleMediaSelect = (media) => {
-        const updatedValue = { ...mediaData, media_url: media.url };
+        const updatedValue = { ...mediaData, url: media.url };
         setMediaData(updatedValue);
         onChange(updatedValue);
     };
@@ -36,7 +36,7 @@ const RbeaBackgroundMediaControl = ({ label, description, value, onChange , medi
 
     // Function to remove the selected media
     const removeMedia = () => {
-        const updatedValue = { ...mediaData, media_url: '' };
+        const updatedValue = { ...mediaData, url: '' };
         setMediaData(updatedValue);
         onChange(updatedValue);
     };
@@ -46,14 +46,14 @@ const RbeaBackgroundMediaControl = ({ label, description, value, onChange , medi
 
             {(
                 <div className="image-control-wrapper" style={{ position: 'relative' }}>
-                    {!mediaData.media_url ? (
+                    {!mediaData.url ? (
                         <div className="image-placeholder" onClick={selectMedia}>
                             <span style={{ fontSize: '24px', color: '#777' }}>+</span>
                         </div>
                     ) : (
                         <div className="image-selected">
                             <img
-                                src={mediaData.media_url}
+                                src={mediaData.url}
                                 alt={__(`Selected ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons')}
                             />
                           
@@ -72,7 +72,7 @@ const RbeaBackgroundMediaControl = ({ label, description, value, onChange , medi
                         className = "bgimage-select-button"
                         onClick={selectMedia}
                     >
-                        {mediaData.media_url ? __(`Change ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons') : __(`Select ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons')}
+                        {mediaData.url ? __(`Change ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons') : __(`Select ${mediaTypeCapitalCase}`, 'responsive-block-editor-addons')}
                     </Button>
                 </div>
             )}
@@ -87,7 +87,7 @@ RbeaBackgroundMediaControl.propTypes = {
     description: PropTypes.string,
     value: PropTypes.shape({
         enable: PropTypes.bool,
-        media_url: PropTypes.string,
+        url: PropTypes.string,
     }),
     onChange: PropTypes.func.isRequired,
 };

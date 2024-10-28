@@ -14,6 +14,8 @@ import { createBlock } from '@wordpress/blocks';
 import { tablet, mobile, desktop } from '@wordpress/icons';
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
 
 // Import block components
 const { InspectorControls, PanelColorSettings, AlignmentToolbar } = wp.blockEditor
@@ -398,7 +400,7 @@ export default class Inspector extends Component {
                 />
               </div>
 
-              <RangeControl
+              <RbeaRangeControl
                 label={ __( "Spacing", "responsive-block-editor-addons" ) }
                 value={formLabelInputGap}
                 onChange={ value => setAttributes({ formLabelInputGap: value }) }
@@ -427,7 +429,7 @@ export default class Inspector extends Component {
                 />
               </div>
 
-              <RangeControl
+              <RbeaRangeControl
                 label={ __( "Field Spacing", "responsive-block-editor-addons" ) }
                 value={formFieldInputGap}
                 onChange={ value => setAttributes({ formFieldInputGap: value }) }
@@ -478,39 +480,48 @@ export default class Inspector extends Component {
               initialOpen={false}
             >
 
-              <PanelColorSettings
+              <PanelBody
                 title={__("Normal Color", "responsive-block-editor-addons")}
                 initialOpen={false}
-                colorSettings={[
-                  {
-                    value: formButtonLabelColor,
-                    onChange: (value) => setAttributes({ formButtonLabelColor: value }),
-                    label: __("Normal Button Color", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formButtonLabelBGColor,
-                    onChange: (value) => setAttributes({ formButtonLabelBGColor: value }),
-                    label: __("Normal Button Background color", "responsive-block-editor-addons"),
-                  },
-                ]}
-              ></PanelColorSettings>
-
-              <PanelColorSettings
+              >
+                 <RbeaColorControl
+									label = {__("Normal Button Color", "responsive-block-editor-addons")}
+									colorValue={formButtonLabelColor}
+									onChange={(colorValue) =>
+										setAttributes({ formButtonLabelColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formButtonLabelColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Normal Button Background color", "responsive-block-editor-addons")}
+									colorValue={formButtonLabelBGColor}
+									onChange={(colorValue) =>
+										setAttributes({ formButtonLabelBGColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formButtonLabelBGColor: "" })}
+								/>
+              </PanelBody>
+              <PanelBody
                 title={__("Hover Color", "responsive-block-editor-addons")}
                 initialOpen={false}
-                colorSettings={[
-                  {
-                    value: formButtonLabelHoverColor,
-                    onChange: (value) => setAttributes({ formButtonLabelHoverColor: value }),
-                    label: __("Hover Button Color", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formButtonLabelHoverBGColor,
-                    onChange: (value) => setAttributes({ formButtonLabelHoverBGColor: value }),
-                    label: __("Hover Button Background color", "responsive-block-editor-addons"),
-                  },
-                ]}
-              ></PanelColorSettings>
+              >
+                 <RbeaColorControl
+									label = {__("Hover Button Color", "responsive-block-editor-addons")}
+									colorValue={formButtonLabelHoverColor}
+									onChange={(colorValue) =>
+										setAttributes({ formButtonLabelHoverColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formButtonLabelHoverColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Hover Button Background color", "responsive-block-editor-addons")}
+									colorValue={formButtonLabelHoverBGColor}
+									onChange={(colorValue) =>
+										setAttributes({ formButtonLabelHoverBGColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formButtonLabelHoverBGColor: "" })}
+								/>
+              </PanelBody>
 
               <hr className="responsive-block-editor-addons-editor__separator" />
 
@@ -648,52 +659,75 @@ export default class Inspector extends Component {
               initialOpen={false}
             >
 
-              <PanelColorSettings
+              <PanelBody
                 title={__("Colors", "responsive-block-editor-addons")}
                 initialOpen={false}
-                colorSettings={[
-                  {
-                    value: formLabelColor,
-                    onChange: (value) => setAttributes({ formLabelColor: value }),
-                    label: __("Label", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formInputTextColor,
-                    onChange: (value) => setAttributes({ formInputTextColor: value }),
-                    label: __("Input Text", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formInputBGColor,
-                    onChange: (value) => setAttributes({ formInputBGColor: value }),
-                    label: __("Input Background", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formBorderColor,
-                    onChange: (value) => setAttributes({ formBorderColor: value }),
-                    label: __("Border", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formHelperLabelColor,
-                    onChange: (value) => setAttributes({ formHelperLabelColor: value }),
-                    label: __("Helper Label", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formRequiredLabelColor,
-                    onChange: (value) => setAttributes({ formRequiredLabelColor: value }),
-                    label: __("Required Label", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formSuccessMessageColor,
-                    onChange: (value) => setAttributes({ formSuccessMessageColor: value }),
-                    label: __("Success Message", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: formErrorMessageColor,
-                    onChange: (value) => setAttributes({ formErrorMessageColor: value }),
-                    label: __("Error Message", "responsive-block-editor-addons"),
-                  },
-                ]}
-              ></PanelColorSettings>
+              >
+                 <RbeaColorControl
+									label = {__("Label", "responsive-block-editor-addons")}
+									colorValue={formLabelColor}
+									onChange={(colorValue) =>
+										setAttributes({ formLabelColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formLabelColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Input Text", "responsive-block-editor-addons")}
+									colorValue={formInputTextColor}
+									onChange={(colorValue) =>
+										setAttributes({ formInputTextColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formInputTextColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Input Background", "responsive-block-editor-addons")}
+									colorValue={formInputBGColor}
+									onChange={(colorValue) =>
+										setAttributes({ formInputBGColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formInputBGColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Border", "responsive-block-editor-addons")}
+									colorValue={formBorderColor}
+									onChange={(colorValue) =>
+										setAttributes({ formBorderColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formBorderColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Helper Label", "responsive-block-editor-addons")}
+									colorValue={formHelperLabelColor}
+									onChange={(colorValue) =>
+										setAttributes({ formHelperLabelColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formHelperLabelColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Required Label", "responsive-block-editor-addons")}
+									colorValue={formRequiredLabelColor}
+									onChange={(colorValue) =>
+										setAttributes({ formRequiredLabelColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formRequiredLabelColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Success Message", "responsive-block-editor-addons")}
+									colorValue={formSuccessMessageColor}
+									onChange={(colorValue) =>
+										setAttributes({ formSuccessMessageColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formSuccessMessageColor: "" })}
+								/>
+                 <RbeaColorControl
+									label = {__("Error Message", "responsive-block-editor-addons")}
+									colorValue={formErrorMessageColor}
+									onChange={(colorValue) =>
+										setAttributes({ formErrorMessageColor: colorValue })
+									}
+									resetColor={() => setAttributes({ formErrorMessageColor: "" })}
+								/>
+              </PanelBody>
 
             </PanelBody>
 
@@ -837,7 +871,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -851,7 +885,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -865,7 +899,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

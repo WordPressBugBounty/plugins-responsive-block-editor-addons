@@ -98,7 +98,7 @@ class BoxShadowControl extends Component {
           <Fragment>
             <RbeaTabRadioControl
               label = {boxShadowPosition.label}
-              selectedValue={boxShadowPosition}
+              value={boxShadowPosition}
               options={[
                 { value: "inset", label: __("Inset", "responsive-block-editor-addons") },
                 { value: "outset", label: __("Outset", "responsive-block-editor-addons") },

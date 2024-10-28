@@ -12,6 +12,8 @@ const { ColorPalette } = wp.blockEditor;
 
 const { SelectControl, RangeControl, Dashicon, TabPanel, ButtonGroup, Button } = wp.components;
 
+import RbeaRangeControl from "../../../../utils/components/rbea-range-control";
+
 // Extend component
 const { Component, Fragment } = wp.element;
 import "../../editor.scss";
@@ -61,7 +63,7 @@ render() {
               tabout = (
                   <Fragment>
                   <p>{__("Margin", "responsive-block-editor-addons")}</p>
-                  <RangeControl
+                  <RbeaRangeControl
               label={__("Top", "responsive-block-editor-addons")}
               min={0}
               max={2000}
@@ -74,7 +76,7 @@ render() {
             })
             }
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Bottom", "responsive-block-editor-addons")}
               value={this.props.values.desktopBottom}
               onChange={(value) =>
@@ -86,7 +88,7 @@ render() {
               max={2000}
               allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Left", "responsive-block-editor-addons")}
               value={this.props.values.desktopLeft}
               onChange={(value) =>
@@ -98,7 +100,7 @@ render() {
               max={2000}
               allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Right", "responsive-block-editor-addons")}
               value={this.props.values.desktopRight}
               onChange={(value) =>
@@ -116,7 +118,7 @@ render() {
               tabout = (
                   <Fragment>
                   <p>{__("Margin Tablet", "responsive-block-editor-addons")}</p>
-                  <RangeControl
+                  <RbeaRangeControl
               label={__("Top", "responsive-block-editor-addons")}
               min={0}
               max={2000}
@@ -129,7 +131,7 @@ render() {
               })
           }
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Bottom", "responsive-block-editor-addons")}
               value={this.props.values.tabletBottom}
               onChange={(value) =>
@@ -141,7 +143,7 @@ render() {
               max={2000}
               allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Left", "responsive-block-editor-addons")}
               value={this.props.values.tabletLeft}
               onChange={(value) =>
@@ -153,7 +155,7 @@ render() {
               max={2000}
               allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Right", "responsive-block-editor-addons")}
               value={this.props.values.tabletRight}
               onChange={(value) =>
@@ -171,7 +173,7 @@ render() {
               tabout = (
                   <Fragment>
                   <p>{__("Margin Mobile", "responsive-block-editor-addons")}</p>
-                  <RangeControl
+                  <RbeaRangeControl
               label={__("Top", "responsive-block-editor-addons")}
               min={0}
               max={2000}
@@ -184,7 +186,7 @@ render() {
               })
           }
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Bottom", "responsive-block-editor-addons")}
               value={this.props.values.mobileBottom}
               onChange={(value) =>
@@ -196,7 +198,7 @@ render() {
               max={2000}
               allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Left", "responsive-block-editor-addons")}
               value={this.props.values.mobileLeft}
               onChange={(value) =>
@@ -208,7 +210,7 @@ render() {
               max={2000}
               allowReset
               />
-              <RangeControl
+              <RbeaRangeControl
               label={__("Right", "responsive-block-editor-addons")}
               value={this.props.values.mobileRight}
               onChange={(value) =>

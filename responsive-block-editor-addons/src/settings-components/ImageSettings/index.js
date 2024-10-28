@@ -8,6 +8,9 @@ const { ColorPalette } = wp.blockEditor;
 
 const { SelectControl, RangeControl, TabPanel, Dashicon } = wp.components;
 
+import RbeaRangeControl from "../../utils/components/rbea-range-control";
+import RbeaTabRadioControl from "../../utils/components/rbea-tab-radio-control";
+
 // Extend component
 const { Component, Fragment } = wp.element;
 
@@ -53,7 +56,7 @@ class ImageSettingsControl extends Component {
     var advancedControls;
       advancedControls = (
           <Fragment>
-              <SelectControl
+              <RbeaTabRadioControl
                   label={__("Shape", "responsive-block-editor-addons")}
                   value={imageShape}
                   options={imageShapeOptions}
@@ -103,7 +106,7 @@ class ImageSettingsControl extends Component {
                       if ("mobile" === tab.name) {
                           tabout = (
                               <Fragment>
-                                  <RangeControl
+                                  <RbeaRangeControl
                                       label={__("Width Mobile", "responsive-block-editor-addons")}
                                       value={imageWidthMobile}
                                       onChange={(value) =>
@@ -120,7 +123,7 @@ class ImageSettingsControl extends Component {
                       } else if ("tablet" === tab.name) {
                           tabout = (
                               <Fragment>
-                                  <RangeControl
+                                  <RbeaRangeControl
                                       label={__("Width Tablet", "responsive-block-editor-addons")}
                                       value={imageWidthTablet}
                                       onChange={(value) =>
@@ -137,7 +140,7 @@ class ImageSettingsControl extends Component {
                       } else {
                           tabout = (
                               <Fragment>
-                                  <RangeControl
+                                  <RbeaRangeControl
                                       label={__("Width", "responsive-block-editor-addons")}
                                       value={imageWidth}
                                       onChange={(value) =>

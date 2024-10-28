@@ -12,6 +12,11 @@ import TypographyHelperControl from "../../../settings-components/TypographySett
 import ResponsiveSpacingControl from "../../../settings-components/ResponsiveSpacingSettings";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaAngleRangeControl from "../../../utils/components/rbea-angle-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
+import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control";
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -385,7 +390,7 @@ export default class Inspector extends Component {
               title={__("General", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <RangeControl
+              <RbeaRangeControl
                 label={__(
                   "Number of Image Boxes Blocks",
                   "responsive-block-editor-addons"
@@ -423,7 +428,7 @@ export default class Inspector extends Component {
                 max={4}
                 step={1}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Height", "responsive-block-editor-addons")}
                 value={boxHeight}
                 onChange={(newCount) => {
@@ -434,7 +439,7 @@ export default class Inspector extends Component {
                 step={1}
               />
               {count > 1 && (
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__("Gutter", "responsive-block-editor-addons")}
                   value={gutter}
                   options={gutterOptions}
@@ -468,25 +473,27 @@ export default class Inspector extends Component {
               title={__("Alignment", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Horizontal Alignment", "responsive-block-editor-addons")}
                 value={contentAlign}
                 onChange={onChangeContentAlign}
                 options={[
-                  { value: "center", label: __("Center", "responsive-block-editor-addons") },
                   { value: "left", label: __("Left", "responsive-block-editor-addons") },
+                  { value: "center", label: __("Center", "responsive-block-editor-addons") },
                   { value: "right", label: __("Right", "responsive-block-editor-addons") },
                 ]}
+                defaultValue={"center"}
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Vertical Alignment", "responsive-block-editor-addons")}
                 value={verticalAlignment}
                 onChange={onChangeVerticalAlignment}
                 options={[
-                  { value: "center", label: __("Center", "responsive-block-editor-addons") },
                   { value: "flex-start", label: __("Top", "responsive-block-editor-addons") },
+                  { value: "center", label: __("Center", "responsive-block-editor-addons") },
                   { value: "flex-end", label: __("Bottom", "responsive-block-editor-addons") },
                 ]}
+                defaultValue={"center"}
               />
             </PanelBody>
 
@@ -495,171 +502,65 @@ export default class Inspector extends Component {
               initialOpen={false}
             >
               <Fragment>
-                <BaseControl
-                  className="editor-bg-image-control"
-                  label={__(
-                    "Background Image 1",
-                    "responsive-block-editor-addons"
-                  )}
-                >
-                  <MediaUpload
-                    title={__(
-                      "Select Background Image",
-                      "responsive-block-editor-addons"
-                    )}
-                    onSelect={this.onSelectImageOne}
-                    allowedTypes={["image"]}
-                    value={backgroundImageOne}
-                    render={({ open }) => (
-                      <Button isDefault onClick={open}>
-                        {!backgroundImageOne
-                          ? __(
-                              "Select Background Image",
-                              "responsive-block-editor-addons"
-                            )
-                          : __(
-                              "Replace image",
-                              "responsive-block-editor-addons"
-                            )}
-                      </Button>
-                    )}
-                  />
-                  {backgroundImageOne && (
-                    <Button
-                      className="rbea-rm-btn"
-                      onClick={this.onRemoveImageOne}
-                      isLink
-                      isDestructive
-                    >
-                      {__("Remove Image", "responsive-block-editor-addons")}
-                    </Button>
-                  )}
-                </BaseControl>
+              <RbeaMediaUploadControl
+                label={__('Background Image 1', 'responsive-block-editor-addons')}
+                value={{
+                    url: backgroundImageOne || '',
+                }}
+                onChange={(newValue) => {
+                    setAttributes({
+                      backgroundImageOne: newValue.url,
+                    });
+                }}
+                mediaType={'image'}
+              />
                 {count > 1 && (
-                  <BaseControl
-                    className="editor-bg-image-control"
-                    label={__(
-                      "Background Image 2",
-                      "responsive-block-editor-addons"
-                    )}
-                  >
-                    <MediaUpload
-                      title={__(
-                        "Select Background Image",
-                        "responsive-block-editor-addons"
-                      )}
-                      onSelect={this.onSelectImageTwo}
-                      allowedTypes={["image"]}
-                      value={backgroundImageTwo}
-                      render={({ open }) => (
-                        <Button isDefault onClick={open}>
-                          {!backgroundImageTwo
-                            ? __(
-                                "Select Background Image",
-                                "responsive-block-editor-addons"
-                              )
-                            : __(
-                                "Replace image",
-                                "responsive-block-editor-addons"
-                              )}
-                        </Button>
-                      )}
-                    />
-                    {backgroundImageTwo && (
-                      <Button
-                        className="rbea-rm-btn"
-                        onClick={this.onRemoveImageTwo}
-                        isLink
-                        isDestructive
-                      >
-                        {__("Remove Image", "responsive-block-editor-addons")}
-                      </Button>
-                    )}
-                  </BaseControl>
+                  <>
+                  <RbeaMediaUploadControl
+                    label={__('Background Image 2', 'responsive-block-editor-addons')}
+                    value={{
+                        url: backgroundImageTwo || '',
+                    }}
+                    onChange={(newValue) => {
+                        setAttributes({
+                          backgroundImageTwo: newValue.url,
+                        });
+                    }}
+                    mediaType={'image'}
+                  />
+                  </>
                 )}
                 {(count === 3 || count === 4) && (
-                  <BaseControl
-                    className="editor-bg-image-control"
-                    label={__(
-                      "Background Image 3",
-                      "responsive-block-editor-addons"
-                    )}
-                  >
-                    <MediaUpload
-                      title={__(
-                        "Select Background Image",
-                        "responsive-block-editor-addons"
-                      )}
-                      onSelect={this.onSelectImageThree}
-                      allowedTypes={["image"]}
-                      value={backgroundImageThree}
-                      render={({ open }) => (
-                        <Button isDefault onClick={open}>
-                          {!backgroundImageThree
-                            ? __(
-                                "Select Background Image",
-                                "responsive-block-editor-addons"
-                              )
-                            : __(
-                                "Replace image",
-                                "responsive-block-editor-addons"
-                              )}
-                        </Button>
-                      )}
-                    />
-                    {backgroundImageThree && (
-                      <Button
-                        className="rbea-rm-btn"
-                        onClick={this.onRemoveImageThree}
-                        isLink
-                        isDestructive
-                      >
-                        {__("Remove Image", "responsive-block-editor-addons")}
-                      </Button>
-                    )}
-                  </BaseControl>
+                  <>
+                  <RbeaMediaUploadControl
+                    label={__('Background Image 3', 'responsive-block-editor-addons')}
+                    value={{
+                        url: backgroundImageThree || '',
+                    }}
+                    onChange={(newValue) => {
+                        setAttributes({
+                          backgroundImageThree: newValue.url,
+                        });
+                    }}
+                    mediaType={'image'}
+                  />
+                  </>
                 )}
                 {count === 4 && (
-                  <BaseControl
-                    className="editor-bg-image-control"
-                    label={__(
-                      "Background Image 4",
-                      "responsive-block-editor-addons"
-                    )}
-                  >
-                    <MediaUpload
-                      title={__(
-                        "Select Background Image",
-                        "responsive-block-editor-addons"
-                      )}
-                      onSelect={this.onSelectImageFour}
-                      allowedTypes={["image"]}
-                      value={backgroundImageFour}
-                      render={({ open }) => (
-                        <Button isDefault onClick={open}>
-                          {!backgroundImageFour
-                            ? __(
-                                "Select Background Image",
-                                "responsive-block-editor-addons"
-                              )
-                            : __(
-                                "Replace image",
-                                "responsive-block-editor-addons"
-                              )}
-                        </Button>
-                      )}
-                    />
-                    {backgroundImageFour && (
-                      <Button
-                        className="rbea-rm-btn"
-                        onClick={this.onRemoveImageFour}
-                        isLink
-                        isDestructive
-                      >
-                        {__("Remove Image", "responsive-block-editor-addons")}
-                      </Button>
-                    )}
-                  </BaseControl>
+                  <>
+                  <RbeaMediaUploadControl
+                    label={__('Background Image 4', 'responsive-block-editor-addons')}
+                    value={{
+                        url: backgroundImageFour || '',
+                    }}
+                    onChange={(newValue) => {
+                        setAttributes({
+                          backgroundImageFour: newValue.url,
+                        });
+                    }}
+                    mediaType={'image'}
+                  />
+                  </>
                 )}
               </Fragment>
             </PanelBody>
@@ -667,7 +568,7 @@ export default class Inspector extends Component {
               title={__("Image", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Image Size", "responsive-block-editor-addons")}
                 value={imageSize}
                 onChange={onChangeImageSize}
@@ -724,20 +625,18 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-            <PanelColorSettings
+            <PanelBody
               title={__("Overlay Color", "responsive-block-editor-addons")}
               initialOpen={false}
-              colorSettings={[
-                {
-                  value: itemBackgroundColor,
-                  onChange: onChangeBackgroundColor,
-                  label: __(
-                    "Background Color",
-                    "responsive-block-editor-addons"
-                  ),
-                },
-              ]}
             >
+               <RbeaColorControl
+									label = {__("Background Color", "responsive-block-editor-addons")}
+									colorValue={itemBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ itemBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ itemBackgroundColor: "" })}
+								/>
               <ToggleControl
                 label="Gradient Background"
                 checked={bgGradient}
@@ -748,26 +647,25 @@ export default class Inspector extends Component {
                 }
               />
               {bgGradient && (
-                <PanelColorSettings
+                <PanelBody
                   title={__(
                     "Secondary Background Color",
                     "responsive-block-editor-addons"
                   )}
                   initialOpen={true}
-                  colorSettings={[
-                    {
-                      label: __(
-                        "Secondary Background Color",
-                        "responsive-block-editor-addons"
-                      ),
-                      value: secondaryBackgroundColor,
-                      onChange: onChangeSecondaryBackgroundColor,
-                    },
-                  ]}
-                ></PanelColorSettings>
+                >
+                   <RbeaColorControl
+									label = {__("Secondary Background Color", "responsive-block-editor-addons")}
+									colorValue={secondaryBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ secondaryBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ secondaryBackgroundColor: "" })}
+								/>
+                </PanelBody>
               )}
               {bgGradient && (
-                <RangeControl
+                <RbeaAngleRangeControl
                   label={__(
                     "Gradient Degree",
                     "responsive-block-editor-addons"
@@ -782,7 +680,7 @@ export default class Inspector extends Component {
                   max={360}
                 />
               )}
-              <RangeControl
+              <RbeaRangeControl
                 label={__(
                   "Background Color Opacity",
                   "responsive-block-editor-addons"
@@ -795,24 +693,22 @@ export default class Inspector extends Component {
                 max={100}
                 allowReset
               />
-            </PanelColorSettings>
-            <PanelColorSettings
+            </PanelBody>
+            <PanelBody
               title={__(
                 "Hover Overlay Color",
                 "responsive-block-editor-addons"
               )}
               initialOpen={false}
-              colorSettings={[
-                {
-                  value: itemHoverBackgroundColor,
-                  onChange: onChangeHoverBackgroundColor,
-                  label: __(
-                    "Hover Background Color",
-                    "responsive-block-editor-addons"
-                  ),
-                },
-              ]}
             >
+               <RbeaColorControl
+									label = {__("Hover Background Color", "responsive-block-editor-addons")}
+									colorValue={itemHoverBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ itemHoverBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ itemHoverBackgroundColor: "" })}
+								/>
               <ToggleControl
                 label={__("Gradient Background", "responsive-block-editor-addons")}
                 checked={hoverBgGradient}
@@ -823,26 +719,25 @@ export default class Inspector extends Component {
                 }
               />
               {hoverBgGradient && (
-                <PanelColorSettings
+                <PanelBody
                   title={__(
                     "Secondary Background Color",
                     "responsive-block-editor-addons"
                   )}
                   initialOpen={true}
-                  colorSettings={[
-                    {
-                      label: __(
-                        "Secondary Background Color",
-                        "responsive-block-editor-addons"
-                      ),
-                      value: hoverSecondaryBackgroundColor,
-                      onChange: onChangeHoverSecondaryBackgroundColor,
-                    },
-                  ]}
-                ></PanelColorSettings>
+                >
+                   <RbeaColorControl
+                    label = {__("Secondary Background Color", "responsive-block-editor-addons")}
+                    colorValue={hoverSecondaryBackgroundColor}
+                    onChange={(colorValue) =>
+                      setAttributes({ hoverSecondaryBackgroundColor: colorValue })
+                    }
+                    resetColor={() => setAttributes({ hoverSecondaryBackgroundColor: "" })}
+                  />
+                </PanelBody>
               )}
               {hoverBgGradient && (
-                <RangeControl
+                <RbeaAngleRangeControl
                   label={__(
                     "Gradient Degree",
                     "responsive-block-editor-addons"
@@ -857,7 +752,7 @@ export default class Inspector extends Component {
                   max={360}
                 />
               )}
-              <RangeControl
+              <RbeaRangeControl
                 label={__(
                   "Background Color Opacity",
                   "responsive-block-editor-addons"
@@ -872,51 +767,37 @@ export default class Inspector extends Component {
                 max={100}
                 allowReset
               />
-            </PanelColorSettings>
+            </PanelBody>
 			<PanelBody
 				title={__("Text Colors", "responsive-block-editor-addons")}
 				initialOpen={false}
 			>
-				<p className="responsive-block-editor-addons-setting-label">
-                {__("Title Color", "responsive-block-editor-addons")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{ backgroundColor: titleColor }}
-                  ></span>
-                </span>
-              	</p>
-				<ColorPalette
-                  label={__("Title Text Color", "responsive-block-editor-addons")}
-                  value={titleColor}
-                  onChange={(colorValue) =>
-                    setAttributes({ titleColor: colorValue })
-                  }
-                  allowReset
+                <RbeaColorControl
+                    label = {__("Title Color", "responsive-block-editor-addons")}
+                    colorValue={titleColor}
+                    onChange={(colorValue) =>
+                      setAttributes({
+                        titleColor: colorValue ,
+                      })
+                    }
+                    resetColor={() => setAttributes({ titleColor: "" })}
                 />
-				<p className="responsive-block-editor-addons-setting-label">
-                {__("Description Color", "responsive-block-editor-addons")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{ backgroundColor: descriptionColor }}
-                  ></span>
-                </span>
-              	</p>
-                <ColorPalette
-                  label={__("Description Text Color", "responsive-block-editor-addons")}
-                  value={descriptionColor}
-                  onChange={(colorValue) =>
-                    setAttributes({ descriptionColor: colorValue })
-                  }
-                  allowReset
-                />
+                <RbeaColorControl
+                    label = {__("Description Color", "responsive-block-editor-addons")}
+                    colorValue={descriptionColor}
+                    onChange={(colorValue) =>
+                      setAttributes({
+                        descriptionColor: colorValue ,
+                      })
+                    }
+                    resetColor={() => setAttributes({ descriptionColor: "" })}
+                  />
 			</PanelBody>
             <PanelBody
               title={__("Typography", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__("Title Heading Tag", "responsive-block-editor-addons")}
                   value={titleHeadingTag}
                   onChange={onChangeTitleHeadingTag}
@@ -966,7 +847,7 @@ export default class Inspector extends Component {
               title={__("Padding", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Box Top Padding", "responsive-block-editor-addons")}
                 value={boxPaddingTop}
                 onChange={(newCount) => {
@@ -976,7 +857,7 @@ export default class Inspector extends Component {
                 max={500}
                 step={1}
               />
-                <RangeControl
+                <RbeaRangeControl
                     label={__(
                         "Box Bottom Padding",
                         "responsive-block-editor-addons"
@@ -989,7 +870,7 @@ export default class Inspector extends Component {
                     max={500}
                     step={1}
                 />
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Box Left Padding", "responsive-block-editor-addons")}
                 value={boxPaddingLeft}
                 onChange={(newCount) => {
@@ -999,7 +880,7 @@ export default class Inspector extends Component {
                 max={500}
                 step={1}
               />
-              <RangeControl
+              <RbeaRangeControl
                 label={__(
                   "Box Right Padding",
                   "responsive-block-editor-addons"
@@ -1018,7 +899,7 @@ export default class Inspector extends Component {
               title={__("Hover Effect", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Hover Effect", "responsive-block-editor-addons")}
                 value={imageHoverEffect}
                 onChange={onChangeImageHoverEffect}
@@ -1078,7 +959,7 @@ export default class Inspector extends Component {
               />
               {"none" != blockBorderStyle && (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__("Border Width", "responsive-block-editor-addons")}
                     value={blockBorderWidth}
                     onChange={(value) =>
@@ -1091,29 +972,21 @@ export default class Inspector extends Component {
                     allowReset
                   />
                   <Fragment>
-                    <p>
-                      {__("Border Color", "responsive-block-editor-addons")}
-                      <span className="components-base-control__label">
-                        <span
-                          className="component-color-indicator"
-                          style={{ backgroundColor: blockBorderColor }}
-                        ></span>
-                      </span>
-                    </p>
-                    <ColorPalette
-                      value={blockBorderColor}
+                    <RbeaColorControl
+                      label = {__("Border Color", "responsive-block-editor-addons")}
+                      colorValue={blockBorderColor}
                       onChange={(colorValue) =>
                         setAttributes({
                           blockBorderColor:
                             colorValue !== undefined ? colorValue : "#000",
                         })
                       }
-                      allowReset
+                      resetColor={() => setAttributes({ blockBorderColor: "" })}
                     />
                   </Fragment>
                 </Fragment>
               )}
-              <RangeControl
+              <RbeaRangeControl
                 label={__("Border Radius", "responsive-block-editor-addons")}
                 value={blockBorderRadius}
                 onChange={(value) =>
@@ -1164,18 +1037,20 @@ export default class Inspector extends Component {
                   })
                 }
               />
-              <PanelColorSettings
+              <PanelBody
                 title={__("Color", "responsive-block-editor-addons")}
-                initialOpen={true}
-                colorSettings={[
-                  {
-                    value: arrowColor,
-                    onChange: onChangeArrowColor,
-                    label: __("Color", "responsive-block-editor-addons"),
-                  },
-                ]}
-              ></PanelColorSettings>
-              <RangeControl
+                initialOpen={false}
+              >
+                 <RbeaColorControl
+									label = {__("Color", "responsive-block-editor-addons")}
+									colorValue={arrowColor}
+									onChange={(colorValue) =>
+										setAttributes({ arrowColor: colorValue })
+									}
+									resetColor={() => setAttributes({ arrowColor: "" })}
+								/>
+              </PanelBody>
+              <RbeaRangeControl
                 label={__("Arrow Size", "responsive-block-editor-addons")}
                 value={arrowSize}
                 onChange={(newCount) => {
@@ -1286,7 +1161,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1300,7 +1175,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -1314,7 +1189,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

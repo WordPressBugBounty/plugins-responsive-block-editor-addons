@@ -1,6 +1,7 @@
 import {camelCase} from "lodash";
 import { __getValue } from '../../ResponsiveSpacingSettings'
 import classnames from "classnames";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
 
 /**
  * Box-Shadow reusable component.
@@ -11,6 +12,7 @@ const { __ } = wp.i18n;
 const { ColorPalette } = wp.blockEditor;
 
 const { SelectControl, RangeControl, Dashicon, TabPanel, ButtonGroup, Button } = wp.components;
+
 
 // Extend component
 const { Component, Fragment } = wp.element;
@@ -62,7 +64,7 @@ render() {
           if ("mobile" === tab.name) {
               tabout = (
                   <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
               label={this.props.title}
               min={-2000}
               max={2000}
@@ -80,7 +82,7 @@ render() {
           } else if ("tablet" === tab.name) {
               tabout = (
                   <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
               label={this.props.title}
               min={-2000}
               max={2000}
@@ -98,7 +100,7 @@ render() {
           } else {
               tabout = (
                   <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
               label={this.props.title}
               min={-2000}
               max={2000}

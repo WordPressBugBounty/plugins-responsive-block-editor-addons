@@ -7,6 +7,10 @@ import { isEqual, unescape, escape } from "lodash";
 import rbeaControls from "./controlOptions";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
+import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control";
 
 const { __ } = wp.i18n;
 
@@ -42,6 +46,7 @@ class Inspector extends Component {
   render() {
     const {
       attributes: {
+        url,
         id,
         imageSize,
         imagePoints,
@@ -220,7 +225,7 @@ class Inspector extends Component {
               handleStateChange("updateHotspot", true);
             }}
           />
-          <RangeControl
+          <RbeaRangeControl
             label={__("Horizontal Position", "responsive-block-editor-addons")}
             value={parseFloat(points[index].position.x)}
             onChange={(value) => {
@@ -243,7 +248,7 @@ class Inspector extends Component {
             max={100}
             step={1}
           />
-          <RangeControl
+          <RbeaRangeControl
             label={__("Vertical Position", "responsive-block-editor-addons")}
             value={parseFloat(points[index].position.y)}
             onChange={(value) => {
@@ -266,7 +271,7 @@ class Inspector extends Component {
             max={100}
             step={1}
           />
-          <SelectControl
+          <RbeaTabRadioControl
             label={__("Tooltip Position", "responsive-block-editor-addons")}
             value={points[index].placement}
             options={rbeaControls.tooltipPositions}
@@ -300,19 +305,9 @@ class Inspector extends Component {
               )}
             />
           </BaseControl>
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Hotspot Background", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{
-                  backgroundColor: points[index].backgroundColor,
-                }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={points[index].backgroundColor}
+          <RbeaColorControl
+            label = {__("Hotspot Background", "responsive-block-editor-addons")}
+            colorValue={points[index].backgroundColor}
             onChange={(value) => {
               handleUpdateData({ backgroundColor: value }, index);
               handleStateChange({
@@ -320,19 +315,17 @@ class Inspector extends Component {
                 activeHotspot: true,
               });
             }}
-            allowReset
+            resetColor={() => {
+              handleUpdateData({ backgroundColor: "" }, index);
+              handleStateChange({
+                updateHotspot: false,
+                activeHotspot: false,
+              });
+            }}
           />
-          <p className="responsive-block-editor-addons-setting-label">
-            {__("Hotspot Icon Color", "responsive-block-editor-addons")}
-            <span className="components-base-control__label">
-              <span
-                className="component-color-indicator"
-                style={{ backgroundColor: points[index].color }}
-              ></span>
-            </span>
-          </p>
-          <ColorPalette
-            value={points[index].color}
+          <RbeaColorControl
+            label = {__("Hotspot Icon Color", "responsive-block-editor-addons")}
+            colorValue={points[index].color}
             onChange={(value) => {
               handleUpdateData({ color: value }, index);
               handleStateChange({
@@ -340,7 +333,13 @@ class Inspector extends Component {
                 activeHotspot: true,
               });
             }}
-            allowReset
+            resetColor={() => {
+              handleUpdateData({ color: "" }, index);
+              handleStateChange({
+                updateHotspot: false,
+                activeHotspot: false,
+              });
+            }}
           />
         </Fragment>
       );
@@ -470,7 +469,7 @@ class Inspector extends Component {
 
     const modalAdvanceSettings = (index, popup) => (
       <Fragment>
-        <RangeControl
+        <RbeaRangeControl
           label={__("Horizontal Position", "responsive-block-editor-addons")}
           value={parseFloat(imagePointsParsed[index].position.x)}
           onChange={(value) => {
@@ -492,7 +491,7 @@ class Inspector extends Component {
           max={100}
           step={0.5}
         />
-        <RangeControl
+        <RbeaRangeControl
           label={__("Vertical Position", "responsive-block-editor-addons")}
           value={parseFloat(imagePointsParsed[index].position.y)}
           onChange={(value) => {
@@ -515,7 +514,7 @@ class Inspector extends Component {
           max={100}
           step={0.5}
         />
-        <SelectControl
+        <RbeaTabRadioControl
           label={__("Tooltip Position", "responsive-block-editor-addons")}
           value={imagePointsParsed[index].placement}
           options={rbeaControls.tooltipPositions}
@@ -532,19 +531,9 @@ class Inspector extends Component {
 
     const modalStyleSettings = (index, popup) => (
       <Fragment>
-        <p className="responsive-block-editor-addons-setting-label">
-          {__("Hotspot Background", "responsive-block-editor-addons")}
-          <span className="components-base-control__label">
-            <span
-              className="component-color-indicator"
-              style={{
-                backgroundColor: imagePointsParsed[index].backgroundColor,
-              }}
-            ></span>
-          </span>
-        </p>
-        <ColorPalette
-          value={imagePointsParsed[index].backgroundColor}
+      <RbeaColorControl
+          label = {__("Hotspot Background", "responsive-block-editor-addons")}
+          colorValue={imagePointsParsed[index].backgroundColor}
           onChange={(value) => {
             handleUpdateData({ backgroundColor: value }, index);
             handleStateChange({
@@ -552,9 +541,16 @@ class Inspector extends Component {
               activeHotspot: true,
             });
           }}
-          allowReset
+          resetColor={() => {
+            handleUpdateData({ backgroundColor: "" }, index);
+            handleStateChange({
+              updateHotspot: false,
+              activeHotspot: false,
+            });
+          }}
         />
-        <p className="responsive-block-editor-addons-setting-label">
+
+        {/* <p className="responsive-block-editor-addons-setting-label">
           {__("Icon Color", "responsive-block-editor-addons")}
           <span className="components-base-control__label">
             <span
@@ -563,7 +559,7 @@ class Inspector extends Component {
             ></span>
           </span>
         </p>
-        <ColorPalette
+        // <ColorPalette
           value={imagePointsParsed[index].color}
           onChange={(value) => {
             handleUpdateData({ color: value }, index);
@@ -573,7 +569,25 @@ class Inspector extends Component {
             });
           }}
           allowReset
-        />
+        /> */}
+        <RbeaColorControl
+    label = {__("Icon Color", "responsive-block-editor-addons")}
+    colorValue={imagePointsParsed[index].color}
+    onChange={(value) => {
+      handleUpdateData({ color: value }, index);
+      handleStateChange({
+        updateHotspot: true,
+        activeHotspot: true,
+      });
+    }}
+    resetColor={() => {
+      handleUpdateData({ color: "" }, index);
+      handleStateChange({
+        updateHotspot: false,
+        activeHotspot: false,
+      });
+    }}
+  />
       </Fragment>
     );
 
@@ -652,43 +666,22 @@ class Inspector extends Component {
           <InspectorTabs>
             <InspectorTab key={"content"}>
               <PanelBody initialOpen={true}>
-                <BaseControl
-                  className="editor-bg-image-control"
-                  label={__(
-                    "Background Image",
-                    "responsive-block-editor-addons"
-                  )}
-                >
-                  <MediaUpload
-                    title={__(
-                      "Select Background Image",
-                      "responsive-block-editor-addons"
-                    )}
-                    onSelect={onSelectMedia}
-                    allowedTypes={["image"]}
-                    value={id}
-                    render={({ open }) => (
-                      <Button variant="secondary" onClick={open}>
-                        {!id
-                          ? __(
-                              "Select Background Image",
-                              "responsive-block-editor-addons"
-                            )
-                          : __(
-                              "Replace image",
-                              "responsive-block-editor-addons"
-                            )}
-                      </Button>
-                    )}
-                  />
-                </BaseControl>
-                <SelectControl
+                {/* image  not geting uploaded in control*/}
+                <RbeaMediaUploadControl
+                  label={__("Background Image", "responsive-block-editor-addons")}
+                  value={{
+                      url: url,
+                  }}
+                  onChange={onSelectMedia}
+                  mediaType={'image'}
+                />
+                <RbeaTabRadioControl
                   label={__("Image Size", "responsive-block-editor-addons")}
                   value={imageSize}
                   onChange={onChangeImageSize}
                   options={rbeaControls.imageSize}
                 />
-                <SelectControl
+                <RbeaTabRadioControl
                   label={__(
                     "Open Tooltip (Frontend)",
                     "responsive-block-editor-addons"
@@ -714,7 +707,7 @@ class Inspector extends Component {
                     "responsive-block-editor-addons"
                   )}
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__("Hotspot Size", "responsive-block-editor-addons")}
                   value={hotspotSize}
                   onChange={(value) =>
@@ -726,7 +719,7 @@ class Inspector extends Component {
                   max={100}
                   allowReset
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__(
                     "Hotspot Spacing",
                     "responsive-block-editor-addons"
@@ -745,37 +738,19 @@ class Inspector extends Component {
             </InspectorTab>
             <InspectorTab key={"style"}>
               <PanelBody initialOpen={true}>
-                <p className="responsive-block-editor-addons-setting-label">
-                  {__("Hotspot Background", "responsive-block-editor-addons")}
-                  <span className="components-base-control__label">
-                    <span
-                      className="component-color-indicator"
-                      style={{ backgroundColor: pointBackgroundColor }}
-                    ></span>
-                  </span>
-                </p>
-                <ColorPalette
-                  value={pointBackgroundColor}
-                  onChange={(value) =>
-                    setAttributes({ pointBackgroundColor: value })
-                  }
-                  allowReset
+                <RbeaColorControl
+                  label = {__("Hotspot Background", "responsive-block-editor-addons")}
+                  colorValue={pointBackgroundColor}
+                  onChange={(colorValue) => setAttributes({ pointBackgroundColor: colorValue })}
+                  resetColor={() => setAttributes({ pointBackgroundColor: "" })}
                 />
-                <p className="responsive-block-editor-addons-setting-label">
-                  {__("Icon Color", "responsive-block-editor-addons")}
-                  <span className="components-base-control__label">
-                    <span
-                      className="component-color-indicator"
-                      style={{ backgroundColor: iconColor }}
-                    ></span>
-                  </span>
-                </p>
-                <ColorPalette
-                  value={iconColor}
-                  onChange={(value) => setAttributes({ iconColor: value })}
-                  allowReset
+                <RbeaColorControl
+                  label = {__("Icon Color", "responsive-block-editor-addons")}
+                  colorValue={iconColor}
+                  onChange={(colorValue) => setAttributes({ iconColor: colorValue })}
+                  resetColor={() => setAttributes({ iconColor: "" })}
                 />
-                <RangeControl
+                <RbeaRangeControl
                   label={__(
                     "Hotspot Opacity",
                     "responsive-block-editor-addons"
@@ -882,7 +857,7 @@ class Inspector extends Component {
                 />
                 {animationName !== "none" && (
                   <Fragment>
-                    <SelectControl
+                    <RbeaTabRadioControl
                       label={__("Direction", "responsive-block-editor-addons")}
                       value={animationDirection}
                       onChange={(value) =>
@@ -890,7 +865,7 @@ class Inspector extends Component {
                       }
                       options={showAnimationDirections(animationName)}
                     />
-                    <SelectControl
+                    <RbeaTabRadioControl
                       label={__("Repeat", "responsive-block-editor-addons")}
                       value={animationRepeat}
                       onChange={(value) =>
@@ -901,7 +876,7 @@ class Inspector extends Component {
                         { value: "loop", label: __("Loop", "responsive-block-editor-addons") },
                       ]}
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__("Duration", "responsive-block-editor-addons")}
                       value={animationDuration}
                       min={0}
@@ -911,7 +886,7 @@ class Inspector extends Component {
                         setAttributes({ animationDuration: value })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__("Delay", "responsive-block-editor-addons")}
                       value={animationDelay}
                       min={0}
@@ -965,7 +940,7 @@ class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -979,7 +954,7 @@ class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -993,7 +968,7 @@ class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

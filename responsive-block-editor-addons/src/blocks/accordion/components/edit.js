@@ -20,6 +20,11 @@ import { loadGoogleFont } from "../../../utils/font";
 import EditorStyles from "./editor-styles";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+import RbeaAngleRangeControl from "../../../utils/components/rbea-angle-range-control";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
+
 
 const { __ } = wp.i18n;
 const { compose } = wp.compose;
@@ -30,7 +35,6 @@ const {
   ColorPalette,
   InspectorControls,
   InnerBlocks,
-  PanelColorSettings,
 } = wp.blockEditor;
 
 const {
@@ -456,7 +460,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
           initialOpen={true}
           className="responsive_block_editor_addons__url-panel-body"
         >
-          <SelectControl
+          <RbeaTabRadioControl
             label={__("Layout", "responsive-block-editor-addons")}
             value={layout}
             options={[
@@ -464,6 +468,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               { value: "grid", label: __("Grid", "responsive-block-editor-addons") },
             ]}
             onChange={(value) => this.onchangeLayout(value)}
+            defaultValue={"accordion"}
           />
           {"accordion" === layout && (
             <Fragment>
@@ -488,7 +493,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
 
           <hr className="responsive-block-editor-addons-editor__separator" />
           {"grid" === layout && (
-            <RangeControl
+            <RbeaRangeControl
               label={__("Columns", "responsive-block-editor-addons")}
               value={columns}
               onChange={(value) => setAttributes({ columns: value })}
@@ -537,41 +542,39 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
           initialOpen={false}
           className="responsive_block_editor_addons__url-panel-body"
         >
-          <PanelColorSettings
-            title={__("Title", "responsive-block-editor-addons")}
-            initialOpen={false}
-            colorSettings={[
-              {
-                value: titleTextColor,
-                onChange: (value) => setAttributes({ titleTextColor: value }),
-                label: __("Text color", "responsive-block-editor-addons"),
-              },
-              {
-                value: titleBackgroundColor,
-                onChange: (value) =>
-                  setAttributes({ titleBackgroundColor: value }),
-                label: __("Background color", "responsive-block-editor-addons"),
-              },
-              {
-                value: titleActiveTextColor,
-                onChange: (value) =>
-                  setAttributes({ titleActiveTextColor: value }),
-                label: __(
-                  "Active Text color",
-                  "responsive-block-editor-addons"
-                ),
-              },
-              {
-                value: titleActiveBackgroundColor,
-                onChange: (value) =>
-                  setAttributes({ titleActiveBackgroundColor: value }),
-                label: __(
-                  "Active Background color",
-                  "responsive-block-editor-addons"
-                ),
-              },
-            ]}
-          >
+              <RbeaColorControl
+									label = {__("Text Color", "responsive-block-editor-addons")}
+									colorValue={titleTextColor}
+									onChange={(colorValue) =>
+										setAttributes({ titleTextColor: colorValue })
+									}
+									resetColor={() => setAttributes({ titleTextColor: "" })}
+								/>
+              <RbeaColorControl
+									label = {__("Active Text color", "responsive-block-editor-addons")}
+									colorValue={titleBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ titleBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ titleBackgroundColor: "" })}
+								/>
+              <RbeaColorControl
+									label = {__("Background Color", "responsive-block-editor-addons")}
+									colorValue={titleActiveTextColor}
+									onChange={(colorValue) =>
+										setAttributes({ titleActiveTextColor: colorValue })
+									}
+									resetColor={() => setAttributes({ titleActiveTextColor: "" })}
+								/>
+              <RbeaColorControl
+									label = {__("Active Background Color", "responsive-block-editor-addons")}
+									colorValue={titleActiveBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ titleActiveBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ titleActiveBackgroundColor: "" })}
+								/>
+                
             <ToggleControl
               label={__("Gradient Background", "responsive-block-editor-addons")}
               checked={titleBgGradient}
@@ -582,28 +585,19 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               }
             />
             {titleBgGradient && (
-              <PanelColorSettings
-                title={__(
-                  "Secondary Background Color",
-                  "responsive-block-editor-addons"
-                )}
-                initialOpen={true}
-                colorSettings={[
-                  {
-                    label: __(
-                      "Secondary Background Color",
-                      "responsive-block-editor-addons"
-                    ),
-                    value: titleSecondaryBackgroundColor,
-                    onChange: (value) =>
-                      setAttributes({ titleSecondaryBackgroundColor: value }),
-                  },
-                ]}
-              ></PanelColorSettings>
+              
+               <RbeaColorControl
+               label = {__("Secondary Background Color", "responsive-block-editor-addons")}
+               colorValue={titleSecondaryBackgroundColor}
+               onChange={(colorValue) =>
+                 setAttributes({ titleSecondaryBackgroundColor: colorValue })
+               }
+               resetColor={() => setAttributes({ titleSecondaryBackgroundColor: "" })}
+             />
             )}
 
             {titleBgGradient && (
-              <RangeControl
+              <RbeaAngleRangeControl
                 label={__("Gradient Degree", "responsive-block-editor-addons")}
                 value={titleGradientDegree}
                 onChange={(value) =>
@@ -615,7 +609,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                 max={360}
               />
             )}
-            <RangeControl
+            <RbeaRangeControl
               label={__(
                 "Background Color Opacity",
                 "responsive-block-editor-addons"
@@ -630,24 +624,23 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               min={0}
               max={100}
             />
-          </PanelColorSettings>
-          <PanelColorSettings
-            title={__("Content", "responsive-block-editor-addons")}
-            initialOpen={false}
-            colorSettings={[
-              {
-                value: contentTextColor,
-                onChange: (value) => setAttributes({ contentTextColor: value }),
-                label: __("Text color", "responsive-block-editor-addons"),
-              },
-              {
-                value: contentBackgroundColor,
-                onChange: (value) =>
-                  setAttributes({ contentBackgroundColor: value }),
-                label: __("Background color", "responsive-block-editor-addons"),
-              },
-            ]}
-          >
+         
+             <RbeaColorControl
+									label = {__("Text Color", "responsive-block-editor-addons")}
+									colorValue={contentTextColor}
+									onChange={(colorValue) =>
+										setAttributes({ contentTextColor: colorValue })
+									}
+									resetColor={() => setAttributes({ contentTextColor: "" })}
+								/>
+             <RbeaColorControl
+									label = {__("Background Color", "responsive-block-editor-addons")}
+									colorValue={contentBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ contentBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ contentBackgroundColor: "" })}
+								/>
             <ToggleControl
               label="Gradient Background"
               checked={contentBgGradient}
@@ -658,25 +651,17 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               }
             />
             {contentBgGradient && [
-              <PanelColorSettings
-                title={__(
-                  "Secondary Background Color",
-                  "responsive-block-editor-addons"
-                )}
-                initialOpen={true}
-                colorSettings={[
-                  {
-                    label: __(
-                      "Secondary Background Color",
-                      "responsive-block-editor-addons"
-                    ),
-                    value: contentSecondaryBackgroundColor,
-                    onChange: (value) =>
-                      setAttributes({ contentSecondaryBackgroundColor: value }),
-                  },
-                ]}
-              ></PanelColorSettings>,
-              <RangeControl
+              <Fragment>
+                 <RbeaColorControl
+									label = {__("Secondary Background Color", "responsive-block-editor-addons")}
+									colorValue={contentSecondaryBackgroundColor}
+									onChange={(colorValue) =>
+										setAttributes({ contentSecondaryBackgroundColor: colorValue })
+									}
+									resetColor={() => setAttributes({ contentSecondaryBackgroundColor: "" })}
+								/>
+              
+              <RbeaAngleRangeControl
                 label={__("Gradient Degree", "responsive-block-editor-addons")}
                 value={contentGradientDegree}
                 onChange={(value) =>
@@ -687,8 +672,9 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                 min={0}
                 max={360}
               />,
+              </Fragment>
             ]}
-            <RangeControl
+            <RbeaRangeControl
               label={__(
                 "Background Color Opacity",
                 "responsive-block-editor-addons"
@@ -703,24 +689,15 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               min={0}
               max={100}
             />
-          </PanelColorSettings>
           {"none" != parentBlockBorderStyle && (
           <Fragment>
-            <p className="responsive-setting-label">
-              {__("Border Color")}
-              <span className="components-base-control__label">
-                <span
-                  className="component-color-indicator"
-                  style={{ backgroundColor: parentBlockBorderColor }}
-                ></span>
-              </span>
-            </p>
-            <ColorPalette
-              value={parentBlockBorderColor}
+            <RbeaColorControl
+              label = {__("Border Color", "responsive-block-editor-addons")}
+              colorValue={parentBlockBorderColor}
               onChange={(colorValue) =>
                 setAttributes({ parentBlockBorderColor: colorValue })
               }
-              allowReset
+              resetColor={() => setAttributes({ parentBlockBorderColor: "" })}
             />
           </Fragment>
         )}
@@ -787,7 +764,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               if ("mobile" === tab.name) {
                 tabout = (
                   <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Top (Mobile)",
                         "responsive-block-editor-addons"
@@ -802,7 +779,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Bottom (Mobile)",
                         "responsive-block-editor-addons"
@@ -817,7 +794,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Left (Mobile)",
                         "responsive-block-editor-addons"
@@ -832,7 +809,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Right (Mobile)",
                         "responsive-block-editor-addons"
@@ -852,7 +829,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               } else if ("tablet" === tab.name) {
                 tabout = (
                   <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Top (Tablet)",
                         "responsive-block-editor-addons"
@@ -867,7 +844,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Bottom (Tablet)",
                         "responsive-block-editor-addons"
@@ -882,7 +859,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Left (Tablet)",
                         "responsive-block-editor-addons"
@@ -897,7 +874,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Right (Tablet)",
                         "responsive-block-editor-addons"
@@ -917,7 +894,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               } else {
                 tabout = (
                   <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Top",
                         "responsive-block-editor-addons"
@@ -932,7 +909,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Bottom",
                         "responsive-block-editor-addons"
@@ -947,7 +924,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Left",
                         "responsive-block-editor-addons"
@@ -962,7 +939,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                         })
                       }
                     />
-                    <RangeControl
+                    <RbeaRangeControl
                       label={__(
                         "Right",
                         "responsive-block-editor-addons"
@@ -1020,7 +997,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
             if ("mobile" === tab.name) {
               tabout = (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Top Left (Mobile)",
                       "responsive-block-editor-addons"
@@ -1035,7 +1012,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Top Right (Mobile)",
                       "responsive-block-editor-addons"
@@ -1050,7 +1027,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Bottom Left (Mobile)",
                       "responsive-block-editor-addons"
@@ -1065,7 +1042,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Bottom Right (Mobile)",
                       "responsive-block-editor-addons"
@@ -1085,7 +1062,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
             } else if ("tablet" === tab.name) {
               tabout = (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Top Left(Tablet)",
                       "responsive-block-editor-addons"
@@ -1100,7 +1077,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Top Right (Tablet)",
                       "responsive-block-editor-addons"
@@ -1115,7 +1092,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Bottom Left (Tablet)",
                       "responsive-block-editor-addons"
@@ -1130,7 +1107,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Bottom Right (Tablet)",
                       "responsive-block-editor-addons"
@@ -1150,7 +1127,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
             } else {
               tabout = (
                 <Fragment>
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Top Left",
                       "responsive-block-editor-addons"
@@ -1165,7 +1142,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Top Right",
                       "responsive-block-editor-addons"
@@ -1180,7 +1157,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Bottom Left",
                       "responsive-block-editor-addons"
@@ -1195,7 +1172,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                       })
                     }
                   />
-                  <RangeControl
+                  <RbeaRangeControl
                     label={__(
                       "Bottom Right",
                       "responsive-block-editor-addons"
@@ -1324,7 +1301,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Top (Mobile)",
                               "responsive-block-editor-addons"
@@ -1339,7 +1316,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Bottom (Mobile)",
                               "responsive-block-editor-addons"
@@ -1354,7 +1331,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Left (Mobile)",
                               "responsive-block-editor-addons"
@@ -1369,7 +1346,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Right (Mobile)",
                               "responsive-block-editor-addons"
@@ -1389,7 +1366,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Top (Tablet) ",
                               "responsive-block-editor-addons"
@@ -1404,7 +1381,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Bottom (Tablet)",
                               "responsive-block-editor-addons"
@@ -1419,7 +1396,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Left (Tablet)",
                               "responsive-block-editor-addons"
@@ -1434,7 +1411,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Right (Tablet)",
                               "responsive-block-editor-addons"
@@ -1454,7 +1431,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Top",
                               "responsive-block-editor-addons"
@@ -1469,7 +1446,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Bottom",
                               "responsive-block-editor-addons"
@@ -1484,7 +1461,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Left",
                               "responsive-block-editor-addons"
@@ -1499,7 +1476,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Right",
                               "responsive-block-editor-addons"
@@ -1556,7 +1533,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                     if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Top (Mobile)",
                               "responsive-block-editor-addons"
@@ -1571,7 +1548,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Bottom (Mobile)",
                               "responsive-block-editor-addons"
@@ -1586,7 +1563,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Left (Mobile)",
                               "responsive-block-editor-addons"
@@ -1601,7 +1578,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Right (Mobile)",
                               "responsive-block-editor-addons"
@@ -1621,7 +1598,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                     } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Top (Tablet) ",
                               "responsive-block-editor-addons"
@@ -1636,7 +1613,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Bottom (Tablet)",
                               "responsive-block-editor-addons"
@@ -1651,7 +1628,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Left (Tablet)",
                               "responsive-block-editor-addons"
@@ -1666,7 +1643,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Right (Tablet)",
                               "responsive-block-editor-addons"
@@ -1686,7 +1663,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Top",
                               "responsive-block-editor-addons"
@@ -1701,7 +1678,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Bottom",
                               "responsive-block-editor-addons"
@@ -1716,7 +1693,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Left",
                               "responsive-block-editor-addons"
@@ -1731,7 +1708,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                               })
                             }
                           />
-                          <RangeControl
+                          <RbeaRangeControl
                             label={__(
                               "Right",
                               "responsive-block-editor-addons"
@@ -1856,7 +1833,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                   </Button>
                       </ButtonGroup>
                       <p>{__("")}</p>
-                      <RangeControl
+                      <RbeaRangeControl
                       value={iconSizeMobile}
                       onChange={(value) =>
                       setAttributes({ iconSizeMobile: value })
@@ -1898,7 +1875,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                   </Button>
                       </ButtonGroup>
                       <p>{__("")}</p>
-                      <RangeControl
+                      <RbeaRangeControl
                       value={iconSizeTablet}
                       onChange={(value) =>
                       setAttributes({ iconSizeTablet: value })
@@ -1940,7 +1917,7 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
                   </Button>
                       </ButtonGroup>
                       <p>{__("")}</p>
-                      <RangeControl
+                      <RbeaRangeControl
                       value={iconSize}
                       onChange={(value) =>
                       setAttributes({ iconSize: value })
@@ -1957,34 +1934,22 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               }}
           </TabPanel>
           <hr className="responsive-block-editor-addons-editor__separator" />
-              <p className="responsive-block-editor-addons-setting-label">
-                {__("Icon Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{ backgroundColor: iconColor }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={iconColor}
-                onChange={(value) => setAttributes({ iconColor: value })}
-                allowReset
-              />
-              <p className="responsive-block-editor-addons-setting-label">
-                {__("Icon Active Color")}
-                <span className="components-base-control__label">
-                  <span
-                    className="component-color-indicator"
-                    style={{ backgroundColor: iconActiveColor }}
-                  ></span>
-                </span>
-              </p>
-              <ColorPalette
-                value={iconActiveColor}
-                onChange={(value) => setAttributes({ iconActiveColor: value })}
-                allowReset
-              />
+            <RbeaColorControl
+              label = {__("Icon Color", "responsive-block-editor-addons")}
+              colorValue={iconColor}
+              onChange={(colorValue) =>
+                setAttributes({ iconColor: colorValue })
+              }
+              resetColor={() => setAttributes({ iconColor: "" })}
+            />
+            <RbeaColorControl
+              label = {__("Icon Active Color", "responsive-block-editor-addons")}
+              colorValue={iconActiveColor}
+              onChange={(colorValue) =>
+                setAttributes({ iconActiveColor: colorValue })
+              }
+              resetColor={() => setAttributes({ iconActiveColor: "" })}
+            />
             </Fragment>
           )}
         </Fragment>

@@ -7,6 +7,7 @@ const { __ } = wp.i18n;
 const { ColorPalette, MediaUpload } = wp.blockEditor;
 
 const { SelectControl, RangeControl, BaseControl, Button } = wp.components;
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 // Extend component
 const { Component, Fragment } = wp.element;
@@ -177,7 +178,7 @@ class ImageBackgroundControl extends Component {
                   },
                 ]}
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Size Hover", "responsive-block-editor-addons")}
                 value={backgroundImageHoverSize}
                 onChange={(value) =>
@@ -202,7 +203,7 @@ class ImageBackgroundControl extends Component {
           )}
         {backgroundHoverImage && this.props.showMoreImageOptions == true && (
           <Fragment>
-            <SelectControl
+            <RbeaTabRadioControl
               label={__("Attachment Hover", "responsive-block-editor-addons")}
               value={backgroundImageHoverAttachment}
               onChange={(value) =>

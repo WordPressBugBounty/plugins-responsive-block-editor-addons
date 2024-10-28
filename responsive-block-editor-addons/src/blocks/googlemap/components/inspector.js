@@ -6,6 +6,8 @@ import InspectorTabs from "../../../components/InspectorTabs";
 import ResponsiveNewPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
 import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
 
+import RbeaRangeControl from "../../../utils/components/rbea-range-control";
+
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -122,7 +124,7 @@ export default class Inspector extends Component {
 				<InspectorTabs>
 					<InspectorTab key={"content"}>
 						<PanelBody title={__("Map settings", "responsive-block-editor-addons")}>
-							<RangeControl
+							<RbeaRangeControl
 								label={__("Zoom", "responsive-block-editor-addons")}
 								value={zoom}
 								onChange={(value) =>
@@ -165,7 +167,7 @@ export default class Inspector extends Component {
             if ("mobile" === tab.name) {
                 tabout = (
                     <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                 label={__(
                     "Height in pixels",
                     "responsive-block-editor-addons"
@@ -186,7 +188,7 @@ export default class Inspector extends Component {
             } else if ("tablet" === tab.name) {
                 tabout = (
                     <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                 label={__(
                     "Height in pixels",
                     "responsive-block-editor-addons"
@@ -207,7 +209,7 @@ export default class Inspector extends Component {
             } else {
                 tabout = (
                     <Fragment>
-                    <RangeControl
+                    <RbeaRangeControl
                 label={__("Height in pixels", "responsive-block-editor-addons")}
                 min={100}
                 max={2000}
@@ -313,7 +315,7 @@ export default class Inspector extends Component {
 
                     if ("mobile" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Mobile)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -327,7 +329,7 @@ export default class Inspector extends Component {
                       );
                     } else if ("tablet" === tab.name) {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index (Tablet)", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}
@@ -341,7 +343,7 @@ export default class Inspector extends Component {
                       );
                     } else {
                       tabout = (
-                        <RangeControl
+                        <RbeaRangeControl
                         label={__("z-index ", "responsive-block-editor-addons")}
                         min={-1}
                         max={99999}

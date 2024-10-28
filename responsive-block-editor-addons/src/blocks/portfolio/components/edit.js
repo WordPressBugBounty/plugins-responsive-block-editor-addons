@@ -7,6 +7,7 @@ import Inspector from "./inspector";
 import PortfolioImage from "./image";
 import EditorStyles from "./editor-styles";
 import { loadGoogleFont } from "../../../utils/font";
+import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 
 const { compose } = wp.compose;
 
@@ -172,7 +173,7 @@ class LatestPostsBlock extends Component {
 		<PanelBody title={__("Query", "responsive-block-editor-addons")} initialOpen={true}>
 			
 			  <Fragment>
-			  <SelectControl
+			  <RbeaTabRadioControl
 				label={__("Content Type", "responsive-block-editor-addons")}
 				options={postTypeOptions}
 				value={attributes.postType}

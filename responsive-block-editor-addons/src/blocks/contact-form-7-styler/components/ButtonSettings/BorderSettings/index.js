@@ -4,7 +4,9 @@
  */
 import BoxShadowControl from "../../../../../utils/components/box-shadow";
 import BoxShadowControlHelper from "../../../../../utils/components/box-shadow-helper";
-
+import RbeaRangeControl from "../../../../../utils/components/rbea-range-control";
+import RbeaColorControl from "../../../../../utils/components/rbea-color-control";
+import RbeaTabRadioControl from "../../../../../utils/components/rbea-tab-radio-control";
 
 const { __ } = wp.i18n;
 
@@ -50,26 +52,16 @@ class ButtonBorderControl extends Component {
         var resetbuttonBoxShadowAdvancedControls;
         buttonboxshadowadvancedControls = (
             <Fragment>
-                <p className="responsive-block-editor-addons-setting-label">
-                    {__("Color", "responsive-block-editor-addons")}
-                    <span className="components-base-control__label">
-                        <span
-                            className="component-color-indicator"
-                            style={{ backgroundColor: submitButtonBoxShadowColor }}
-                        ></span>
-                    </span>
-                </p>
-                <ColorPalette
-                    value={submitButtonBoxShadowColor}
-                    onChange={(colorValue) =>
-                        setAttributes({
-                            submitButtonBoxShadowColor: colorValue !== undefined ? colorValue : "",
-                        })
-                    }
-                    allowReset
-                />
-                <h2>{__("Horizontal", "responsive-block-editor-addons")}</h2>
-                <RangeControl
+                <RbeaColorControl
+					label = {__("Color", "responsive-block-editor-addons")}
+					colorValue={submitButtonBoxShadowColor}
+					onChange={(colorValue) =>
+						setAttributes({ submitButtonBoxShadowColor: colorValue })
+					}
+					resetColor={() => setAttributes({ submitButtonBoxShadowColor: "" })}
+				/>
+                <RbeaRangeControl
+                    label={__("Horizontal", "responsive-block-editor-addons")}
                     value={submitButtonBoxShadowHOffset}
                     onChange={(value) =>
                         setAttributes({
@@ -80,8 +72,8 @@ class ButtonBorderControl extends Component {
                     max={100}
                     allowReset
                 />
-                <h2>{__("Vertical", "responsive-block-editor-addons")}</h2>
-                <RangeControl
+                <RbeaRangeControl
+                    label={__("Vertical", "responsive-block-editor-addons")}
                     value={submitButtonBoxShadowVOffset}
                     onChange={(value) =>
                         setAttributes({
@@ -92,8 +84,8 @@ class ButtonBorderControl extends Component {
                     max={100}
                     allowReset
                 />
-                <h2>{__("Blur", "responsive-block-editor-addons")}</h2>
-                <RangeControl
+                <RbeaRangeControl
+                    label={__("Blur", "responsive-block-editor-addons")}
                     value={submitButtonBoxShadowBlur}
                     onChange={(value) =>
                         setAttributes({
@@ -104,8 +96,8 @@ class ButtonBorderControl extends Component {
                     max={100}
                     allowReset
                 />
-                <h2>{__("Spread", "responsive-block-editor-addons")}</h2>
-                <RangeControl
+                <RbeaRangeControl
+                    label={__("Spread", "responsive-block-editor-addons")}
                     value={submitButtonBoxShadowSpread}
                     onChange={(value) =>
                         setAttributes({
@@ -116,7 +108,7 @@ class ButtonBorderControl extends Component {
                     max={100}
                     allowReset
                 />
-                <SelectControl
+                <RbeaTabRadioControl
                     label={__("Position", "responsive-block-editor-addons")}
                     value={submitButtonBoxShadowPosition}
                     onChange={(value) => setAttributes({ submitButtonBoxShadowPosition: value })}
@@ -124,6 +116,7 @@ class ButtonBorderControl extends Component {
                         { value: "inset", label: __("Inset", "responsive-block-editor-addons") },
                         { value: "outset", label: __("Outset", "responsive-block-editor-addons") },
                     ]}
+                    defaultValue={"inset"}
                 />
             </Fragment>
         );
@@ -181,7 +174,7 @@ class ButtonBorderControl extends Component {
                 />
                 {"none" != ctaBorderStyle && (
                     <Fragment>
-                        <RangeControl
+                        <RbeaRangeControl
                             label={__("Border Width", "responsive-block-editor-addons")}
                             value={ctaBorderWidth}
                             onChange={(value) =>
@@ -194,7 +187,7 @@ class ButtonBorderControl extends Component {
                             allowReset
                         />
 
-                        <RangeControl
+                        <RbeaRangeControl
                             label={__("Border Radius", "responsive-block-editor-addons")}
                             value={ctaBorderRadius}
                             onChange={(value) =>
