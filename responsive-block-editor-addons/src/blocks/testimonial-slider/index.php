@@ -13,21 +13,49 @@
  */
 function responsive_block_editor_addons_testimonial_carousel_add_frontend_assets( $attributes ) {
 	if ( has_block( 'responsive-block-editor-addons/testimonial-slider' ) ) {
-		wp_enqueue_script(
-			'test-slick-js',
-			RESPONSIVE_BLOCK_EDITOR_ADDONS_URL . 'dist/js/vendors/slick.min.js',
-			array( 'jquery' ),
-			RESPONSIVE_BLOCK_EDITOR_ADDONS_VER,
-			true
-		);
+		include_slick_lib();
+	}
 
-		$selector = '.responsive-testimonial-slick-carousel';
-		$js       = 'jQuery( document ).ready( function( $ ) { if( $( "' . $selector . '" ).length > 0 ){ $( "' . $selector . '" ).slick( ); } } );';
-		wp_add_inline_script( 'test-slick-js-testimonial-carousel', $js );
+	if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+		if ( is_archive() || is_home() || is_search() || is_404() ) {
+			wp_enqueue_script(
+				'responsive_blocks-frontend-js',
+				RESPONSIVE_BLOCK_EDITOR_ADDONS_URL . 'dist/frontend_blocks.js',
+				array( 'jquery' ),
+				filemtime( RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'dist/frontend_blocks.js' ),
+				true
+			);
+
+			// Load the compiled styles.
+			wp_enqueue_style(
+				'responsive_block_editor_addons-style-css',
+				RESPONSIVE_BLOCK_EDITOR_ADDONS_URL . 'dist/responsive-block-editor-addons-style.css',
+				array(),
+				filemtime( RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'dist/responsive-block-editor-addons-style.css' )
+			);
+			include_slick_lib();
+		}
 	}
 }
 add_action( 'wp_enqueue_scripts', 'responsive_block_editor_addons_testimonial_carousel_add_frontend_assets' );
 add_action( 'the_post', 'responsive_block_editor_addons_testimonial_carousel_add_frontend_assets' );
+
+/**
+ * Include slick library.
+ */
+function include_slick_lib() {
+	wp_enqueue_script(
+		'test-slick-js',
+		RESPONSIVE_BLOCK_EDITOR_ADDONS_URL . 'dist/js/vendors/slick.min.js',
+		array( 'jquery' ),
+		RESPONSIVE_BLOCK_EDITOR_ADDONS_VER,
+		true
+	);
+
+	$selector = '.responsive-testimonial-slick-carousel';
+	$js       = 'jQuery( document ).ready( function( $ ) { if( $( "' . $selector . '" ).length > 0 ){ $( "' . $selector . '" ).slick( ); } } );';
+	wp_add_inline_script( 'test-slick-js-testimonial-carousel', $js );
+}
 
 /**
  * Generate Testimonical Carousel script dynamically
@@ -57,6 +85,35 @@ function testimonial_carousel_generate_script() {
 }
 
 add_action( 'wp_enqueue_scripts', 'testimonial_carousel_generate_script' );
+
+/**
+ * Generate Testimonical Carousel script dynamically
+ */
+function testimonial_carousel_generate_script_for_fse() {
+	if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+		if ( is_archive() || is_home() || is_search() || is_404() ) {
+			$wp_query_args = array(
+				'post_status' => array( 'publish' ),
+				'post_type'   => array( 'wp_template', 'wp_template_part' ),
+			);
+			$template_query       = new WP_Query( $wp_query_args );
+			$template_query_posts = $template_query->posts;
+			if ( ! empty( $template_query_posts ) && is_array( $template_query_posts ) ) {
+				foreach ( $template_query_posts as $post ) {
+					if ( is_object( $post ) ) {
+						$blocks = responsive_parse_gutenberg_blocks_testimonial_carousel( $post->post_content );
+						if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+							return;
+						}
+						get_responsive_testimonial_carousel_scripts( $blocks );
+					}
+				}
+			}
+		}
+	}
+}
+
+add_action( 'wp_enqueue_scripts', 'testimonial_carousel_generate_script_for_fse' );
 
 /**
  * Parse hutenberg blocks
