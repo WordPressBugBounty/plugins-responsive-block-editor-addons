@@ -1182,6 +1182,12 @@ class Responsive_Block_Editor_Addons {
 			$blocks = get_option( 'rbea_blocks' );
 			if ( ! $blocks ) {
 				$rbea_blocks->insert_blocks_data();
+			} else {
+				// If blocks exist and the verison is updated then update the rbea_blocks in the database.
+				// The following code will be changed whenever there is change in blocks options data.
+				if($installed_rbea_version > RESPONSIVE_BLOCK_EDITOR_ADDONS_VER) {
+					$rbea_blocks->insert_blocks_data();
+				}
 			}
 		}
 

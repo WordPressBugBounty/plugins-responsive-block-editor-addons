@@ -3,9 +3,9 @@ Contributors: Cyberchimps
 Donate Link: https://cyberchimps.com
 Tags: block, blocks, block editor, page builder, gutenberg templates
 Requires at least: 5.0
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 1.9.4
+Stable tag: 1.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -235,6 +235,11 @@ This is how you can easily install the Responsive Gutenberg Blocks plugin on you
 8. Gutenberg Starter Templates
 
 == Changelog ==
+
+= 1.9.5 - 14th November 2024 =
+* Improvement - Improved UI for Border Style controls across all Blocks.
+* Improvement - Improved UI for Border Radius controls across all Blocks.
+* Fix - Fixed 404 Demo and Docs URLs
 
 = 1.9.4 - 12th November 2024 =
 * Fix - Fix assets loading issue for FSE theme.
