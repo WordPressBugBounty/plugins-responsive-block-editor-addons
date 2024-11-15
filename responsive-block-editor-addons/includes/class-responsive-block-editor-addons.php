@@ -1170,6 +1170,15 @@ class Responsive_Block_Editor_Addons {
 
 		$rbea_path = 'responsive-block-editor-addons/responsive-block-editor-addons.php';
 
+		// Get the current value of 'rbea_plugin_updated' option
+        $exist_rbea_blocks_data_update = get_option( 'rbea_blocks_data_update', false );
+
+		// If the option does not exist, add it with a value of false
+		if ( ! $exist_rbea_blocks_data_update) {
+			$rbea_blocks->insert_blocks_data();
+            update_option( 'rbea_blocks_data_update', true );
+		}
+
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -1182,12 +1191,6 @@ class Responsive_Block_Editor_Addons {
 			$blocks = get_option( 'rbea_blocks' );
 			if ( ! $blocks ) {
 				$rbea_blocks->insert_blocks_data();
-			} else {
-				// If blocks exist and the verison is updated then update the rbea_blocks in the database.
-				// The following code will be changed whenever there is change in blocks options data.
-				if($installed_rbea_version > RESPONSIVE_BLOCK_EDITOR_ADDONS_VER) {
-					$rbea_blocks->insert_blocks_data();
-				}
 			}
 		}
 
