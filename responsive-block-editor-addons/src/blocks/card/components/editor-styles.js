@@ -55,6 +55,14 @@ function EditorStyles(props) {
     backgroundType,
     backgroundImage,
     gradientDirection,
+    backgroundPosition,
+    backgroundPositionMobile,
+    backgroundPositionTablet,
+    backgroundAttachment,
+    backgroundRepeat,
+    backgroundSize,
+    backgroundSizeTablet,
+    backgroundSizeMobile,
     colorLocation1,
     colorLocation2,
     backgroundColor1,
@@ -172,6 +180,16 @@ function EditorStyles(props) {
 		blockBottomMarginMobile,
 		blockLeftMarginMobile,
 		blockRightMarginMobile,
+    backgroundImageColor,
+    cardImagePositionTab,
+    cardImageSize,
+    cardImageSizeTablet,
+    cardImageSizeMobile,
+    cardImagePosition,
+    cardImagePositionMobile,
+    cardImagePositionTablet,
+    cardImageSizeTab,
+    cardImageRepeat,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -263,6 +281,7 @@ function EditorStyles(props) {
       "border-top-right-radius": generateCSSUnit(blockRightRadius, "px"),
       "border-bottom-right-radius": generateCSSUnit(blockBottomRadius, "px"),
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadius, "px"),
+      "opacity": generateCSSUnit(imgopacity, "px"),
       color: textColor,
       "background-color":
         backgroundType == "color"
@@ -296,10 +315,12 @@ function EditorStyles(props) {
       "background-image": backgroundImage
         ? `url(${backgroundImage})`
         : null,
+      "background-attachment": backgroundAttachment,
+      "opacity": imgopacity,
       height: 100 + "%",
-      "background-position": bgimagePosition !== "empty" && backgroundImagePosition === "center center" ? bgimagePosition : backgroundImagePosition, //For compatibility with v1.3.2.
-      "background-repeat": bgimageRepeat !== "empty" && backgroundImageRepeat === "no-repeat" ? bgimageRepeat : backgroundImageRepeat, //For compatibility with v1.3.2.
-      "background-size": bgthumbsize !== "empty" && backgroundImageSize === "cover" ? bgthumbsize : backgroundImageSize, //For compatibility with v1.3.2.
+      "background-position": backgroundPosition ? backgroundPosition : "center center",
+      "background-repeat": backgroundRepeat ? backgroundRepeat : "no-repeat",
+      "background-size": backgroundSize ? backgroundSize : "cover",
     },
 
     " .responsive-block-editor-addons-card-avatar": {
@@ -307,9 +328,9 @@ function EditorStyles(props) {
     },
 
     " .responsive-block-editor-addons-card-avatar-img": {
-      "background-position": imagePosition,
-      "background-repeat": imageRepeat,
-      "background-size": thumbsize,
+      "background-position": cardImagePosition,
+      "background-repeat": cardImageRepeat,
+      "background-size": cardImageSize,
     },
 
     " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-0": {
@@ -444,7 +465,15 @@ function EditorStyles(props) {
       "border-top-right-radius": generateCSSUnit(blockRightRadiusMobile, "px"),
       "border-bottom-right-radius": generateCSSUnit(blockBottomRadiusMobile, "px"),
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusMobile, "px"),
-    },
+  },
+  " .responsive-block-editor-addons-card-background-image": {
+    "background-position": backgroundPositionMobile,
+    "background-size": backgroundSizeMobile === '' ? backgroundSize : backgroundSizeMobile,
+  },
+  " .responsive-block-editor-addons-card-avatar-img": {
+    "background-position": cardImagePositionMobile,
+    "background-size": cardImageSizeMobile,
+  },
   };
 
   var tablet_selectors = {
@@ -488,7 +517,15 @@ function EditorStyles(props) {
       "border-top-right-radius": generateCSSUnit(blockRightRadiusTablet, "px"),
       "border-bottom-right-radius": generateCSSUnit(blockBottomRadiusTablet, "px"),
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusTablet, "px"),
-    },
+  },
+  " .responsive-block-editor-addons-card-background-image": {
+    "background-position": backgroundPositionTablet,
+    "background-size": backgroundSizeTablet === '' ? backgroundSize : backgroundSizeTablet,
+  },
+  " .responsive-block-editor-addons-card-avatar-img": {
+    "background-position": cardImagePositionTablet,
+    "background-size": cardImageSizeTablet,
+  },
   };
 
   var styling_css = "";

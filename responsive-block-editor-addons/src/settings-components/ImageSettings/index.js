@@ -10,6 +10,9 @@ const { SelectControl, RangeControl, TabPanel, Dashicon } = wp.components;
 
 import RbeaRangeControl from "../../utils/components/rbea-range-control";
 import RbeaTabRadioControl from "../../utils/components/rbea-tab-radio-control";
+import imageShapeIcons from "../../blocks/testimonial/components/image-shape-icons";
+import imageSizeIcons from "../../blocks/testimonial/components/image-size-icons";
+import RbeaImageSizeTabControl from "../../utils/components/rbea-image-size-tab-control";
 
 // Extend component
 const { Component, Fragment } = wp.element;
@@ -33,26 +36,47 @@ class ImageSettingsControl extends Component {
 
       const imageShapeOptions = [
           {
-              value: "default",
-              label: __("Default", "responsive-block-editor-addons"),
-              shortName: __("Default", "responsive-block-editor-addons"),
-          },
-          {
               value: "circle",
               label: __("Circle", "responsive-block-editor-addons"),
               shortName: __("Circle", "responsive-block-editor-addons"),
+              icon: imageShapeIcons.circle,
           },
           {
               value: "square",
               label: __("Square", "responsive-block-editor-addons"),
               shortName: __("Square", "responsive-block-editor-addons"),
+              icon: imageShapeIcons.square,
           },
           {
               value: "blob",
               label: __("Blob", "responsive-block-editor-addons"),
               shortName: __("Blob", "responsive-block-editor-addons"),
+              icon: imageShapeIcons.blob
           },
       ];
+    
+    let options = [
+        { 
+            value: "thumbnail", 
+            label: __("Thumbnail From New Control", "responsive-block-editor-addons"),
+            size: imageSizeIcons.thumbnail,
+        },
+        { 
+            value: "medium", 
+            label: __("Medium From New Control", "responsive-block-editor-addons"),
+            size: imageSizeIcons.medium,
+        },
+        { 
+            value: "large", 
+            label: __("Large From New Control", "responsive-block-editor-addons"),
+            size: imageSizeIcons.large,
+        },
+        { 
+            value: "full-size", 
+            label: __("Full Size From New Control", "responsive-block-editor-addons"),
+            size: imageSizeIcons.fullsize,
+        },
+    ];
     var advancedControls;
       advancedControls = (
           <Fragment>
@@ -63,16 +87,12 @@ class ImageSettingsControl extends Component {
                   onChange={(newImageShape) =>
                       setAttributes({ imageShape: newImageShape })
                   }
+                  hasIcon={true}
               />
-              <SelectControl
+              <RbeaImageSizeTabControl
                   label={__("Size", "responsive-block-editor-addons")}
                   value={imageSize}
-                  options={[
-                      { value: "full", label: __("Full Size", "responsive-block-editor-addons") },
-                      { value: "thumbnail", label: __("Thumbnail", "responsive-block-editor-addons") },
-                      { value: "medium", label: __("Medium", "responsive-block-editor-addons") },
-                      { value: "large", label: __("Large", "responsive-block-editor-addons") },
-                  ]}
+                  options={options}
                   onChange={(newImageSize) =>
                       setAttributes({ imageSize: newImageSize })
                   }

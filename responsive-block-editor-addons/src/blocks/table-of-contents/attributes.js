@@ -986,6 +986,50 @@ bodyBorderBottomRightRadius: {
     type: "boolean",
     default: false,
   },
+  imagePositionTab: {
+    type: "string",
+    default: "desktop",
+  },
+  backgroundPosition: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionMobile: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionTablet: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backgroundRepeat: {
+    type: "string",
+    default: "no-repeat",
+  },
+  backgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backgroundSize: {
+    type: "string",
+    default: "cover",
+  },
+  backgroundSizeTablet: {
+    type: "string",
+    default: 'cover',
+  },
+  backgroundSizeMobile: {
+    type: "string",
+    default: 'cover'
+  },
+  imageSizeTab: {
+    type: "string",
+    default: "desktop",
+  },
 };
 
 export default attributes;

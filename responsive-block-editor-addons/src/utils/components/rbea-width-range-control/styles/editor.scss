@@ -1,0 +1,16 @@
+.rbea-range-control {
+    .rbea-control__header {
+        .rbea-control__header-controls-container {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        
+            .components-button-group {
+                .components-button.responsive-block-editor-addons-size-btn.is-pressed {
+                    background: #F1FAFF;
+                    color: #666;
+                }
+            }
+        }
+    }
+}

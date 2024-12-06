@@ -16,6 +16,7 @@ import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-
 import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
 import RbeaBorderStyleTabControl from "../../../utils/components/rbea-border-style-tab-control";
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl";
+import { RadioControl} from "@wordpress/components";
 
 /**
  * Inspector Controls
@@ -345,6 +346,12 @@ export default class Inspector extends Component {
         hideWidgetMobile,
         blockIsPaddingControlConnected,
         blockIsMarginControlConnected,
+        imagePositionTab,
+        backgroundSizeTablet,
+        backgroundSizeMobile,
+        backgroundPositionMobile,
+        backgroundPositionTablet,
+        imageSizeTab,
       },
       setAttributes,
     } = this.props;
@@ -442,6 +449,21 @@ export default class Inspector extends Component {
       { value: "image", label: __("Image", "responsive-block-editor-addons") },
       { value: "video", label: __("Video", "responsive-block-editor-addons") },
     ];
+
+    const imagePositionOptions = [
+      { value: "top left", label: <div className = "rbea-background-image-positon-control-option">{__("Top Left", "responsive-block-editor-addons")}</div> },
+      { value: "top center", label: <div className = "rbea-background-image-positon-control-option">{__("Top Center", "responsive-block-editor-addons")}</div> },
+      { value: "top right", label: <div className = "rbea-background-image-positon-control-option">{__("Top Right", "responsive-block-editor-addons")}</div> },
+      { value: "center left", label: <div className = "rbea-background-image-positon-control-option">{__("Center Left", "responsive-block-editor-addons")}</div> },
+      { value: "center center", label: <div className = "rbea-background-image-positon-control-option">{__("Center Center", "responsive-block-editor-addons")}</div> },
+      { value: "center right", label: <div className = "rbea-background-image-positon-control-option">{__("Center Right", "responsive-block-editor-addons")}</div> },
+      { value: "bottom left", label: <div className = "rbea-background-image-positon-control-option">{__("Bottom Left", "responsive-block-editor-addons")}</div> },
+      { value: "bottom center", label: <div className = "rbea-background-image-positon-control-option">{__("Bottom Center", "responsive-block-editor-addons")}</div> },
+      { value: "bottom right", label: <div className = "rbea-background-image-positon-control-option">{__("Bottom Right", "responsive-block-editor-addons")}</div> },
+    ];
+
+    // Background image URL
+    let background_image_url = backgroundImage || '';
 
     // backward compatibility for border radius control 
 
@@ -1583,66 +1605,99 @@ export default class Inspector extends Component {
                       "responsive-block-editor-addons"
                     )}
                   >
-                    <MediaUpload
-                      title={__(
-                        "Select Background Image",
-                        "responsive-block-editor-addons"
-                      )}
-                      onSelect={this.onSelectImage}
-                      allowedTypes={["image"]}
-                      value={backgroundImage}
-                      render={({ open }) => (
-                        <Button isDefault onClick={open}>
-                          {!backgroundImage
-                            ? __(
-                                "Select Background Image",
-                                "responsive-block-editor-addons"
-                              )
-                            : __(
-                                "Replace image",
-                                "responsive-block-editor-addons"
-                              )}
-                        </Button>
-                      )}
+                    <RbeaMediaUploadControl
+                      label={__('Image', 'responsive-block-editor-addons')}
+                      value={{
+                          url: backgroundImage || '',
+                      }}
+                      onChange={(newValue) => {
+                          setAttributes({
+                              backgroundImage: newValue.url,
+                          });
+                      }}
+                      mediaType={'image'}
                     />
-                    {backgroundImage && (
-                      <Button
-                        className="responsive-rm-btn"
-                        onClick={this.onRemoveImage}
-                        isLink
-                        isDestructive
-                      >
-                        {__("Remove Image", "responsive-block-editor-addons")}
-                      </Button>
-                    )}
                   </BaseControl>
                   {backgroundImage && (
                     <Fragment>
-                      <SelectControl
-                        label={__("Image Position", "responsive-block-editor-addons")}
-                        value={backgroundPosition}
-                        onChange={(value) =>
-                          setAttributes({ backgroundPosition: value })
-                        }
-                        options={[
-                          { value: "top left", label: __("Top Left", "responsive-block-editor-addons") },
-                          { value: "top center", label: __("Top Center", "responsive-block-editor-addons") },
-                          { value: "top right", label: __("Top Right", "responsive-block-editor-addons") },
-                          { value: "center left", label: __("Center Left", "responsive-block-editor-addons") },
+                      <div className = "rbea-tab-selector-label-wrapper">
+                      <label className  = "rbea-background-image-positon-control-label">{__("Image Position", "responsive-block-editor-addons")}</label>
+                      <TabPanel
+                        className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                        activeClass="active-tab"
+                        tabs={[
                           {
-                            value: "center center",
-                            label: __("Center Center", "responsive-block-editor-addons"),
+                            name: "desktop",
+                            title: <Dashicon icon="desktop" />,
+                            className:
+                              " responsive-desktop-tab  responsive-responsive-tabs",
                           },
-                          { value: "center right", label: __("Center Right", "responsive-block-editor-addons") },
-                          { value: "bottom left", label: __("Bottom Left", "responsive-block-editor-addons") },
                           {
-                            value: "bottom center",
-                            label: __("Bottom Center", "responsive-block-editor-addons"),
+                            name: "tablet",
+                            title: <Dashicon icon="tablet" />,
+                            className:
+                              " responsive-tablet-tab  responsive-responsive-tabs",
                           },
-                          { value: "bottom right", label: __("Bottom Right", "responsive-block-editor-addons") },
+                          {
+                            name: "mobile",
+                            title: <Dashicon icon="smartphone" />,
+                            className:
+                              " responsive-mobile-tab  responsive-responsive-tabs",
+                          },
                         ]}
-                      />
-                      <SelectControl
+                      >
+                        {(tab) => {
+                          if ("mobile" === tab.name) {
+                            setAttributes({ imagePositionTab: "mobile" });
+                          } else if ("tablet" === tab.name) {
+                            setAttributes({ imagePositionTab: "tablet" });
+                          } else {
+                            setAttributes({ imagePositionTab: "desktop" });
+                          }
+                        }}
+                      </TabPanel>
+                      </div>
+                        <Fragment>
+                          <div className = "rbea-background-image-positon-control"
+                          style={{
+                            backgroundImage: `url(${background_image_url})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition:  'center',
+                          }}>
+                          { imagePositionTab === "desktop" && 
+                              <RadioControl 
+                                className = "rbea-background-image-positon-control-options"
+                                selected={backgroundPosition}
+                                options={imagePositionOptions}
+                                onChange={(value) =>
+                                  setAttributes({ backgroundPosition: value })
+                                }
+                              />
+                          }
+                          {imagePositionTab === "tablet" &&
+                             <RadioControl 
+                                className = "rbea-background-image-positon-control-options"
+                                selected={backgroundPositionTablet}
+                                options={imagePositionOptions}
+                                onChange={(value) =>
+                                  setAttributes({ backgroundPositionTablet: value })
+                                }
+                            />
+                          }
+                          {imagePositionTab === "mobile" && 
+                            <RadioControl 
+                                className = "rbea-background-image-positon-control-options"
+                                selected={backgroundPositionMobile}
+                                options={imagePositionOptions}
+                                onChange={(value) =>
+                                  setAttributes({ backgroundPositionMobile: value })
+                                }
+                            />
+                          }
+                          </div>
+                        </Fragment>
+                        <div className = "rbea-repeat-selector-wrapper">
+                      <RbeaTabRadioControl
                         label={__("Repeat", "responsive-block-editor-addons")}
                         value={backgroundRepeat}
                         onChange={(value) =>
@@ -1654,19 +1709,92 @@ export default class Inspector extends Component {
                           { value: "repeat-x", label: __("Repeat-x", "responsive-block-editor-addons") },
                           { value: "repeat-y", label: __("Repeat-y", "responsive-block-editor-addons") },
                         ]}
-                      />
-                      <RbeaTabRadioControl
-                        label={__("Size", "responsive-block-editor-addons")}
-                        value={backgroundSize}
+                        defaultValue={"no-repeat"}
+                      /></div>
+                      <div className = "rbea-tab-selector-label-wrapper">
+                      <label>{__("Size", "responsive-block-editor-addons")}</label>
+                      <TabPanel
+                        className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin rbea-section-size-control-tab-selector"
+                        activeClass="active-tab"
+                        tabs={[
+                          {
+                            name: "desktop",
+                            title: <Dashicon icon="desktop" />,
+                            className:
+                              " responsive-desktop-tab  responsive-responsive-tabs",
+                          },
+                          {
+                            name: "tablet",
+                            title: <Dashicon icon="tablet" />,
+                            className:
+                              " responsive-tablet-tab  responsive-responsive-tabs",
+                          },
+                          {
+                            name: "mobile",
+                            title: <Dashicon icon="smartphone" />,
+                            className:
+                              " responsive-mobile-tab  responsive-responsive-tabs",
+                          },
+                        ]}
+                      >
+                        {(tab) => {
+                          if ("mobile" === tab.name) {
+                            setAttributes({ imageSizeTab: "mobile" });
+                          } else if ("tablet" === tab.name) {
+                            setAttributes({ imageSizeTab: "tablet" });
+                          } else {
+                            setAttributes({ imageSizeTab: "desktop" });
+                          }
+                        }}
+                      </TabPanel>
+                      </div>
+                      {imageSizeTab === "desktop" && (
+                        <>
+                        <RbeaTabRadioControl
+                          label={__("", "responsive-block-editor-addons")}
+                          value={backgroundSize}
+                          onChange={(value) =>
+                            setAttributes({ backgroundSize: value })
+                          }
+                          options={[
+                            { value: "auto", label: __("Auto", "responsive-block-editor-addons") },
+                            { value: "cover", label: __("Cover", "responsive-block-editor-addons") },
+                            { value: "contain", label: __("Contain", "responsive-block-editor-addons") },
+                          ]}
+                          defaultValue={"cover"}
+                        />
+                      </>
+                      )}
+                      {imageSizeTab === "tablet" && (
+                        <RbeaTabRadioControl
+                        label={__("", "responsive-block-editor-addons")}
+                        value={backgroundSizeTablet}
                         onChange={(value) =>
-                          setAttributes({ backgroundSize: value })
+                          setAttributes({ backgroundSizeTablet: value })
                         }
                         options={[
                           { value: "auto", label: __("Auto", "responsive-block-editor-addons") },
                           { value: "cover", label: __("Cover", "responsive-block-editor-addons") },
                           { value: "contain", label: __("Contain", "responsive-block-editor-addons") },
                         ]}
-                      />
+                        defaultValue={"cover"}
+                        />
+                      )}
+                      {imageSizeTab === "mobile" && (
+                        <RbeaTabRadioControl
+                          label={__("", "responsive-block-editor-addons")}
+                          value={backgroundSizeMobile}
+                          onChange={(value) =>
+                            setAttributes({ backgroundSizeMobile: value })
+                          }
+                          options={[
+                            { value: "auto", label: __("Auto", "responsive-block-editor-addons") },
+                            { value: "cover", label: __("Cover", "responsive-block-editor-addons") },
+                            { value: "contain", label: __("Contain", "responsive-block-editor-addons") },
+                          ]}
+                          defaultValue={"cover"}
+                        />
+                      )}
                     </Fragment>
                   )}
                 </Fragment>

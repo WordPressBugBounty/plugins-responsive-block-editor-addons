@@ -782,6 +782,100 @@ const attributes = {
     type: "boolean",
     default: false,
   },
+  imagePositionTab: {
+    type: "string",
+    default: "desktop",
+  },
+  backgroundPosition: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionMobile: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionTablet: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backgroundRepeat: {
+    type: "string",
+    default: "no-repeat",
+  },
+  backgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backgroundImageColor: {
+    type: "string",
+  },
+  backgroundSize: {
+    type: "string",
+    default: "cover",
+  },
+  backgroundSizeTablet: {
+    type: "string",
+    default: 'cover',
+  },
+  backgroundSizeMobile: {
+    type: "string",
+    default: 'cover'
+  },
+  imageSizeTab: {
+    type: "string",
+    default: "desktop",
+  },
+
+
+
+  backImagePositionTab: {
+    type: "string",
+    default: "desktop",
+  },
+  backBackgroundPosition: {
+    type: "string",
+    default: "center center",
+  },
+  backBackgroundPositionMobile: {
+    type: "string",
+    default: "center center",
+  },
+  backBackgroundPositionTablet: {
+    type: "string",
+    default: "center center",
+  },
+  backBackgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backBackgroundRepeat: {
+    type: "string",
+    default: "no-repeat",
+  },
+  backBackgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backBackgroundSize: {
+    type: "string",
+    default: "cover",
+  },
+  backBackgroundSizeTablet: {
+    type: "string",
+    default: 'cover',
+  },
+  backBackgroundSizeMobile: {
+    type: "string",
+    default: 'cover'
+  },
+  backImageSizeTab: {
+    type: "string",
+    default: "desktop",
+  },
 };
 
 export default attributes;

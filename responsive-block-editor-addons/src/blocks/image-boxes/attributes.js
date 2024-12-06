@@ -1,3 +1,5 @@
+import { type } from "jquery";
+
 const { __ } = wp.i18n;
 
 const ITEM_COUNT = 2;
@@ -457,6 +459,39 @@ const attributes = {
   blockRightPaddingTablet: {
     type: "number",
     default: '',
+  },
+  boxImagePositionTab: {
+    type: "string",
+  },
+  boxImageSize: {
+    type: "string",
+    default: 'cover'
+  },
+  boxImageSizeTablet: {
+    type: "string",
+    default: 'cover'
+  },
+  boxImageSizeMobile: {
+    type: "string",
+    default: 'cover'
+  },
+  boxImagePosition: {
+    type: "string",
+    default: 'center center'
+  },
+  boxImagePositionMobile: {
+    type: "string",
+    default: 'center center'
+  },
+  boxImagePositionTablet: {
+    type: "string",
+    default: 'center center'
+  },
+  boxImageSizeTab: {
+    type: "string",
+  },
+  boxImageRepeat: {
+    type: "string",
   },
 };
 

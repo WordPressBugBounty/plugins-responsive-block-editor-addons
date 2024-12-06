@@ -8,10 +8,11 @@ import ResponsiveNewMarginControl from "../../../settings-components/ResponsiveN
 import RbeaRangeControl from "../../../utils/components/rbea-range-control";
 import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl";
+import RbeaColorControl from "../../../utils/components/rbea-color-control";
 
 /**
- * Inspector Controls
- */
+* Inspector Controls
+*/
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -40,8 +41,8 @@ const {
 } = wp.components;
 
 /**
- * Create an Inspector Controls wrapper Component
- */
+* Create an Inspector Controls wrapper Component
+*/
 export default class Inspector extends Component {
   constructor(props) {
     super(...arguments);
@@ -114,6 +115,15 @@ export default class Inspector extends Component {
         labelFontSize,
         labelFontSizeTablet,
         labelFontSizeMobile,
+        labelFontColor,
+        labelFontColorHover,
+        iconColor,
+        iconBorderColor,
+        iconBackgroundColor,
+        iconColorHover,
+        iconBorderColorHover,
+        iconBackgroundColorHover,
+        isColorValueUpdated,
         hideWidget,
         hideWidgetTablet,
         hideWidgetMobile,
@@ -146,38 +156,39 @@ export default class Inspector extends Component {
         blockRightMarginTablet,
         blockIsPaddingControlConnected,
         blockIsMarginControlConnected,
+        iconListUpdateColorFromParent,
       },
       setAttributes,
     } = this.props;
 
     const blockPaddingResetValues = {
-			paddingTop: 0,
-			paddingRight: 0,
-			paddingBottom: 0,
-			paddingLeft: 0,
-			paddingTabletTop: 0,
-			paddingTabletRight: 0,
-			paddingTabletBottom: 0,
-			paddingTabletLeft: 0,
-			paddingMobileTop: 0,
-			paddingMobileRight: 0,
-			paddingMobileBottom: 0,
-			paddingMobileLeft: 0,
-		}
-		const blockMarginResetValues = {
-			marginTop: 0,
-			marginRight: 0,
-			marginBottom: 0,
-			marginLeft: 0,
-			marginTabletTop: 0,
-			marginTabletRight: 0,
-			marginTabletBottom: 0,
-			marginTabletLeft: 0,
-			marginMobileTop: 0,
-			marginMobileRight: 0,
-			marginMobileBottom: 0,
-			marginMobileLeft: 0,
-		}
+      paddingTop: 0,
+      paddingRight: 0,
+      paddingBottom: 0,
+      paddingLeft: 0,
+      paddingTabletTop: 0,
+      paddingTabletRight: 0,
+      paddingTabletBottom: 0,
+      paddingTabletLeft: 0,
+      paddingMobileTop: 0,
+      paddingMobileRight: 0,
+      paddingMobileBottom: 0,
+      paddingMobileLeft: 0,
+    }
+    const blockMarginResetValues = {
+      marginTop: 0,
+      marginRight: 0,
+      marginBottom: 0,
+      marginLeft: 0,
+      marginTabletTop: 0,
+      marginTabletRight: 0,
+      marginTabletBottom: 0,
+      marginTabletLeft: 0,
+      marginMobileTop: 0,
+      marginMobileRight: 0,
+      marginMobileBottom: 0,
+      marginMobileLeft: 0,
+    }
 
     // Font Weight Options
     const fontWeightOptions = [
@@ -225,25 +236,47 @@ export default class Inspector extends Component {
 
     // backward compatibility for border radius control
 
-if (!blockIsRadiusValueUpdated) {
-	this.props.setAttributes(
-	  {
-		blockTopRadius:          borderRadius !== undefined ? borderRadius : blockTopRadius,
-		blockBottomRadius:       borderRadius !== undefined ? borderRadius : blockBottomRadius,
-		blockLeftRadius:         borderRadius !== undefined ? borderRadius : blockLeftRadius,
-		blockRightRadius:        borderRadius !== undefined ? borderRadius : blockRightRadius,
-		blockTopRadiusTablet:    borderRadius !== undefined ? borderRadius : blockTopRadiusTablet,
-		blockBottomRadiusTablet: borderRadius !== undefined ? borderRadius : blockBottomRadiusTablet,
-		blockRightRadiusTablet:  borderRadius !== undefined ? borderRadius : blockRightRadiusTablet,
-		blockLeftRadiusTablet:   borderRadius !== undefined ? borderRadius : blockLeftRadiusTablet,
-		blockTopRadiusMobile:    borderRadius !== undefined ? borderRadius : blockTopRadiusMobile,
-		blockBottomRadiusMobile: borderRadius !== undefined ? borderRadius : blockBottomRadiusMobile,
-		blockLeftRadiusMobile:   borderRadius !== undefined ? borderRadius : blockLeftRadiusMobile,
-		blockRightRadiusMobile:  borderRadius !== undefined ? borderRadius : blockRightRadiusMobile,
-	  }
-	)
-	this.props.setAttributes({blockIsRadiusValueUpdated: true});
-  }
+    if (!blockIsRadiusValueUpdated) {
+      this.props.setAttributes(
+        {
+          blockTopRadius: borderRadius !== undefined ? borderRadius : blockTopRadius,
+          blockBottomRadius: borderRadius !== undefined ? borderRadius : blockBottomRadius,
+          blockLeftRadius: borderRadius !== undefined ? borderRadius : blockLeftRadius,
+          blockRightRadius: borderRadius !== undefined ? borderRadius : blockRightRadius,
+          blockTopRadiusTablet: borderRadius !== undefined ? borderRadius : blockTopRadiusTablet,
+          blockBottomRadiusTablet: borderRadius !== undefined ? borderRadius : blockBottomRadiusTablet,
+          blockRightRadiusTablet: borderRadius !== undefined ? borderRadius : blockRightRadiusTablet,
+          blockLeftRadiusTablet: borderRadius !== undefined ? borderRadius : blockLeftRadiusTablet,
+          blockTopRadiusMobile: borderRadius !== undefined ? borderRadius : blockTopRadiusMobile,
+          blockBottomRadiusMobile: borderRadius !== undefined ? borderRadius : blockBottomRadiusMobile,
+          blockLeftRadiusMobile: borderRadius !== undefined ? borderRadius : blockLeftRadiusMobile,
+          blockRightRadiusMobile: borderRadius !== undefined ? borderRadius : blockRightRadiusMobile,
+        }
+      )
+      this.props.setAttributes({ blockIsRadiusValueUpdated: true });
+    }
+
+    // backward compatibility for border radius control
+
+    if (!blockIsRadiusValueUpdated) {
+      this.props.setAttributes(
+        {
+          blockTopRadius: borderRadius !== undefined ? borderRadius : blockTopRadius,
+          blockBottomRadius: borderRadius !== undefined ? borderRadius : blockBottomRadius,
+          blockLeftRadius: borderRadius !== undefined ? borderRadius : blockLeftRadius,
+          blockRightRadius: borderRadius !== undefined ? borderRadius : blockRightRadius,
+          blockTopRadiusTablet: borderRadius !== undefined ? borderRadius : blockTopRadiusTablet,
+          blockBottomRadiusTablet: borderRadius !== undefined ? borderRadius : blockBottomRadiusTablet,
+          blockRightRadiusTablet: borderRadius !== undefined ? borderRadius : blockRightRadiusTablet,
+          blockLeftRadiusTablet: borderRadius !== undefined ? borderRadius : blockLeftRadiusTablet,
+          blockTopRadiusMobile: borderRadius !== undefined ? borderRadius : blockTopRadiusMobile,
+          blockBottomRadiusMobile: borderRadius !== undefined ? borderRadius : blockBottomRadiusMobile,
+          blockLeftRadiusMobile: borderRadius !== undefined ? borderRadius : blockLeftRadiusMobile,
+          blockRightRadiusMobile: borderRadius !== undefined ? borderRadius : blockRightRadiusMobile,
+        }
+      )
+      this.props.setAttributes({ blockIsRadiusValueUpdated: true });
+    }
 
     return (
       <Fragment>
@@ -270,53 +303,54 @@ if (!blockIsRadiusValueUpdated) {
                   onChange={(value) => setAttributes({ icon_layout: value })}
                 />
 
-<TabPanel
-                className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+              <TabPanel
+                className=" responsive-size-type-field-tabs responsive-size-type-field__common-tabs responsive-inline-margin"
                 activeClass="active-tab"
                 tabs={[
                   {
                     name: "desktop",
                     title: <Dashicon icon="desktop" />,
                     className:
-                      " responsive-desktop-tab  responsive-responsive-tabs",
+                      " responsive-desktop-tab responsive-responsive-tabs",
                   },
                   {
                     name: "tablet",
                     title: <Dashicon icon="tablet" />,
                     className:
-                      " responsive-tablet-tab  responsive-responsive-tabs",
+                      " responsive-tablet-tab responsive-responsive-tabs",
                   },
                   {
                     name: "mobile",
                     title: <Dashicon icon="smartphone" />,
                     className:
-                      " responsive-mobile-tab  responsive-responsive-tabs",
+                      " responsive-mobile-tab responsive-responsive-tabs",
                   },
                 ]}
               >
                 {(tab) => {
                   let tabout;
-
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
                         <BaseControl>
                           <p>
                             {__(
-                              "Alignment Mobile",
+                              "List Alignment Mobile",
                               "responsive-block-editor-addons"
                             )}
                           </p>
-                          <AlignmentToolbar
-                            value={alignMobile}
-                            onChange={(value) =>
-                              setAttributes({
-                                alignMobile: value,
-                              })
-                            }
-                            controls={["left", "center", "right"]}
-                            isCollapsed={false}
-                          />
+                          <div className="responsive-block-editor-addons-alignment-mobile">
+                            <AlignmentToolbar
+                              value={alignMobile}
+                              onChange={(value) =>
+                                setAttributes({
+                                  alignMobile: value,
+                                })
+                              }
+                              controls={["left", "center", "right"]}
+                              isCollapsed={false}
+                            />
+                          </div>
                         </BaseControl>
                       </Fragment>
                     );
@@ -326,20 +360,22 @@ if (!blockIsRadiusValueUpdated) {
                         <BaseControl>
                           <p>
                             {__(
-                              "Alignment Tablet",
+                              "List Alignment Tablet",
                               "responsive-block-editor-addons"
                             )}
                           </p>
-                          <AlignmentToolbar
-                            value={alignTablet}
-                            onChange={(value) =>
-                              setAttributes({
-                                alignTablet: value,
-                              })
-                            }
-                            controls={["left", "center", "right"]}
-                            isCollapsed={false}
-                          />
+                          <div className="responsive-block-editor-addons-alignment-tablet">
+                            <AlignmentToolbar
+                              value={alignTablet}
+                              onChange={(value) =>
+                                setAttributes({
+                                  alignTablet: value,
+                                })
+                              }
+                              controls={["left", "center", "right"]}
+                              isCollapsed={false}
+                            />
+                          </div>
                         </BaseControl>
                       </Fragment>
                     );
@@ -348,56 +384,28 @@ if (!blockIsRadiusValueUpdated) {
                       <Fragment>
                         <BaseControl>
                           <p>
-                            {__("Alignment", "responsive-block-editor-addons")}
+                            {__("List Alignment", "responsive-block-editor-addons")}
                           </p>
-                          <AlignmentToolbar
-                            value={align}
-                            onChange={(value) =>
-                              setAttributes({
-                                align: value,
-                              })
-                            }
-                            controls={["left", "center", "right"]}
-                            isCollapsed={false}
-                          />
+                          <div className="responsive-block-editor-addons-alignment">
+                            <AlignmentToolbar
+                              value={align}
+                              onChange={(value) =>
+                                setAttributes({
+                                  align: value,
+                                })
+                              }
+                              controls={["left", "center", "right"]}
+                              isCollapsed={false}
+                            />
+                          </div>
                         </BaseControl>
                       </Fragment>
                     );
                   }
-
                   return <div>{tabout}</div>;
                 }}
               </TabPanel>
 
-                <ToggleControl
-                  label={__("Hide Labels", "responsive-block-editor-addons")}
-                  checked={hideLabel}
-                  onChange={(value) => this.changeChildAttr(value)}
-                />
-                <hr className="responsive-block-editor-addons-editor__separator" />
-                <RbeaRangeControl
-                  label={__(
-                    "Gap between Items",
-                    "responsive-block-editor-addons"
-                  )}
-                  value={gap}
-                  onChange={(value) => setAttributes({ gap: value })}
-                  help={__(
-                    "Note: For better editing experience, the gap between items might look larger than applied.  Viewing in frontend will show the actual results.", "responsive-block-editor-addons"
-                  )}
-                  min={0}
-                  max={100}
-                />
-                {!hideLabel && (
-                  <RbeaRangeControl
-                    label={__("Gap between Icon and Label", "responsive-block-editor-addons")}
-                    value={inner_gap}
-                    onChange={(value) => setAttributes({ inner_gap: value })}
-                    min={0}
-                    max={100}
-                  />
-                )}
-                <hr className="responsive-block-editor-addons-editor__separator" />
                 <RbeaTabRadioControl
                   label={__("Icon Alignment", "responsive-block-editor-addons")}
                   value={iconPosition}
@@ -407,121 +415,155 @@ if (!blockIsRadiusValueUpdated) {
                   ]}
                   onChange={(value) => setAttributes({ iconPosition: value })}
                 />
+                <ToggleControl
+                  label={__("Hide Labels", "responsive-block-editor-addons")}
+                  checked={hideLabel}
+                  onChange={(value) => this.changeChildAttr(value)}
+                />
                 <hr className="responsive-block-editor-addons-editor__separator" />
-                <TabPanel
-                  className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
-                  activeClass="active-tab"
-                  tabs={[
-                    {
-                      name: "desktop",
-                      title: <Dashicon icon="desktop" />,
-                      className:
-                        " responsive-desktop-tab  responsive-responsive-tabs",
-                    },
-                    {
-                      name: "tablet",
-                      title: <Dashicon icon="tablet" />,
-                      className:
-                        " responsive-tablet-tab  responsive-responsive-tabs",
-                    },
-                    {
-                      name: "mobile",
-                      title: <Dashicon icon="smartphone" />,
-                      className:
-                        " responsive-mobile-tab  responsive-responsive-tabs",
-                    },
-                  ]}
-                >
-                  {(tab) => {
-                    let tabout;
+              </PanelBody>
+            </InspectorTab>
+            <InspectorTab key={"style"}>
+              {!hideLabel && (
+                <TypographyHelperControl
+                  title={"Label"}
+                  attrNameTemplate="label%s"
+                  values={{
+                    family: labelFontFamily,
+                    size: labelFontSize,
+                    sizeMobile: labelFontSizeMobile,
+                    sizeTablet: labelFontSizeTablet,
+                    weight: labelFontWeight,
+                    height: labelLineHeight,
+                  }}
+                  showLetterSpacing={false}
+                  showTextBottomSpacing={false}
+                  showTextDecoration={false}
+                  showTextTransform={false}
+                  showColorControl={false}
+                  setAttributes={setAttributes}
+                  {...this.props}
+                />
+              )}
 
-                    if ("mobile" === tab.name) {
-                      tabout = (
-                        <Fragment>
-                          <RbeaRangeControl
-                            label={__(
-                              "Icon Size Mobile",
-                              "responsive-block-editor-addons"
-                            )}
-                            value={sizeMobile}
-                            onChange={(value) =>
-                              setAttributes({
-                                sizeMobile: value !== undefined ? value : 16,
-                              })
-                            }
-                            min={0}
-                            max={500}
-                            allowReset
-                          />
-                        </Fragment>
-                      );
-                    } else if ("tablet" === tab.name) {
-                      tabout = (
-                        <Fragment>
-                          <RbeaRangeControl
-                            label={__(
-                              "Icon Size Tablet",
-                              "responsive-block-editor-addons"
-                            )}
-                            value={sizeTablet}
-                            onChange={(value) =>
-                              setAttributes({
-                                sizeTablet: value !== undefined ? value : 16,
-                              })
-                            }
-                            min={0}
-                            max={500}
-                            allowReset
-                          />
-                        </Fragment>
-                      );
-                    } else {
-                      tabout = (
-                        <Fragment>
-                          <RbeaRangeControl
-                            label={__(
-                              "Icon Size",
-                              "responsive-block-editor-addons"
-                            )}
-                            value={size}
-                            onChange={(value) =>
-                              setAttributes({
-                                size: value !== undefined ? value : 16,
-                              })
-                            }
-                            min={0}
-                            max={500}
-                            allowReset
-                          />
-                        </Fragment>
-                      );
-                    }
+              {!hideLabel && (
+                <PanelBody
+                  title={__("Icon", "responsive-block-editor-addons")}
+                  initialOpen={false}
+                >
+                  <TabPanel
+                    className=" responsive-size-type-field-tabs responsive-size-type-field__common-tabs responsive-inline-margin"
+                    activeClass="active-tab"
+                    tabs={[
+                      {
+                        name: "desktop",
+                        title: <Dashicon icon="desktop" />,
+                        className:
+                          " responsive-desktop-tab responsive-responsive-tabs",
+                      },
+                      {
+                        name: "tablet",
+                        title: <Dashicon icon="tablet" />,
+                        className:
+                          " responsive-tablet-tab responsive-responsive-tabs",
+                      },
+                      {
+                        name: "mobile",
+                        title: <Dashicon icon="smartphone" />,
+                        className:
+                          " responsive-mobile-tab responsive-responsive-tabs",
+                      },
+                    ]}
+                  >
+                    {(tab) => {
+                      let tabout;
+
+                      if ("mobile" === tab.name) {
+                        tabout = (
+                          <Fragment>
+                            <RbeaRangeControl
+                              label={__(
+                                "Icon Size Mobile",
+                                "responsive-block-editor-addons"
+                              )}
+                              value={sizeMobile}
+                              onChange={(value) =>
+                                setAttributes({
+                                  sizeMobile: value !== undefined ? value : 16,
+                                })
+                              }
+                              min={0}
+                              max={500}
+                              allowReset
+                            />
+                          </Fragment>
+                        );
+                      } else if ("tablet" === tab.name) {
+                        tabout = (
+                          <Fragment>
+                            <RbeaRangeControl
+                              label={__(
+                                "Icon Size Tablet",
+                                "responsive-block-editor-addons"
+                              )}
+                              value={sizeTablet}
+                              onChange={(value) =>
+                                setAttributes({
+                                  sizeTablet: value !== undefined ? value : 16,
+                                })
+                              }
+                              min={0}
+                              max={500}
+                              allowReset
+                            />
+                          </Fragment>
+                        );
+                      } else {
+                        tabout = (
+                          <Fragment>
+                            <RbeaRangeControl
+                              label={__(
+                                "Icon Size",
+                                "responsive-block-editor-addons"
+                              )}
+                              value={size}
+                              onChange={(value) =>
+                                setAttributes({
+                                  size: value !== undefined ? value : 16,
+                                })
+                              }
+                              min={0}
+                              max={500}
+                              allowReset
+                            />
+                          </Fragment>
+                        );
+                      }
 
                     return <div>{tabout}</div>;
                   }}
                 </TabPanel>
-                <hr className="responsive-block-editor-addons-editor__separator" />
                 <TabPanel
-                  className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                  className=" responsive-size-type-field-tabs responsive-size-type-field__common-tabs responsive-inline-margin"
                   activeClass="active-tab"
                   tabs={[
                     {
                       name: "desktop",
                       title: <Dashicon icon="desktop" />,
                       className:
-                        " responsive-desktop-tab  responsive-responsive-tabs",
+                        " responsive-desktop-tab responsive-responsive-tabs",
                     },
                     {
                       name: "tablet",
                       title: <Dashicon icon="tablet" />,
                       className:
-                        " responsive-tablet-tab  responsive-responsive-tabs",
+                        " responsive-tablet-tab responsive-responsive-tabs",
                     },
                     {
                       name: "mobile",
                       title: <Dashicon icon="smartphone" />,
                       className:
-                        " responsive-mobile-tab  responsive-responsive-tabs",
+                        " responsive-mobile-tab responsive-responsive-tabs",
                     },
                   ]}
                 >
@@ -533,7 +575,7 @@ if (!blockIsRadiusValueUpdated) {
                         <Fragment>
                           <RbeaRangeControl
                             label={__(
-                              "Background Size Mobile",
+                              "Icon Background Size Mobile",
                               "responsive-block-editor-addons"
                             )}
                             value={bgSizeMobile}
@@ -553,7 +595,7 @@ if (!blockIsRadiusValueUpdated) {
                         <Fragment>
                           <RbeaRangeControl
                             label={__(
-                              "Background Size Tablet",
+                              "Icon Background Size Tablet",
                               "responsive-block-editor-addons"
                             )}
                             value={bgSizeTablet}
@@ -573,7 +615,7 @@ if (!blockIsRadiusValueUpdated) {
                         <Fragment>
                           <RbeaRangeControl
                             label={__(
-                              "Background Size",
+                              "Icon Background Size",
                               "responsive-block-editor-addons"
                             )}
                             value={bgSize}
@@ -607,42 +649,48 @@ if (!blockIsRadiusValueUpdated) {
                   attrNameTemplate="block%s"
                   {...this.props}
                 />
+                </PanelBody>
+              )}
+        
+              <PanelBody
+                title={__("Spacing", "responsive-block-editor-addons")}
+                initialOpen={false}
+              >
+                <RbeaRangeControl
+                  label={__(
+                    "Gap between Items",
+                    "responsive-block-editor-addons"
+                  )}
+                  value={gap}
+                  onChange={(value) => setAttributes({ gap: value })}
+                  help={__(
+                    "Note: For better editing experience, the gap between items might look larger than applied. Viewing in frontend will show the actual results.", "responsive-block-editor-addons"
+                  )}
+                  min={0}
+                  max={100}
+                /> 
+                {!hideLabel && (
+                  <RbeaRangeControl
+                    label={__("Gap between Icon and Label", "responsive-block-editor-addons")}
+                    value={inner_gap}
+                    onChange={(value) => setAttributes({ inner_gap: value })}
+                    min={0}
+                    max={100}
+                  />
+                )}
+                <hr className="responsive-block-editor-addons-editor__separator" />
+                <p className="responsive-block-editor-addons-container-spacing-title">Container</p>
+                <ResponsiveNewMarginControl
+                  attrNameTemplate="block%s"
+                  resetValues={blockMarginResetValues}
+                  {...this.props}
+                />
+                <ResponsiveNewPaddingControl
+                  attrNameTemplate="block%s"
+                  resetValues={blockPaddingResetValues}
+                  {...this.props}
+                />
               </PanelBody>
-            </InspectorTab>
-            <InspectorTab key={"style"}>
-				{!hideLabel && (
-					<TypographyHelperControl
-						title={__("Label Typography", "responsive-block-editor-addons")}
-						attrNameTemplate="label%s"
-						values={{
-							family: labelFontFamily,
-							size: labelFontSize,
-							sizeMobile: labelFontSizeMobile,
-							sizeTablet: labelFontSizeTablet,
-							weight: labelFontWeight,
-							height: labelLineHeight,
-						}}
-						showLetterSpacing={false}
-						showTextTransform={false}
-						setAttributes={setAttributes}
-						{...this.props}
-					/>
-				)}
-            <PanelBody
-						 title={__("Spacing", "responsive-block-editor-addons")}
-						 initialOpen={false}
-						>
-						  <ResponsiveNewPaddingControl
-						  	attrNameTemplate="block%s"
-						  	resetValues={blockPaddingResetValues}
-						  	{...this.props}
-						  />
-						  <ResponsiveNewMarginControl
-						  	attrNameTemplate="block%s"
-						  	resetValues={blockMarginResetValues}
-						  	{...this.props}
-						  />
-						</PanelBody>
             </InspectorTab>
             <InspectorTab key={"advance"}>
               <PanelBody

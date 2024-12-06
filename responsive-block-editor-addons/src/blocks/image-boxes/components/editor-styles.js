@@ -112,6 +112,13 @@ function EditorStyles(props) {
     blockRightPadding,
     blockRightPaddingMobile,
     blockRightPaddingTablet,
+    boxImageSize,
+    boxImageSizeTablet,
+    boxImageSizeMobile,
+    boxImagePosition,
+    boxImagePositionMobile,
+    boxImagePositionTablet,
+    boxImageRepeat,
   } = props.attributes;
 
   let imgopacity = opacity / 100;
@@ -218,9 +225,9 @@ function EditorStyles(props) {
         itemBackgroundColor || "#fff",
         imgopacity || 0
       )}`,
-      "background-size": backgroundSize,
-      "background-repeat": backgroundRepeat,
-      "background-position": backgroundPosition,
+      "background-size": boxImageSize,
+      "background-repeat": boxImageRepeat,
+      "background-position": boxImagePosition,
       "padding-left": generateCSSUnit(boxPaddingLeft, "px"),
       "padding-right": generateCSSUnit(boxPaddingRight, "px"),
       "padding-bottom": generateCSSUnit(boxPaddingBottom, "px"),
@@ -298,6 +305,8 @@ function EditorStyles(props) {
         "border-top-right-radius": generateCSSUnit(blockRightRadiusMobile, "px"),
         "border-bottom-right-radius": generateCSSUnit(blockBottomRadiusMobile, "px"),
         "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusMobile, "px"),
+        "background-size": boxImageSizeMobile,
+        "background-position": boxImagePositionMobile,
     },
     ":hover .responsive-block-editor-addons-add-image": {
       "border-top-left-radius": generateCSSUnit(blockTopRadiusMobile, "px"),
@@ -322,6 +331,8 @@ function EditorStyles(props) {
         "border-top-right-radius": generateCSSUnit(blockRightRadiusTablet, "px"),
         "border-bottom-right-radius": generateCSSUnit(blockBottomRadiusTablet, "px"),
         "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusTablet, "px"),
+        "background-size": boxImageSizeTablet,
+        "background-position": boxImagePositionTablet,
     },
     ":hover .responsive-block-editor-addons-add-image": {
       "border-top-left-radius": generateCSSUnit(blockTopRadiusTablet, "px"),

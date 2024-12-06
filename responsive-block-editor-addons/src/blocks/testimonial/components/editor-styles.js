@@ -87,6 +87,7 @@ function EditorStyles(props) {
     backgroundPosition,
     backgroundRepeat,
     backgroundSize,
+    backgroundColor1,
     backgroundColor2,
     gradientDirection,
     bgGradient,
@@ -132,6 +133,50 @@ function EditorStyles(props) {
   blockRightPadding,
   blockRightPaddingMobile,
   blockRightPaddingTablet,
+  contentTopPadding,
+  contentTopPaddingMobile,
+  contentTopPaddingTablet,
+  contentBottomPadding,
+  contentBottomPaddingMobile,
+  contentBottomPaddingTablet,
+  contentLeftPadding,
+  contentLeftPaddingMobile,
+  contentLeftPaddingTablet,
+  contentRightPadding,
+  contentRightPaddingMobile,
+  contentRightPaddingTablet,
+  backgroundType,
+  backgroundPositionMobile,
+  backgroundPositionTablet,
+  backgroundAttachment,
+  overlayType,
+  backgroundImageColor,
+  gradientOverlayColor1,
+  gradientOverlayLocation1,
+  gradientOverlayColor2,
+  gradientOverlayLocation2,
+  gradientOverlayType,
+  gradientOverlayAngle,
+  gradientOverlayPosition,
+  backgroundVideo,
+  backgroundColor,
+  contentBottomSpacing,
+  contentBottomSpacingMobile,
+  contentBottomSpacingTablet,
+  nameBottomSpacing,
+  nameBottomSpacingMobile,
+  nameBottomSpacingTablet,
+  titleBottomSpacing,
+  titleBottomSpacingMobile,
+  titleBottomSpacingTablet,
+  imagePositionTab,
+  imageSizeTab,
+  backgroundSizeTablet,
+  backgroundSizeMobile,
+  blockIsTypographyColorValueUpdated,
+  contentTypographyColor,
+  titleTypographyColor,
+  nameTypographyColor
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -162,6 +207,48 @@ function EditorStyles(props) {
     hoverboxShadowPositionCSS = "";
   }
 
+  let imgopacity = opacity / 100;
+
+  let updatedBackgroundImage = `url(${backgroundImage})`;
+  let backgroundImageEffect = "";
+  let colorType = "";
+  if (overlayType === "color") {
+    let colorType = `${hexToRgba(
+      backgroundImageColor || "#fff",
+      imgopacity || 0
+    )}`;
+
+    if(backgroundImage) {
+      updatedBackgroundImage = `linear-gradient(${hexToRgba(
+        backgroundImageColor || "#fff",
+        imgopacity || 0
+      )},${hexToRgba(
+        backgroundImageColor || "#fff",
+        imgopacity || 0
+      )}),url(${backgroundImage})`;
+    }
+    backgroundImageEffect = "";
+  }else {
+    if (gradientOverlayType === "linear") {
+      backgroundImageEffect = `linear-gradient(${gradientOverlayAngle}deg, ${hexToRgba(
+        gradientOverlayColor1 || "#fff",
+        imgopacity || 0
+      )} ${gradientOverlayLocation1}%, ${hexToRgba(
+        gradientOverlayColor2 || "#fff",
+        imgopacity || 0
+      )} ${gradientOverlayLocation2}%),url(${backgroundImage})`;
+    }
+    if (gradientOverlayType === "radial") {
+      backgroundImageEffect = `radial-gradient( at ${gradientOverlayPosition}, ${hexToRgba(
+        gradientOverlayColor1 || "#fff",
+        imgopacity || 0
+      )} ${gradientOverlayLocation1}%, ${hexToRgba(
+        gradientOverlayColor2 || "#fff",
+        imgopacity || 0
+      )} ${gradientOverlayLocation2}%),url(${backgroundImage})`;
+    }
+  }
+
   var selectors = {
     " ":{
       "opacity": hideWidget? 0.2 : 1,
@@ -184,11 +271,11 @@ function EditorStyles(props) {
       "line-height": contentLineHeight,
       "font-weight": contentFontWeight,
       "text-transform": contentTextTransform,
-      "margin-bottom": generateCSSUnit(contentSpacing, "px"),
-      color: testimonialTextColor,
+      "margin-bottom": generateCSSUnit(contentBottomSpacing, "px"),
+      color: contentTypographyColor,
     },
     " .responsive-block-editor-addons-testimonial-info": {
-      "margin-bottom": generateCSSUnit(titleSpacing, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacing, "px"),
     },
     " .responsive-block-editor-addons-testimonial-info .responsive-block-editor-addons-testimonial-inner-block .responsive-block-editor-addons-testimonial-avatar-wrap": {
       "padding-right": generateCSSUnit(imageSpacing, "px"),
@@ -202,16 +289,16 @@ function EditorStyles(props) {
       width: generateCSSUnit(imageWidth, "px"),
     },
     " .responsive-block-editor-addons-testimonial-details .responsive-block-editor-addons-testimonial-name": {
-      color: testimonialNameColor,
+      color: nameTypographyColor,
       "font-family": nameFontFamily,
       "font-size": generateCSSUnit(nameFontSize, "px"),
       "line-height": nameLineHeight,
       "font-weight": nameFontWeight,
       "text-transform": nameTextTransform,
-      "margin-bottom": generateCSSUnit(nameSpacing, "px"),
+      "margin-bottom": generateCSSUnit(nameBottomSpacing, "px"),
     },
     " .responsive-block-editor-addons-testimonial-details .responsive-block-editor-addons-testimonial-title": {
-      color: testimonialTitleColor,
+      color: titleTypographyColor,
       "font-family": titleFontFamily,
       "font-size": generateCSSUnit(titleFontSize, "px"),
       "line-height": titleLineHeight,
@@ -220,24 +307,62 @@ function EditorStyles(props) {
     },
     " .testimonial-box.responsive-block-editor-addons-block-testimonial": {
       "box-shadow": `${boxShadowHOffset}px ${boxShadowVOffset}px ${boxShadowBlur}px ${boxShadowSpread}px ${boxShadowColor} ${boxShadowPositionCSS}`,
-      padding: generateCSSUnit(padding, "px"),
+      "padding-top": generateCSSUnit(contentTopPadding, "px"),
+      "padding-right": generateCSSUnit(contentRightPadding, "px"),
+      "padding-bottom": generateCSSUnit(contentBottomPadding, "px"),
+      "padding-left": generateCSSUnit(contentLeftPadding, "px"),
     },
     " .responsive-block-editor-addons-block-testimonial:hover": {
       "box-shadow": `${hoverboxShadowHOffset}px ${hoverboxShadowVOffset}px ${hoverboxShadowBlur}px ${hoverboxShadowSpread}px ${hoverboxShadowColor} ${hoverboxShadowPositionCSS}`,
     },
     " .responsive-block-editor-addons-block-testimonial": {
-      "background-image": bggradient,
-      "background-size": backgroundSize,
-      "background-repeat": backgroundRepeat,
       "background-position": backgroundPosition,
-      color: testimonialTextColor,
+      "background-attachment": backgroundAttachment,
+      "background-repeat": backgroundRepeat,
+      "background-size": backgroundSize,
+      "color": testimonialTextColor,
       "border-style": borderStyle !== "empty" && blockBorderStyle === "none" ? borderStyle : blockBorderStyle,//For compatibility with v1.3.2
       "border-width": borderWidth !== 999 && blockBorderWidth === 1 ? generateCSSUnit(borderWidth, "px") : generateCSSUnit(blockBorderWidth, "px"),//For compatibility with v1.3.2
       "border-top-left-radius": generateCSSUnit(blockTopRadius, "px"),
       "border-top-right-radius": generateCSSUnit(blockRightRadius, "px"),
       "border-bottom-right-radius": generateCSSUnit(blockBottomRadius, "px"),
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadius, "px"),
-      "border-color": borderColor !== "empty" && blockBorderColor === "" ? borderColor : blockBorderColor,//For compatibility with v1.3.2
+      "background-color":
+        backgroundType == "color"
+          ? `${hexToRgba(backgroundColor || "#fff", imgopacity || 0)}`
+          : undefined,
+      "background-image": backgroundType === "image" && overlayType === "gradient"
+        ? backgroundImageEffect
+        : backgroundType === "gradient"
+        ? generateBackgroundImageEffect(
+            `${hexToRgba(backgroundColor1 || "#fff", imgopacity || 0)}`,
+            `${hexToRgba(backgroundColor2 || "#fff", imgopacity || 0)}`,
+            gradientDirection,
+            colorLocation1,
+            colorLocation2
+          )
+        : backgroundType === "image"
+        ? updatedBackgroundImage
+        : undefined,
+      "box-shadow":
+        generateCSSUnit(boxShadowHOffset, "px") +
+        " " +
+        generateCSSUnit(boxShadowVOffset, "px") +
+        " " +
+        generateCSSUnit(boxShadowBlur, "px") +
+        " " +
+        generateCSSUnit(boxShadowSpread, "px") +
+        " " +
+        boxShadowColor +
+        " " +
+        boxShadowPositionCSS,
+      "border-color": borderColor === "empty" && blockBorderColor !== "" ? blockBorderColor : borderColor,//For compatibility with v1.3.2
+    },
+    " .background-type-video": {
+      "background-color": `${hexToRgba(
+        backgroundColor || "#fff",
+        imgopacity || 0
+      )}`,
     },
   };
 
@@ -254,24 +379,27 @@ function EditorStyles(props) {
       'margin-left': generateCSSUnit(blockLeftMarginMobile, "px"),
     },
     " .testimonial-box.responsive-block-editor-addons-block-testimonial": {
-      padding: generateCSSUnit(paddingMobile, "px"),
+      "padding-top": generateCSSUnit(contentTopPaddingMobile, "px"),
+      "padding-right": generateCSSUnit(contentRightPaddingMobile, "px"),
+      "padding-bottom": generateCSSUnit(contentBottomPaddingMobile, "px"),
+      "padding-left": generateCSSUnit(contentLeftPaddingMobile, "px"),
     },
     " .wp-block-responsive-block-editor-addons-testimonial:last-child": {
       "margin-bottom" : '0 !important',
     },
 	  " .responsive-block-editor-addons-testimonial-details .responsive-block-editor-addons-testimonial-name": {
 	  	"font-size": generateCSSUnit(nameFontSizeMobile, "px"),
-      "margin-bottom": generateCSSUnit(nameSpacingMobile, "px"),
+      "margin-bottom": generateCSSUnit(nameBottomSpacingMobile, "px"),
 	  },
 	  " .responsive-block-editor-addons-testimonial-details .responsive-block-editor-addons-testimonial-title": {
 	  	"font-size": generateCSSUnit(titleFontSizeMobile, "px"),
 	  },
 	  " .responsive-block-editor-addons-testimonial-text": {
 	  	"font-size": generateCSSUnit(contentFontSizeMobile, "px"),
-      "margin-bottom": generateCSSUnit(contentSpacingMobile, "px"),
+      "margin-bottom": generateCSSUnit(contentBottomSpacingMobile, "px"),
 	  },
     " .responsive-block-editor-addons-testimonial-info": {
-      "margin-bottom": generateCSSUnit(titleSpacingMobile, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacingMobile, "px"),
     },
     " .responsive-block-editor-addons-testimonial-info .responsive-block-editor-addons-testimonial-inner-block .responsive-block-editor-addons-testimonial-avatar-wrap": {
       "padding-right": generateCSSUnit(imageSpacingMobile, "px"),
@@ -285,15 +413,21 @@ function EditorStyles(props) {
           width: generateCSSUnit(imageWidthMobile, "px"),
       },
       " .responsive-block-editor-addons-block-testimonial": {
-      "background-image": bggradient,
-      "background-size": backgroundSize,
+      // "background-image": bggradient,
+      // "background-size": backgroundSize,
       "background-repeat": backgroundRepeat,
-      "background-position": backgroundPosition,
-      color: testimonialTextColor,
+      "background-position": backgroundPositionMobile,
+      "color": testimonialTextColor,
       "border-top-left-radius": generateCSSUnit(blockTopRadiusMobile, "px"),
       "border-top-right-radius": generateCSSUnit(blockRightRadiusMobile, "px"),
       "border-bottom-right-radius": generateCSSUnit(blockBottomRadiusMobile, "px"),
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusMobile, "px"),
+      "background-position": backgroundPositionMobile,
+      "background-size": backgroundSizeMobile === '' ? backgroundSize : backgroundSizeMobile,
+      "padding-top": generateCSSUnit(contentTopPaddingMobile, "px"),
+      "padding-right": generateCSSUnit(contentRightPaddingMobile, "px"),
+      "padding-bottom": generateCSSUnit(contentBottomPaddingMobile, "px"),
+      "padding-left": generateCSSUnit(contentLeftPaddingMobile, "px"),
     },
   };
 
@@ -310,40 +444,54 @@ function EditorStyles(props) {
       'margin-left': generateCSSUnit(blockLeftMarginTablet, "px"),
     },
     " .testimonial-box.responsive-block-editor-addons-block-testimonial": {
-      padding: generateCSSUnit(paddingTablet, "px"),
+      "padding-top": generateCSSUnit(contentTopPaddingTablet, "px"),
+      "padding-right": generateCSSUnit(contentRightPaddingTablet, "px"),
+      "padding-bottom": generateCSSUnit(contentBottomPaddingTablet, "px"),
+      "padding-left": generateCSSUnit(contentLeftPaddingTablet, "px"),
     },
     " .wp-block-responsive-block-editor-addons-testimonial:last-child": {
       "margin-bottom" : `${generateCSSUnit(20, "px")} !important`,
     },
 	  " .responsive-block-editor-addons-testimonial-details .responsive-block-editor-addons-testimonial-name": {
 	  	"font-size": generateCSSUnit(nameFontSizeTablet, "px"),
-      "margin-bottom": generateCSSUnit(nameSpacingTablet, "px"),
+      "margin-bottom": generateCSSUnit(nameBottomSpacingTablet, "px"),
 	  },
 	  " .responsive-block-editor-addons-testimonial-details .responsive-block-editor-addons-testimonial-title": {
 	  	"font-size": generateCSSUnit(titleFontSizeTablet, "px"),
 	  },
 	  " .responsive-block-editor-addons-testimonial-text": {
 	  	"font-size": generateCSSUnit(contentFontSizeTablet, "px"),
-      "margin-bottom": generateCSSUnit(contentSpacingTablet, "px"),
+      "margin-bottom": generateCSSUnit(contentBottomSpacingTablet, "px"),
 	  },
     " .responsive-block-editor-addons-testimonial-info": {
-      "margin-bottom": generateCSSUnit(titleSpacingTablet, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacingTablet, "px"),
     },
     " .responsive-block-editor-addons-testimonial-info .responsive-block-editor-addons-testimonial-inner-block .responsive-block-editor-addons-testimonial-avatar-wrap": {
       "padding-right": generateCSSUnit(imageSpacingTablet, "px"),
     },
-      " .responsive-block-editor-addons-testimonial-info .responsive-block-editor-addons-testimonial-inner-block .responsive-block-editor-addons-testimonial-avatar-wrap .responsive-block-editor-addons-testimonial-image-wrap": {
-          height: generateCSSUnit(imageWidthTablet, "px"),
-          width: generateCSSUnit(imageWidthTablet, "px"),
-      },
-      " .change-image .responsive-block-editor-addons-testimonial-avatar": {
-          height: generateCSSUnit(imageWidthTablet, "px"),
-          width: generateCSSUnit(imageWidthTablet, "px"),
-      },
+    " .responsive-block-editor-addons-testimonial-info .responsive-block-editor-addons-testimonial-inner-block .responsive-block-editor-addons-testimonial-avatar-wrap .responsive-block-editor-addons-testimonial-image-wrap": {
+        height: generateCSSUnit(imageWidthTablet, "px"),
+        width: generateCSSUnit(imageWidthTablet, "px"),
+    },
+    " .change-image .responsive-block-editor-addons-testimonial-avatar": {
+        height: generateCSSUnit(imageWidthTablet, "px"),
+        width: generateCSSUnit(imageWidthTablet, "px"),
+    },
+    " .responsive-block-editor-addons-block-testimonial": {
+      "background-position": backgroundPositionTablet,
+      "background-size": backgroundSizeTablet === '' ? backgroundSize : backgroundSizeTablet,
+      "background-repeat": backgroundRepeat,
+      "background-position": backgroundPositionTablet,
+      "color": testimonialTextColor,
       "border-top-left-radius": generateCSSUnit(blockTopRadiusTablet, "px"),
       "border-top-right-radius": generateCSSUnit(blockRightRadiusTablet, "px"),
       "border-bottom-right-radius": generateCSSUnit(blockBottomRadiusTablet, "px"),
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusTablet, "px"),
+      "padding-top": generateCSSUnit(contentTopPaddingTablet, "px"),
+      "padding-right": generateCSSUnit(contentRightPaddingTablet, "px"),
+      "padding-bottom": generateCSSUnit(contentBottomPaddingTablet, "px"),
+      "padding-left": generateCSSUnit(contentLeftPaddingTablet, "px"),
+    },
   };
 
   var styling_css = "";

@@ -22,6 +22,10 @@ import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-contro
 import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control";
 import RbeaColorControl from "../../../utils/components/rbea-color-control";
 import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlockBorderSettings";
+import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
+import RbeaAngleRangeControl from "../../../utils/components/rbea-angle-range-control";
+import { RadioControl} from "@wordpress/components";
+import ResponsiveContentPaddingControl from "../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveContentPaddingControl";
 
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -54,6 +58,8 @@ export default class Inspector extends Component {
     super(...arguments);
     this.onRemoveImage = this.onRemoveImage.bind(this);
     this.onSelectImage = this.onSelectImage.bind(this);
+    this.onSelectImage = this.onSelectImage.bind(this);
+    this.onSelectVideo = this.onSelectVideo.bind(this);
   }
 
   /*
@@ -82,6 +88,31 @@ export default class Inspector extends Component {
     }
 
     setAttributes({ backgroundImage: media.url });
+  }
+
+  /*
+   * Event to set Video as null while removing.
+   */
+  onRemoveVideo() {
+    const { setAttributes } = this.props;
+
+    setAttributes({ backgroundVideo: null });
+  }
+
+  /*
+   * Event to set Video while adding.
+   */
+  onSelectVideo(media) {
+    const { setAttributes } = this.props;
+
+    if (!media || !media.url) {
+      setAttributes({ backgroundVideo: null });
+      return;
+    }
+    if (!media.type || "video" != media.type) {
+      return;
+    }
+    setAttributes({ backgroundVideo: media });
   }
 
   render() {
@@ -217,6 +248,18 @@ export default class Inspector extends Component {
       },
     ];
 
+    const imagePositionOptions = [
+      { value: "top left", label: <div className = "rbea-background-image-positon-control-option">{__("Top Left", "responsive-block-editor-addons")}</div> },
+      { value: "top center", label: <div className = "rbea-background-image-positon-control-option">{__("Top Center", "responsive-block-editor-addons")}</div> },
+      { value: "top right", label: <div className = "rbea-background-image-positon-control-option">{__("Top Right", "responsive-block-editor-addons")}</div> },
+      { value: "center left", label: <div className = "rbea-background-image-positon-control-option">{__("Center Left", "responsive-block-editor-addons")}</div> },
+      { value: "center center", label: <div className = "rbea-background-image-positon-control-option">{__("Center Center", "responsive-block-editor-addons")}</div> },
+      { value: "center right", label: <div className = "rbea-background-image-positon-control-option">{__("Center Right", "responsive-block-editor-addons")}</div> },
+      { value: "bottom left", label: <div className = "rbea-background-image-positon-control-option">{__("Bottom Left", "responsive-block-editor-addons")}</div> },
+      { value: "bottom center", label: <div className = "rbea-background-image-positon-control-option">{__("Bottom Center", "responsive-block-editor-addons")}</div> },
+      { value: "bottom right", label: <div className = "rbea-background-image-positon-control-option">{__("Bottom Right", "responsive-block-editor-addons")}</div> },
+    ];
+
     // Setup the attributes
     const {
       attributes: {
@@ -301,45 +344,91 @@ export default class Inspector extends Component {
         imageSpacingTablet,
         colorLocation1,
         colorLocation2,
-		contentFontSizeMobile,
-		contentFontSizeTablet,
-		nameFontSizeMobile,
-		nameFontSizeTablet,
-		titleFontSizeMobile,
-		titleFontSizeTablet,
-    hideWidget,
-    hideWidgetTablet,
-    hideWidgetMobile,
-    z_index,
-    z_indexMobile,
-    z_indexTablet,
-    blockTopMargin,
-    blockBottomMargin,
-    blockLeftMargin,
-    blockRightMargin,
-    blockTopMarginTablet,
-    blockBottomMarginTablet,
-    blockLeftMarginTablet,
-    blockRightMarginTablet,
-    blockTopMarginMobile,
-    blockBottomMarginMobile,
-    blockLeftMarginMobile,
-    blockRightMarginMobile,
-    blockTopPadding,
-    blockTopPaddingMobile,
-    blockTopPaddingTablet,
-    blockBottomPadding,
-    blockBottomPaddingMobile,
-    blockBottomPaddingTablet,
-    blockLeftPadding,
-    blockLeftPaddingMobile,
-    blockLeftPaddingTablet,
-    blockRightPadding,
-    blockRightPaddingMobile,
-    blockRightPaddingTablet,
-    blockIsMarginControlConnected,
-    blockIsPaddingControlConnected,
-      },
+		    contentFontSizeMobile,
+		    contentFontSizeTablet,
+		    nameFontSizeMobile,
+		    nameFontSizeTablet,
+		    titleFontSizeMobile,
+		    titleFontSizeTablet,
+        hideWidget,
+        hideWidgetTablet,
+        hideWidgetMobile,
+        z_index,
+        z_indexMobile,
+        z_indexTablet,
+        blockTopMargin,
+        blockBottomMargin,
+        blockLeftMargin,
+        blockRightMargin,
+        blockTopMarginTablet,
+        blockBottomMarginTablet,
+        blockLeftMarginTablet,
+        blockRightMarginTablet,
+        blockTopMarginMobile,
+        blockBottomMarginMobile,
+        blockLeftMarginMobile,
+        blockRightMarginMobile,
+        blockTopPadding,
+        blockTopPaddingMobile,
+        blockTopPaddingTablet,
+        blockBottomPadding,
+        blockBottomPaddingMobile,
+        blockBottomPaddingTablet,
+        blockLeftPadding,
+        blockLeftPaddingMobile,
+        blockLeftPaddingTablet,
+        blockRightPadding,
+        blockRightPaddingMobile,
+        blockRightPaddingTablet,
+        blockIsMarginControlConnected,
+        blockIsPaddingControlConnected,
+        contentTopPadding,
+        contentTopPaddingMobile,
+        contentTopPaddingTablet,
+        contentBottomPadding,
+        contentBottomPaddingMobile,
+        contentBottomPaddingTablet,
+        contentLeftPadding,
+        contentLeftPaddingMobile,
+        contentLeftPaddingTablet,
+        contentRightPadding,
+        contentRightPaddingMobile,
+        contentRightPaddingTablet,
+        blockIsContentPaddingControlConnected,
+        backgroundType,
+        backgroundPositionMobile,
+        backgroundPositionTablet,
+        backgroundAttachment,
+        overlayType,
+        backgroundImageColor,
+        gradientOverlayColor1,
+        gradientOverlayLocation1,
+        gradientOverlayColor2,
+        gradientOverlayLocation2,
+        gradientOverlayType,
+        gradientOverlayAngle,
+        gradientOverlayPosition,
+        backgroundVideo,
+        backgroundColor,
+        backgroundColor1,
+        imagePositionTab,
+        imageSizeTab,
+        backgroundSizeTablet,
+        backgroundSizeMobile,
+        contentBottomSpacing,
+        contentBottomSpacingMobile,
+        contentBottomSpacingTablet,
+        nameBottomSpacing,
+        nameBottomSpacingMobile,
+        nameBottomSpacingTablet,
+        titleBottomSpacing,
+        titleBottomSpacingMobile,
+        titleBottomSpacingTablet,
+        blockIsTypographyColorValueUpdated,
+        contentTypographyColor,
+        titleTypographyColor,
+        nameTypographyColor,
+    },
       setAttributes,
     } = this.props;
 
@@ -372,6 +461,21 @@ export default class Inspector extends Component {
 			paddingMobileLeft: 0,
 		}
 
+    const blockContentPaddingResetValues = {
+			PaddingTop: 0,
+			PaddingRight: 0,
+			PaddingBottom: 0,
+			PaddingLeft: 0,
+			PaddingTabletTop: 0,
+			PaddingTabletRight: 0,
+			PaddingTabletBottom: 0,
+			PaddingTabletLeft: 0,
+			PaddingMobileTop: 0,
+			PaddingMobileRight: 0,
+			PaddingMobileBottom: 0,
+			PaddingMobileLeft: 0,
+		}
+
     // backward compatibility for border radius control
 
     if (!blockIsRadiusValueUpdated) {
@@ -393,6 +497,25 @@ export default class Inspector extends Component {
       )
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
     }
+
+
+    // backward compatibility for typography color control
+
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          contentTypographyColor:          testimonialTextColor !== undefined ? testimonialTextColor : contentTypographyColor,
+          nameTypographyColor:       testimonialNameColor !== undefined ? testimonialNameColor : nameTypographyColor,
+          titleTypographyColor:         testimonialTitleColor !== undefined ? testimonialTitleColor : titleTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
+
+
+    // Background image URL
+    let background_image_url = backgroundImage || '';
 
     return (
       <InspectorControls key="inspector">
@@ -472,204 +595,503 @@ export default class Inspector extends Component {
       </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-            <PanelBody
-              title={__(
-                "Colors and Background",
-                "responsive-block-editor-addons"
+          <PanelBody
+              title={__("Background", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+              {<RbeaBackgroundTypeControl
+                label = {"Type"}
+                selectedValue={backgroundType}
+                options={[
+                  { label: "color", value: "color" },
+                  { label: "gradient", value: "gradient" },
+                  { label: "image",value: "image" },
+                  { label: "video", value: "video" },
+                ]}
+                onChange={(value) => setAttributes({ backgroundType: value })}
+              />}
+              {"color" == backgroundType && (
+                <Fragment>
+                  <RbeaColorControl
+                    label = {"Color"}
+                    colorValue={backgroundColor}
+                    onChange={(newColor) => setAttributes({ backgroundColor: newColor })}
+                    resetColor={() => setAttributes({ backgroundColor: "" })}
+                  />
+                </Fragment>
               )}
-              initialOpen={false}
-            >
-               <RbeaColorControl
-									label = {__("Text Color", "responsive-block-editor-addons")}
-									colorValue={testimonialTextColor}
-									onChange={(colorValue) =>
-										setAttributes({ testimonialTextColor: colorValue })
-									}
-									resetColor={() => setAttributes({ testimonialTextColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Name Color", "responsive-block-editor-addons")}
-									colorValue={testimonialNameColor}
-									onChange={(colorValue) =>
-										setAttributes({ testimonialNameColor: colorValue })
-									}
-									resetColor={() => setAttributes({ testimonialNameColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Title/Designation Color", "responsive-block-editor-addons")}
-									colorValue={testimonialTitleColor}
-									onChange={(colorValue) =>
-										setAttributes({ testimonialTitleColor: colorValue })
-									}
-									resetColor={() => setAttributes({ testimonialTitleColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Background Color", "responsive-block-editor-addons")}
-									colorValue={testimonialBackgroundColor}
-									onChange={(colorValue) =>
-										setAttributes({ testimonialBackgroundColor: colorValue })
-									}
-									resetColor={() => setAttributes({ testimonialBackgroundColor: "" })}
-								/>
-              <ToggleControl
-                label="Gradient Background"
-                checked={bgGradient}
-                onChange={() =>
-                  this.props.setAttributes({
-                    bgGradient: !bgGradient,
-                  })
-                }
-              />
-              {bgGradient && [
-                <GradientBackgroundControl
-                  {...this.props}
-                  showHoverGradient={false}
-                  showColorOne={false}
-                />
-              ]}
-              <RbeaRangeControl
-                label={__(
-                  "Background Color Opacity",
-                  "responsive-block-editor-addons"
-                )}
-                value={opacity}
-                onChange={(value) =>
-                  this.props.setAttributes({
-                    opacity: value !== undefined ? value : 1,
-                  })
-                }
-                min={0}
-                step={0.01}
-                max={1}
-                allowReset
-              />
-                <RbeaMediaUploadControl
-                  label={__('Image', 'responsive-block-editor-addons')}
-                  value={{
-                      url: backgroundImage || '',
-                  }}
-                  onChange={(newValue) => {
-                      setAttributes({
-                        backgroundImage: newValue.url,
-                      });
-                  }}
-                  mediaType={'image'}
-                />
-              <SelectControl
-                label={__("Background Position", "responsive-block-editor-addons")}
-                value={backgroundPosition}
-                onChange={(value) =>
-                  setAttributes({ backgroundPosition: value })
-                }
-                options={[
-                  { value: "left top", label: __("Left Top", "responsive-block-editor-addons") },
-                  { value: "left center", label: __("Left Center", "responsive-block-editor-addons") },
-                  { value: "left bottom", label: __("Left Bottom", "responsive-block-editor-addons") },
-                  { value: "right top", label: __("Right Top", "responsive-block-editor-addons") },
-                  { value: "right center", label: __("Right Center", "responsive-block-editor-addons") },
-                  { value: "right bottom", label: __("Right Bottom", "responsive-block-editor-addons") },
-                  { value: "center top", label: __("Center Top", "responsive-block-editor-addons") },
-                  { value: "center center", label: __("Center Center", "responsive-block-editor-addons") },
-                  { value: "center bottom", label: __("Center Bottom", "responsive-block-editor-addons") },
-                ]}
-              />
-              <SelectControl
-                label={__("Background Repeat", "responsive-block-editor-addons")}
-                value={backgroundRepeat}
-                onChange={(value) => setAttributes({ backgroundRepeat: value })}
-                options={[
-                  { value: "initial", label: __("Initial", "responsive-block-editor-addons") },
-                  { value: "repeat", label: __("Repeat", "responsive-block-editor-addons") },
-                  { value: "no-repeat", label: __("No-Repeat", "responsive-block-editor-addons") },
-                  { value: "round", label: __("Round", "responsive-block-editor-addons") },
-                  { value: "inherit", label: __("Inherit", "responsive-block-editor-addons") },
-                  { value: "space", label: __("Space", "responsive-block-editor-addons") },
-                  { value: "repeat-y", label: __("Repeat Y", "responsive-block-editor-addons") },
-                  { value: "repeat-x", label: __("Repeat X", "responsive-block-editor-addons") },
-                ]}
-              />
-              <SelectControl
-                label={__("Background Size", "responsive-block-editor-addons")}
-                value={backgroundSize}
-                onChange={(value) => setAttributes({ backgroundSize: value })}
-                options={[
-                  { value: "initial", label: __("Initial", "responsive-block-editor-addons") },
-                  { value: "cover", label: __("Cover", "responsive-block-editor-addons") },
-                  { value: "contain", label: __("Contain", "responsive-block-editor-addons") },
-                  { value: "auto", label: __("Auto", "responsive-block-editor-addons") },
-                  { value: "inherit", label: __("Inherit", "responsive-block-editor-addons") },
-                ]}
-              />
-            </PanelBody>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-				<TypographyHelperControl
-					title={__("Content", "responsive-block-editor-addons")}
-					attrNameTemplate="content%s"
-					values={{
-					family: contentFontFamily,
-					size: contentFontSize,
-					sizeMobile: contentFontSizeMobile,
-					sizeTablet: contentFontSizeTablet,
-					weight: contentFontWeight,
-					height: contentLineHeight,
-					transform: contentTextTransform
-					}}
-					showLetterSpacing={false}
-					showTextTransform={true}
-					setAttributes={setAttributes}
-					{...this.props}
-				/>
-				<TypographyHelperControl
-					title={__("Name", "responsive-block-editor-addons")}
-					attrNameTemplate="name%s"
-					values={{
-					family: nameFontFamily,
-					size: nameFontSize,
-					sizeMobile: nameFontSizeMobile,
-					sizeTablet: nameFontSizeTablet,
-					weight: nameFontWeight,
-					height: nameLineHeight,
-					transform: nameTextTransform
-					}}
-					showLetterSpacing={false}
-					showTextTransform={true}
-					setAttributes={setAttributes}
-					{...this.props}
-				/>
-				<TypographyHelperControl
-					title={__("Title", "responsive-block-editor-addons")}
-					attrNameTemplate="title%s"
-					values={{
-					family: titleFontFamily,
-					size: titleFontSize,
-					sizeMobile: titleFontSizeMobile,
-					sizeTablet: titleFontSizeTablet,
-					weight: titleFontWeight,
-					height: titleLineHeight,
-					transform: titleTextTransform
-					}}
-					showLetterSpacing={false}
-					showTextTransform={true}
-					setAttributes={setAttributes}
-					{...this.props}
-				/>
-            </PanelBody>
+              {"gradient" == backgroundType && (
+                <Fragment>
+                  <GradientBackgroundControl
+                    {...this.props}
+                    showHoverGradient={false}
+                  />
+                </Fragment>
+              )}
+              {"image" == backgroundType && (
+                <Fragment>
+                    <RbeaMediaUploadControl
+                      label={__('Image', 'responsive-block-editor-addons')}
+                      value={{
+                          url: backgroundImage || '',
+                      }}
+                      onChange={(newValue) => {
+                          setAttributes({
+                              backgroundImage: newValue.url,
+                          });
+                      }}
+                      mediaType={'image'}
+                    />
+                  {backgroundImage && (
+                    <Fragment>
+                      <div className = "rbea-tab-selector-label-wrapper">
+                      <label className  = "rbea-background-image-positon-control-label">{__("Image Position", "responsive-block-editor-addons")}</label>
+                      <TabPanel
+                        className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                        activeClass="active-tab"
+                        tabs={[
+                          {
+                            name: "desktop",
+                            title: <Dashicon icon="desktop" />,
+                            className:
+                              " responsive-desktop-tab  responsive-responsive-tabs",
+                          },
+                          {
+                            name: "tablet",
+                            title: <Dashicon icon="tablet" />,
+                            className:
+                              " responsive-tablet-tab  responsive-responsive-tabs",
+                          },
+                          {
+                            name: "mobile",
+                            title: <Dashicon icon="smartphone" />,
+                            className:
+                              " responsive-mobile-tab  responsive-responsive-tabs",
+                          },
+                        ]}
+                      >
+                        {(tab) => {
+                          if ("mobile" === tab.name) {
+                            setAttributes({ imagePositionTab: "mobile" });
+                          } else if ("tablet" === tab.name) {
+                            setAttributes({ imagePositionTab: "tablet" });
+                          } else {
+                            setAttributes({ imagePositionTab: "desktop" });
+                          }
+                        }}
+                      </TabPanel>
+                      </div>
+                        <Fragment>
+                          <div className = "rbea-background-image-positon-control"
+                          style={{
+                            backgroundImage: `url(${background_image_url})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition:  'center',
+                          }}>
+                          { imagePositionTab === "desktop" && 
+                              <RadioControl 
+                                className = "rbea-background-image-positon-control-options"
+                                selected={backgroundPosition}
+                                options={imagePositionOptions}
+                                onChange={(value) =>
+                                  setAttributes({ backgroundPosition: value })
+                                }
+                              />
+                          }
+                          {imagePositionTab === "tablet" &&
+                             <RadioControl 
+                                className = "rbea-background-image-positon-control-options"
+                                selected={backgroundPositionTablet}
+                                options={imagePositionOptions}
+                                onChange={(value) =>
+                                  setAttributes({ backgroundPositionTablet: value })
+                                }
+                            />
+                          }
+                          {imagePositionTab === "mobile" && 
+                            <RadioControl 
+                                className = "rbea-background-image-positon-control-options"
+                                selected={backgroundPositionMobile}
+                                options={imagePositionOptions}
+                                onChange={(value) =>
+                                  setAttributes({ backgroundPositionMobile: value })
+                                }
+                            />
+                          }
+                          </div>
+                        </Fragment>
+                      <RbeaTabRadioControl
+                        label={__("Attachment", "responsive-block-editor-addons")}
+                        value={backgroundAttachment}
+                        onChange={(value) =>
+                          setAttributes({ backgroundAttachment: value })
+                        }
+                        options={[
+                          { value: "scroll", label: __("Scroll", "responsive-block-editor-addons") },
+                          { value: "fixed", label: __("Fixed", "responsive-block-editor-addons") },
+                        ]}
+                        defaultValue={"fixed"}
+                      />
+                     <div className = "rbea-tab-selector-label-wrapper">
+                     <label>{__("Size", "responsive-block-editor-addons")}</label>
+                      <TabPanel
+                        className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin rbea-section-size-control-tab-selector"
+                        activeClass="active-tab"
+                        tabs={[
+                          {
+                            name: "desktop",
+                            title: <Dashicon icon="desktop" />,
+                            className:
+                              " responsive-desktop-tab  responsive-responsive-tabs",
+                          },
+                          {
+                            name: "tablet",
+                            title: <Dashicon icon="tablet" />,
+                            className:
+                              " responsive-tablet-tab  responsive-responsive-tabs",
+                          },
+                          {
+                            name: "mobile",
+                            title: <Dashicon icon="smartphone" />,
+                            className:
+                              " responsive-mobile-tab  responsive-responsive-tabs",
+                          },
+                        ]}
+                      >
+                        {(tab) => {
+                          if ("mobile" === tab.name) {
+                            setAttributes({ imageSizeTab: "mobile" });
+                          } else if ("tablet" === tab.name) {
+                            setAttributes({ imageSizeTab: "tablet" });
+                          } else {
+                            setAttributes({ imageSizeTab: "desktop" });
+                          }
+                        }}
+                      </TabPanel>
+                      </div>
+                      {imageSizeTab === "desktop" && (
+                        <>
+                        <RbeaTabRadioControl
+                          label={__("", "responsive-block-editor-addons")}
+                          value={backgroundSize}
+                          onChange={(value) =>
+                            setAttributes({ backgroundSize: value })
+                          }
+                          options={[
+                            { value: "auto", label: __("Auto", "responsive-block-editor-addons") },
+                            { value: "cover", label: __("Cover", "responsive-block-editor-addons") },
+                            { value: "contain", label: __("Contain", "responsive-block-editor-addons") },
+                          ]}
+                          defaultValue={"cover"}
+                        />
+                      </>
+                      )}
+                      {imageSizeTab === "tablet" && (
+                        <RbeaTabRadioControl
+                        label={__("", "responsive-block-editor-addons")}
+                        value={backgroundSizeTablet}
+                        onChange={(value) =>
+                          setAttributes({ backgroundSizeTablet: value })
+                        }
+                        options={[
+                          { value: "auto", label: __("Auto", "responsive-block-editor-addons") },
+                          { value: "cover", label: __("Cover", "responsive-block-editor-addons") },
+                          { value: "contain", label: __("Contain", "responsive-block-editor-addons") },
+                        ]}
+                        defaultValue={"cover"}
+                        />
+                      )}
+                      {imageSizeTab === "mobile" && (
+                        <RbeaTabRadioControl
+                          label={__("", "responsive-block-editor-addons")}
+                          value={backgroundSizeMobile}
+                          onChange={(value) =>
+                            setAttributes({ backgroundSizeMobile: value })
+                          }
+                          options={[
+                            { value: "auto", label: __("Auto", "responsive-block-editor-addons") },
+                            { value: "cover", label: __("Cover", "responsive-block-editor-addons") },
+                            { value: "contain", label: __("Contain", "responsive-block-editor-addons") },
+                          ]}
+                          defaultValue={"cover"}
+                        />
+                      )}
+                      <div className = "rbea-repeat-selector-wrapper">
+                      <RbeaTabRadioControl
+                        label={__("Repeat", "responsive-block-editor-addons")}
+                        value={backgroundRepeat}
+                        onChange={(value) =>
+                          setAttributes({ backgroundRepeat: value })
+                        }
+                        options={[
+                          { value: "no-repeat", label: __("No Repeat", "responsive-block-editor-addons") },
+                          { value: "repeat", label: __("Repeat", "responsive-block-editor-addons") },
+                          { value: "repeat-x", label: __("Repeat-x", "responsive-block-editor-addons") },
+                          { value: "repeat-y", label: __("Repeat-y", "responsive-block-editor-addons") },
+                        ]}
+                        defaultValue={"no-repeat"}
+                      /></div>
+                      <RbeaBackgroundTypeControl
+                        label={__("Overlay Type", "responsive-block-editor-addons")}
+                        value={overlayType}
+                        onChange={(value) =>
+                          setAttributes({ overlayType: value })
+                        }
+                        options={[
+                          { label: "color", value: "color" },
+                          { label: "gradient", value: "gradient" },
+                        ]}
+                      />
+                      {overlayType == "color" && (
+                        <Fragment>
+                          <RbeaColorControl
+                            label = {__("Overlay Color", "responsive-block-editor-addons")}
+                            colorValue={backgroundImageColor}
+                            onChange={(colorValue) =>
+                              setAttributes({
+                                backgroundImageColor: colorValue,
+                              })
+                            }
+                            resetColor={() => setAttributes({ backgroundImageColor: "" })}
+                          />
+                        </Fragment>
+                      )}
 
+                      {"gradient" == overlayType && (
+                        <Fragment>
+                          <RbeaColorControl
+                            label = {"Color 1"}
+                            colorValue={gradientOverlayColor1}
+                            onChange={(colorValue) =>
+                              setAttributes({
+                                gradientOverlayColor1: colorValue,
+                              })
+                            }
+                            resetColor={() => setAttributes({ gradientOverlayColor1: "" })}
+                          />
+                          <RbeaRangeControl
+                            label={__("Location 1", "responsive-block-editor-addons")}
+                            value={gradientOverlayLocation1}
+                            onChange={(value) =>
+                              setAttributes({ gradientOverlayLocation1: value })
+                            }
+                            min={0}
+                            max={100}
+                          />
+                          <RbeaColorControl
+                            label = {"Color 2"}
+                            colorValue={gradientOverlayColor2}
+                            onChange={(colorValue) =>
+                              setAttributes({
+                                gradientOverlayColor2: colorValue,
+                              })
+                            }
+                            resetColor={() => setAttributes({ gradientOverlayColor2: "" })}
+                          />
+                          <RbeaRangeControl
+                            label={__("Location 2", "responsive-block-editor-addons")}
+                            value={gradientOverlayLocation2}
+                            onChange={(value) =>
+                              setAttributes({ gradientOverlayLocation2: value })
+                            }
+                            min={0}
+                            max={100}
+                          />
+                          <RbeaTabRadioControl
+                            label={__("Type", "responsive-block-editor-addons")}
+                            value={gradientOverlayType}
+                            onChange={(value) =>
+                              setAttributes({ gradientOverlayType: value })
+                            }
+                            options={[
+                              { value: "linear", label: __("Linear", "responsive-block-editor-addons") },
+                              { value: "radial", label: __("Radial", "responsive-block-editor-addons") },
+                            ]}
+                            defaultValue={"linear"}
+                          />
+                          {"linear" == gradientOverlayType && (
+                            <RbeaAngleRangeControl
+                              label={__("Angle", "responsive-block-editor-addons")}
+                              value={gradientOverlayAngle}
+                              onChange={(value) =>
+                                setAttributes({ gradientOverlayAngle: value })
+                              }
+                              min={0}
+                              max={360}
+                            />
+                          )}
+                          {"radial" == gradientOverlayType && (
+                            <SelectControl
+                              label={__("Type", "responsive-block-editor-addons")}
+                              value={gradientOverlayPosition}
+                              onChange={(value) =>
+                                setAttributes({
+                                  gradientOverlayPosition: value,
+                                })
+                              }
+                              options={[
+                                {
+                                  value: "center center",
+                                  label: __("Center Center", "responsive-block-editor-addons"),
+                                },
+                                {
+                                  value: "center left",
+                                  label: __("Center Left", "responsive-block-editor-addons"),
+                                },
+                                {
+                                  value: "center right",
+                                  label: __("Center Right", "responsive-block-editor-addons"),
+                                },
+                                {
+                                  value: "top center",
+                                  label: __("Top Center", "responsive-block-editor-addons"),
+                                },
+                                { value: "top left", label: __("Top Left", "responsive-block-editor-addons") },
+                                { value: "top right", label: __("Top Right", "responsive-block-editor-addons") },
+                                {
+                                  value: "bottom center",
+                                  label: __("Bottom Center", "responsive-block-editor-addons"),
+                                },
+                                {
+                                  value: "bottom left",
+                                  label: __("Bottom Left", "responsive-block-editor-addons"),
+                                },
+                                {
+                                  value: "bottom right",
+                                  label: __("Bottom Right", "responsive-block-editor-addons"),
+                                },
+                              ]}
+                            />
+                          )}
+                        </Fragment>
+                      )}
+                    </Fragment>
+                  )}
+                </Fragment>
+              )}
+              {"video" == backgroundType && (
+                <>
+                    <RbeaMediaUploadControl
+                      label={__('Video', 'responsive-block-editor-addons')}
+                      value={{
+                          url: backgroundVideo? backgroundVideo.url : '',
+                      }}
+                      onChange={(newValue) => { 
+                          setAttributes({
+                              backgroundVideo: newValue,
+                          });
+                      }}
+                      mediaType={'video'}
+                    />
+                </>
+              )}
+              {backgroundType && backgroundType !== 'none' &&
+                <RbeaRangeControl
+                  label={__("Opacity", "responsive-block-editor-addons")}
+                  value={opacity}
+                  onChange={(value) =>
+                    setAttributes({ opacity: value !== undefined ? value : 20 })
+                  }
+                  min={0}
+                  max={100}
+                />
+              }
+            </PanelBody>
+				      <TypographyHelperControl
+				      	title={__("Content Typography", "responsive-block-editor-addons")}
+				      	attrNameTemplate="content%s"
+				      	values={{
+				      	  family: contentFontFamily,
+				      	  size: contentFontSize,
+				      	  sizeMobile: contentFontSizeMobile,
+				      	  sizeTablet: contentFontSizeTablet,
+                  bottomSpacing: contentBottomSpacing,
+                  bottomSpacingMobile: contentBottomSpacingMobile,
+                  bottomSpacingTablet: contentBottomSpacingTablet,
+				      	  weight: contentFontWeight,
+				      	  height: contentLineHeight,
+				      	  transform: contentTextTransform,
+                  color: contentTypographyColor,
+                  label: __("Text Color", "responsive-block-editor-addons"),
+				      	}}
+                resetColor={() => setAttributes({ contentTypographyColor: "" })}
+				      	showLetterSpacing={false}
+				      	showTextTransform={true}
+                showTextBottomSpacing={true}
+                showColorControl={true}
+				      	setAttributes={setAttributes}
+				      	{...this.props}
+				      />
+				      <TypographyHelperControl
+				      	title={__("Name Typography", "responsive-block-editor-addons")}
+				      	attrNameTemplate="name%s"
+				      	values={{
+				      	  family: nameFontFamily,
+				      	  size: nameFontSize,
+				      	  sizeMobile: nameFontSizeMobile,
+				      	  sizeTablet: nameFontSizeTablet,
+                  bottomSpacing: nameBottomSpacing,
+                  bottomSpacingMobile: nameBottomSpacingMobile,
+                  bottomSpacingTablet: nameBottomSpacingTablet,
+				      	  weight: nameFontWeight,
+				      	  height: nameLineHeight,
+				      	  transform: nameTextTransform,
+                  label: __("Name Color", "responsive-block-editor-addons"),
+                  color: nameTypographyColor,
+				      	}}
+				      	  showLetterSpacing={false}
+				      	  showTextTransform={true}
+                  showTextBottomSpacing={true}
+                  showColorControl={true}
+				      	  setAttributes={setAttributes}
+				      	{...this.props}
+				      />
+				      <TypographyHelperControl
+				      	title={__("Title Typography", "responsive-block-editor-addons")}
+				      	attrNameTemplate="title%s"
+				      	values={{
+				      	  family: titleFontFamily,
+				      	  size: titleFontSize,
+				      	  sizeMobile: titleFontSizeMobile,
+				      	  sizeTablet: titleFontSizeTablet,
+                  bottomSpacing: titleBottomSpacing,
+                  bottomSpacingMobile: titleBottomSpacingMobile,
+                  bottomSpacingTablet: titleBottomSpacingTablet,
+				      	  weight: titleFontWeight,
+				      	  height: titleLineHeight,
+				      	  transform: titleTextTransform,
+                  label: __("Title/Designation Color", "responsive-block-editor-addons"),
+                  color: titleTypographyColor,
+				      	}}
+				      	  showLetterSpacing={false}
+				      	  showTextTransform={true}
+                  showTextBottomSpacing={true}
+                  showColorControl={true}
+				      	  setAttributes={setAttributes}
+				      	{...this.props}
+				      />
             <PanelBody
               title={__("Border", "responsive-block-editor-addons")}
               initialOpen={false}
             >
                 <RbeaBlockBorderHelperControl
                     attrNameTemplate="block%s"
-                    values={{ radius: blockBorderRadius, style: blockBorderStyle, width: blockBorderWidth, color: blockBorderColor }}
+                    values={{
+                        radius: blockBorderRadius,
+                        style: blockBorderStyle,
+                        width: blockBorderWidth,
+                        color: blockBorderColor,
+                    }}
                     setAttributes={setAttributes}
                     {...this.props}
                 />
-
-              <BoxShadowControl
+            </PanelBody>
+            <PanelBody
+              title={__("Box Shadow", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+      
+            <BoxShadowControl
                 setAttributes={setAttributes}
                 label={__("Box Shadow", "responsive-block-editor-addons")}
                 boxShadowColor={{ value: boxShadowColor, label: __("Color", "responsive-block-editor-addons") }}
@@ -681,10 +1103,7 @@ export default class Inspector extends Component {
                   value: boxShadowVOffset,
                   label: __("Vertical", "responsive-block-editor-addons"),
                 }}
-                boxShadowBlur={{
-                  value: boxShadowBlur,
-                  label: __("Blur", "responsive-block-editor-addons"),
-                }}
+                boxShadowBlur={{ value: boxShadowBlur, label: __("Blur", "responsive-block-editor-addons") }}
                 boxShadowSpread={{
                   value: boxShadowSpread,
                   label: __("Spread", "responsive-block-editor-addons"),
@@ -694,25 +1113,14 @@ export default class Inspector extends Component {
                   label: __("Position", "responsive-block-editor-addons"),
                 }}
               />
-              <BoxShadowControlHelper
-                setAttributes={setAttributes}
-                label={__("Hover Box Shadow", "responsive-block-editor-addons")}
-                attrNameTemplate="hover%s"
-                boxShadowColor={{ value: hoverboxShadowColor }}
-                boxShadowHOffset={{ value: hoverboxShadowHOffset }}
-                boxShadowVOffset={{ value: hoverboxShadowVOffset }}
-                boxShadowBlur={{ value: hoverboxShadowBlur }}
-                boxShadowSpread={{ value: hoverboxShadowSpread }}
-                boxShadowPosition={{ value: hoverboxShadowPosition }}
-              />
             </PanelBody>
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <ResponsiveNewPaddingControl
-                attrNameTemplate="block%s"
-                resetValues={blockPaddingResetValues}
+              <ResponsiveContentPaddingControl
+                attrNameTemplate="content%s"
+                resetValues={blockContentPaddingResetValues}
                 {...this.props}
               />
               <ResponsiveNewMarginControl
@@ -720,42 +1128,13 @@ export default class Inspector extends Component {
                 resetValues={blockMarginResetValues}
                 {...this.props}
               />
-              <ResponsiveSpacingControl
-                title={"Content Padding"}
-                attrNameTemplate="padding%s"
-                values={{ desktop: padding, tablet: paddingTablet, mobile: paddingMobile }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Content"}
-                attrNameTemplate="contentSpacing%s"
-                values={{ desktop: contentSpacing, tablet: contentSpacingTablet, mobile: contentSpacingMobile }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Name"}
-                attrNameTemplate="nameSpacing%s"
-                values={{ desktop: nameSpacing, tablet: nameSpacingTablet, mobile: nameSpacingMobile }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Image"}
-                attrNameTemplate="imageSpacing%s"
-                values={{ desktop: imageSpacing, tablet: imageSpacingTablet, mobile: imageSpacingMobile }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Title"}
-                attrNameTemplate="titleSpacing%s"
-                values={{ desktop: titleSpacing, tablet: titleSpacingTablet, mobile: titleSpacingMobile }}
-                setAttributes={setAttributes}
+              <ResponsiveNewPaddingControl
+                attrNameTemplate="block%s"
+                resetValues={blockPaddingResetValues}
                 {...this.props}
               />
             </PanelBody>
+            
           </InspectorTab>
           <InspectorTab key={"advance"}>
             <PanelBody

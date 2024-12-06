@@ -10,6 +10,9 @@ import InspectorTabs from "../../../../components/InspectorTabs";
 import RbeaColorControl from "../../../../utils/components/rbea-color-control";
 import RbeaMediaUploadControl from "../../../../utils/components/rbea-media-upload-control";
 import RbeaTabRadioControl from "../../../../utils/components/rbea-tab-radio-control";
+import ResponsiveNewPaddingControl from "../../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewPaddingControl/index";
+import ResponsiveNewMarginControl from "../../../../settings-components/ResponsiveNewSpacingSettings/ResponsiveNewMarginControl/index";
+
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -102,6 +105,35 @@ export default class Inspector extends Component {
       setAttributes,
     } = this.props;
 
+    const blockMarginResetValues = {
+			marginTop: 0,
+			marginRight: 0,
+			marginBottom: 0,
+			marginLeft: 0,
+			marginTabletTop: 0,
+			marginTabletRight: 0,
+			marginTabletBottom: 0,
+			marginTabletLeft: 0,
+			marginMobileTop: 0,
+			marginMobileRight: 0,
+			marginMobileBottom: 0,
+			marginMobileLeft: 0,
+		}
+		const blockPaddingResetValues = {
+			paddingTop: 0,
+			paddingRight: 0,
+			paddingBottom: 0,
+			paddingLeft: 0,
+			paddingTabletTop: 0,
+			paddingTabletRight: 0,
+			paddingTabletBottom: 0,
+			paddingTabletLeft: 0,
+			paddingMobileTop: 0,
+			paddingMobileRight: 0,
+			paddingMobileBottom: 0,
+			paddingMobileLeft: 0,
+		}
+
     let image_name = __("Select Image", "responsive-block-editor-addons");
     if (image) {
       if (image.url == null || image.url == "") {
@@ -111,11 +143,12 @@ export default class Inspector extends Component {
       }
     }
 
-    const iconColorControls = () => {
-      let color_control = "";
-      let color_control_hover = "";
+    const labelColorControls = () => {
+      let labelColorControl = "";
+      let labelColorControlHover = "";
+      let emptyColorControl = "";
 
-      color_control = (
+      labelColorControl = (
         <Fragment>
           <RbeaColorControl
             label = {__("Text Color", "responsive-block-editor-addons")}
@@ -125,6 +158,84 @@ export default class Inspector extends Component {
             }
             resetColor={() => setAttributes({ label_color: "" })}
           />
+        </Fragment>
+      );
+
+      labelColorControlHover = (
+        <Fragment>
+          <RbeaColorControl
+            label = {__("Text Hover Color", "responsive-block-editor-addons")}
+            colorValue={label_hover_color}
+            onChange={(colorValue) =>
+              setAttributes({ label_hover_color: colorValue })
+            }
+            resetColor={() => setAttributes({ label_hover_color: "" })}
+          />
+        </Fragment>
+      );
+
+      emptyColorControl = (
+        <div className="responsive-block-editor-addons-empty-color-control"></div>
+      );
+
+      return (
+        <TabPanel
+        className="responsive-block-editor-addons-inspect-tabs 
+        responsive-block-editor-addons-inspect-tabs-col-2  
+        responsive-block-editor-addons-color-inspect-tabs"
+        activeClass="active-tab"
+        initialTabName="normal" // Set the default active tab here
+        tabs={[
+          {
+            name: "empty",
+            title: __("", "responsive-block-editor-addons"),
+            className: "responsive-block-editor-addons-empty-tab",
+          },
+          {
+            name: "normal",
+            title: __("Normal", "responsive-block-editor-addons"),
+            className: "responsive-block-editor-addons-normal-tab",
+          },
+          {
+            name: "empty",
+            title: __("", "responsive-block-editor-addons"),
+            className: "responsive-block-editor-addons-empty-tab",
+          },
+          {
+            name: "hover",
+            title: __("Hover", "responsive-block-editor-addons"),
+            className: "responsive-block-editor-addons-hover-tab",
+          },
+          {
+            name: "empty",
+            title: __("", "responsive-block-editor-addons"),
+            className: "responsive-block-editor-addons-empty-tab",
+          },
+        ]}
+      >
+        {(tabName) => {
+          let color_tab;
+          if ("normal" === tabName.name) {
+            color_tab = labelColorControl;
+          } else if("hover" === tabName.name) {
+            color_tab = labelColorControlHover;
+          } else {
+            color_tab = emptyColorControl;
+          }
+          return <div>{color_tab}</div>;
+        }}
+      </TabPanel>
+      );
+    };
+
+
+    const iconColorControls = () => {
+      let iconColorControl = "";
+      let iconColorControlHover = "";
+      let emptyColorControl = "";
+
+      iconColorControl = (
+        <Fragment>
           <RbeaColorControl
             label = {__("Icon Color", "responsive-block-editor-addons")}
             colorValue={icon_color}
@@ -151,16 +262,9 @@ export default class Inspector extends Component {
           />
         </Fragment>
       );
-      color_control_hover = (
+
+      iconColorControlHover = (
         <Fragment>
-          <RbeaColorControl
-            label = {__("Text Hover Color", "responsive-block-editor-addons")}
-            colorValue={label_hover_color}
-            onChange={(colorValue) =>
-              setAttributes({ label_hover_color: colorValue })
-            }
-            resetColor={() => setAttributes({ label_hover_color: "" })}
-				  />
           <RbeaColorControl
             label = {__("Icon Hover Color", "responsive-block-editor-addons")}
             colorValue={icon_hover_color}
@@ -188,29 +292,53 @@ export default class Inspector extends Component {
         </Fragment>
       );
 
+      emptyColorControl = (
+        <div className="responsive-block-editor-addons-empty-color-control"></div>
+      );
+
       return (
         <TabPanel
-          className="responsive-block-editor-addons-inspect-tabs responsive-block-editor-addons-inspect-tabs-col-2"
+          className="responsive-block-editor-addons-inspect-tabs 
+          responsive-block-editor-addons-inspect-tabs-col-2  
+          responsive-block-editor-addons-color-inspect-tabs"
           activeClass="active-tab"
+          initialTabName="normal" // Set the default active tab here
           tabs={[
+            {
+              name: "empty",
+              title: __("", "responsive-block-editor-addons"),
+              className: "responsive-block-editor-addons-empty-tab",
+            },
             {
               name: "normal",
               title: __("Normal", "responsive-block-editor-addons"),
               className: "responsive-block-editor-addons-normal-tab",
             },
             {
+              name: "empty",
+              title: __("", "responsive-block-editor-addons"),
+              className: "responsive-block-editor-addons-empty-tab",
+            },
+            {
               name: "hover",
               title: __("Hover", "responsive-block-editor-addons"),
               className: "responsive-block-editor-addons-hover-tab",
+            },
+            {
+              name: "empty",
+              title: __("", "responsive-block-editor-addons"),
+              className: "responsive-block-editor-addons-empty-tab",
             },
           ]}
         >
           {(tabName) => {
             let color_tab;
             if ("normal" === tabName.name) {
-              color_tab = color_control;
+              color_tab = iconColorControl;
+            } else if("hover" === tabName.name) {
+              color_tab = iconColorControlHover;
             } else {
-              color_tab = color_control_hover;
+              color_tab = emptyColorControl;
             }
             return <div>{color_tab}</div>;
           }}
@@ -277,7 +405,6 @@ export default class Inspector extends Component {
                   </Fragment>
                 )}
                 <hr className="responsive-block-editor-addons-editor__separator" />
-                <h2>{__("List Item Link", "responsive-block-editor-addons")}</h2>
                 <ToggleControl
                   label={__("Disable Link", "responsive-block-editor-addons")}
                   checked={disableLink}
@@ -305,12 +432,33 @@ export default class Inspector extends Component {
               </PanelBody>
             </InspectorTab>
             <InspectorTab key={"style"}>
-              <PanelBody
-                title={__("Colors", "responsive-block-editor-addons")}
-                initialOpen={true}
+            <PanelBody
+                title={__("Icon", "responsive-block-editor-addons")}
+                initialOpen={false}
               >
                 {iconColorControls()}
               </PanelBody>
+              <PanelBody
+                title={__("Label", "responsive-block-editor-addons")}
+                initialOpen={false}
+              >
+                {labelColorControls()}
+              </PanelBody>
+              <PanelBody
+                title={__("Spacing", "responsive-block-editor-addons")}
+                initialOpen={false}
+              >
+                <ResponsiveNewMarginControl
+                  attrNameTemplate="block%s"
+                  resetValues={blockMarginResetValues}
+                  {...this.props}
+                />
+                <ResponsiveNewPaddingControl
+                  attrNameTemplate="block%s"
+                  resetValues={blockPaddingResetValues}
+                  {...this.props}
+                />
+            </PanelBody>
             </InspectorTab>
             <InspectorTab key={"advance"}></InspectorTab>
           </InspectorTabs>

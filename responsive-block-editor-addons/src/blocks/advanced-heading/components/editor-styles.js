@@ -125,6 +125,18 @@ function EditorStyles(props) {
     marginMobileRight,
     marginMobileBottom,
     marginMobileLeft,
+    blockIsTypographyColorValueUpdated,
+    subHeadingTitleTypographyColor,
+    headingTitleTypographyColor,
+    blockIsBottomSpacingValueUpdated,
+    headingTitleBottomSpacing,
+    headingTitleBottomSpacingMobile,
+    headingTitleBottomSpacingTablet,
+    subHeadingTitleBottomSpacing,
+    subHeadingTitleBottomSpacingMobile,
+    subHeadingTitleBottomSpacingTablet,
+    headingTitleTextDecoration,
+    subHeadingTitleTextDecoration,
   } = props.attributes;
 
   var selectors = {
@@ -146,9 +158,9 @@ function EditorStyles(props) {
       "font-weight": headingTitleFontWeight,
       "line-height": headingTitleLineHeight,
       "letter-spacing": generateCSSUnit(headingTitleLetterSpacing, "px"),
-      color: headingTitleColor,
-      "margin-bottom": generateCSSUnit(headSpacing, "px"),
-      "text-decoration": textDecoration,
+      "margin-bottom": generateCSSUnit(headingTitleBottomSpacing, "px"),
+      "text-decoration": headingTitleTextDecoration,
+      color: headingTitleTypographyColor,
     },
     " .responsive-heading-seperator": {
       "border-top-style": seperatorStyle,
@@ -163,9 +175,9 @@ function EditorStyles(props) {
       "font-weight": subHeadingTitleFontWeight,
       "line-height": subHeadingTitleLineHeight,
       "letter-spacing": generateCSSUnit(subHeadingTitleLetterSpacing, "px"),
-      color: subHeadingTitleColor,
-      "margin-bottom": generateCSSUnit(subheadSpacing, "px"),
-      "text-decoration": textDecorationSubHeading,
+      "margin-bottom": generateCSSUnit(subHeadingTitleBottomSpacing, "px"),
+      "text-decoration": subHeadingTitleTextDecoration,
+      color: subHeadingTitleTypographyColor,
     },
   };
 
@@ -184,11 +196,11 @@ function EditorStyles(props) {
     },
     " .responsive-heading-title-text": {
       "font-size": generateCSSUnit(headingTitleFontSizeMobile, "px"),
-      "margin-bottom": generateCSSUnit(headSpacingMobile, "px"),
+      "margin-bottom": generateCSSUnit(headingTitleBottomSpacingMobile, "px"),
     },
     " .responsive-heading-desc-text": {
       "font-size": generateCSSUnit(subHeadingTitleFontSizeMobile, "px"),
-      "margin-bottom": generateCSSUnit(subheadSpacingMobile, "px"),
+      "margin-bottom": generateCSSUnit(subHeadingTitleBottomSpacingMobile, "px"),
     },
     " .responsive-heading-seperator": {
       "margin-bottom": generateCSSUnit(separatorSpacingMobile, "px"),
@@ -210,11 +222,11 @@ function EditorStyles(props) {
     },
     " .responsive-heading-title-text": {
       "font-size": generateCSSUnit(headingTitleFontSizeTablet, "px"),
-      "margin-bottom": generateCSSUnit(headSpacingTablet, "px"),
+      "margin-bottom": generateCSSUnit(headingTitleBottomSpacingTablet, "px"),
     },
     " .responsive-heading-desc-text": {
       "font-size": generateCSSUnit(subHeadingTitleFontSizeTablet, "px"),
-      "margin-bottom": generateCSSUnit(subheadSpacingTablet, "px"),
+      "margin-bottom": generateCSSUnit(subHeadingTitleBottomSpacingTablet, "px"),
     },
     " .responsive-heading-seperator": {
       "margin-bottom": generateCSSUnit(separatorSpacingTablet, "px"),

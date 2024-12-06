@@ -313,6 +313,7 @@ const attributes = {
   },
   backgroundPosition: {
     type: "string",
+    default: "center center"
   },
   backgroundSize: {
     type: "string",
@@ -501,6 +502,230 @@ const attributes = {
 		default: '',
 	},
 	blockRightPaddingTablet: {
+		type: "number",
+		default: '',
+	},
+  sectionTag: {
+    type: "string",
+    default: "section",
+  },
+  opacity: {
+    type: "number",
+    default: 20,
+  },
+  colorLocation1: {
+    type: "number",
+    default: 0,
+  },
+  colorLocation2: {
+    type: "number",
+    default: 100,
+  },
+  gradientDirection: {
+    type: "number",
+    default: 90,
+  },
+  backgroundImage: {
+    type: "string",
+  },
+  backgroundPosition: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionMobile: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionTablet: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundSize: {
+    type: "string",
+    default: "cover",
+  },
+  backgroundSizeTablet: {
+    type: "string",
+    default: 'cover',
+  },
+  backgroundSizeMobile: {
+    type: "string",
+    default: 'cover'
+  },
+  backgroundRepeat: {
+    type: "string",
+    default: "no-repeat",
+  },
+  backgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backgroundImageColor: {
+    type: "string",
+  },
+  overlayType: {
+    type: "string",
+    default: "color",
+  },
+  gradientOverlayColor1: {
+    type: "string",
+  },
+  gradientOverlayColor2: {
+    type: "string",
+  },
+  gradientOverlayType: {
+    type: "string",
+    default: "linear",
+  },
+  gradientOverlayLocation1: {
+    type: "number",
+    default: 0,
+  },
+  gradientOverlayLocation2: {
+    type: "number",
+    default: 100,
+  },
+  gradientOverlayAngle: {
+    type: "number",
+    default: 0,
+  },
+  gradientOverlayPosition: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundVideo: {
+    type: "object",
+  },
+  backgroundColor: {
+    type: "string",
+  },
+  backgroundColor1: {
+    type: "string",
+  },
+  backgroundColor2: {
+    type: "string",
+  },
+  backgroundType: {
+    type: "string",
+    default: "none",
+  },
+  boxShadowColor: {
+    type: "string",
+  },
+  boxShadowHOffset: {
+    type: "number",
+    default: 0,
+  },
+  boxShadowVOffset: {
+    type: "number",
+    default: 0,
+  },
+  boxShadowBlur: {
+    type: "number",
+    default: 0,
+  },
+  boxShadowSpread: {
+    type: "number",
+    default: 0,
+  },
+  boxShadowPosition: {
+    type: "string",
+    default: "outset",
+  },
+  contentBottomSpacing: {
+    type: "number",
+    default: 0,
+  },
+  contentBottomSpacingMobile: {
+    type: "number",
+    default: 0,
+  },
+  contentBottomSpacingTablet: {
+    type: "number",
+    default: 0,
+  },
+  nameBottomSpacing: {
+    type: "number",
+    default: 0,
+  },
+  nameBottomSpacingMobile: {
+    type: "number",
+    default: 0,
+  },
+  nameBottomSpacingTablet: {
+    type: "number",
+    default: 0,
+  },
+  titleBottomSpacing: {
+    type: "number",
+    default: 0,
+  },
+  titleBottomSpacingMobile: {
+    type: "number",
+    default: 0,
+  },
+  titleBottomSpacingTablet: {
+    type: "number",
+    default: 0,
+  },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  contentTypographyColor: {
+    type: "string",
+  },
+  titleTypographyColor: {
+    type: "string",
+  },
+  nameTypographyColor: {
+    type: "string",
+  },
+  contentTopPadding: {
+		type: "number",
+		default: '',
+	},
+	contentTopPaddingMobile: {
+		type: "number",
+		default: '',
+	},
+	contentTopPaddingTablet: {
+		type: "number",
+		default: '',
+	},
+	contentBottomPadding: {
+		type: "number",
+		default: '',
+	},
+	contentBottomPaddingMobile: {
+		type: "number",
+		default: '',
+	},
+	contentBottomPaddingTablet: {
+		type: "number",
+		default: '',
+	},
+	contentLeftPadding: {
+		type: "number",
+		default: '',
+	},
+	contentLeftPaddingMobile: {
+		type: "number",
+		default: '',
+	},
+	contentLeftPaddingTablet: {
+		type: "number",
+		default: '',
+	},
+	contentRightPadding: {
+		type: "number",
+		default: '',
+	},
+	contentRightPaddingMobile: {
+		type: "number",
+		default: '',
+	},
+	contentRightPaddingTablet: {
 		type: "number",
 		default: '',
 	},

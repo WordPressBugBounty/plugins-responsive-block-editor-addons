@@ -194,6 +194,18 @@ function EditorStyles(props) {
     blockRightMargin,
     blockRightMarginMobile,
     blockRightMarginTablet,
+    imagePositionTab,
+    backgroundSizeTablet,
+    backgroundSizeMobile,
+    backgroundPositionMobile,
+    backgroundPositionTablet,
+    imageSizeTab,
+    backImagePositionTab,
+    backBackgroundSizeTablet,
+    backBackgroundSizeMobile,
+    backBackgroundPositionMobile,
+    backBackgroundPositionTablet,
+    backImageSizeTab,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -487,6 +499,8 @@ function EditorStyles(props) {
       "opacity": hideWidgetMobile ? 0.2 : 1,
     },
     " .wp-block-responsive-block-editor-addons-flip-box .flip-box-front": {
+      "background-position": backgroundPositionMobile,
+      "background-size": backgroundSizeMobile,
       "padding-top": generateCSSUnit(frontTopPaddingMobile, "px"),
       "padding-bottom": generateCSSUnit(frontBottomPaddingMobile, "px"),
       "padding-left": generateCSSUnit(frontLeftPaddingMobile, "px"),
@@ -497,6 +511,8 @@ function EditorStyles(props) {
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusMobile, "px"),
     },
     " .wp-block-responsive-block-editor-addons-flip-box .flip-box-inner .flip-box-back": {
+      "background-position": backBackgroundPositionMobile,
+      "background-size": backBackgroundSizeMobile,
       "padding-top": generateCSSUnit(backTopPaddingMobile, "px"),
       "padding-bottom": generateCSSUnit(backBottomPaddingMobile, "px"),
       "padding-left": generateCSSUnit(backLeftPaddingMobile, "px"),
@@ -543,6 +559,8 @@ function EditorStyles(props) {
       "opacity": hideWidgetTablet ? 0.2 : 1,
     },
     " .wp-block-responsive-block-editor-addons-flip-box .flip-box-front": {
+      "background-position": backgroundPositionTablet,
+      "background-size": backgroundSizeTablet,
       "padding-top": generateCSSUnit(frontTopPaddingTablet, "px"),
       "padding-bottom": generateCSSUnit(frontBottomPaddingTablet, "px"),
       "padding-left": generateCSSUnit(frontLeftPaddingTablet, "px"),
@@ -553,6 +571,8 @@ function EditorStyles(props) {
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusTablet, "px"),
     },
     " .wp-block-responsive-block-editor-addons-flip-box .flip-box-inner .flip-box-back": {
+      "background-position": backBackgroundPositionTablet,
+      "background-size": backBackgroundSizeTablet,
       "padding-top": generateCSSUnit(backTopPaddingTablet, "px"),
       "padding-bottom": generateCSSUnit(backBottomPaddingTablet, "px"),
       "padding-left": generateCSSUnit(backLeftPaddingTablet, "px"),

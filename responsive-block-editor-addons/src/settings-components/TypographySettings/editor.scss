@@ -10,3 +10,46 @@
 		margin-top: 0px;
 	}
 }
+
+.responsive-block-editor-addons-typography-settings 
+.components-base-control 
+.components-base-control__field 
+.components-select-control {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+
+	.components-flex-item {
+		flex: 1.5;
+		label {
+			font-family: 'Roboto';
+			font-size: 13px;
+			font-weight: 400;
+			line-height: 16.41px;
+			text-align: left;
+			color: #666;
+			text-transform: none;
+		}
+	}
+
+	.components-input-control__container {
+		flex: 2;
+		width: 193px;
+		height: 32px;
+		padding: 6px 12px 6px 12px;
+		gap: 12px;
+		border-radius: 4px 0px 0px 0px;
+		border: 1px solid #ddd;
+		text-transform: none;
+	}
+}
+
+.responsive-block-editor-addons-typography-settings .rbea-tab-radio-control-wrapper .rbea-tab-radio-options {
+	column-gap: 6px;
+
+	.rbea-tab-radio-option {
+		border: 1px solid #D9D9D9;
+		border-radius: 4px;
+	}
+}

@@ -401,6 +401,46 @@ const attributes = {
 		type: "boolean",
 		default: false,
 	},
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  subHeadingTitleTypographyColor: {
+    type: "string",
+    default: '',
+  },
+  headingTitleTypographyColor: {
+    type: "string",
+    default: '',
+  },
+  blockIsBottomSpacingValueUpdated : {
+    type: "boolean",
+    default: false,
+  },
+  headingTitleBottomSpacing: {
+    type: "number",
+  },
+  headingTitleBottomSpacingMobile: {
+    type: "number",
+  },
+  headingTitleBottomSpacingTablet: {
+    type: "number",
+  },
+  subHeadingTitleBottomSpacing: {
+    type: "number",
+  },
+  subHeadingTitleBottomSpacingMobile: {
+    type: "number",
+  },
+  subHeadingTitleBottomSpacingTablet: {
+    type: "number",
+  },
+  headingTitleTextDecoration: {
+    type: "string",
+  },
+  subHeadingTitleTextDecoration: {
+    type: "string",
+  },
 };
 
 export default attributes;

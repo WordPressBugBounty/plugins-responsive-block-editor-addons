@@ -3,9 +3,9 @@ Contributors: Cyberchimps
 Donate Link: https://cyberchimps.com
 Tags: block, blocks, block editor, page builder, gutenberg templates
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 1.9.6
+Stable tag: 1.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -235,6 +235,15 @@ This is how you can easily install the Responsive Gutenberg Blocks plugin on you
 8. Gutenberg Starter Templates
 
 == Changelog ==
+
+= 1.9.7 - 6th December 2024 =
+* Improvement - Improved UI for Typography controls in Testimonial block.
+* Improvement - Improved UI for Box Shadow controls in Testimonial block.
+* Improvement - Improved UI for Image controls in Testimonial block.
+* Improvement - Improved UI for List Alignment in Icon List block.
+* Improvement - Improved UI for Icon and Label in Icon List Child block.
+* Improvement - Improved UI for Separator in Advanced Heading block.
+* Fix - Fix assets loading issue for non-FSE theme.
 
 = 1.9.6 - 15th November 2024 =
 * Fix - Minor Bugs fixed related to Border Radius

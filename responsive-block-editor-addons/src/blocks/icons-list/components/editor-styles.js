@@ -40,6 +40,14 @@ function EditorStyles(props) {
     labelLineHeight,
     labelFontSizeTablet,
     labelFontSizeMobile,
+    labelFontColor,
+    labelFontColorHover,
+    iconColor,
+    iconBorderColor,
+    iconBackgroundColor,
+    iconColorHover,
+    iconBorderColorHover,
+    iconBackgroundColorHover,
     hideLabel,
 	labelFontLineHeight, // For compatibility with v1.3.2.
   hideWidget,
@@ -69,12 +77,15 @@ function EditorStyles(props) {
   blockRightMargin,
   blockRightMarginMobile,
   blockRightMarginTablet,
+  iconListUpdateColorFromParent,
   } = props.attributes;
 
   var editor_gap = undefined !== typeof gap && "" !== gap ? gap + 0 : 0;
 
   var alignment =
     align == "left" ? "flex-start" : align == "right" ? "flex-end" : "center";
+
+  iconListUpdateColorFromParent === '' ? false : true;
 
   var selectors = {
     "": {
@@ -98,6 +109,32 @@ function EditorStyles(props) {
     },
     ".responsive-block-editor-addons-icon-list__layout-vertical .responsive-block-editor-addons-icon-list__content-wrap": {
       "margin-bottom": generateCSSUnit(editor_gap, fontSizeType),
+    },
+    " .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__source-icon": {
+      "color": iconColor !== '' ? iconColor : '',
+    },
+    ":hover .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__source-icon": {
+      color: iconColorHover !== '' ? iconColorHover : '',
+    },
+    " .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__source-wrap": {
+      "background-color": iconBackgroundColor !== '' ? iconBackgroundColor:'',
+      "border-color": iconBorderColor !== '' ? iconBorderColor: '',
+    },
+    ":hover .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__source-wrap": {
+      "background-color": iconBackgroundColorHover !== '' ? iconBackgroundColorHover:'',
+      "border-color": iconBorderColorHover !== '' ? iconBorderColorHover:'',
+    },
+    " .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__source-icon svg": {
+      fill: iconColor !== '' ? iconColor:'',
+    },
+    ":hover .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__source-icon svg": {
+      fill: iconColorHover !== '' ? iconColorHover:'',
+    },
+    " .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__label": {
+      color: labelFontColor !== '' ? labelFontColor:'',
+    },
+    ":hover .responsive-block-editor-addons-icon-list__content-wrap .responsive-block-editor-addons-icon-list__label": {
+      color: labelFontColorHover !== '' ? labelFontColorHover:'',
     },
     " .responsive-block-editor-addons-icon-list__source-wrap": {
       padding: generateCSSUnit(bgSize, "px"),

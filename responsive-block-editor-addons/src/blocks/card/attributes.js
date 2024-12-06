@@ -717,5 +717,96 @@ const attributes = {
     type: "boolean",
     default: false,
   },
+  imagePositionTab: {
+    type: "string",
+    default: "desktop",
+  },
+  backgroundPosition: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionMobile: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundPositionTablet: {
+    type: "string",
+    default: "center center",
+  },
+  backgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backgroundRepeat: {
+    type: "string",
+    default: "no-repeat",
+  },
+  backgroundAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  backgroundImageColor: {
+    type: "string",
+  },
+  backgroundSize: {
+    type: "string",
+    default: "cover",
+  },
+  backgroundSizeTablet: {
+    type: "string",
+    default: 'cover',
+  },
+  backgroundSizeMobile: {
+    type: "string",
+    default: 'cover'
+  },
+  imageSizeTab: {
+    type: "string",
+    default: "desktop",
+  },
+  cardImagePositionTab: {
+    type: "string",
+    default: "desktop",
+  },
+  cardImagePosition: {
+    type: "string",
+    default: "center center",
+  },
+  cardImagePositionMobile: {
+    type: "string",
+    default: "center center",
+  },
+  cardImagePositionTablet: {
+    type: "string",
+    default: "center center",
+  },
+  cardImageAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  cardImageRepeat: {
+    type: "string",
+    default: "no-repeat",
+  },
+  cardImageAttachment: {
+    type: "string",
+    default: "scroll",
+  },
+  cardImageSize: {
+    type: "string",
+    default: "cover",
+  },
+  cardImageSizeTablet: {
+    type: "string",
+    default: 'cover',
+  },
+  cardImageSizeMobile: {
+    type: "string",
+    default: 'cover'
+  },
+  cardImageSizeTab: {
+    type: "string",
+    default: "desktop",
+  },
 };
 export default attributes;
