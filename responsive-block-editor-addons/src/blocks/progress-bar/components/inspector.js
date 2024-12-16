@@ -215,6 +215,16 @@ export default class Inspector extends Component {
 				blockRightPaddingMobile,
 				blockRightPaddingTablet,
 				blockIsPaddingControlConnected,
+				blockIsTypographyColorValueUpdated,
+				topTitleValueTypographyColor,
+				innerTitleValueTypographyColor,
+				bottomTitleValueTypographyColor,
+				circularTopTitleValueTypographyColor,
+				circularInnerValueTypographyColor,
+				circularBottomTitleValueTypographyColor,
+				semiCircularTopTitleValueTypographyColor,
+				semiCircularInnerValueTypographyColor,
+				semiCircularBottomTitleValueTypographyColor,
 			},
 			setAttributes,
 		} = this.props;
@@ -291,6 +301,24 @@ export default class Inspector extends Component {
 		)
 		this.props.setAttributes({horizontalProgressBarIsRadiusValueUpdated: true});
 	}
+
+		// backward compatibility for typography color control
+		if (!blockIsTypographyColorValueUpdated) {
+			this.props.setAttributes(
+			  {
+				topTitleValueTypographyColor: horizontalProgressBarTopTitleValueColor !== undefined ? horizontalProgressBarTopTitleValueColor : topTitleValueTypographyColor,
+				innerTitleValueTypographyColor: horizontalProgressBarInnerTitleValueColor !== undefined ? horizontalProgressBarInnerTitleValueColor : innerTitleValueTypographyColor,
+				bottomTitleValueTypographyColor: horizontalProgressBarBottomTitleValueColor !== undefined ? horizontalProgressBarBottomTitleValueColor : bottomTitleValueTypographyColor,
+				circularTopTitleValueTypographyColor: circularProgressBarTopTitleValueColor !== undefined ? circularProgressBarTopTitleValueColor : circularTopTitleValueTypographyColor,
+				circularInnerValueTypographyColor: circularProgressBarInnerValueColor !== undefined ? circularProgressBarInnerValueColor : circularInnerValueTypographyColor,
+				circularBottomTitleValueTypographyColor: circularProgressBarBottomTitleValueColor !== undefined ? circularProgressBarBottomTitleValueColor : circularBottomTitleValueTypographyColor,
+				semiCircularTopTitleValueTypographyColor: semiCircularProgressBarTopTitleValueColor !== undefined ? semiCircularProgressBarTopTitleValueColor : semiCircularTopTitleValueTypographyColor,
+				semiCircularInnerValueTypographyColor: semiCircularProgressBarInnerValueColor !== undefined ? semiCircularProgressBarInnerValueColor : semiCircularInnerValueTypographyColor,
+				semiCircularBottomTitleValueTypographyColor: semiCircularProgressBarBottomTitleValueColor !== undefined ? semiCircularProgressBarBottomTitleValueColor : semiCircularBottomTitleValueTypographyColor,				
+			  }
+			)
+			this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+		}
 
 		return (
 			<InspectorControls key="inspector">
@@ -906,10 +934,7 @@ export default class Inspector extends Component {
 						|| (progressBarStyle === "circular" && circularProgressBarStyle === "circle" && (circularProgressBarValueEnable || circularProgressBarTopTitleEnable || circularProgressBarTopValueEnable || circularProgressBarBottomTitleEnable || circularProgressBarBottomValueEnable))
 						|| (progressBarStyle === "circular" && circularProgressBarStyle === "semicircle" && (semiCircularProgressBarValueEnable || semiCircularProgressBarTopTitleEnable || semiCircularProgressBarTopValueEnable || semiCircularProgressBarBottomTitleEnable || semiCircularProgressBarBottomValueEnable))
 						) && (
-							<PanelBody
-								title={__("Typography", "responsive-block-editor-addons")}
-								initialOpen={false}
-							>
+							<>
 								{(progressBarStyle === "horizontal") && (progressBarTopTitleEnable || progressBarTopValueEnable) && (
 									<Fragment>
 										<TypographyHelperControl
@@ -923,10 +948,12 @@ export default class Inspector extends Component {
 												weight: topTitleValueFontWeight,
 												height: topTitleValueLineHeight,
 												spacing: topTitleValueLetterSpacing,
-												transform: topTitleValueTextTransform
+												transform: topTitleValueTextTransform,
+												color: topTitleValueTypographyColor,
 											}}
 											showLetterSpacing={true}
 											showTextTransform={true}
+											showColorControl={true}
 											setAttributes={setAttributes}
 											{...this.props}
 										/>
@@ -947,9 +974,11 @@ export default class Inspector extends Component {
 													weight: innerTitleValueFontWeight,
 													height: innerTitleValueLineHeight,
 													spacing: innerTitleValueLetterSpacing,
-													transform: innerTitleValueTextTransform
+													transform: innerTitleValueTextTransform,
+													color: innerTitleValueTypographyColor,
 												}}
 												showLetterSpacing={true}
+												showColorControl={true}
 												showTextTransform={true}
 												setAttributes={setAttributes}
 												{...this.props}
@@ -969,10 +998,12 @@ export default class Inspector extends Component {
 												weight: bottomTitleValueFontWeight,
 												height: bottomTitleValueLineHeight,
 												spacing: bottomTitleValueLetterSpacing,
-												transform: bottomTitleValueTextTransform
+												transform: bottomTitleValueTextTransform,
+												color: bottomTitleValueTypographyColor,
 											}}
 											showLetterSpacing={true}
 											showTextTransform={true}
+											showColorControl={true}
 											setAttributes={setAttributes}
 											{...this.props}
 										/>
@@ -993,9 +1024,11 @@ export default class Inspector extends Component {
 													weight: circularTopTitleValueFontWeight,
 													height: circularTopTitleValueLineHeight,
 													spacing: circularTopTitleValueLetterSpacing,
-													transform: circularTopTitleValueTextTransform
+													transform: circularTopTitleValueTextTransform,
+													color: circularTopTitleValueTypographyColor,
 												}}
 												showLetterSpacing={true}
+												showColorControl={true}
 												showTextTransform={true}
 												setAttributes={setAttributes}
 												{...this.props}
@@ -1016,9 +1049,11 @@ export default class Inspector extends Component {
 													weight: circularInnerValueFontWeight,
 													height: circularInnerValueLineHeight,
 													spacing: circularInnerValueLetterSpacing,
+													color: circularInnerValueTypographyColor,
 												}}
 												showLetterSpacing={true}
 												showTextTransform={false}
+												showColorControl={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1039,10 +1074,12 @@ export default class Inspector extends Component {
 													weight: circularBottomTitleValueFontWeight,
 													height: circularBottomTitleValueLineHeight,
 													spacing: circularBottomTitleValueLetterSpacing,
-													transform: circularBottomTitleValueTextTransform
+													transform: circularBottomTitleValueTextTransform,
+													color: circularBottomTitleValueTypographyColor,
 												}}
 												showLetterSpacing={true}
 												showTextTransform={true}
+												showColorControl={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1063,9 +1100,11 @@ export default class Inspector extends Component {
 													weight: semiCircularTopTitleValueFontWeight,
 													height: semiCircularTopTitleValueLineHeight,
 													spacing: semiCircularTopTitleValueLetterSpacing,
-													transform: semiCircularTopTitleValueTextTransform
+													transform: semiCircularTopTitleValueTextTransform,
+													color: semiCircularTopTitleValueTypographyColor,
 												}}
 												showLetterSpacing={true}
+												showColorControl={true}
 												showTextTransform={true}
 												setAttributes={setAttributes}
 												{...this.props}
@@ -1086,8 +1125,10 @@ export default class Inspector extends Component {
 													weight: semiCircularInnerValueFontWeight,
 													height: semiCircularInnerValueLineHeight,
 													spacing: semiCircularInnerValueLetterSpacing,
+													color: semiCircularInnerValueTypographyColor,
 												}}
 												showLetterSpacing={true}
+												showColorControl={true}
 												showTextTransform={false}
 												setAttributes={setAttributes}
 												{...this.props}
@@ -1109,16 +1150,18 @@ export default class Inspector extends Component {
 													weight: semiCircularBottomTitleValueFontWeight,
 													height: semiCircularBottomTitleValueLineHeight,
 													spacing: semiCircularBottomTitleValueLetterSpacing,
-													transform: semiCircularBottomTitleValueTextTransform
+													transform: semiCircularBottomTitleValueTextTransform,
+													color: semiCircularBottomTitleValueTypographyColor,
 												}}
 												showLetterSpacing={true}
 												showTextTransform={true}
+												showColorControl={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
 										</Fragment>
 									)}
-							</PanelBody>
+							</>
 						)}
 						<PanelBody
 						title={__("Spacing", "responsive-block-editor-addons")}

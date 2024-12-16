@@ -704,6 +704,46 @@ const attributes = {
 		type: "number",
 		default: '',
 	  },
+	  blockIsTypographyColorValueUpdated: {
+		type: 'boolean',
+		default: false,
+	  },
+	  topTitleValueTypographyColor: {
+		type: 'string',
+		default: '#333333',
+	  },
+	  innerTitleValueTypographyColor: {
+		type: 'string',
+		default: '#333333',
+	  },
+	  bottomTitleValueTypographyColor: {
+		type: 'string',
+		default: '#333333',
+	  },
+	  circularTopTitleValueTypographyColor: {
+		type: "string",
+		default: '#333333',
+	  },
+	  circularInnerValueTypographyColor: {
+		type: "string",
+		default: '#333333',
+	  },
+	  circularBottomTitleValueTypographyColor: {
+		type: "string",
+		default: '#333333',
+	  },
+	  semiCircularTopTitleValueTypographyColor: {
+		type: "string",
+		default: '#333333',
+	  },
+	  semiCircularInnerValueTypographyColor: {
+		type: "string",
+		default: '#333333',
+	  },
+	  semiCircularBottomTitleValueTypographyColor: {
+		type: "string",
+		default: '#333333',
+	  },
 };
 
 export default attributes;

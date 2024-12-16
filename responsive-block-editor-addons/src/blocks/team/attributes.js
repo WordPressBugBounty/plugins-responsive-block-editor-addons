@@ -592,5 +592,45 @@ const attributes = {
 		type: "number",
 		default: '',
 	},
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  titleTypographyColor: {
+    type: 'string',
+  },
+  descriptionTypographyColor: {
+    type: 'string',
+  },
+  designationTypographyColor: {
+    type: 'string',
+  },
+  designationBottomSpacing: {
+    type: "number",
+  },
+  designationBottomSpacingMobile: {
+    type: "number",
+  },
+  designationBottomSpacingTablet: {
+    type: "number",
+  },
+  descriptionBottomSpacing: {
+    type: "number",
+  },
+  descriptionBottomSpacingMobile: {
+    type: "number",
+  },
+  descriptionBottomSpacingTablet: {
+    type: "number",
+  },
+  titleBottomSpacing: {
+    type: "number",
+  },
+  titleBottomSpacingMobile: {
+    type: "number",
+  },
+  titleBottomSpacingTablet: {
+    type: "number",
+  },
 };
 export default attributes;

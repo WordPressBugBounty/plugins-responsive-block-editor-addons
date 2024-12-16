@@ -1166,6 +1166,18 @@ function responsive_block_editor_addons_register_block_core_latest_posts() {
 					'type'    => 'number',
 					'default' => '',
 				),
+				'excerptTypographyColor'  => array(
+					'type'	=> 'string',
+					'default' => '#444444',
+				),
+      			'metaTypographyColor'  => array(
+					'type'	=> 'string',
+					'default' => '#444444',
+				),
+      			'blockIsTypographyColorValueUpdated'  => array(
+					'type'	=> 'boolean',
+					'default' => false,
+				),
 			),
 			'render_callback' => 'responsive_block_editor_addons_render_block_core_latest_posts',
 		)

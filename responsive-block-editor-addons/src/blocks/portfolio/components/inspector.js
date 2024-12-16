@@ -155,6 +155,8 @@ export default class Inspector extends Component {
       blockLeftRadiusMobile,
       blockIsRadiusControlConnected,
       blockIsRadiusValueUpdated,
+      blockIsTypographyColorValueUpdated,
+      overlayTextTypographyColor,
     } = attributes;
 
     const blockMarginResetValues = {
@@ -268,6 +270,17 @@ export default class Inspector extends Component {
       )
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
     }
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          overlayTextTypographyColor: attributes.overlayTextColor !== undefined ? attributes.overlayTextColor : overlayTextTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
 
     return (
       <InspectorControls>
@@ -394,12 +407,6 @@ export default class Inspector extends Component {
                 onChange={(colorValue) => this.props.setAttributes({ overlayBackgroundColor: colorValue })}
                 resetColor={() => this.props.setAttributes({ overlayBackgroundColor: "" })}
               />
-              <RbeaColorControl
-                label = {__("Color", "responsive-block-editor-addons")}
-                colorValue={attributes.overlayTextColor}
-                onChange={(colorValue) => this.props.setAttributes({ overlayTextColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ overlayTextColor: "" })}
-              />
               <RbeaRangeControl
                 label={__("Opacity", "responsive-block-editor-addons")}
                 value={attributes.overlayOpacity}
@@ -410,23 +417,7 @@ export default class Inspector extends Component {
                 max={100}
                 allowReset
               />
-              <TypographyHelperControl
-                title={__("Overlay Text Typography", "responsive-block-editor-addons")}
-                attrNameTemplate="overlayText%s"
-                values = {{
-                family: attributes.overlayTextFontFamily,
-                size: attributes.overlayTextFontSize,
-                sizeMobile: attributes.overlayTextFontSizeMobile,
-                sizeTablet: attributes.overlayTextFontSizeTablet,
-                weight: attributes.overlayTextFontWeight,
-                height: attributes.overlayTextLineHeight,
-                transform: attributes.overlayTextTextTransform
-                }}
-                showLetterSpacing = { false }
-                showTextTransform = { true }
-                setAttributes={ setAttributes }
-                {...this.props}
-              />  
+             
               
               <PanelBody
                 title={__("Overlay Text Spacing", "responsive-block-editor-addons")}
@@ -448,6 +439,25 @@ export default class Inspector extends Component {
                 />
               </PanelBody>
             </PanelBody>
+            <TypographyHelperControl
+                title={__("Overlay Text Typography", "responsive-block-editor-addons")}
+                attrNameTemplate="overlayText%s"
+                values = {{
+                family: attributes.overlayTextFontFamily,
+                size: attributes.overlayTextFontSize,
+                sizeMobile: attributes.overlayTextFontSizeMobile,
+                sizeTablet: attributes.overlayTextFontSizeTablet,
+                weight: attributes.overlayTextFontWeight,
+                height: attributes.overlayTextLineHeight,
+                transform: attributes.overlayTextTextTransform,
+                color: attributes.overlayTextTypographyColor,
+                }}
+                showLetterSpacing = { false }
+                showTextTransform = { true }
+                showColorControl={true}
+                setAttributes={ setAttributes }
+                {...this.props}
+              />  
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}

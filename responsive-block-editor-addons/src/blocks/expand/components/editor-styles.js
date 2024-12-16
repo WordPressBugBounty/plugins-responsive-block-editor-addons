@@ -66,6 +66,20 @@ function EditorStyles(props) {
   blockRightMargin,
   blockRightMarginMobile,
   blockRightMarginTablet,
+  titleTypographyColor,
+  linkTypographyColor,
+  textTypographyColor,
+  titleBottomSpacing,
+        titleBottomSpacingTablet,
+        titleBottomSpacingMobile,
+
+        textBottomSpacing,
+        textBottomSpacingTablet,
+        textBottomSpacingMobile,
+
+        linkBottomSpacing,
+        linkBottomSpacingTablet,
+        linkBottomSpacingMobile,
   } = props.attributes;
 
   var selectors = {
@@ -86,48 +100,48 @@ function EditorStyles(props) {
     },
 
     " .responsive-block-editor-addons-expand-title": {
-      "margin-bottom": generateCSSUnit(titleSpace, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacing, "px"),
       "font-family": titleFontFamily,
       "font-size": generateCSSUnit(titleFontSize, "px"),
       "font-weight": titleFontWeight,
       "line-height": titleLineHeight,
-      "color": titleColor,
+      "color": titleTypographyColor,
     },
 
     " .responsive-block-editor-addons-expand-less-text": {
-      "margin-bottom": generateCSSUnit(textSpace, "px"),
+      "margin-bottom": generateCSSUnit(textBottomSpacing, "px"),
       "font-family": textFontFamily,
       "font-size": generateCSSUnit(textFontSize, "px"),
       "font-weight": textFontWeight,
       "line-height": textLineHeight,
-      "color": textColor,
+      "color": textTypographyColor,
     },
 
     " .responsive-block-editor-addons-expand-more-toggle-text": {
-      "margin-bottom": generateCSSUnit(linkSpace, "px"),
+      "margin-bottom": generateCSSUnit(linkBottomSpacing, "px"),
       "font-family": linkFontFamily,
       "font-size": generateCSSUnit(linkFontSize, "px"),
       "font-weight": linkFontWeight,
       "line-height": linkLineHeight,
-      "color": linkColor,
+      "color": linkTypographyColor,
     },
 
     " .responsive-block-editor-addons-expand-more-text": {
-      "margin-bottom": generateCSSUnit(textSpace, "px"),
+      "margin-bottom": generateCSSUnit(textBottomSpacing, "px"),
       "font-family": textFontFamily,
       "font-size": generateCSSUnit(textFontSize, "px"),
       "font-weight": textFontWeight,
       "line-height": textLineHeight,
-      "color": textColor,
+      "color": textTypographyColor,
     },
 
     " .responsive-block-editor-addons-expand-less-toggle-text": {
-      "margin-bottom": generateCSSUnit(linkSpace, "px"),
+      "margin-bottom": generateCSSUnit(linkBottomSpacing, "px"),
       "font-family": linkFontFamily,
       "font-size": generateCSSUnit(linkFontSize, "px"),
       "font-weight": linkFontWeight,
       "line-height": linkLineHeight,
-      "color": linkColor,
+      "color": linkTypographyColor,
     },
   };
 
@@ -144,23 +158,23 @@ function EditorStyles(props) {
       "margin-left": generateCSSUnit(blockLeftMarginMobile, "px"),
     },
     " .responsive-block-editor-addons-expand-title": {
-      "margin-bottom": generateCSSUnit(titleSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacingMobile, "px"),
 	  "font-size": generateCSSUnit(titleFontSizeMobile, "px"),
     },
     " .responsive-block-editor-addons-expand-less-text": {
-      "margin-bottom": generateCSSUnit(textSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(textBottomSpacingMobile, "px"),
 	  "font-size": generateCSSUnit(textFontSizeMobile, "px"),
     },
     " .responsive-block-editor-addons-expand-more-toggle-text": {
-      "margin-bottom": generateCSSUnit(linkSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(linkBottomSpacingMobile, "px"),
 	  "font-size": generateCSSUnit(linkFontSizeMobile, "px"),
     },
     " .responsive-block-editor-addons-expand-more-text": {
-      "margin-bottom": generateCSSUnit(textSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(textBottomSpacingMobile, "px"),
 	  "font-size": generateCSSUnit(textFontSizeMobile, "px"),
     },
     " .responsive-block-editor-addons-expand-less-toggle-text": {
-      "margin-bottom": generateCSSUnit(linkSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(linkBottomSpacingMobile, "px"),
 	  "font-size": generateCSSUnit(linkFontSizeMobile, "px"),
     },
   };
@@ -178,23 +192,23 @@ function EditorStyles(props) {
       "margin-left": generateCSSUnit(blockLeftMarginTablet, "px"),
     },
     " .responsive-block-editor-addons-expand-title": {
-      "margin-bottom": generateCSSUnit(titleSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacingTablet, "px"),
 	  "font-size": generateCSSUnit(titleFontSizeTablet, "px"),
     },
     " .responsive-block-editor-addons-expand-less-text": {
-      "margin-bottom": generateCSSUnit(textSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(textBottomSpacingTablet, "px"),
 	  "font-size": generateCSSUnit(textFontSizeTablet, "px"),
     },
     " .responsive-block-editor-addons-expand-more-toggle-text": {
-      "margin-bottom": generateCSSUnit(linkSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(linkBottomSpacingTablet, "px"),
 	  "font-size": generateCSSUnit(linkFontSizeTablet, "px"),
     },
     " .responsive-block-editor-addons-expand-more-text": {
-      "margin-bottom": generateCSSUnit(textSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(textBottomSpacingTablet, "px"),
 	  "font-size": generateCSSUnit(textFontSizeTablet, "px"),
     },
     " .responsive-block-editor-addons-expand-less-toggle-text": {
-      "margin-bottom": generateCSSUnit(linkSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(linkBottomSpacingTablet, "px"),
 	  "font-size": generateCSSUnit(linkFontSizeTablet, "px"),
     },
   };

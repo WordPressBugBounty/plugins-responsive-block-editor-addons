@@ -183,6 +183,10 @@ export default class Inspector extends Component {
         blockRightMarginMobile,
         blockRightMarginTablet,
         blockIsMarginControlConnected,
+        blockIsTypographyColorValueUpdated,
+        contentTypographyColor,
+        headingTypographyColor,
+        dateTypographyColor
       },
       setAttributes,
     } = this.props;
@@ -336,6 +340,18 @@ export default class Inspector extends Component {
     )
     this.props.setAttributes({itemIsRadiusValueUpdated: true});
   }
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          contentTypographyColor:          contentColor !== undefined ? contentColor : contentTypographyColor,
+          headingTypographyColor:         headingColor !== undefined ? headingColor : headingTypographyColor,
+          dateTypographyColor:         dateColor !== undefined ? dateColor : dateTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
 
 
     return (
@@ -721,10 +737,6 @@ export default class Inspector extends Component {
               </PanelBody>
             </PanelBody>
 
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
 				<TypographyHelperControl
 					title={__("Date Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="date%s"
@@ -735,9 +747,11 @@ export default class Inspector extends Component {
 					sizeTablet: dateFontSizeTablet,
 					weight: dateFontWeight,
 					height: dateLineHeight,
+          color: dateTypographyColor,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showColorControl={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -751,9 +765,11 @@ export default class Inspector extends Component {
 					sizeTablet: headingFontSizeTablet,
 					weight: headingFontWeight,
 					height: headingLineHeight,
+          color: headingTypographyColor,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showColorControl={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -767,13 +783,14 @@ export default class Inspector extends Component {
 					sizeTablet: contentFontSizeTablet,
 					weight: contentFontWeight,
 					height: contentLineHeight,
+          color: contentTypographyColor,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showColorControl={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
-            </PanelBody>
             <PanelBody
               title={__("Color", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -785,30 +802,6 @@ export default class Inspector extends Component {
 										setAttributes({ backgroundColor: colorValue })
 									}
 									resetColor={() => setAttributes({ backgroundColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Heading Color", "responsive-block-editor-addons")}
-									colorValue={headingColor}
-									onChange={(colorValue) =>
-										setAttributes({ headingColor: colorValue })
-									}
-									resetColor={() => setAttributes({ headingColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Content Color", "responsive-block-editor-addons")}
-									colorValue={contentColor}
-									onChange={(colorValue) =>
-										setAttributes({ contentColor: colorValue })
-									}
-									resetColor={() => setAttributes({ contentColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Date Color", "responsive-block-editor-addons")}
-									colorValue={dateColor}
-									onChange={(colorValue) =>
-										setAttributes({ dateColor: colorValue })
-									}
-									resetColor={() => setAttributes({ dateColor: "" })}
 								/>
               <PanelBody/>
               <RbeaRangeControl

@@ -197,7 +197,10 @@ export default class Inspector extends Component {
       imageRightPadding,
       imageRightPaddingMobile,
       imageRightPaddingTablet,
-      imageIsPaddingControlConnected
+      imageIsPaddingControlConnected,
+      blockIsTypographyColorValueUpdated,
+      layoverHeadingTypographyColor,
+      captionTypographyColor,
     } = attributes;
 
     // To populate new control values with existing padding margin control values for backward compatibility.
@@ -404,6 +407,17 @@ if (!imageIsRadiusValueUpdated) {
 	this.props.setAttributes({imageIsRadiusValueUpdated: true});
   }
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          layoverHeadingTypographyColor :layoverHeadingColor !== undefined ? layoverHeadingColor : layoverHeadingTypographyColor,
+          captionTypographyColor :captionColor !== undefined ? captionColor : captionTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -422,32 +436,31 @@ if (!imageIsRadiusValueUpdated) {
                 mediaType={'image'}
               />
               <TabPanel
-                className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                className=" responsive-size-type-field-tabs responsive-size-type-field__common-tabs responsive-inline-margin"
                 activeClass="active-tab"
                 tabs={[
                   {
                     name: "desktop",
                     title: <Dashicon icon="desktop" />,
                     className:
-                      " responsive-desktop-tab  responsive-responsive-tabs",
+                      " responsive-desktop-tab responsive-responsive-tabs",
                   },
                   {
                     name: "tablet",
                     title: <Dashicon icon="tablet" />,
                     className:
-                      " responsive-tablet-tab  responsive-responsive-tabs",
+                      " responsive-tablet-tab responsive-responsive-tabs",
                   },
                   {
                     name: "mobile",
                     title: <Dashicon icon="smartphone" />,
                     className:
-                      " responsive-mobile-tab  responsive-responsive-tabs",
+                      " responsive-mobile-tab responsive-responsive-tabs",
                   },
                 ]}
               >
                 {(tab) => {
                   let tabout;
-
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
@@ -458,16 +471,18 @@ if (!imageIsRadiusValueUpdated) {
                               "responsive-block-editor-addons"
                             )}
                           </p>
-                          <AlignmentToolbar
-                            value={imageAlignmentMobile}
-                            onChange={(value) =>
-                              setAttributes({
-                                imageAlignmentMobile: value,
-                              })
-                            }
-                            controls={["start", "center", "end"]}
-                            isCollapsed={false}
-                          />
+                          <div className="responsive-block-editor-addons-alignment-mobile">
+                            <AlignmentToolbar
+                              value={imageAlignmentMobile}
+                              onChange={(value) =>
+                                setAttributes({
+                                  imageAlignmentMobile: value,
+                                })
+                              }
+                              controls={["start", "center", "end"]}
+                              isCollapsed={false}
+                            />
+                          </div>
                         </BaseControl>
                       </Fragment>
                     );
@@ -481,16 +496,18 @@ if (!imageIsRadiusValueUpdated) {
                               "responsive-block-editor-addons"
                             )}
                           </p>
-                          <AlignmentToolbar
-                            value={imageAlignmentTablet}
-                            onChange={(value) =>
-                              setAttributes({
-                                imageAlignmentTablet: value,
-                              })
-                            }
-                            controls={["start", "center", "end"]}
-                            isCollapsed={false}
-                          />
+                          <div className="responsive-block-editor-addons-alignment-tablet">
+                            <AlignmentToolbar
+                              value={imageAlignmentTablet}
+                              onChange={(value) =>
+                                setAttributes({
+                                  imageAlignmentTablet: value,
+                                })
+                              }
+                              controls={["start", "center", "end"]}
+                              isCollapsed={false}
+                            />
+                          </div>
                         </BaseControl>
                       </Fragment>
                     );
@@ -501,21 +518,22 @@ if (!imageIsRadiusValueUpdated) {
                           <p>
                             {__("Alignment", "responsive-block-editor-addons")}
                           </p>
-                          <AlignmentToolbar
-                            value={imageAlignment}
-                            onChange={(value) =>
-                              setAttributes({
-                                imageAlignment: value,
-                              })
-                            }
-                            controls={["start", "center", "end"]}
-                            isCollapsed={false}
-                          />
+                          <div className="responsive-block-editor-addons-alignment">
+                            <AlignmentToolbar
+                              value={imageAlignment}
+                              onChange={(value) =>
+                                setAttributes({
+                                  imageAlignment: value,
+                                })
+                              }
+                              controls={["start", "center", "end"]}
+                              isCollapsed={false}
+                            />
+                          </div>
                         </BaseControl>
                       </Fragment>
                     );
                   }
-
                   return <div>{tabout}</div>;
                 }}
               </TabPanel>
@@ -1275,37 +1293,7 @@ if (!imageIsRadiusValueUpdated) {
                       },
                     ]}
                   />
-                  <TypographyHelperControl
-                    title={__("Typography", "responsive-block-editor-addons")}
-                    attrNameTemplate="layoverHeading%s"
-                    values={{
-                      family: layoverHeadingFontFamily,
-                      size: layoverHeadingFontSize,
-                      sizeMobile: layoverHeadingFontSizeMobile,
-                      sizeTablet: layoverHeadingFontSizeTablet,
-                      weight: layoverHeadingFontWeight,
-                      height: layoverHeadingLineHeight,
-                      spacing: layoverHeadingLetterSpacing,
-                      transform: layoverHeadingTextTransform,
-                    }}
-                    showLetterSpacing={true}
-                    showTextTransform={true}
-                    setAttributes={setAttributes}
-                    {...this.props}
-                  />
-
-                  <RbeaColorControl
-                    label = {__("Color", "responsive-block-editor-addons")}
-                    colorValue={layoverHeadingColor}
-                    onChange={(colorValue) =>
-                      setAttributes({
-                        layoverHeadingColor:
-                          colorValue !== undefined ? colorValue : "",
-                      })
-                    }
-                    resetColor={() => setAttributes({ layoverHeadingColor: "" })}
-                  />
-
+                  
                   <TabPanel
                     className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
                     activeClass="active-tab"
@@ -1551,34 +1539,31 @@ if (!imageIsRadiusValueUpdated) {
                 </PanelBody>
               </>
             )}
+
+            {(Layoverswitch) && (
+              <TypographyHelperControl
+              title={__("Heading Typography", "responsive-block-editor-addons")}
+              attrNameTemplate="layoverHeading%s"
+              values={{
+                family: layoverHeadingFontFamily,
+                size: layoverHeadingFontSize,
+                sizeMobile: layoverHeadingFontSizeMobile,
+                sizeTablet: layoverHeadingFontSizeTablet,
+                weight: layoverHeadingFontWeight,
+                height: layoverHeadingLineHeight,
+                spacing: layoverHeadingLetterSpacing,
+                transform: layoverHeadingTextTransform,
+                color: layoverHeadingTypographyColor,
+              }}
+              showLetterSpacing={true}
+              showTextTransform={true}
+              showColorControl={true}
+              setAttributes={setAttributes}
+              {...this.props}
+            />
+            )}
             {(caption || Layoverswitch) && (
-              <PanelBody title="Caption" initialOpen={true}>
-                <TypographyHelperControl
-                  title={__("Typography", "responsive-block-editor-addons")}
-                  attrNameTemplate="caption%s"
-                  values={{
-                    family: captionFontFamily,
-                    size: captionFontSize,
-                    sizeMobile: captionFontSizeMobile,
-                    sizeTablet: captionFontSizeTablet,
-                    weight: captionFontWeight,
-                    height: captionLineHeight,
-                    spacing: captionLetterSpacing,
-                    transform: captionTextTransform,
-                  }}
-                  showLetterSpacing={true}
-                  showTextTransform={true}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-                	<RbeaColorControl
-                    label = {__("Color", "responsive-block-editor-addons")}
-                    colorValue={captionColor}
-                    onChange={(colorValue) =>
-                      setAttributes({ captionColor: colorValue })
-                    }
-                    resetColor={() => setAttributes({ captionColor: "" })}
-                  />
+              <PanelBody title="Caption" initialOpen={false}>
                 <TabPanel
                   className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
                   activeClass="active-tab"
@@ -1804,6 +1789,28 @@ if (!imageIsRadiusValueUpdated) {
                   }}
                 </TabPanel>
               </PanelBody>
+            )}
+            {(caption || Layoverswitch) && (
+              <TypographyHelperControl
+              title={__("Caption Typography", "responsive-block-editor-addons")}
+              attrNameTemplate="caption%s"
+              values={{
+                family: captionFontFamily,
+                size: captionFontSize,
+                sizeMobile: captionFontSizeMobile,
+                sizeTablet: captionFontSizeTablet,
+                weight: captionFontWeight,
+                height: captionLineHeight,
+                spacing: captionLetterSpacing,
+                transform: captionTextTransform,
+                color: captionTypographyColor,
+              }}
+              showLetterSpacing={true}
+              showTextTransform={true}
+              showColorControl={true}
+              setAttributes={setAttributes}
+              {...this.props}
+            />
             )}
           </InspectorTab>
           <InspectorTab key={"advance"}>

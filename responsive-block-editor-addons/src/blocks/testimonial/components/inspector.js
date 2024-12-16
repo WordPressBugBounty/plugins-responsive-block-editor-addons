@@ -507,6 +507,15 @@ export default class Inspector extends Component {
           contentTypographyColor:          testimonialTextColor !== undefined ? testimonialTextColor : contentTypographyColor,
           nameTypographyColor:       testimonialNameColor !== undefined ? testimonialNameColor : nameTypographyColor,
           titleTypographyColor:         testimonialTitleColor !== undefined ? testimonialTitleColor : titleTypographyColor,
+          contentBottomSpacing : contentSpacing !== undefined ? contentSpacing : contentBottomSpacing,
+          contentBottomSpacingMobile : contentSpacingMobile !== undefined ? contentSpacingMobile : contentBottomSpacingMobile,
+          contentBottomSpacingTablet : contentSpacingTablet !== undefined ? contentSpacingTablet : contentBottomSpacingTablet,
+          nameBottomSpacing : nameSpacing !== undefined ? nameSpacing : nameBottomSpacing,
+          nameBottomSpacingMobile : nameSpacingMobile !== undefined ? nameSpacingMobile : nameBottomSpacingMobile,
+          nameBottomSpacingTablet : nameSpacingTablet !== undefined ? nameSpacingTablet : nameBottomSpacingTablet,
+          titleBottomSpacing : titleSpacing !== undefined ? titleSpacing : titleBottomSpacing,
+          titleBottomSpacingMobile : titleSpacingMobile !== undefined ? titleSpacingMobile : titleBottomSpacingMobile,
+          titleBottomSpacingTablet : titleSpacingTablet !== undefined ? titleSpacingTablet : titleBottomSpacingTablet,
         }
       )
       this.props.setAttributes({blockIsTypographyColorValueUpdated: true});

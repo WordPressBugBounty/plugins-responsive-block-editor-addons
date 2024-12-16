@@ -88,6 +88,9 @@ function EditorStyles(props) {
     hideWidget,
     hideWidgetTablet,
     hideWidgetMobile,
+    titleTypographyColor,
+    subtitleTypographyColor,
+    textTypographyColor,
   } = props.attributes;
 
   let blockOpacityModified = blockOpacity/100
@@ -120,7 +123,7 @@ function EditorStyles(props) {
       "margin-left": titleAlign !== 'right' ? generateCSSUnit(titleLeftMargin, "px"):'',
       "margin-right": titleAlign !== 'left' ? generateCSSUnit(titleRightMargin, "px"):'',
       "text-align": titleAlign,
-      "color": titleColor,
+      "color": titleTypographyColor,
       "font-family": titleFontFamily,
       "font-size": generateCSSUnit(titleFontSize, "px"),
       "font-weight": titleFontWeight,
@@ -131,7 +134,7 @@ function EditorStyles(props) {
       "margin-left": subtitleAlign !== 'right'?generateCSSUnit(subtitleLeftMargin, "px"):'',
       "margin-right": subtitleAlign !== 'left'?generateCSSUnit(subtitleRightMargin, "px"):'',
       "text-align": subtitleAlign,
-      "color": subtitleColor,
+      "color": subtitleTypographyColor,
       "font-family": subtitleFontFamily,
       "font-size": generateCSSUnit(subtitleFontSize, "px"),
       "font-weight": subtitleFontWeight,
@@ -140,7 +143,7 @@ function EditorStyles(props) {
     " .responsive-block-editor-addons-text-content": {
       "margin-bottom": generateCSSUnit(textBottomMargin, "px"),
       "text-align": textAlign,
-      "color": textColor,
+      "color": textTypographyColor,
       "font-family": textFontFamily,
       "font-size": generateCSSUnit(textFontSize, "px"),
       "font-weight": textFontWeight,

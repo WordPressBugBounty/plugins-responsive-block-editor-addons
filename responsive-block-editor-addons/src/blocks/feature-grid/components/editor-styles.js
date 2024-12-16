@@ -197,6 +197,8 @@ function EditorStyles(props) {
       blockRightMargin,
       blockRightMarginMobile,
       blockRightMarginTablet,
+      titleTypographyColor,
+      descTypographyColor,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -378,7 +380,7 @@ function EditorStyles(props) {
     },
 
     " .wp-block-responsive-block-editor-addons-feature-grid-item__title": {
-      color: titleColor,
+      color: titleTypographyColor,
       "line-height": titleLineHeight,
       "font-weight": titleFontWeight,
       "font-size": generateCSSUnit(titleFontSize, "px"),
@@ -389,7 +391,7 @@ function EditorStyles(props) {
 
 
     " .wp-block-responsive-block-editor-addons-feature-grid-item__desc": {
-      color: descColor,
+      color: descTypographyColor,
       "line-height": descLineHeight,
       "text-transform": descTextTransform,
       "font-weight": descFontWeight,

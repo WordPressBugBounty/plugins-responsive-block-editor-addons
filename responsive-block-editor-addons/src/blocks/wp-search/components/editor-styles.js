@@ -95,6 +95,7 @@
      blockRightPadding,
      blockRightPaddingMobile,
      blockRightPaddingTablet,
+     inputTypographyColor,
    } = props.attributes;
 
    let width;
@@ -175,7 +176,7 @@
      "border-bottom": inputBorderBottom + ' !important',
      "border-left": inputBorderLeft + ' !important',
      "border-radius": inputBorderRadius,
-     "color": inputTextColor,
+     "color": inputTypographyColor,
      "background-color": inputBackgroundColor,
      "margin": 0,
      "font-family": inputFontFamily,
@@ -185,7 +186,7 @@
      "padding": inputBoxPadding,
     },
     " .responsive-block-editor-addons-search-form__input::placeholder": {
-      "color": inputTextColor,
+      "color": inputTypographyColor,
       "opacity": 0.6,
      },
     " .responsive-block-editor-addons-search-submit": {

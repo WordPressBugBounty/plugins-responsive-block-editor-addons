@@ -299,6 +299,18 @@ const attributes = {
 		type: "boolean",
 		default: false,
 	},
+    blockIsTypographyColorValueUpdated : {
+        type: "boolean",
+        default: false,
+    },
+    contentTypographyColor : {
+        type: "string",
+        default: "",
+    },
+    titleTypographyColor : {
+        type: "string",
+        default: "",
+    },
 }
 
 export default attributes;

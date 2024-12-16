@@ -315,6 +315,11 @@
      formRightMargin,
      formRightMarginMobile,
      formRightMarginTablet,
+     inputTypographyColor,
+     labelTypographyColor,
+     labelBottomSpacing,
+     labelBottomSpacingMobile,
+     labelBottomSpacingTablet,
    } = props.attributes;
 
 
@@ -575,7 +580,7 @@
      }, 
 
      " .wpcf7 input[type=text] ,.wpcf7 input[type=email], .wpcf7 .wpcf7-select": {      
-      "color": inputTextColor,
+      "color": inputTypographyColor,
       'background-color': inputBackgroundColor,
       "border-width": generateCSSUnit(inputBorderWidth, "px"),
       "border-color": inputBorderColor,
@@ -594,7 +599,7 @@
       "font-weight": inputFontWeight,
       "line-height": inputLineHeight,
       "letter-spacing": generateCSSUnit(inputLetterSpacing, "px"),
-      'margin-top': generateCSSUnit( labelSpacing, 'px' ),   
+      'margin-top': generateCSSUnit( labelBottomSpacing, 'px' ),   
       "box-shadow":
         generateCSSUnit(inputBoxShadowHOffset, "px") +
         " " +
@@ -611,7 +616,7 @@
     },
 
     ' .wpcf7 textarea': {
-			"color": inputTextColor,
+			"color": inputTypographyColor,
       'background-color': inputBackgroundColor,
       "border-width": generateCSSUnit(inputBorderWidth, "px"),
       "border-color": inputBorderColor,
@@ -632,7 +637,7 @@
       "font-weight": inputFontWeight,
       "line-height": inputLineHeight,
       "letter-spacing": generateCSSUnit(inputLetterSpacing, "px"),
-      'margin-top': generateCSSUnit( labelSpacing, 'px' ),
+      'margin-top': generateCSSUnit( labelBottomSpacing, 'px' ),
       "box-shadow":
         generateCSSUnit(inputBoxShadowHOffset, "px") +
         " " +
@@ -653,18 +658,18 @@
 		},
 
     ' .wpcf7-select': {
-      "color": inputTextColor,
+      "color": inputTypographyColor,
       'background-color': inputBackgroundColor,
 		},   
 
     ' .wpcf7 form.wpcf7-form:not(input)': {
-			'color': labelColor,
+			'color': labelTypographyColor,
       "font-family": labelFontFamily,
       "font-size": generateCSSUnit(labelFontSize, "px"),
       "font-weight": labelFontWeight,
       "line-height": labelLineHeight,
       "letter-spacing": generateCSSUnit(labelLetterSpacing, "px"),
-      "margin-top": generateCSSUnit( labelSpacing, 'px' ),
+      "margin-top": generateCSSUnit( labelBottomSpacing, 'px' ),
 		},
 
     ' p>label': {
@@ -778,7 +783,7 @@
 			'width': 'calc( ' + radioCheckboxSize + 'px / 1.2 )',
 		},
     " .wpcf7 .wpcf7-list-item": {
-			'margin-top': generateCSSUnit( labelSpacing, 'px' ),
+			'margin-top': generateCSSUnit( labelBottomSpacing, 'px' ),
 		},
     " .wpcf7 .wpcf7-list-item-label": {
       "color": radioCheckboxTextColor,
@@ -791,7 +796,7 @@
 
 
     " .wpcf7 select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required": {
-			'margin-top': generateCSSUnit( labelSpacing, 'px' ),
+			'margin-top': generateCSSUnit( labelBottomSpacing, 'px' ),
 		},   
 
     
@@ -888,7 +893,7 @@
       "padding-right": generateCSSUnit(inputRightPaddingMobile, "px"),
       "text-indent": generateCSSUnit(textIndentMobile, "px"),
       "font-size": generateCSSUnit(inputFontSizeMobile, "px"),      
-      'margin-top': generateCSSUnit( labelSpacingMobile, 'px' ),      
+      'margin-top': generateCSSUnit( labelBottomSpacingMobile, 'px' ),      
     },
 
     ' .wpcf7 textarea': {		
@@ -900,7 +905,7 @@
       "height": generateCSSUnit(textareaHeightMobile, "px"),
       "text-indent": generateCSSUnit(textIndentMobile, "px"),      
       "font-size": generateCSSUnit(inputFontSizeMobile, "px"),      
-      'margin-top': generateCSSUnit( labelSpacingMobile, 'px' ),
+      'margin-top': generateCSSUnit( labelBottomSpacingMobile, 'px' ),
 		},
 
     ' .wpcf7-form-control': {
@@ -910,11 +915,11 @@
 
     ' .wpcf7 form.wpcf7-form:not(input)': {
       "font-size": generateCSSUnit(labelFontSizeMobile, "px"),
-      "margin-top": generateCSSUnit( labelSpacingMobile, 'px' ),
+      "margin-top": generateCSSUnit( labelBottomSpacingMobile, 'px' ),
 		},
 
     " .wpcf7 .wpcf7-list-item": {
-			'margin-top': generateCSSUnit( labelSpacingMobile, 'px' ),
+			'margin-top': generateCSSUnit( labelBottomSpacingMobile, 'px' ),
 		},
     " .wpcf7 .wpcf7-list-item-label": {
       "font-size": generateCSSUnit(radioCheckboxFontSizeMobile, "px"),      
@@ -922,7 +927,7 @@
 
 
     " .wpcf7 select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required": {
-			'margin-top': generateCSSUnit( labelSpacingMobile, 'px' ),
+			'margin-top': generateCSSUnit( labelBottomSpacingMobile, 'px' ),
 		},   
 
     
@@ -1019,7 +1024,7 @@
       "padding-right": generateCSSUnit(inputRightPaddingTablet, "px"),
       "text-indent": generateCSSUnit(textIndentTablet, "px"),
       "font-size": generateCSSUnit(inputFontSizeTablet, "px"),      
-      'margin-top': generateCSSUnit( labelSpacingTablet, 'px' ),      
+      'margin-top': generateCSSUnit( labelBottomSpacingTablet, 'px' ),      
     },
 
     ' .wpcf7 textarea': {		
@@ -1031,7 +1036,7 @@
       "height": generateCSSUnit(textareaHeightTablet, "px"),
       "text-indent": generateCSSUnit(textIndentTablet, "px"),      
       "font-size": generateCSSUnit(inputFontSizeTablet, "px"),      
-      'margin-top': generateCSSUnit( labelSpacingTablet, 'px' ),
+      'margin-top': generateCSSUnit( labelBottomSpacingTablet, 'px' ),
 		},
 
     ' .wpcf7-form-control': {
@@ -1041,11 +1046,11 @@
 
     ' .wpcf7 form.wpcf7-form:not(input)': {
       "font-size": generateCSSUnit(labelFontSizeTablet, "px"),
-      "margin-top": generateCSSUnit( labelSpacingTablet, 'px' ),
+      "margin-top": generateCSSUnit( labelBottomSpacingTablet, 'px' ),
 		},
 
     " .wpcf7 .wpcf7-list-item": {
-			'margin-top': generateCSSUnit( labelSpacingTablet, 'px' ),
+			'margin-top': generateCSSUnit( labelBottomSpacingTablet, 'px' ),
 		},
     " .wpcf7 .wpcf7-list-item-label": {
       "font-size": generateCSSUnit(radioCheckboxFontSizeTablet, "px"),      
@@ -1053,7 +1058,7 @@
 
 
     " .wpcf7 select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required": {
-			'margin-top': generateCSSUnit( labelSpacingTablet, 'px' ),
+			'margin-top': generateCSSUnit( labelBottomSpacingTablet, 'px' ),
 		},   
 
     

@@ -322,3 +322,15 @@
     height: 16px;
   }
 }
+
+.rbea-height-selector-wrapper 
+> .rbea-tab-radio-control-wrapper
+> .rbea-tab-radio-options{
+  display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr); 
+    gap: 0; 
+    border: 1px solid #C9C8C8!important ;
+    border-radius: 6px; 
+    overflow: hidden;
+}

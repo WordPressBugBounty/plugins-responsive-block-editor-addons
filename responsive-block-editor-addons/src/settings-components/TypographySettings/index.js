@@ -28,8 +28,6 @@ const TypographyHelperControl = (props) => {
     advancedControls = (
         <TypographyControl
             title={props.attrNameTemplate}
-            showColorControlTab={false}
-            showColorWithHoverControlTab={false}
             onChangeFontSizeMobile={value => props.setAttributes({ [getAttrName('FontSizeMobile')]: value })}
             onChangeFontSizeTablet={value => props.setAttributes({ [getAttrName('FontSizeTablet')]: value })}
             onChangeFontSize={value => props.setAttributes({ [getAttrName('FontSize')]: value })}
@@ -37,6 +35,7 @@ const TypographyHelperControl = (props) => {
             onChangeBottomSpacingMobile={value => props.setAttributes({ [getAttrName('BottomSpacingMobile')]: value })}
             onChangeBottomSpacingTablet={value => props.setAttributes({ [getAttrName('BottomSpacingTablet')]: value })}
             onChangeTypographyColor={value => props.setAttributes({ [getAttrName('TypographyColor')]: value })}
+            onChangeActiveTypographyColor={value => props.setAttributes({ [getAttrName('ActiveTypographyColor')]: value })}
             onChangeFontFamily={value => props.setAttributes({ [getAttrName('FontFamily')]: value })}
             onChangeFontWeight={value => props.setAttributes({ [getAttrName('FontWeight')]: value })}
             onChangeLineHeight={value => props.setAttributes({ [getAttrName('LineHeight')]: value })}
@@ -61,7 +60,6 @@ class TypographyControl extends Component {
     }
 
     render() {
-
         // Font Weight Options
         const fontWeightOptions = [
             {
@@ -142,12 +140,20 @@ class TypographyControl extends Component {
                 initialOpen={false}
             >
                 <Fragment>
-                    {(this.props.showColorControl == true || this.props.showColorControlTab == true) && (
+                    {(this.props.showColorControl == true) && (
                         <RbeaColorControl
-                            label={__("Content Color", "responsive-block-editor-addons")}
+                            label={__("Color", "responsive-block-editor-addons")}
                             colorValue={this.props.values.color}
                             onChange={this.props.onChangeTypographyColor}
                             resetColor={() => setAttributes({ [this.props.values.color]: "" })}
+                        />
+                    )}
+                    {(this.props.showActiveColorControl == true) && (
+                        <RbeaColorControl
+                            label={__("Active Color", "responsive-block-editor-addons")}
+                            colorValue={this.props.values.activeColor}
+                            onChange={this.props.onChangeActiveTypographyColor}
+                            resetColor={() => setAttributes({ [this.props.values.activeColor]: "" })}
                         />
                     )}
                     <SelectControl
@@ -360,6 +366,59 @@ class TypographyControl extends Component {
                         </TabPanel>
                     )
                     }
+                    {(this.props.showColorWithHoverControlTab == true) && (
+                        <TabPanel
+                            className="responsive-block-editor-addons-inspect-tabs 
+                    responsive-block-editor-addons-inspect-tabs-col-2  
+                    responsive-block-editor-addons-color-inspect-tabs"
+                            activeClass="active-tab"
+                            initialTabName="normal" // Set the default active tab here
+                            tabs={[
+                                {
+                                    name: "empty",
+                                    title: __("", "responsive-block-editor-addons"),
+                                    className: "responsive-block-editor-addons-empty-tab",
+                                },
+                                {
+                                    name: "normal",
+                                    title: __("Normal", "responsive-block-editor-addons"),
+                                    className: "responsive-block-editor-addons-normal-tab",
+                                },
+                                {
+                                    name: "empty",
+                                    title: __("", "responsive-block-editor-addons"),
+                                    className: "responsive-block-editor-addons-empty-tab",
+                                },
+                                {
+                                    name: "hover",
+                                    title: __("Hover", "responsive-block-editor-addons"),
+                                    className: "responsive-block-editor-addons-hover-tab",
+                                },
+                                {
+                                    name: "empty",
+                                    title: __("", "responsive-block-editor-addons"),
+                                    className: "responsive-block-editor-addons-empty-tab",
+                                },
+                            ]}
+                        >
+                            {(tabName) => {
+                                let color_tab;
+                                if ("normal" === tabName.name) {
+                                    color_tab = this.props.values.typographyColorControl;
+                                } else if ("hover" === tabName.name) {
+                                    color_tab = this.props.values.typographyColorControlHover;
+                                } else {
+                                    color_tab = this.props.values.emptyColorControl;
+                                }
+                                return <div>{color_tab}</div>;
+                            }}
+                        </TabPanel>
+                    )}
+                    {(this.props.showOpacity == true) && (
+                        <div>
+                            {this.props.values.typographyOpacityControl}
+                        </div>
+                    )}
                 </Fragment>
             </PanelBody>
         );

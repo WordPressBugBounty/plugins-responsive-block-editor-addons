@@ -39,6 +39,7 @@ const {
   ToggleControl,
   TabPanel,
   Dashicon,
+  BaseControl
 } = wp.components;
 
 const { addQueryArgs } = wp.url;
@@ -182,6 +183,9 @@ export default class Inspector extends Component {
       paginationLeftRadiusMobile,
       paginationIsRadiusControlConnected,
       paginationIsRadiusValueUpdated,
+      excerptTypographyColor,
+      metaTypographyColor,
+      blockIsTypographyColorValueUpdated,
     } = attributes;
 
     const blockMarginResetValues = {
@@ -426,6 +430,59 @@ export default class Inspector extends Component {
         }
       )
       this.props.setAttributes({paginationIsRadiusValueUpdated: true});
+    }
+
+    // Border Color Component For Color&Hover Typography Control
+		const typographyColorControl = (
+      <RbeaColorControl
+        label = {__("Title Color", "responsive-block-editor-addons")}
+        colorValue={attributes.titleColor}
+        onChange={(colorValue) => this.props.setAttributes({ titleColor: colorValue })}
+        resetColor={() => this.props.setAttributes({ titleColor: "" })}
+      />
+		);
+
+		const typographyColorControlHover = (
+			<RbeaColorControl
+        label = {__("Title Hover Color", "responsive-block-editor-addons")}
+        colorValue={attributes.titleHoverColor}
+        onChange={(colorValue) => this.props.setAttributes({ titleHoverColor: colorValue })}
+        resetColor={() => this.props.setAttributes({ titleHoverColor: "" })}
+      />
+		);
+
+    // Border Color Component For Color&Hover Typography Control
+		const readmoreTypographyColorControl = (
+      <RbeaColorControl
+        label = {__("Read More Link Color", "responsive-block-editor-addons")}
+        colorValue={attributes.readMoreLinkColor}
+        onChange={(colorValue) => this.props.setAttributes({ readMoreLinkColor: colorValue })}
+        resetColor={() => this.props.setAttributes({ readMoreLinkColor: "" })}
+      />      
+		);
+
+		const readmoreTypographyColorControlHover = (
+			<RbeaColorControl
+        label = {__("Read More Hover Color", "responsive-block-editor-addons")}
+        colorValue={attributes.readMoreHoverColor}
+        onChange={(colorValue) => this.props.setAttributes({ readMoreHoverColor: colorValue })}
+        resetColor={() => this.props.setAttributes({ readMoreHoverColor: "" })}
+      />
+		);
+
+    const emptyColorControl = (
+			<div className="responsive-block-editor-addons-empty-color-control"></div>
+		);
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          metaTypographyColor: attributes.metaColor !== undefined ? attributes.metaColor : metaTypographyColor,
+          excerptTypographyColor: attributes.textColor !== undefined ? attributes.textColor : excerptTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
     }
 
     return (
@@ -933,12 +990,8 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-		  	<PanelBody
-				title={__("Typography", "responsive-block-editor-addons")}
-				initialOpen={false}
-			>
-				<TypographyHelperControl
-					title={__("Excerpt", "responsive-block-editor-addons")}
+          <TypographyHelperControl
+					title={__("Excerpt Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="excerpt%s"
 					values = {{
 					family: attributes.excerptFontFamily,
@@ -947,15 +1000,17 @@ export default class Inspector extends Component {
 					sizeTablet: attributes.excerptFontSizeTablet,
 					weight: attributes.excerptFontWeight,
 					height: attributes.excerptLineHeight,
-					transform: attributes.excerptTextTransform
+					transform: attributes.excerptTextTransform,
+          color: attributes.excerptTypographyColor,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { true }
+          showColorControl={true}
 					setAttributes={ setAttributes }
 					{...this.props}
 				/>
 				<TypographyHelperControl
-					title={__("Meta", "responsive-block-editor-addons")}
+					title={__("Meta Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="meta%s"
 					values = {{
 					family: attributes.metaFontFamily,
@@ -964,15 +1019,17 @@ export default class Inspector extends Component {
 					sizeTablet: attributes.metaFontSizeTablet,
 					weight: attributes.metaFontWeight,
 					height: attributes.metaLineHeight,
-					transform: attributes.metaTextTransform
+					transform: attributes.metaTextTransform,
+          color: attributes.metaTypographyColor,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { true }
+          showColorControl={true}
 					setAttributes={ setAttributes }
 					{...this.props}
 				/>
 				<TypographyHelperControl
-					title={__("Title", "responsive-block-editor-addons")}
+					title={__("Title Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="title%s"
 					values = {{
 					family: attributes.titleFontFamily,
@@ -981,15 +1038,19 @@ export default class Inspector extends Component {
 					sizeTablet: attributes.titleFontSizeTablet,
 					weight: attributes.titleFontWeight,
 					height: attributes.titleLineHeight,
-					transform: attributes.titleTextTransform
+					transform: attributes.titleTextTransform,
+          typographyColorControl: typographyColorControl,
+					typographyColorControlHover: typographyColorControlHover,
+					emptyColorControl: emptyColorControl,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { true }
+          showColorWithHoverControlTab={true}
 					setAttributes={ setAttributes }
 					{...this.props}
 				/>
 				<TypographyHelperControl
-					title={__("Read More Link", "responsive-block-editor-addons")}
+					title={__("Read More Link Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="continue%s"
 					values = {{
 					family: attributes.continueFontFamily,
@@ -998,14 +1059,17 @@ export default class Inspector extends Component {
 					sizeTablet: attributes.continueFontSizeTablet,
 					weight: attributes.continueFontWeight,
 					height: attributes.continueLineHeight,
-					transform: attributes.continueTextTransform
+					transform: attributes.continueTextTransform,
+          typographyColorControl: readmoreTypographyColorControl,
+					typographyColorControlHover: readmoreTypographyColorControlHover,
+					emptyColorControl: emptyColorControl,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { true }
+          showColorWithHoverControlTab={true}
 					setAttributes={ setAttributes }
 					{...this.props}
 				/>
-			</PanelBody>
             <PanelBody
               title={__("Border", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1021,7 +1085,13 @@ export default class Inspector extends Component {
                 setAttributes={setAttributes}
                 {...this.props}
               />
-              <BoxShadowControl
+            </PanelBody>
+
+            <PanelBody 
+              title={__("Box Shadow", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+            <BoxShadowControl
                 setAttributes={setAttributes}
                 label={__("Box Shadow", "responsive-block-editor-addons")}
                 boxShadowColor={{
@@ -1071,42 +1141,6 @@ export default class Inspector extends Component {
                 onChange={(colorValue) => this.props.setAttributes({ bgColor: colorValue })}
                 resetColor={() => this.props.setAttributes({ bgColor: "" })}
               />
-              <RbeaColorControl
-                label = {__("Title Color", "responsive-block-editor-addons")}
-                colorValue={attributes.titleColor}
-                onChange={(colorValue) => this.props.setAttributes({ titleColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ titleColor: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Title Hover Color", "responsive-block-editor-addons")}
-                colorValue={attributes.titleHoverColor}
-                onChange={(colorValue) => this.props.setAttributes({ titleHoverColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ titleHoverColor: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Meta Color", "responsive-block-editor-addons")}
-                colorValue={attributes.metaColor}
-                onChange={(colorValue) => this.props.setAttributes({ metaColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ metaColor: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Excerpt Color", "responsive-block-editor-addons")}
-                colorValue={attributes.textColor}
-                onChange={(colorValue) => this.props.setAttributes({ textColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ textColor: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Read More Link Color", "responsive-block-editor-addons")}
-                colorValue={attributes.readMoreLinkColor}
-                onChange={(colorValue) => this.props.setAttributes({ readMoreLinkColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ readMoreLinkColor: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Read More Hover Color", "responsive-block-editor-addons")}
-                colorValue={attributes.readMoreHoverColor}
-                onChange={(colorValue) => this.props.setAttributes({ readMoreHoverColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ readMoreHoverColor: "" })}
-              />
             </PanelBody>
             <PanelBody
               title={__("Pagination", "responsive-block-editor-addons")}
@@ -1132,31 +1166,28 @@ export default class Inspector extends Component {
                   this.props.setAttributes({ paginationLayout: value })
                 }
               />
-              <RbeaTabRadioControl
-                label={__(
-                  "Pagination Alignment",
-                  "responsive-block-editor-addons"
-                )}
-                options={[
-                  {
-                    value: "left",
-                    label: __("Left", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: "center",
-                    label: __("Center", "responsive-block-editor-addons"),
-                  },
-                  {
-                    value: "right",
-                    label: __("Right", "responsive-block-editor-addons"),
-                  },
-                ]}
-                value={attributes.paginationAlignment}
-                onChange={(value) =>
-                  this.props.setAttributes({ paginationAlignment: value })
-                }
-                defaultValue={"center"}
-              />
+              <Fragment>
+                <BaseControl>
+                  <p>
+                    {__(
+                      "Pagination Alignment",
+                      "responsive-block-editor-addons"
+                    )}
+                    </p>
+                    <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={attributes.paginationAlignment}
+                        onChange={(value) =>
+                          setAttributes({
+                            paginationAlignment: value,
+                          })
+                        }
+                        controls={["left", "center", "right"]}
+                        isCollapsed={false}
+                      />
+                    </div>
+                  </BaseControl>
+                </Fragment>
               <RbeaRangeControl
                 label={__("Border Size", "responsive-block-editor-addons")}
                 value={attributes.paginationBorderWidth}

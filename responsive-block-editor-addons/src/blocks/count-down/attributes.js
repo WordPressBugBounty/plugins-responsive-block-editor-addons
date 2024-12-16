@@ -678,6 +678,18 @@ const attributes = {
     type: "boolean",
     default: false,
   },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  labelTypographyColor: {
+    type: "string",
+    default: '#fff',
+  },
+  digitTypographyColor: {
+    type: "string",
+    default: '#fff',
+  },
 };
 
 export default attributes;

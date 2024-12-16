@@ -387,6 +387,13 @@ const attributes = {
       type: "number",
       default: '',
     },
+    blockIsTypographyColorValueUpdated: {
+      type: 'boolean',
+      default: false,
+    },
+    inputTypographyColor: {
+      type: 'string',
+    },
   };
   
   export default attributes;

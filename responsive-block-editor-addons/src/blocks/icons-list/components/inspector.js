@@ -234,6 +234,7 @@ export default class Inspector extends Component {
       ? "responsive-block-editor-addons-icon-list__no-label"
       : "";
 
+
     // backward compatibility for border radius control
 
     if (!blockIsRadiusValueUpdated) {
@@ -424,59 +425,59 @@ export default class Inspector extends Component {
               </PanelBody>
             </InspectorTab>
             <InspectorTab key={"style"}>
-              {!hideLabel && (
-                <TypographyHelperControl
-                  title={"Label"}
-                  attrNameTemplate="label%s"
-                  values={{
-                    family: labelFontFamily,
-                    size: labelFontSize,
-                    sizeMobile: labelFontSizeMobile,
-                    sizeTablet: labelFontSizeTablet,
-                    weight: labelFontWeight,
-                    height: labelLineHeight,
-                  }}
-                  showLetterSpacing={false}
-                  showTextBottomSpacing={false}
-                  showTextDecoration={false}
-                  showTextTransform={false}
-                  showColorControl={false}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-              )}
+        {!hideLabel && (
+          <TypographyHelperControl
+            title={"Label"}
+            attrNameTemplate="label%s"
+            values={{
+              family: labelFontFamily,
+              size: labelFontSize,
+              sizeMobile: labelFontSizeMobile,
+              sizeTablet: labelFontSizeTablet,
+              weight: labelFontWeight,
+              height: labelLineHeight,
+            }}
+            showLetterSpacing={false}
+            showTextBottomSpacing={false}
+            showTextDecoration={false}
+            showTextTransform={false}
+            showColorControl={false}
+            setAttributes={setAttributes}
+            {...this.props}
+          />
+        )}
 
-              {!hideLabel && (
-                <PanelBody
-                  title={__("Icon", "responsive-block-editor-addons")}
-                  initialOpen={false}
+        {!hideLabel && (
+          <PanelBody
+            title={__("Icon", "responsive-block-editor-addons")}
+            initialOpen={false}
+          >
+                <TabPanel
+                  className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                  activeClass="active-tab"
+                  tabs={[
+                    {
+                      name: "desktop",
+                      title: <Dashicon icon="desktop" />,
+                      className:
+                        " responsive-desktop-tab  responsive-responsive-tabs",
+                    },
+                    {
+                      name: "tablet",
+                      title: <Dashicon icon="tablet" />,
+                      className:
+                        " responsive-tablet-tab  responsive-responsive-tabs",
+                    },
+                    {
+                      name: "mobile",
+                      title: <Dashicon icon="smartphone" />,
+                      className:
+                        " responsive-mobile-tab  responsive-responsive-tabs",
+                    },
+                  ]}
                 >
-                  <TabPanel
-                    className=" responsive-size-type-field-tabs responsive-size-type-field__common-tabs responsive-inline-margin"
-                    activeClass="active-tab"
-                    tabs={[
-                      {
-                        name: "desktop",
-                        title: <Dashicon icon="desktop" />,
-                        className:
-                          " responsive-desktop-tab responsive-responsive-tabs",
-                      },
-                      {
-                        name: "tablet",
-                        title: <Dashicon icon="tablet" />,
-                        className:
-                          " responsive-tablet-tab responsive-responsive-tabs",
-                      },
-                      {
-                        name: "mobile",
-                        title: <Dashicon icon="smartphone" />,
-                        className:
-                          " responsive-mobile-tab responsive-responsive-tabs",
-                      },
-                    ]}
-                  >
-                    {(tab) => {
-                      let tabout;
+                  {(tab) => {
+                    let tabout;
 
                       if ("mobile" === tab.name) {
                         tabout = (
@@ -649,8 +650,8 @@ export default class Inspector extends Component {
                   attrNameTemplate="block%s"
                   {...this.props}
                 />
-                </PanelBody>
-              )}
+          </PanelBody>
+        )}
         
               <PanelBody
                 title={__("Spacing", "responsive-block-editor-addons")}

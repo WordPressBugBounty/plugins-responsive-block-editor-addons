@@ -664,5 +664,36 @@ const attributes = {
 	  type: "string",
 	  default: 'empty',
   }, // For compatibility with v1.3.2.
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  ctaTitleTypographyColor: {
+    type: 'string',
+  },
+  ctaTitleBottomSpacing: {
+    type: 'number',
+    default: 25,
+  },
+  ctaTitleBottomSpacingMobile: {
+    type: 'number',
+    default: 25,
+  },
+  ctaTitleBottomSpacingTablet: {
+    type: 'number',
+    default: 25,
+  },
+  ctaTextBottomSpacing: {
+    type: 'number',
+    default: 28,
+  },
+  ctaTextBottomSpacingMobile: {
+    type: 'number',
+    default: 28,
+  },
+  ctaTextBottomSpacingTablet: {
+    type: 'number',
+    default: 28,
+  },
 };
 export default attributes;

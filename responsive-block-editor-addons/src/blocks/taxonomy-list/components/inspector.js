@@ -26,7 +26,7 @@ import { loadGoogleFont } from "../../../utils/font";
 
 // Import block components
 
-const { InspectorControls, ColorPalette } = wp.blockEditor;
+const { InspectorControls, ColorPalette, AlignmentToolbar } = wp.blockEditor;
 
 // Import Inspector components
 const {
@@ -39,6 +39,7 @@ const {
   ToggleControl,
   TabPanel,
   Dashicon,
+  BaseControl
 } = wp.components;
 
 /**
@@ -197,6 +198,9 @@ export default class Inspector extends Component {
 			blockRightPaddingTablet,
       blockIsMarginControlConnected,
       blockIsPaddingControlConnected,
+      blockIsTypographyColorValueUpdated,
+      countTypographyColor,
+      titleTypographyColor,
     } = attributes;
 
     const blockMarginResetValues = {
@@ -305,6 +309,40 @@ if (!gridIsRadiusValueUpdated) {
 	  }
 	)
 	this.props.setAttributes({gridIsRadiusValueUpdated: true});
+  }
+
+  // Border Color Component For Color&Hover Typography Control
+  const listTypographyColorControl = (
+    <RbeaColorControl
+      label = {__("List Text Color", "responsive-block-editor-addons")}
+      colorValue={listTextColor}
+      onChange={(colorValue) => setAttributes({ listTextColor: colorValue })}
+      resetColor={() => setAttributes({ listTextColor: "" })}
+    />
+  );
+
+  const listTypographyColorControlHover = (
+    <RbeaColorControl
+      label = {__("List Text Color Hover", "responsive-block-editor-addons")}
+      colorValue={listTextColorHover}
+      onChange={(colorValue) => setAttributes({ listTextColorHover: colorValue })}
+      resetColor={() => setAttributes({ listTextColorHover: "" })}
+    />
+  );
+    
+  const emptyColorControl = (
+    <div className="responsive-block-editor-addons-empty-color-control"></div>
+  );
+
+  // backward compatibility for typography color control
+  if (!blockIsTypographyColorValueUpdated) {
+    this.props.setAttributes(
+      {
+        countTypographyColor:          countColor !== undefined ? countColor : countTypographyColor,
+        titleTypographyColor:         titleColor !== undefined ? titleColor : titleTypographyColor,
+      }
+    )
+    this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
   }
   
     return (
@@ -535,37 +573,25 @@ if (!gridIsRadiusValueUpdated) {
                   "responsive-block-editor-addons"
                 )}
               />
-              {"grid" == layout && (
-                <Fragment>
-                  <p className="responsive-setting-label">
+              {"grid" == layout && (<Fragment>
+                <BaseControl>
+                  <p>
                     {__("Alignment", "responsive-block-editor-addons")}
                   </p>
-                  <Button
-                    key={"left"}
-                    icon="editor-alignleft"
-                    label="Left"
-                    onClick={() => setAttributes({ alignment: "left" })}
-                    aria-pressed={"left" === alignment}
-                    isPrimary={"left" === alignment}
-                  />
-                  <Button
-                    key={"center"}
-                    icon="editor-aligncenter"
-                    label="Center"
-                    onClick={() => setAttributes({ alignment: "center" })}
-                    aria-pressed={"center" === alignment}
-                    isPrimary={"center" === alignment}
-                  />
-                  <Button
-                    key={"right"}
-                    icon="editor-alignright"
-                    label="Right"
-                    onClick={() => setAttributes({ alignment: "right" })}
-                    aria-pressed={"right" === alignment}
-                    isPrimary={"right" === alignment}
-                  />
-                </Fragment>
-              )}
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={alignment}
+                      onChange={(value) =>
+                        setAttributes({
+                          alignment: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
+                </BaseControl>
+              </Fragment>)}
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
@@ -575,18 +601,6 @@ if (!gridIsRadiusValueUpdated) {
             >
               {"grid" === layout && (
                 <Fragment>
-                  <RbeaColorControl
-                    label = {__("Title Color", "responsive-block-editor-addons")}
-                    colorValue={titleColor}
-                    onChange={(colorValue) => setAttributes({ titleColor: colorValue })}
-                    resetColor={() => setAttributes({ titleColor: "" })}
-                  />
-                  <RbeaColorControl
-                    label = {__("Count Color", "responsive-block-editor-addons")}
-                    colorValue={countColor}
-                    onChange={(colorValue) => setAttributes({ countColor: colorValue })}
-                    resetColor={() => setAttributes({ countColor: "" })}
-                  />
                   <RbeaColorControl
                     label = {__("Background Color", "responsive-block-editor-addons")}
                     colorValue={bgColor}
@@ -598,22 +612,10 @@ if (!gridIsRadiusValueUpdated) {
               {"list" === layout && (
                 <Fragment>
                   <RbeaColorControl
-                    label = {__("List Text Color", "responsive-block-editor-addons")}
-                    colorValue={listTextColor}
-                    onChange={(colorValue) => setAttributes({ listTextColor: colorValue })}
-                    resetColor={() => setAttributes({ listTextColor: "" })}
-                  />
-                  <RbeaColorControl
                     label = {__("List Style Color", "responsive-block-editor-addons")}
                     colorValue={listStyleColor}
                     onChange={(colorValue) => setAttributes({ listStyleColor: colorValue })}
                     resetColor={() => setAttributes({ listStyleColor: "" })}
-                  />
-                  <RbeaColorControl
-                    label = {__("List Text Color Hover", "responsive-block-editor-addons")}
-                    colorValue={listTextColorHover}
-                    onChange={(colorValue) => setAttributes({ listTextColorHover: colorValue })}
-                    resetColor={() => setAttributes({ listTextColorHover: "" })}
                   />
                   <RbeaColorControl
                     label = {__("List Style Color Hover", "responsive-block-editor-addons")}
@@ -624,11 +626,7 @@ if (!gridIsRadiusValueUpdated) {
                 </Fragment>
               )}
             </PanelBody>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              {"grid" === layout && (
+            {"grid" === layout && (
                 <Fragment>
                   <TypographyHelperControl
                     title={__(
@@ -643,9 +641,11 @@ if (!gridIsRadiusValueUpdated) {
                       sizeTablet: titleFontSizeTablet,
                       weight: titleFontWeight,
                       height: titleLineHeight,
+                      color: titleTypographyColor,
                     }}
                     showLetterSpacing={false}
                     showTextTransform={false}
+                    showColorControl={true}
                     setAttributes={setAttributes}
                     {...this.props}
                   />
@@ -663,9 +663,11 @@ if (!gridIsRadiusValueUpdated) {
                         sizeTablet: countFontSizeTablet,
                         weight: countFontWeight,
                         height: countLineHeight,
+                        color: countTypographyColor,
                       }}
                       showLetterSpacing={false}
                       showTextTransform={false}
+                      showColorControl={true}
                       setAttributes={setAttributes}
                       {...this.props}
                     />
@@ -686,45 +688,23 @@ if (!gridIsRadiusValueUpdated) {
                     sizeTablet: listFontSizeTablet,
                     weight: listFontWeight,
                     height: listLineHeight,
+                    typographyColorControl: listTypographyColorControl,
+										typographyColorControlHover: listTypographyColorControlHover,
+										emptyColorControl: emptyColorControl,
                   }}
                   showLetterSpacing={false}
                   showTextTransform={false}
+                  showColorWithHoverControlTab={true}
                   setAttributes={setAttributes}
                   {...this.props}
                 />
               )}
-            </PanelBody>
             <PanelBody
               title={__("Border", "responsive-block-editor-addons")}
               initialOpen={false}
             >
               {"grid" === layout && (
                 <Fragment>
-                  <BoxShadowControl
-                    setAttributes={setAttributes}
-                    label={__("Box Shadow", "responsive-block-editor-addons")}
-                    boxShadowColor={{
-                      value: boxShadowColor,
-                      label: __("Color", "responsive-block-editor-addons"),
-                    }}
-                    boxShadowHOffset={{
-                      value: boxShadowHOffset,
-                      label: __("Horizontal", "responsive-block-editor-addons"),
-                    }}
-                    boxShadowVOffset={{
-                      value: boxShadowVOffset,
-                      label: __("Vertical", "responsive-block-editor-addons"),
-                    }}
-                    boxShadowBlur={{ value: boxShadowBlur, label: __("Blur", "responsive-block-editor-addons") }}
-                    boxShadowSpread={{
-                      value: boxShadowSpread,
-                      label: __("Spread", "responsive-block-editor-addons"),
-                    }}
-                    boxShadowPosition={{
-                      value: boxShadowPosition,
-                      label: __("Position", "responsive-block-editor-addons"),
-                    }}
-                  />
                   <RbeaBlockBorderHelperControl
                     attrNameTemplate="grid%s"
                     values={{
@@ -814,6 +794,40 @@ if (!gridIsRadiusValueUpdated) {
                 </Fragment>
               )}
             </PanelBody>
+            {"grid" === layout && (
+                <PanelBody
+                title={__("Box Shadow", "responsive-block-editor-addons")}
+                initialOpen={false}
+              >
+                  <Fragment>
+                    <BoxShadowControl
+                      setAttributes={setAttributes}
+                      label={__("Box Shadow", "responsive-block-editor-addons")}
+                      boxShadowColor={{
+                        value: boxShadowColor,
+                        label: __("Color", "responsive-block-editor-addons"),
+                      }}
+                      boxShadowHOffset={{
+                        value: boxShadowHOffset,
+                        label: __("Horizontal", "responsive-block-editor-addons"),
+                      }}
+                      boxShadowVOffset={{
+                        value: boxShadowVOffset,
+                        label: __("Vertical", "responsive-block-editor-addons"),
+                      }}
+                      boxShadowBlur={{ value: boxShadowBlur, label: __("Blur", "responsive-block-editor-addons") }}
+                      boxShadowSpread={{
+                        value: boxShadowSpread,
+                        label: __("Spread", "responsive-block-editor-addons"),
+                      }}
+                      boxShadowPosition={{
+                        value: boxShadowPosition,
+                        label: __("Position", "responsive-block-editor-addons"),
+                      }}
+                    />
+                  </Fragment>
+                </PanelBody>
+              )}
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}

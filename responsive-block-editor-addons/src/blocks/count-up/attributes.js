@@ -477,6 +477,19 @@ const attributes = {
   blockNewSpacingValuesUpdated: {
     type: "boolean",
     default: false,
-  }
+  },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  contentTypographyColor: {
+    type: "string",
+  },
+  headingTypographyColor: {
+    type: "string",
+  },
+  dateTypographyColor: {
+    type: "string",
+  },
 };
 export default attributes;

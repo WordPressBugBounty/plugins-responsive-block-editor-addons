@@ -396,6 +396,22 @@ const attributes = {
 		type: "boolean",
 		default: false,
 	},
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  tabTitleTypographyColor: {
+    type: "string",
+    default: "#007cba",
+  },
+  tabTitleActiveTypographyColor: {
+    type: "string",
+    default: "#000"
+  },
+  tabContentTypographyColor: {
+    type: "string",
+    default: "#000",
+  },
 };
 
 export default attributes;

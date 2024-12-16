@@ -407,11 +407,9 @@ const attributes = {
   },
   subHeadingTitleTypographyColor: {
     type: "string",
-    default: '',
   },
   headingTitleTypographyColor: {
     type: "string",
-    default: '',
   },
   blockIsBottomSpacingValueUpdated : {
     type: "boolean",
@@ -419,27 +417,35 @@ const attributes = {
   },
   headingTitleBottomSpacing: {
     type: "number",
+    default: 15,
   },
   headingTitleBottomSpacingMobile: {
     type: "number",
+    default: 15,
   },
   headingTitleBottomSpacingTablet: {
     type: "number",
+    default: 15,
   },
   subHeadingTitleBottomSpacing: {
     type: "number",
+    default: 15,
   },
   subHeadingTitleBottomSpacingMobile: {
     type: "number",
+    default: 15,
   },
   subHeadingTitleBottomSpacingTablet: {
     type: "number",
+    default: 15,
   },
   headingTitleTextDecoration: {
     type: "string",
+    default: 'none',
   },
   subHeadingTitleTextDecoration: {
     type: "string",
+    default: 'none',
   },
 };
 

@@ -397,6 +397,14 @@ const attributes = {
   blockIsMarginControlConnected: {
     type: "boolean",
     default: false,
+  },
+  quoteTypographyColor: {
+    type: "string",
+    default: "",
+  },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
   }
 };
 

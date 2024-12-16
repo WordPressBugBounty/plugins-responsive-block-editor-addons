@@ -71,6 +71,7 @@ function EditorStyles(props) {
     blockRightRadiusMobile,
     blockBottomRadiusMobile,
     blockLeftRadiusMobile,
+    overlayTextTypographyColor,
   } = props.attributes;
 
 
@@ -148,7 +149,7 @@ function EditorStyles(props) {
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadius, "px"),
     },
     " .responsive-block-editor-addons-block-portfolio-image-overlay *": {
-      "color": overlayTextColor,
+      "color": overlayTextTypographyColor,
       "line-height": overlayTextLineHeight,
       "font-family": overlayTextFontFamily,
       "font-size": generateCSSUnit(overlayTextFontSize, "px"),

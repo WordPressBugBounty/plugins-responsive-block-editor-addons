@@ -154,6 +154,7 @@ function EditorStyles(props) {
     buttonRightPadding,
     buttonRightPaddingMobile,
     buttonRightPaddingTablet,
+    popupTextTypographyTypographyColor,
   } = props.attributes;
 
   const popupScreenPositions = {
@@ -327,7 +328,7 @@ function EditorStyles(props) {
       "border-color": popupButtonBorderHoverColor,
     },
     " .responsive-block-editor-addons-popup-text-trigger": {
-      "color": popupTextColor,
+      "color": popupTextTypographyTypographyColor,
       "font-family": popupTextTypographyFontFamily,
       "font-size": generateCSSUnit(popupTextTypographyFontSize, "px"),
       "font-weight": parseInt(popupTextTypographyFontWeight),

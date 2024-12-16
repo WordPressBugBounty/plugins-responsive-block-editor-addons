@@ -1,7 +1,7 @@
 import { useState, Fragment } from '@wordpress/element';
 import { RadioControl } from '@wordpress/components';
 
-const RbeaTabRadioControl = ({ label, value, onChange, options, help, hasIcon = false, optionHasBorder = false, defaultValue = ''}) => {
+const RbeaTabRadioControl = ({ label, value, onChange, options, help = '', hasIcon = false, optionHasBorder = false, defaultValue = ''}) => {
   // Store the currently selected option in state
   if(defaultValue==='')
   {
@@ -32,7 +32,7 @@ const RbeaTabRadioControl = ({ label, value, onChange, options, help, hasIcon = 
             </div>
           ))}
         </div>
-        <p className='rbea-tab-radio-options-help-text'>{help}</p>
+        {help !== '' ? <p className='rbea-tab-radio-options-help-text'>{help}</p> : '' }
       </div>
     </Fragment>
   );

@@ -153,16 +153,18 @@ export default class Inspector extends Component {
 															"responsive-block-editor-addons"
 														)}
 													</p>
-													<AlignmentToolbar
-														value={buttonAlignmentMobile}
-														onChange={(value) =>
-															setAttributes({
-																buttonAlignmentMobile: value,
-															})
-														}
-														controls={["left", "center", "right", "full"]}
-														isCollapsed={false}
-													/>
+													<div className="responsive-block-editor-addons-alignment-mobile">
+														<AlignmentToolbar
+															value={buttonAlignmentMobile}
+															onChange={(value) =>
+																setAttributes({
+																	buttonAlignmentMobile: value,
+																})
+															}
+															controls={["left", "center", "right", "full"]}
+															isCollapsed={false}
+														/>
+													</div>
 												</BaseControl>
 											</Fragment>
 										);
@@ -176,16 +178,18 @@ export default class Inspector extends Component {
 															"responsive-block-editor-addons"
 														)}
 													</p>
-													<AlignmentToolbar
-														value={buttonAlignmentTablet}
-														onChange={(value) =>
-															setAttributes({
-																buttonAlignmentTablet: value,
-															})
-														}
-														controls={["left", "center", "right", "full"]}
-														isCollapsed={false}
-													/>
+													<div className="responsive-block-editor-addons-alignment-tablet">
+														<AlignmentToolbar
+															value={buttonAlignmentTablet}
+															onChange={(value) =>
+																setAttributes({
+																	buttonAlignmentTablet: value,
+																})
+															}
+															controls={["left", "center", "right", "full"]}
+															isCollapsed={false}
+														/>
+													</div>
 												</BaseControl>
 											</Fragment>
 										);
@@ -194,16 +198,18 @@ export default class Inspector extends Component {
 											<Fragment>
 												<BaseControl>
 													<p>{__("Alignment", "responsive-block-editor-addons")}</p>
-													<AlignmentToolbar
-														value={buttonAlignment}
-														onChange={(value) =>
-															setAttributes({
-																buttonAlignment: value,
-															})
-														}
-														controls={["left", "center", "right", "full"]}
-														isCollapsed={false}
-													/>
+													<div className="responsive-block-editor-addons-alignment-tablet">
+														<AlignmentToolbar
+															value={buttonAlignment}
+															onChange={(value) =>
+																setAttributes({
+																	buttonAlignment: value,
+																})
+															}
+															controls={["left", "center", "right", "full"]}
+															isCollapsed={false}
+														/>
+													</div>
 												</BaseControl>
 											</Fragment>
 										);

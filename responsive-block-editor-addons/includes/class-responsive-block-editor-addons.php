@@ -739,7 +739,7 @@ class Responsive_Block_Editor_Addons {
 
 			$flag = false;
 
-			if ( $post || !empty($widget_blocks) ) {
+			if ( ($post && ! empty( $post )) || !empty($widget_blocks) ) {
 				$blocks = parse_blocks( $post->post_content );
 
 				foreach ($widget_blocks as $widget) {

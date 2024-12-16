@@ -197,6 +197,13 @@ export default class Inspector extends Component {
     pricingRightPaddingMobile,
     pricingRightPaddingTablet,
     pricingIsPaddingControlConnected,
+    blockIsTypographyColorValueUpdated,
+    priceTypographyColor,
+    descriptionTypographyColor,
+    titleTypographyColor,
+    titleBottomSpacing,
+    titleBottomSpacingMobile,
+    titleBottomSpacingTablet,
     },
       setAttributes,
     } = this.props;
@@ -305,6 +312,21 @@ export default class Inspector extends Component {
         }
       }
     });
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          priceTypographyColor:          priceColor !== undefined ? priceColor : priceTypographyColor,
+          descriptionTypographyColor:          descColor !== undefined ? descColor : descriptionTypographyColor,
+          titleTypographyColor:         titleColor !== undefined ? titleColor : titleTypographyColor,
+          titleBottomSpacing: titleSpace !== undefined ? titleSpace : titleBottomSpacing,
+          titleBottomSpacingMobile: titleSpaceMobile !== undefined ? titleSpaceMobile : titleBottomSpacingMobile,
+          titleBottomSpacingTablet: titleSpaceTablet !== undefined ? titleSpaceTablet : titleBottomSpacingTablet,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
 
     return (
       <InspectorControls key="inspector">
@@ -487,10 +509,6 @@ export default class Inspector extends Component {
                 resetColor={() => this.props.setAttributes({ priceColor: "" })}
               />
             </PanelBody>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
 				<TypographyHelperControl
 					title={__("Title Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="title%s"
@@ -501,9 +519,15 @@ export default class Inspector extends Component {
 					sizeTablet: titleFontSizeTablet,
 					weight: titleFontWeight,
 					height: titleLineHeight,
+          color: titleTypographyColor,
+          bottomSpacing: titleBottomSpacing,
+          bottomSpacingMoible: titleBottomSpacingMobile,
+          bottomSpacingTablet: titleBottomSpacingTablet,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showColorControl={true}
+          showTextBottomSpacing={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -520,9 +544,11 @@ export default class Inspector extends Component {
 					sizeTablet: descriptionFontSizeTablet,
 					weight: descriptionFontWeight,
 					height: descriptionLineHeight,
+          color: descriptionTypographyColor,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showColorControl={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -536,13 +562,14 @@ export default class Inspector extends Component {
 					sizeTablet: priceFontSizeTablet,
 					weight: priceFontWeight,
 					height: priceLineHeight,
+          color: priceTypographyColor,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showColorControl={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
-            </PanelBody>
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}

@@ -876,6 +876,16 @@ const attributes = {
     type: "string",
     default: "desktop",
   },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  frontTitleTypographyColor: {
+    type: "",
+  },
+  backTitleTypographyColor: {
+    type: "",
+  },
 };
 
 export default attributes;

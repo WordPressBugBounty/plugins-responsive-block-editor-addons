@@ -665,6 +665,18 @@ blockNewSpacingValuesUpdated: {
   type: "boolean",
   default: false,
 },
+blockIsTypographyColorValueUpdated : {
+  type: "boolean",
+  default: false,
+},
+contentTypographyColor : {
+  type: "string",
+  default: '#313131',
+},
+titleTypographyColor : {
+  type: "string",
+  default: '#313131',
+},
 };
 
 export default attributes;

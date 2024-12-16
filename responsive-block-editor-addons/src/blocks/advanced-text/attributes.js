@@ -390,6 +390,19 @@ const attributes = {
     type: "boolean",
     default: false,
   },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  titleTypographyColor: {
+    type: "string",
+  },
+  subtitleTypographyColor: {
+    type: "string",
+  },
+  textTypographyColor: {
+    type: "string",
+  },
 };
 
 export default attributes;

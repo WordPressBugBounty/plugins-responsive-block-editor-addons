@@ -73,6 +73,8 @@ function EditorStyles(props) {
     hideWidget,
     hideWidgetTablet,
     hideWidgetMobile,
+    contentTypographyColor,
+    titleTypographyColor,
   } = props.attributes;
 
   let noticeTypeColor;
@@ -109,7 +111,7 @@ function EditorStyles(props) {
       "justify-content": "space-between"
     },
     " .responsive-block-editor-addons-block-inline-notice-title": {
-      "color": titleColor,
+      "color": titleTypographyColor,
       "font-family": titleFontFamily,
       "font-size": generateCSSUnit(titleFontSize, "px"),
       "font-weight": titleFontWeight,
@@ -130,7 +132,7 @@ function EditorStyles(props) {
       "border-right": borderValues
     },
     " .responsive-block-editor-addons-block-inline-notice-content": {
-      "color": contentColor,
+      "color": contentTypographyColor,
       "font-family": contentFontFamily,
       "font-size": generateCSSUnit(contentFontSize, "px"),
       "font-weight": contentFontWeight,

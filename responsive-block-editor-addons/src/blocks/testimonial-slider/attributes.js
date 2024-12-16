@@ -795,7 +795,47 @@ const attributes = {
   newSpacingValuesUpdated: {
     type: "boolean",
     default: false,
-  }
+  },
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  descTypographyColor: {
+    type: 'string',
+    default: '#333',
+  },
+  nameTypographyColor: {
+    type: 'string',
+    default: '#333',
+  },
+  companyTypographyColor: {
+    type: 'string',
+    default: '#888888',
+  },
+  descBottomSpacing: {
+    type: 'number',
+    default: 15,
+  },
+  descBottomSpacingMobile: {
+    type: 'number',
+    default: 15,
+  },
+  descBottomSpacingTablet: {
+    type: 'number',
+    default: 15,
+  },
+  nameBottomSpacing: {
+    type: 'number',
+    default: 5,
+  },
+  nameBottomSpacingMobile: {
+    type: 'number',
+    default: 5,
+  },
+  nameBottomSpacingTablet: {
+    type: 'number',
+    default: 5,
+  },
 };
 
 export default attributes;

@@ -180,6 +180,9 @@ export default class Inspector extends Component {
         z_indexTablet,
         blockIsMarginControlConnected,
         blockIsPaddingControlConnected,
+        blockIsTypographyColorValueUpdated,
+        contentTypographyColor,
+        titleTypographyColor,
       },
       setAttributes,
     } = this.props;
@@ -212,6 +215,17 @@ export default class Inspector extends Component {
       paddingMobileRight: 0,
       paddingMobileBottom: 0,
       paddingMobileLeft: 0,
+    }
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          contentTypographyColor:          contentColor !== undefined ? contentColor : contentTypographyColor,
+          titleTypographyColor:         titleColor !== undefined ? titleColor : titleTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
     }
 
     return (
@@ -301,14 +315,6 @@ export default class Inspector extends Component {
               title={__("Colors", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <Fragment>
-                <RbeaColorControl
-                  label = {__("Title Color", "responsive-block-editor-addons")}
-                  colorValue={titleColor}
-                  onChange={(colorValue) => setAttributes({ titleColor: colorValue })}
-                  resetColor={() => setAttributes({ titleColor: "" })}
-                />
-              </Fragment>
               {
                 "default" === noticeType && (
                   <Fragment>
@@ -323,14 +329,6 @@ export default class Inspector extends Component {
               }
               <Fragment>
                 <RbeaColorControl
-                  label = {__("Content Color", "responsive-block-editor-addons")}
-                  colorValue={contentColor}
-                  onChange={(colorValue) => setAttributes({ contentColor: colorValue })}
-                  resetColor={() => setAttributes({ contentColor: "" })}
-                />
-              </Fragment>
-              <Fragment>
-                <RbeaColorControl
                   label = {__("Content Background Color", "responsive-block-editor-addons")}
                   colorValue={contentBgColor}
                   onChange={(colorValue) => setAttributes({ contentBgColor: colorValue })}
@@ -338,10 +336,6 @@ export default class Inspector extends Component {
                 />
               </Fragment>
             </PanelBody>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
               <TypographyHelperControl
                 title={__("Title Typography", "responsive-block-editor-addons")}
                 attrNameTemplate="title%s"
@@ -353,9 +347,11 @@ export default class Inspector extends Component {
                   weight: titleFontWeight,
                   height: titleLineHeight,
                   spacing: titleLetterSpacing,
+                  color: titleTypographyColor,
                 }}
                 showLetterSpacing={true}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -370,13 +366,14 @@ export default class Inspector extends Component {
                   weight: contentFontWeight,
                   height: contentLineHeight,
                   spacing: contentLetterSpacing,
+                  color: contentTypographyColor,
                 }}
                 showLetterSpacing={true}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
-            </PanelBody>
             <PanelBody
               title={__("Padding", "responsive-block-editor-addons")}
               initialOpen={false}

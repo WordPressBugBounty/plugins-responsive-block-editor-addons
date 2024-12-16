@@ -244,6 +244,150 @@ const attributes = {
     type: "number",
     default: 1,
   },
+  blockTopPadding: {
+    type: "number",
+    default: 10,
+  },
+  blockTopPaddingMobile: {
+    type: "number",
+  },
+  blockTopPaddingTablet: {
+    type: "number",
+  },
+  blockBottomPadding: {
+    type: "number",
+    default: 10,
+  },
+  blockBottomPaddingMobile: {
+    type: "number",
+  },
+  blockBottomPaddingTablet: {
+    type: "number",
+  },
+  blockLeftPadding: {
+    type: "number",
+    default: 14,
+  },
+  blockLeftPaddingMobile: {
+    type: "number",
+  },
+  blockLeftPaddingTablet: {
+    type: "number",
+  },
+  blockRightPadding: {
+    type: "number",
+    default: 14,
+  },
+  blockRightPaddingMobile: {
+    type: "number",
+  },
+  blockRightPaddingTablet: {
+    type: "number",
+  },
+  blockTopMargin: {
+    type: "number",
+    default: 10,
+  },
+  blockBottomMargin: {
+    type: "number",
+    default: 10,
+  },
+  blockLeftMargin: {
+    type: "number",
+    default: 14,
+  },
+  blockRightMargin: {
+    type: "number",
+    default: 14,
+  },
+  blockTopMarginTablet: {
+    type: "number",
+  },
+  blockBottomMarginTablet: {
+    type: "number",
+  },
+  blockLeftMarginTablet: {
+    type: "number",
+  },
+  blockRightMarginTablet: {
+    type: "number",
+  },
+  blockTopMarginMobile: {
+    type: "number",
+  },
+  blockBottomMarginMobile: {
+    type: "number",
+  },
+  blockLeftMarginMobile: {
+    type: "number",
+  },
+  blockRightMarginMobile: {
+    type: "number",
+  },
+  blockIsMarginValueUpdated : {
+    type: "boolean",
+    default: false,
+  },
+  blockIsPaddingValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  blockTopRadius : {
+    type: "number",
+    default: 2,
+  },
+	blockRightRadius : {
+    type: "number",
+    default: 2,
+  },
+	blockBottomRadius : {
+    type: "number",
+    default: 2,
+  },
+	blockLeftRadius : {
+    type: "number",
+    default: 2,
+  },
+  blockTopRadiusMobile: {
+    type: "number",
+    default: 2,
+  },
+	blockRightRadiusMobile: {
+    type: "number",
+    default: 2,
+  },
+	blockBottomRadiusMobile: {
+    type: "number",
+    default: 2,
+  },
+	blockLeftRadiusMobile: {
+    type: "number",
+    default: 2,
+  },
+  blockTopRadiusTablet: {
+    type: "number",
+    default: 2,
+  },
+	blockRightRadiusTablet: {
+    type: "number",
+    default: 2,
+  },
+	blockBottomRadiusTablet: {
+    type: "number",
+    default: 2,
+  },
+	blockLeftRadiusTablet: {
+    type: "number",
+    default: 2,
+  },
+  typographyOpacity: {
+    type: "number",
+    default: 100,
+  },
+  borderOpacity: {
+    type: "number",
+    default: 100,
+  }
 };
 
 export default attributes;

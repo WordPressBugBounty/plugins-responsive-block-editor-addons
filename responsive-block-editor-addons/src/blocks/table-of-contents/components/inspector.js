@@ -509,6 +509,48 @@ export default class Inspector extends Component {
       this.props.setAttributes({bodyBorderIsRadiusValueUpdated: true});
     }
 
+    // Border Color Component For Color&Hover Typography Control
+		const headingTypographyColorControl = (
+			<RbeaColorControl
+        label = {__("Heading Color", "responsive-block-editor-addons")}
+        colorValue={headingColor}
+        onChange={(colorValue) => setAttributes({ headingColor: colorValue })}
+        resetColor={() => setAttributes({ headingColor: "" })}
+      />
+		);
+
+		const headingTypographyColorControlHover = (
+			<RbeaColorControl
+        label = {__("Heading Hover Color", "responsive-block-editor-addons")}
+        colorValue={headingColorHover}
+        onChange={(colorValue) => setAttributes({ headingColorHover: colorValue })}
+        resetColor={() => setAttributes({ headingColorHover: "" })}
+      />
+		);
+
+    // Border Color Component For Color&Hover Typography Control
+		const contentTypographyColorControl = (
+			<RbeaColorControl
+        label = {__("Content Color", "responsive-block-editor-addons")}
+        colorValue={bodyColor}
+        onChange={(colorValue) => setAttributes({ bodyColor: colorValue })}
+        resetColor={() => setAttributes({ bodyColor: "" })}
+      />
+		);
+
+		const contentTypographyColorControlHover = (
+			<RbeaColorControl
+        label = {__("Content Hover Color", "responsive-block-editor-addons")}
+        colorValue={bodyColorHover}
+        onChange={(colorValue) => setAttributes({ bodyColorHover: colorValue })}
+        resetColor={() => setAttributes({ bodyColorHover: "" })}
+      />
+		);
+
+    const emptyColorControl = (
+			<div className="responsive-block-editor-addons-empty-color-control"></div>
+		);
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -527,19 +569,23 @@ export default class Inspector extends Component {
                 ]}
               />
               <Fragment>
-                <h2>
-                  {__("Header Alignment", "responsive-block-editor-addons")}
-                </h2>
-                <BlockAlignmentToolbar
-                  value={align}
-                  onChange={(value) =>
-                    setAttributes({
-                      align: value,
-                    })
-                  }
-                  controls={["left", "center", "right"]}
-                  isCollapsed={false}
-                />
+                <BaseControl>
+                  <p>
+                    {__("Header Alignment", "responsive-block-editor-addons")}
+                  </p>
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={align}
+                      onChange={(value) =>
+                        setAttributes({
+                          align: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
+                </BaseControl>
               </Fragment>
               <RbeaTabRadioControl
                 label={__("Table Type", "responsive-block-editor-addons")}
@@ -832,12 +878,6 @@ export default class Inspector extends Component {
                       tabout = (
                         <Fragment>
                           <RbeaColorControl
-                            label = {__("Hover Color", "responsive-block-editor-addons")}
-                            colorValue={headingColorHover}
-                            onChange={(colorValue) => setAttributes({ headingColorHover: colorValue })}
-                            resetColor={() => setAttributes({ headingColorHover: "" })}
-                          />
-                          <RbeaColorControl
                             label = {__("Background Hover Color", "responsive-block-editor-addons")}
                             colorValue={headingBgColorHover}
                             onChange={(colorValue) => setAttributes({ headingBgColorHover: colorValue })}
@@ -848,12 +888,6 @@ export default class Inspector extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RbeaColorControl
-                            label = {__("Color", "responsive-block-editor-addons")}
-                            colorValue={headingColor}
-                            onChange={(colorValue) => setAttributes({ headingColor: colorValue })}
-                            resetColor={() => setAttributes({ headingColor: "" })}
-                          />
                           <RbeaColorControl
                             label = {__("Background Color", "responsive-block-editor-addons")}
                             colorValue={headingBgColor}
@@ -867,22 +901,6 @@ export default class Inspector extends Component {
                   }}
                 </TabPanel>
               </PanelBody>
-              <TypographyHelperControl
-                title={__("Typography", "responsive-block-editor-addons")}
-                attrNameTemplate="heading%s"
-                values={{
-                  family: headingFontFamily,
-                  size: headingFontSize,
-                  sizeMobile: headingFontSizeMobile,
-                  sizeTablet: headingFontSizeTablet,
-                  weight: headingFontWeight,
-                  height: headingLineHeight,
-                }}
-                showLetterSpacing={false}
-                showTextTransform={false}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
               <PanelBody
                 title={__("Padding", "responsive-block-editor-addons")}
                 initialOpen={false}
@@ -1583,6 +1601,26 @@ export default class Inspector extends Component {
                 )}
               </PanelBody>
             </PanelBody>
+            <TypographyHelperControl
+                title={__("Heading Typography", "responsive-block-editor-addons")}
+                attrNameTemplate="heading%s"
+                values={{
+                  family: headingFontFamily,
+                  size: headingFontSize,
+                  sizeMobile: headingFontSizeMobile,
+                  sizeTablet: headingFontSizeTablet,
+                  weight: headingFontWeight,
+                  height: headingLineHeight,
+                  typographyColorControl: headingTypographyColorControl,
+									typographyColorControlHover: headingTypographyColorControlHover,
+									emptyColorControl: emptyColorControl,
+                }}
+                showLetterSpacing={false}
+                showTextTransform={false}
+                showColorWithHoverControlTab={true}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
             <PanelBody
               title={__("Background", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1846,12 +1884,6 @@ export default class Inspector extends Component {
                       tabout = (
                         <Fragment>
                           <RbeaColorControl
-                            label = {__("Hover Color", "responsive-block-editor-addons")}
-                            colorValue={bodyColorHover}
-                            onChange={(colorValue) => setAttributes({ bodyColorHover: colorValue })}
-                            resetColor={() => setAttributes({ bodyColorHover: "" })}
-                          />
-                          <RbeaColorControl
                             label = {__("Background Hover Color", "responsive-block-editor-addons")}
                             colorValue={bodyBgColorHover}
                             onChange={(colorValue) => setAttributes({ bodyBgColorHover: colorValue })}
@@ -1862,12 +1894,6 @@ export default class Inspector extends Component {
                     } else {
                       tabout = (
                         <Fragment>
-                          <RbeaColorControl
-                            label = {__("Color", "responsive-block-editor-addons")}
-                            colorValue={bodyColor}
-                            onChange={(colorValue) => setAttributes({ bodyColor: colorValue })}
-                            resetColor={() => setAttributes({ bodyColor: "" })}
-                          />
                           <RbeaColorControl
                             label = {__("Background Color", "responsive-block-editor-addons")}
                             colorValue={bodyBgColor}
@@ -1881,22 +1907,6 @@ export default class Inspector extends Component {
                   }}
                 </TabPanel>
               </PanelBody>
-              <TypographyHelperControl
-                title={__("Typography", "responsive-block-editor-addons")}
-                attrNameTemplate="content%s"
-                values={{
-                  family: contentFontFamily,
-                  size: contentFontSize,
-                  sizeMobile: contentFontSizeMobile,
-                  sizeTablet: contentFontSizeTablet,
-                  weight: contentFontWeight,
-                  height: contentLineHeight,
-                }}
-                showLetterSpacing={false}
-                showTextTransform={false}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
               <PanelBody
                 title={__("Padding", "responsive-block-editor-addons")}
                 initialOpen={false}
@@ -2597,6 +2607,26 @@ export default class Inspector extends Component {
                 )}
               </PanelBody>
             </PanelBody>
+            <TypographyHelperControl
+                title={__("Content Typography", "responsive-block-editor-addons")}
+                attrNameTemplate="content%s"
+                values={{
+                  family: contentFontFamily,
+                  size: contentFontSize,
+                  sizeMobile: contentFontSizeMobile,
+                  sizeTablet: contentFontSizeTablet,
+                  weight: contentFontWeight,
+                  height: contentLineHeight,
+                  typographyColorControl: contentTypographyColorControl,
+									typographyColorControlHover: contentTypographyColorControlHover,
+									emptyColorControl: emptyColorControl,
+                }}
+                showLetterSpacing={false}
+                showTextTransform={false}
+                showColorWithHoverControlTab={true}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}

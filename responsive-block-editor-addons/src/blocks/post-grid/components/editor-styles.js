@@ -169,6 +169,8 @@ function EditorStyles(props) {
     blockRightPadding,
     blockRightPaddingMobile,
     blockRightPaddingTablet,
+    excerptTypographyColor,
+    metaTypographyColor,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -338,10 +340,10 @@ function EditorStyles(props) {
       color: titleHoverColor,
     },
     " .responsive-block-editor-addons-block-post-grid-author a": {
-      color: metaColor,
+      color: metaTypographyColor,
     },
     " .responsive-block-editor-addons-block-post-grid-byline": {
-      color: metaColor,
+      color: metaTypographyColor,
       "font-family": metaFontFamily,
       "font-weight": metaFontWeight,
       "line-height": metaLineHeight,
@@ -350,7 +352,7 @@ function EditorStyles(props) {
       "margin-bottom": generateCSSUnit(metaBottomSpacing, "px"),
     },
     " .responsive-block-editor-addons-block-post-grid-excerpt": {
-      color: textColor,
+      color: excerptTypographyColor,
       "font-family": excerptFontFamily,
       "font-weight": excerptFontWeight,
       "line-height": excerptLineHeight,

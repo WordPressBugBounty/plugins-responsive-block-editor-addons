@@ -1616,7 +1616,28 @@ const attributes = {
     type: "number",
     default: '',
   },
-
+  inputTypographyColor: {
+    type: "string",
+  },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  labelTypographyColor: {
+    type: "string",
+  },
+  labelBottomSpacing: {
+    type: "number",
+    default: 10
+  },
+  labelBottomSpacingTablet: {
+    type: "number",
+    default: 10
+  },
+  labelBottomSpacingMobile: {
+    type: "number",
+    default: 10
+  }
 };
 
 export default attributes;

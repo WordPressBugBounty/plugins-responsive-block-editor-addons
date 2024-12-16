@@ -777,5 +777,63 @@ const attributes = {
 		type: "boolean",
 		default: false,
 	},
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  titleTypographyColor: {
+    type: 'string',
+  },
+  prefixTypographyColor: {
+    type: 'string',
+  },
+  amountTypographyColor: {
+    type: 'string',
+  },
+  suffixTypographyColor: {
+    type: 'string',
+  },
+  subpriceTypographyColor: {
+    type: 'string',
+  },
+  featuresTypographyColor: {
+    type: 'string',
+  },
+  titleBottomSpacing: {
+    type: 'number',
+  },
+  titleBottomSpacingMobile: {
+    type: 'number',
+  },
+  titleBottomSpacingTablet: {
+    type: 'number',
+  },
+  amountBottomSpacing: {
+    type: 'number',
+  },
+  amountBottomSpacingMobile: {
+    type: 'number',
+  },
+  amountBottomSpacingTablet: {
+    type: 'number',
+  },
+  featuresBottomSpacing: {
+    type: 'number',
+  },
+  featuresBottomSpacingMobile: {
+    type: 'number',
+  },
+  featuresBottomSpacingTablet: {
+    type: 'number',
+  },
+  subpriceBottomSpacing: {
+    type: 'number',
+  },
+  subpriceBottomSpacingMobile: {
+    type: 'number',
+  },
+  subpriceBottomSpacingTablet: {
+    type: 'number',
+  },
 };
 export default attributes;

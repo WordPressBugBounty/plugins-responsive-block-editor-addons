@@ -634,27 +634,27 @@ const attributes = {
   },
   contentBottomSpacing: {
     type: "number",
-    default: 0,
+    default: 8,
   },
   contentBottomSpacingMobile: {
     type: "number",
-    default: 0,
+    default: 8,
   },
   contentBottomSpacingTablet: {
     type: "number",
-    default: 0,
+    default: 8,
   },
   nameBottomSpacing: {
     type: "number",
-    default: 0,
+    default: -5,
   },
   nameBottomSpacingMobile: {
     type: "number",
-    default: 0,
+    default: -5,
   },
   nameBottomSpacingTablet: {
     type: "number",
-    default: 0,
+    default: -5,
   },
   titleBottomSpacing: {
     type: "number",
@@ -683,51 +683,51 @@ const attributes = {
   },
   contentTopPadding: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentTopPaddingMobile: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentTopPaddingTablet: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentBottomPadding: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentBottomPaddingMobile: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentBottomPaddingTablet: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentLeftPadding: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentLeftPaddingMobile: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentLeftPaddingTablet: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentRightPadding: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentRightPaddingMobile: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 	contentRightPaddingTablet: {
 		type: "number",
-		default: '',
+		default: 20,
 	},
 };
 

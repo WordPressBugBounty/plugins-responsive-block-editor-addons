@@ -206,6 +206,8 @@ function EditorStyles(props) {
     backBackgroundPositionMobile,
     backBackgroundPositionTablet,
     backImageSizeTab,
+    frontTitleTypographyColor,
+    backTitleTypographyColor
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -334,7 +336,7 @@ function EditorStyles(props) {
         frontBackgroundColor || "#ffffff",
         coloropacity
       )}`,
-      color: frontTextColor,
+      color: frontTitleTypographyColor,
       "border-color": borderColor !== 'empty' && blockBorderColor === '' ? borderColor : blockBorderColor, // For compatibility with v1.3.2.
       "border-style": borderStyle !== 'empty' && blockBorderStyle === 'none' ? borderStyle : blockBorderStyle, // For compatibility with v1.3.2.
       "border-width": borderWidth !== 999 && blockBorderWidth === 2 ? generateCSSUnit(borderWidth, "px") : generateCSSUnit(blockBorderWidth, "px"), // For compatibility with v1.3.2.
@@ -361,14 +363,14 @@ function EditorStyles(props) {
       "padding-right": rightPadding !== 999 && frontRightPadding === 0 ? generateCSSUnit(rightPadding, "px") : generateCSSUnit(frontRightPadding, "px"), // For compatibility with v1.3.2.
     },
     " .wp-block-responsive-block-editor-addons-flip-box__title": {
-      color: frontTextColor,
+      color: frontTitleTypographyColor,
       "font-family": frontTitleFontFamily,
       "font-size": generateCSSUnit(frontTitleFontSize, "px"),
       "font-weight": frontTitleFontWeight,
       "line-height": frontTitleLineHeight,
     },
     " .wp-block-responsive-block-editor-addons-flip-box__subtitle": {
-      color: frontTextColor,
+      color: frontTitleTypographyColor,
       "font-family": frontSubtitleFontFamily,
       "font-size": generateCSSUnit(frontSubtitleFontSize, "px"),
       "font-weight": frontSubtitleFontWeight,
@@ -384,7 +386,7 @@ function EditorStyles(props) {
         backBackgroundColor || "#ffffff",
         backcoloropacity
       )}`,
-      color: backTextColor,
+      color: backTitleTypographyColor,
       transform: flipStyleBack,
       "border-color": borderColor !== 'empty' && blockBorderColor === '' ? borderColor : blockBorderColor, // For compatibility with v1.3.2.
       "border-style": borderStyle !== 'empty' && blockBorderStyle === 'none' ? borderStyle : blockBorderStyle, // For compatibility with v1.3.2.
@@ -412,14 +414,14 @@ function EditorStyles(props) {
       "padding-right": backrightPadding !== 999 && backRightPadding === 0 ? generateCSSUnit(backrightPadding, "px") : generateCSSUnit(backRightPadding, "px"), // For compatibility with v1.3.2.
     },
     " .wp-block-responsive-block-editor-addons-flip-box__backtitle": {
-      color: backTextColor,
+      color: backTitleTypographyColor,
       "font-family": backTitleFontFamily,
       "font-size": generateCSSUnit(backTitleFontSize, "px"),
       "font-weight": backTitleFontWeight,
       "line-height": backTitleLineHeight,
     },
     " .wp-block-responsive-block-editor-addons-flip-box__backsubtitle": {
-      color: backTextColor,
+      color: backTitleTypographyColor,
       "font-family": backSubtitleFontFamily,
       "font-size": generateCSSUnit(backSubtitleFontSize, "px"),
       "font-weight": backSubtitleFontWeight,

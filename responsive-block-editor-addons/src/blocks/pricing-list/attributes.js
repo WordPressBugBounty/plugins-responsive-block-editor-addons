@@ -363,6 +363,31 @@ const attributes = {
     type: "number",
     default: '',
   },
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  priceTypographyColor: {
+    type: 'string',
+  },
+  descriptionTypographyColor: {
+    type: 'string',
+  },
+  titleTypographyColor: {
+    type: 'string',
+  },
+  titleBottomSpacing: {
+    type: 'number',
+    default: 10,
+  },
+  titleBottomSpacingMobile: {
+    type: 'number',
+    default: 10,
+  },
+  titleBottomSpacingTablet: {
+    type: 'number',
+    default: 10,
+  },
 };
 
 export default attributes;

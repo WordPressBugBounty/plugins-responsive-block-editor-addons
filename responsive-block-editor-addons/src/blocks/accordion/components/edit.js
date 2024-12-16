@@ -372,7 +372,11 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
     blockIsMarginControlConnected,
     blockIsPaddingControlConnected,
     blockNewSpacingValuesUpdated,
-      },
+
+    blockIsTypographyColorValueUpdated,
+    contentTypographyColor,
+    titleTypographyColor,
+    },
       setAttributes,
     } = this.props;
 
@@ -547,14 +551,6 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
           className="responsive_block_editor_addons__url-panel-body"
         >
               <RbeaColorControl
-									label = {__("Text Color", "responsive-block-editor-addons")}
-									colorValue={titleTextColor}
-									onChange={(colorValue) =>
-										setAttributes({ titleTextColor: colorValue })
-									}
-									resetColor={() => setAttributes({ titleTextColor: "" })}
-								/>
-              <RbeaColorControl
 									label = {__("Active Text color", "responsive-block-editor-addons")}
 									colorValue={titleBackgroundColor}
 									onChange={(colorValue) =>
@@ -628,15 +624,6 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               min={0}
               max={100}
             />
-         
-             <RbeaColorControl
-									label = {__("Text Color", "responsive-block-editor-addons")}
-									colorValue={contentTextColor}
-									onChange={(colorValue) =>
-										setAttributes({ contentTextColor: colorValue })
-									}
-									resetColor={() => setAttributes({ contentTextColor: "" })}
-								/>
              <RbeaColorControl
 									label = {__("Background Color", "responsive-block-editor-addons")}
 									colorValue={contentBackgroundColor}
@@ -693,18 +680,6 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
               min={0}
               max={100}
             />
-          {"none" != parentBlockBorderStyle && (
-          <Fragment>
-            <RbeaColorControl
-              label = {__("Border Color", "responsive-block-editor-addons")}
-              colorValue={parentBlockBorderColor}
-              onChange={(colorValue) =>
-                setAttributes({ parentBlockBorderColor: colorValue })
-              }
-              resetColor={() => setAttributes({ parentBlockBorderColor: "" })}
-            />
-          </Fragment>
-        )}
         </PanelBody>
       );
     };
@@ -959,35 +934,61 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
           attrNameTemplate="parentBlockBorder%s"
           {...this.props}
         />
+        {"none" != parentBlockBorderStyle && (
+          <Fragment>
+            <RbeaColorControl
+              label = {__("Border Color", "responsive-block-editor-addons")}
+              colorValue={parentBlockBorderColor}
+              onChange={(colorValue) =>
+                setAttributes({ parentBlockBorderColor: colorValue })
+              }
+              resetColor={() => setAttributes({ parentBlockBorderColor: "" })}
+            />
+          </Fragment>
+        )}
       </PanelBody>
       );
     };
     const accordionTypographySettings = () => {
       return (
-        <PanelBody
-          title={__("Typography", "responsive-block-editor-addons")}
-          initialOpen={false}
-          className="responsive_block_editor_addons__url-panel-body"
-        >
-			<TypographyHelperControl
-				title={__("Title", "responsive-block-editor-addons")}
-				attrNameTemplate="title%s"
-				values = {{family: titleFontFamily, size: titleFontSize, sizeMobile: titleFontSizeMobile, sizeTablet: titleFontSizeTablet, weight: titleFontWeight, height: titleLineHeight}}
-				showLetterSpacing = { false }
-				showTextTransform = { false }
-				setAttributes={ setAttributes }
-				{...this.props}
-        	/>
-        	<TypographyHelperControl
-				title={__("Content", "responsive-block-editor-addons")}
-				attrNameTemplate="content%s"
-				values = {{family: contentFontFamily, size: contentFontSize, sizeMobile: contentFontSizeMobile, sizeTablet: contentFontSizeTablet, weight: contentFontWeight, height: contentLineHeight}}
-				showLetterSpacing = { false }
-				showTextTransform = { false }
-				setAttributes={ setAttributes }
-				{...this.props}
-        	/>
-        </PanelBody>
+        <>
+			    <TypographyHelperControl
+			    	title={__("Title Typography", "responsive-block-editor-addons")}
+			    	attrNameTemplate="title%s"
+			    	values = {{
+              family: titleFontFamily, 
+              size: titleFontSize, 
+              sizeMobile: titleFontSizeMobile, 
+              sizeTablet: titleFontSizeTablet, 
+              weight: titleFontWeight, 
+              height: titleLineHeight, 
+              color: titleTypographyColor
+            }}
+			    	showLetterSpacing = { false }
+			    	showTextTransform = { false }
+            showColorControl={ true }
+			    	setAttributes={ setAttributes }
+			    	{...this.props}
+          />
+          <TypographyHelperControl
+			    	title={__("Content Typography", "responsive-block-editor-addons")}
+			    	attrNameTemplate="content%s"
+			    	values = {{
+              family: contentFontFamily, 
+              size: contentFontSize, 
+              sizeMobile: contentFontSizeMobile, 
+              sizeTablet: contentFontSizeTablet, weight: 
+              contentFontWeight, 
+              height: contentLineHeight, 
+              color: contentTypographyColor
+            }}
+			    	showLetterSpacing = { false }
+			    	showTextTransform = { false }
+            showColorControl = { true }
+			    	setAttributes={ setAttributes }
+			    	{...this.props}
+          />
+        </>
       );
     };
     const accordionStylingSettings = () => {
@@ -1524,22 +1525,24 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
             noSelectedPlaceholder={__("Select Icon", "responsive-block-editor-addons")}
           />
           <h2> {__("Icon Alignment", "responsive-block-editor-addons")}</h2>
-          <Button
-            key={"row"}
-            icon="editor-alignleft"
-            label="Left"
-            onClick={() => setAttributes({ iconAlign: "row" })}
-            aria-pressed={"row" === iconAlign}
-            isPrimary={"row" === iconAlign}
-          />
-          <Button
-            key={"row-reverse"}
-            icon="editor-alignright"
-            label="Right"
-            onClick={() => setAttributes({ iconAlign: "row-reverse" })}
-            aria-pressed={"row-reverse" === iconAlign}
-            isPrimary={"row-reverse" === iconAlign}
-          />
+          <div className="responsive-block-editor-addons-accordion-alignment-container">
+            <Button
+              key={"row"}
+              icon="editor-alignleft"
+              label="Left"
+              onClick={() => setAttributes({ iconAlign: "row" })}
+              aria-pressed={"row" === iconAlign}
+              isPrimary={"row" === iconAlign}
+            />
+            <Button
+              key={"row-reverse"}
+              icon="editor-alignright"
+              label="Right"
+              onClick={() => setAttributes({ iconAlign: "row-reverse" })}
+              aria-pressed={"row-reverse" === iconAlign}
+              isPrimary={"row-reverse" === iconAlign}
+            />
+          </div>
           {"accordion" === layout && (
             <Fragment>
               <hr className="responsive-block-editor-addons-editor__separator" />
@@ -1721,6 +1724,17 @@ class ResponsiveBlockEditorAddonsAccordionEdit extends Component {
         </Fragment>
       );
     };
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          contentTypographyColor:          contentTextColor !== undefined ? contentTextColor : contentTypographyColor,
+          titleTypographyColor:         titleTextColor !== undefined ? titleTextColor : titleTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
     return (
       <Fragment>
         <style id={`responsive-block-editor-addons-style-accordion-style-${this.props.clientId}-inner`}>{EditorStyles(this.props)}</style>

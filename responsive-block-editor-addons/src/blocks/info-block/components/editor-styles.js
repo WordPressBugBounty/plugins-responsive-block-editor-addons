@@ -229,6 +229,18 @@ function EditorStyles(props) {
     blockRightPadding,
     blockRightPaddingMobile,
     blockRightPaddingTablet,
+    ressubHeadTypographyColor,
+    resheadTypographyColor,
+    ctaTextTypographyColor,
+    resheadBottomSpacing,
+    resheadBottomSpacingMobile,
+    resheadBottomSpacingTablet,
+    ressubHeadBottomSpacing,
+    ressubHeadBottomSpacingMobile,
+    ressubHeadBottomSpacingTablet,
+    ctaTextBottomSpacing,
+    ctaTextBottomSpacingMobile,
+    ctaTextBottomSpacingTablet,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -459,23 +471,23 @@ function EditorStyles(props) {
     },
 
     " .responsive-block-editor-addons-ifb-title": {
-      "color": resheadingColor,
+      "color": resheadTypographyColor,
       "font-family": resheadFontFamily,
       "font-weight": resheadFontWeight,
       "line-height": resheadLineHeight,
-      "margin-bottom": generateCSSUnit(resheadSpace, "px"),
+      "margin-bottom": generateCSSUnit(resheadBottomSpacing, "px"),
     },
 
     " .responsive-block-editor-addons-ifb-desc": {
-      "color": ressubheadingColor,
+      "color": ressubHeadTypographyColor,
       "font-family": ressubHeadFontFamily,
       "font-weight": ressubHeadFontWeight,
       "line-height": ressubHeadLineHeight,
-      "margin-bottom": generateCSSUnit(ressubHeadSpace, "px"),
+      "margin-bottom": generateCSSUnit(ressubHeadBottomSpacing, "px"),
     },
 
     " .responsive-block-editor-addons-infobox-cta-link": {
-      "color": resctaLinkColor,
+      "color": ctaTextTypographyColor,
       "padding-top": resctaType !== 'text' ? (ctaVertPadding !== 999 && ctaVpadding === 10 ? generateCSSUnit(ctaVertpadding, "px") : generateCSSUnit(ctaVpadding, "px")) : 0, //For compatibility with v1.3.2
       "padding-bottom": resctaType !== 'text' ? (ctaVertPadding !== 999 && ctaVpadding === 10 ? generateCSSUnit(ctaVertpadding, "px") : generateCSSUnit(ctaVpadding, "px")) : 0, //For compatibility with v1.3.2
       "padding-left": resctaType !== 'text' ? (ctaHrPadding !== 999 && ctaHpadding === 14 ? generateCSSUnit(ctaHrPadding, "px") : generateCSSUnit(ctaHpadding, "px")) : 0, //For compatibility with v1.3.2
@@ -487,7 +499,7 @@ function EditorStyles(props) {
     },
 
     " .responsive-block-editor-addons-inline-editing ": {
-      "color": resctaLinkColor,
+      "color": ctaTextTypographyColor,
       "font-size": generateCSSUnit(resctaFontSize, "px"),
     },
 
@@ -503,7 +515,7 @@ function EditorStyles(props) {
       "font-weight": resctaFontWeight,
     },
     " .responsive-block-editor-addons-ifb-cta": {
-      "margin-bottom": generateCSSUnit(ctaBottomMargin, "px"),
+      "margin-bottom": generateCSSUnit(ctaTextBottomSpacing, "px"),
     }
   };
 
@@ -553,16 +565,16 @@ function EditorStyles(props) {
       "margin-bottom": generateCSSUnit(resprefixSpaceMobile, "px"),
     },
     " .responsive-block-editor-addons-ifb-title": {
-      "margin-bottom": generateCSSUnit(resheadSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(resheadBottomSpacingMobile, "px"),
     },
     " .responsive-block-editor-addons-ifb-separator": {
       "margin-bottom": generateCSSUnit(sepSpaceMobile, "px"),
     },
     " .responsive-block-editor-addons-ifb-desc": {
-      "margin-bottom": generateCSSUnit(ressubHeadSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(ressubHeadBottomSpacingMobile, "px"),
     },
     " .responsive-block-editor-addons-ifb-cta": {
-      "margin-bottom": generateCSSUnit(ctaBottomMarginMobile, "px"),
+      "margin-bottom": generateCSSUnit(ctaTextBottomSpacingMobile, "px"),
     },
     " .responsive-block-editor-addons-infobox-cta-link.responsive-block-editor-addons-ifb-cta-button": {
       "padding-top": generateCSSUnit(ctaVpaddingMobile, "px"),
@@ -630,16 +642,16 @@ function EditorStyles(props) {
       "margin-bottom": generateCSSUnit(resprefixSpaceTablet, "px"),
     },
     " .responsive-block-editor-addons-ifb-title": {
-      "margin-bottom": generateCSSUnit(resheadSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(resheadBottomSpacingTablet, "px"),
     },
     " .responsive-block-editor-addons-ifb-separator": {
       "margin-bottom": generateCSSUnit(sepSpaceTablet, "px"),
     },
     " .responsive-block-editor-addons-ifb-desc": {
-      "margin-bottom": generateCSSUnit(ressubHeadSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(ressubHeadBottomSpacingTablet, "px"),
     },
     " .responsive-block-editor-addons-ifb-cta": {
-      "margin-bottom": generateCSSUnit(ctaBottomMarginTablet, "px"),
+      "margin-bottom": generateCSSUnit(ctaTextBottomSpacingTablet, "px"),
     },
     " .responsive-block-editor-addons-infobox-cta-link.responsive-block-editor-addons-ifb-cta-button": {
       "padding-top": generateCSSUnit(ctaVpaddingTablet, "px"),

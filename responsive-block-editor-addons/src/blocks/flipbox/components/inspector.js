@@ -349,6 +349,9 @@ export default class Inspector extends Component {
         backBackgroundPositionMobile,
         backBackgroundPositionTablet,
         backImageSizeTab,
+        blockIsTypographyColorValueUpdated,
+        frontTitleTypographyColor,
+        backTitleTypographyColor,
       },
       setAttributes,
     } = this.props;
@@ -670,6 +673,18 @@ export default class Inspector extends Component {
         </PanelBody>
       );
     };
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          frontTitleTypographyColor:          frontTextColor !== undefined ? frontTextColor : frontTitleTypographyColor,
+          backTitleTypographyColor:          backTextColor !== undefined ? backTextColor : backTitleTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
 
     return (
       <InspectorControls key="inspector">
@@ -1459,14 +1474,6 @@ export default class Inspector extends Component {
               >
                  <RbeaColorControl
 									label = {__("Background Color", "responsive-block-editor-addons")}
-									colorValue={frontTextColor}
-									onChange={(colorValue) =>
-										setAttributes({ frontTextColor: colorValue })
-									}
-									resetColor={() => setAttributes({ frontTextColor: "" })}
-								/>
-                 <RbeaColorControl
-									label = {__("Text Color", "responsive-block-editor-addons")}
 									colorValue={frontBackgroundColor}
 									onChange={(colorValue) =>
 										setAttributes({ frontBackgroundColor: colorValue })
@@ -1495,9 +1502,10 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Front Title Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="frontTitle%s"
-                        values = {{family: frontTitleFontFamily, size: frontTitleFontSize, sizeMobile: frontTitleFontSizeMobile, sizeTablet: frontTitleFontSizeTablet, weight: frontTitleFontWeight, height: frontTitleLineHeight}}
+                        values = {{family: frontTitleFontFamily, size: frontTitleFontSize, sizeMobile: frontTitleFontSizeMobile, sizeTablet: frontTitleFontSizeTablet, weight: frontTitleFontWeight, height: frontTitleLineHeight, color: frontTitleTypographyColor,}}
                         showLetterSpacing = { false }
                         showTextTransform = { false }
+                        showColorControl={true}
                         setAttributes={ setAttributes }
                         {...this.props}
                       />
@@ -1508,7 +1516,7 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Front Subtitle Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="frontSubtitle%s"
-                        values = {{family: frontSubtitleFontFamily, size: frontSubtitleFontSize, sizeMobile: frontSubtitleFontSizeMobile, sizeTablet: frontSubtitleFontSizeTablet, weight: frontSubtitleFontWeight, height: frontSubtitleLineHeight}}
+                        values = {{family: frontSubtitleFontFamily, size: frontSubtitleFontSize, sizeMobile: frontSubtitleFontSizeMobile, sizeTablet: frontSubtitleFontSizeTablet, weight: frontSubtitleFontWeight, height: frontSubtitleLineHeight,}}
                         showLetterSpacing = { false }
                         showTextTransform = { false }
                         setAttributes={ setAttributes }
@@ -1527,14 +1535,6 @@ export default class Inspector extends Component {
                 )}
                 initialOpen={false}
               >
-                 <RbeaColorControl
-									label = {__("Text Color", "responsive-block-editor-addons")}
-									colorValue={backTextColor}
-									onChange={(colorValue) =>
-										setAttributes({ backTextColor: colorValue })
-									}
-									resetColor={() => setAttributes({ backTextColor: "" })}
-								/>
                  <RbeaColorControl
 									label = {__("Background Color", "responsive-block-editor-addons")}
 									colorValue={backBackgroundColor}
@@ -1565,8 +1565,9 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Back Title Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="backTitle%s"
-                        values = {{family: backTitleFontFamily, size: backTitleFontSize, sizeMobile: backTitleFontSizeMobile, sizeTablet: backTitleFontSizeTablet, weight: backTitleFontWeight, height: backTitleLineHeight}}
+                        values = {{family: backTitleFontFamily, size: backTitleFontSize, sizeMobile: backTitleFontSizeMobile, sizeTablet: backTitleFontSizeTablet, weight: backTitleFontWeight, height: backTitleLineHeight, color: backTitleTypographyColor,}}
                         showLetterSpacing = { false }
+                        showColorControl={true}
                         showTextTransform = { false }
                         setAttributes={ setAttributes }
                         {...this.props}
@@ -1578,7 +1579,7 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Back Subtitle Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="backSubtitle%s"
-                        values = {{family: backSubtitleFontFamily, size: backSubtitleFontSize, sizeMobile: backSubtitleFontSizeMobile, sizeTablet: backSubtitleFontSizeTablet, weight: backSubtitleFontWeight, height: backSubtitleLineHeight}}
+                        values = {{family: backSubtitleFontFamily, size: backSubtitleFontSize, sizeMobile: backSubtitleFontSizeMobile, sizeTablet: backSubtitleFontSizeTablet, weight: backSubtitleFontWeight, height: backSubtitleLineHeight,}}
                         showLetterSpacing = { false }
                         showTextTransform = { false }
                         setAttributes={ setAttributes }
@@ -1617,28 +1618,33 @@ export default class Inspector extends Component {
                     setAttributes={setAttributes}
                     {...this.props}
                 />
+            </PanelBody>
+            <PanelBody
+              title={__("Box Shadow", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
               <BoxShadowControl
-                setAttributes={setAttributes}
-                label={__("Box Shadow", "responsive-block-editor-addons")}
-                boxShadowColor={{ value: boxShadowColor, label: __("Color", "responsive-block-editor-addons") }}
-                boxShadowHOffset={{
-                  value: boxShadowHOffset,
-                  label: __("Horizontal", "responsive-block-editor-addons"),
-                }}
-                boxShadowVOffset={{
-                  value: boxShadowVOffset,
-                  label: __("Vertical", "responsive-block-editor-addons"),
-                }}
-                boxShadowBlur={{ value: boxShadowBlur, label: __("Blur", "responsive-block-editor-addons") }}
-                boxShadowSpread={{
-                  value: boxShadowSpread,
-                  label: __("Spread", "responsive-block-editor-addons"),
-                }}
-                boxShadowPosition={{
-                  value: boxShadowPosition,
-                  label: __("Position", "responsive-block-editor-addons"),
-                }}
-              />
+                  setAttributes={setAttributes}
+                  label={__("Box Shadow", "responsive-block-editor-addons")}
+                  boxShadowColor={{ value: boxShadowColor, label: __("Color", "responsive-block-editor-addons") }}
+                  boxShadowHOffset={{
+                    value: boxShadowHOffset,
+                    label: __("Horizontal", "responsive-block-editor-addons"),
+                  }}
+                  boxShadowVOffset={{
+                    value: boxShadowVOffset,
+                    label: __("Vertical", "responsive-block-editor-addons"),
+                  }}
+                  boxShadowBlur={{ value: boxShadowBlur, label: __("Blur", "responsive-block-editor-addons") }}
+                  boxShadowSpread={{
+                    value: boxShadowSpread,
+                    label: __("Spread", "responsive-block-editor-addons"),
+                  }}
+                  boxShadowPosition={{
+                    value: boxShadowPosition,
+                    label: __("Position", "responsive-block-editor-addons"),
+                  }}
+                />
             </PanelBody>
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}

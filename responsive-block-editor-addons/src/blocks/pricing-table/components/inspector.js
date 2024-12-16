@@ -326,6 +326,25 @@ export default class Inspector extends Component {
         blockLeftMarginMobile,
         blockRightMarginMobile,
         blockIsMarginControlConnected,
+        blockIsTypographyColorValueUpdated,
+        titleTypographyColor,
+        prefixTypographyColor,
+        amountTypographyColor,
+        suffixTypographyColor,
+        subpriceTypographyColor,
+        featuresTypographyColor,
+        titleBottomSpacing,
+        titleBottomSpacingMobile,
+        titleBottomSpacingTablet,
+        amountBottomSpacing,
+        amountBottomSpacingMobile,
+        amountBottomSpacingTablet,
+        featuresBottomSpacing,
+        featuresBottomSpacingMobile,
+        featuresBottomSpacingTablet,
+        subpriceBottomSpacing,
+        subpriceBottomSpacingMobile,
+        subpriceBottomSpacingTablet,
       },
       setAttributes,
     } = this.props;
@@ -546,6 +565,35 @@ export default class Inspector extends Component {
       )
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
     }
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          titleTypographyColor:         titleColor !== undefined ? titleColor : titleTypographyColor,
+          prefixTypographyColor:          prefixColor !== undefined ? prefixColor : prefixTypographyColor,
+          amountTypographyColor:         priceColor !== undefined ? priceColor : amountTypographyColor,
+          suffixTypographyColor:          suffixColor !== undefined ? suffixColor : suffixTypographyColor,
+          subpriceTypographyColor:         subpriceColor !== undefined ? subpriceColor : subpriceTypographyColor,
+          featuresTypographyColor:          featuresColor !== undefined ? featuresColor : featuresTypographyColor,
+
+          titleBottomSpacing: titleSpace !== undefined ? titleSpace : titleBottomSpacing,
+          titleBottomSpacingMobile: titleSpaceMobile !== undefined ? titleSpaceMobile : titleBottomSpacingMobile,
+          titleBottomSpacingTablet: titleSpaceTablet !== undefined ? titleSpaceTablet : titleBottomSpacingTablet,
+          amountBottomSpacing: priceSpace !== undefined ? priceSpace : amountBottomSpacing,
+          amountBottomSpacingMobile: priceSpaceMobile !== undefined ? priceSpaceMobile : amountBottomSpacingMobile,
+          amountBottomSpacingTablet: priceSpaceTablet !== undefined ? priceSpaceTablet : amountBottomSpacingTablet,
+          featuresBottomSpacing: featuresSpace !== undefined ? featuresSpace : featuresBottomSpacing,
+          featuresBottomSpacingMobile: featuresSpaceMobile !== undefined ? featuresSpaceMobile : featuresBottomSpacingMobile,
+          featuresBottomSpacingTablet: featuresSpaceTablet !== undefined ? featuresSpaceTablet : featuresBottomSpacingTablet,
+          subpriceBottomSpacing: subpriceSpace !== undefined ? subpriceSpace : subpriceBottomSpacing,
+          subpriceBottomSpacingMobile: subpriceSpaceMobile !== undefined ? subpriceSpaceMobile : subpriceBottomSpacingMobile,
+          subpriceBottomSpacingTablet: subpriceSpaceTablet !== undefined ? subpriceSpaceTablet : subpriceBottomSpacingTablet,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
 
     return (
       <InspectorControls key="inspector">
@@ -784,10 +832,6 @@ export default class Inspector extends Component {
                 </Fragment>
               )}
             </PanelBody>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
               <TypographyHelperControl
                 title={__("Title Typography", "responsive-block-editor-addons")}
                 attrNameTemplate="title%s"
@@ -798,9 +842,15 @@ export default class Inspector extends Component {
                   sizeTablet: titleFontSizeTablet,
                   weight: titleFontWeight,
                   height: titleLineHeight,
+                  color: titleTypographyColor,
+                  bottomSpacing: titleBottomSpacing,
+                  bottomSpacingMobile: titleBottomSpacingMobile,
+                  bottomSpacingTablet: titleBottomSpacingTablet,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
+                showTextBottomSpacing={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -817,9 +867,11 @@ export default class Inspector extends Component {
                   sizeTablet: prefixFontSizeTablet,
                   weight: prefixFontWeight,
                   height: prefixLineHeight,
+                  color: prefixTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -833,9 +885,15 @@ export default class Inspector extends Component {
                   sizeTablet: amountFontSizeTablet,
                   weight: amountFontWeight,
                   height: amountLineHeight,
+                  color: amountTypographyColor,
+                  bottomSpacing: amountBottomSpacing,
+                  bottomSpacingMobile: amountBottomSpacingMobile,
+                  bottomSpacingTablet: amountBottomSpacingTablet,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
+                showTextBottomSpacing={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -852,9 +910,11 @@ export default class Inspector extends Component {
                   sizeTablet: suffixFontSizeTablet,
                   weight: suffixFontWeight,
                   height: suffixLineHeight,
+                  color: suffixTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -872,9 +932,15 @@ export default class Inspector extends Component {
                   weight: subpriceFontWeight,
                   height: subpriceLineHeight,
                   transform: subpriceTextTransform,
+                  color: subpriceTypographyColor,
+                  bottomSpacing: subpriceBottomSpacing,
+                  bottomSpacingMobile: subpriceBottomSpacingMobile,
+                  bottomSpacingTablet: subpriceBottomSpacingTablet,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={true}
+                showColorControl={true}
+                showTextBottomSpacing={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -891,9 +957,15 @@ export default class Inspector extends Component {
                   sizeTablet: featuresFontSizeTablet,
                   weight: featuresFontWeight,
                   height: featuresLineHeight,
+                  color: featuresTypographyColor,
+                  bottomSpacing: featuresBottomSpacing,
+                  bottomSpacingMobile: featuresBottomSpacingMobile,
+                  bottomSpacingTablet: featuresBottomSpacingTablet,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
+                showTextBottomSpacing={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -913,7 +985,6 @@ export default class Inspector extends Component {
                 setAttributes={setAttributes}
                 {...this.props}
               />
-            </PanelBody>
             <PanelBody
               title={__("Border", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -929,8 +1000,12 @@ export default class Inspector extends Component {
                 setAttributes={setAttributes}
                 {...this.props}
               />
-
-              <BoxShadowControl
+            </PanelBody>
+            <PanelBody
+              title={__("Box Shadow", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+            <BoxShadowControl
                 setAttributes={setAttributes}
                 label={__("Box Shadow", "responsive-block-editor-addons")}
                 boxShadowColor={{ value: boxShadowColor, label: __("Color", "responsive-block-editor-addons") }}
@@ -1049,54 +1124,6 @@ export default class Inspector extends Component {
 									setAttributes({ textColor: colorValue })
 								}
 								resetColor={() => setAttributes({ textColor: "" })}
-							/>
-               <RbeaColorControl
-								label = {__("Title Color", "responsive-block-editor-addons")}
-								colorValue={titleColor}
-								onChange={(colorValue) =>
-									setAttributes({ titleColor: colorValue })
-								}
-								resetColor={() => setAttributes({ titleColor: "" })}
-							/>
-               <RbeaColorControl
-								label = {__("Price Prefix Color", "responsive-block-editor-addons")}
-								colorValue={prefixColor}
-								onChange={(colorValue) =>
-									setAttributes({ prefixColor: colorValue })
-								}
-								resetColor={() => setAttributes({ prefixColor: "" })}
-							/>
-               <RbeaColorControl
-								label = {__("Price Color", "responsive-block-editor-addons")}
-								colorValue={priceColor}
-								onChange={(colorValue) =>
-									setAttributes({ priceColor: colorValue })
-								}
-								resetColor={() => setAttributes({ priceColor: "" })}
-							/>
-               <RbeaColorControl
-								label = {__("Price Suffix Color", "responsive-block-editor-addons")}
-								colorValue={suffixColor}
-								onChange={(colorValue) =>
-									setAttributes({ suffixColor: colorValue })
-								}
-								resetColor={() => setAttributes({ suffixColor: "" })}
-							/>
-               <RbeaColorControl
-								label = {__("Sub Price Color", "responsive-block-editor-addons")}
-								colorValue={subpriceColor}
-								onChange={(colorValue) =>
-									setAttributes({ subpriceColor: colorValue })
-								}
-								resetColor={() => setAttributes({ subpriceColor: "" })}
-							/>
-               <RbeaColorControl
-								label = {__("Features Color", "responsive-block-editor-addons")}
-								colorValue={featuresColor}
-								onChange={(colorValue) =>
-									setAttributes({ featuresColor: colorValue })
-								}
-								resetColor={() => setAttributes({ featuresColor: "" })}
 							/>
             </PanelBody>
           </InspectorTab>

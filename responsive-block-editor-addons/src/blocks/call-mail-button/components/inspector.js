@@ -135,21 +135,21 @@ export default class Inspector extends Component {
     // Button size values
     const buttonSizeOptions = [
       {
-        value: "responsive-block-editor-addons-call-mail-button-size-medium",
-        label: __("Medium", "responsive-block-editor-addons"),
+        value: "responsive-block-editor-addons-call-mail-button-size-small",
+        label: __("S", "responsive-block-editor-addons"),
       },
       {
-        value: "responsive-block-editor-addons-call-mail-button-size-small",
-        label: __("Small", "responsive-block-editor-addons"),
+        value: "responsive-block-editor-addons-call-mail-button-size-medium",
+        label: __("M", "responsive-block-editor-addons"),
       },
       {
         value: "responsive-block-editor-addons-call-mail-button-size-large",
-        label: __("Large", "responsive-block-editor-addons"),
+        label: __("L", "responsive-block-editor-addons"),
       },
       {
         value:
           "responsive-block-editor-addons-call-mail-button-size-extralarge",
-        label: __("Extra Large", "responsive-block-editor-addons"),
+        label: __("XL", "responsive-block-editor-addons"),
       },
     ];
 
@@ -262,6 +262,33 @@ export default class Inspector extends Component {
       setAttributes,
     } = this.props;
 
+    // Border Color Component For Color&Hover Typography Control
+		const typographyColorControl = !buttonTransparent &&  (
+        <RbeaColorControl
+				label={__("Button Text Color", "responsive-block-editor-addons")}
+				colorValue={buttonTextColor}
+				onChange={(colorValue) =>
+					setAttributes({ buttonTextColor: colorValue })
+				}
+				resetColor={() => setAttributes({ buttonTextColor: "" })}
+			/>
+    );
+
+		const typographyColorControlHover = !buttonTransparent &&  (
+			<RbeaColorControl
+				label={__("Button Text Color Hover", "responsive-block-editor-addons")}
+				colorValue={buttonTextColorHover}
+				onChange={(colorValue) =>
+					setAttributes({ buttonTextColorHover: colorValue })
+				}
+				resetColor={() => setAttributes({ buttonTextColorHover: "" })}
+			/>
+		);
+
+    const emptyColorControl = (
+			<div className="responsive-block-editor-addons-empty-color-control"></div>
+		);
+    
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -333,7 +360,11 @@ export default class Inspector extends Component {
               title={__("Button Size", "responsive-block-editor-addons")}
               initialOpen={true}
             >
-              <SelectControl
+              <RbeaTabRadioControl
+                label={__(
+                  "Button Size Type",
+                  "responsive-block-editor-addons"
+                )}
                 value={buttonSize}
                 options={buttonSizeOptions.map(({ value, label }) => ({
                   value,
@@ -697,18 +728,6 @@ export default class Inspector extends Component {
 									}
 									resetColor={() => setAttributes({ buttonColor: "" })}
 							/>
-              {!buttonTransparent && (
-                <Fragment>
-                  <RbeaColorControl
-                    label = {__("Button Text Color", "responsive-block-editor-addons")}
-                    colorValue={buttonTextColor}
-                    onChange={(colorValue) =>
-                      setAttributes({ buttonTextColor: colorValue })
-                    }
-                    resetColor={() => setAttributes({ ChabuttonTextColorngeMe: "" })}
-                  />
-                </Fragment>
-              )}
               <RbeaColorControl
 									label = {__("Button Color Hover", "responsive-block-editor-addons")}
 									colorValue={buttonColorHover}
@@ -717,18 +736,6 @@ export default class Inspector extends Component {
 									}
 									resetColor={() => setAttributes({ buttonColorHover: "" })}
 								/>
-              {!buttonTransparent && (
-                <Fragment>
-                  <RbeaColorControl
-                    label = {__("Button Text Color Hover", "responsive-block-editor-addons")}
-                    colorValue={buttonTextColorHover}
-                    onChange={(colorValue) =>
-                      setAttributes({ buttonTextColorHover: colorValue })
-                    }
-                    resetColor={() => setAttributes({ buttonTextColorHover: "" })}
-                  />
-                </Fragment>
-              )}
             </PanelBody>
             <TypographyHelperControl
               title={__(
@@ -743,9 +750,13 @@ export default class Inspector extends Component {
                 sizeTablet: textFontSizeTablet,
                 weight: textFontWeight,
                 height: textLineHeight,
+                typographyColorControl: typographyColorControl,
+								typographyColorControlHover: typographyColorControlHover,
+								emptyColorControl: emptyColorControl,
               }}
               showLetterSpacing={false}
               showTextTransform={false}
+              showColorWithHoverControlTab={true}
               setAttributes={setAttributes}
               {...this.props}
             />

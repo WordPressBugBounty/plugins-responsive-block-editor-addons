@@ -127,6 +127,18 @@ function EditorStyles(props) {
   blockRightRadiusMobile,
   blockBottomRadiusMobile,
   blockLeftRadiusMobile,
+  headingTypographyColor,
+  authorTypographyColor,
+  contentTypographyColor,
+  headingBottomSpacing,
+  headingBottomSpacingMobile,
+  headingBottomSpacingTablet,
+  authorBottomSpacing,
+  authorBottomSpacingMobile,
+  authorBottomSpacingTablet,
+  contentBottomSpacing,
+  contentBottomSpacingMobile,
+  contentBottomSpacingTablet,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -235,31 +247,31 @@ function EditorStyles(props) {
       padding: generateCSSUnit(contentPadding, "px"),
     },
     " .responsive-block-editor-addons-block-post-timeline-title": {
-      "margin-bottom": generateCSSUnit(headingSpace, "px"),
+      "margin-bottom": generateCSSUnit(headingBottomSpacing, "px"),
     },
     " .responsive-block-editor-addons-block-post-timeline-title .responsive-block-editor-addons-block-post-timeline-title-heading": {
-      color: headingColor ? headingColor + "!important" : "#333",
+      color: headingTypographyColor ? headingTypographyColor + "!important" : "#333",
       "line-height": headingLineHeight,
       "font-weight": headingFontWeight,
       "font-size": generateCSSUnit(headingFontSize, "px"),
       "font-family": headingFontFamily,
     },
     " .responsive-block-editor-addons-block-post-timeline-byline": {
-      "margin-bottom": generateCSSUnit(authorSpace, "px"),
+      "margin-bottom": generateCSSUnit(authorBottomSpacing, "px"),
     },
     " .responsive-block-editor-addons-block-post-timeline-author .responsive-block-editor-addons-text-link": {
-      color: authorColor ? authorColor + "!important" : "#626e81",
+      color: authorTypographyColor ? authorTypographyColor + "!important" : "#626e81",
       "line-height": authorLineHeight,
       "font-weight": authorFontWeight,
       "font-size": generateCSSUnit(authorFontSize, "px"),
       "font-family": authorFontFamily,
     },
     " .responsive-block-editor-addons-block-post-timeline-excerpt .responsive-block-editor-addons-timeline__post": {
-      color: textColor ? textColor + "!important" : "#333",
+      color: contentTypographyColor ? contentTypographyColor + "!important" : "#333",
       "font-weight": contentFontWeight,
       "font-size": generateCSSUnit(contentFontSize, "px"),
       "font-family": contentFontFamily,
-      "margin-bottom": generateCSSUnit(excerptSpace, "px"),
+      "margin-bottom": generateCSSUnit(contentBottomSpacing, "px"),
     },
     " .responsive-block-editor-addons-timeline__date-new.responsive-block-editor-addons-timeline__date-outer": {
       "line-height": dateLineHeight,
@@ -323,7 +335,7 @@ function EditorStyles(props) {
 	},
 	" .responsive-block-editor-addons-block-post-timeline-excerpt .responsive-block-editor-addons-timeline__post": {
 		"font-size": generateCSSUnit(contentFontSizeMobile, "px"),
-		"margin-bottom": generateCSSUnit(excerptSpaceMobile, "px"),
+		"margin-bottom": generateCSSUnit(contentBottomSpacingMobile, "px"),
 	},
 	" .responsive-block-editor-addons-timeline__date-new.responsive-block-editor-addons-timeline__date-outer": {
 		"font-size": generateCSSUnit(dateFontSizeMobile, "px"),
@@ -335,10 +347,10 @@ function EditorStyles(props) {
 		"margin-bottom": generateCSSUnit(blockSpaceMobile, "px"),
 	},
 	" .responsive-block-editor-addons-block-post-timeline-title": {
-		"margin-bottom": generateCSSUnit(headingSpaceMobile, "px"),
+		"margin-bottom": generateCSSUnit(headingBottomSpacingMobile, "px"),
 	},
 	" .responsive-block-editor-addons-block-post-timeline-byline": {
-		"margin-bottom": generateCSSUnit(authorSpaceMobile, "px"),
+		"margin-bottom": generateCSSUnit(authorBottomSpacingMobile, "px"),
 	},
 	" .responsive-block-editor-addons-timeline__field.responsive-block-editor-addons-timeline__field-wrap": {
 		"margin-bottom": generateCSSUnit(verSpaceMobile, "px"),
@@ -397,7 +409,7 @@ function EditorStyles(props) {
 	},
 	" .responsive-block-editor-addons-block-post-timeline-excerpt .responsive-block-editor-addons-timeline__post": {
 		"font-size": generateCSSUnit(contentFontSizeTablet, "px"),
-		"margin-bottom": generateCSSUnit(excerptSpaceTablet, "px"),
+		"margin-bottom": generateCSSUnit(contentBottomSpacingTablet, "px"),
 	},
 	" .responsive-block-editor-addons-timeline__date-new.responsive-block-editor-addons-timeline__date-outer": {
 		"font-size": generateCSSUnit(dateFontSizeTablet, "px"),
@@ -409,10 +421,10 @@ function EditorStyles(props) {
 		"margin-bottom": generateCSSUnit(blockSpaceTablet, "px"),
 	},
 	" .responsive-block-editor-addons-block-post-timeline-title": {
-		"margin-bottom": generateCSSUnit(headingSpaceTablet, "px"),
+		"margin-bottom": generateCSSUnit(headingBottomSpacingTablet, "px"),
 	},
 	" .responsive-block-editor-addons-block-post-timeline-byline": {
-		"margin-bottom": generateCSSUnit(authorSpaceTablet, "px"),
+		"margin-bottom": generateCSSUnit(authorBottomSpacingTablet, "px"),
 	},
 	" .responsive-block-editor-addons-timeline__field.responsive-block-editor-addons-timeline__field-wrap": {
 		"margin-bottom": generateCSSUnit(verSpaceTablet, "px"),

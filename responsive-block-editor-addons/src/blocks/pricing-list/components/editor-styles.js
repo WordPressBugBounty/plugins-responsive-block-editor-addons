@@ -91,6 +91,12 @@ function EditorStyles(props) {
   pricingRightPadding,
   pricingRightPaddingMobile,
   pricingRightPaddingTablet,
+  priceTypographyColor,
+  descriptionTypographyColor,
+  titleTypographyColor,
+  titleBottomSpacing,
+  titleBottomSpacingMobile,
+  titleBottomSpacingTablet,
   } = props.attributes;
 
   var align = contentAlign;
@@ -130,22 +136,22 @@ function EditorStyles(props) {
       "max-width": generateCSSUnit(imageWidth, "px"),
     },
     " .responsive-block-editior-addons-pricing-list-item-title": {
-      color: titleColor,
+      color: titleTypographyColor,
       "line-height": titleLineHeight,
       "font-weight": titleFontWeight,
       "font-size": generateCSSUnit(titleFontSize, "px"),
       "font-family": titleFontFamily,
-      "margin-bottom": generateCSSUnit(titleSpace, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacing, "px"),
     },
     " .responsive-block-editior-addons-pricing-list-item-description": {
-      color: descColor,
+      color: descriptionTypographyColor,
       "line-height": descriptionLineHeight,
       "font-weight": descriptionFontWeight,
       "font-size": generateCSSUnit(descriptionFontSize, "px"),
       "font-family": descriptionFontFamily,
     },
     " .responsive-block-editior-addons-pricing-list-item-price-wrap": {
-      color: priceColor,
+      color: priceTypographyColor,
       "line-height": priceLineHeight,
       "font-weight": priceFontWeight,
       "font-size": generateCSSUnit(priceFontSize, "px"),
@@ -192,7 +198,7 @@ function EditorStyles(props) {
     },
     " .responsive-block-editior-addons-pricing-list-item-title": {
 		"font-size": generateCSSUnit(titleFontSizeMobile, "px"),
-		"margin-bottom": generateCSSUnit(titleSpaceMobile, "px"),
+		"margin-bottom": generateCSSUnit(titleBottomSpacingMobile, "px"),
 	},
 	" .responsive-block-editior-addons-pricing-list-item-description": {
 		"font-size": generateCSSUnit(descriptionFontSizeMobile, "px"),
@@ -227,7 +233,7 @@ function EditorStyles(props) {
     },
     " .responsive-block-editior-addons-pricing-list-item-title": {
 		"font-size": generateCSSUnit(titleFontSizeTablet, "px"),
-		"margin-bottom": generateCSSUnit(titleSpaceTablet, "px"),
+		"margin-bottom": generateCSSUnit(titleBottomSpacingTablet, "px"),
 	},
 	" .responsive-block-editior-addons-pricing-list-item-description": {
 		"font-size": generateCSSUnit(descriptionFontSizeTablet, "px"),

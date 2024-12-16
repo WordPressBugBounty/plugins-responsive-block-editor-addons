@@ -258,5 +258,49 @@
     type: "number",
     default: '',
   },
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  titleTypographyColor: {
+    type: 'string',
+  },
+  linkTypographyColor: {
+    type: 'string',
+    default: '#0066cc',
+  },
+  textTypographyColor: {
+    type: 'string',
+  },
+  titleBottomSpacing: {
+    type: "number",
+    default: 28,
+  },
+  titleBottomSpacingTablet: {
+    type: "number",
+  },
+  titleBottomSpacingMobile: {
+    type: "number",
+  },
+  textBottomSpacing: {
+    type: "number",
+    default: 20,
+  },
+  textBottomSpacingTablet: {
+    type: "number",
+  },
+  textBottomSpacingMobile: {
+    type: "number",
+  },
+  linkBottomSpacing: {
+    type: "number",
+    default: 18,
+  },
+  linkBottomSpacingTablet: {
+    type: "number",
+  },
+  linkBottomSpacingMobile: {
+    type: "number",
+  },
 };
 export default attributes;

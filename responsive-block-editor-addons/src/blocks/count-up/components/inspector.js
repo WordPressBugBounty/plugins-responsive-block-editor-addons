@@ -177,6 +177,10 @@ export default class Inspector extends Component {
     blockIsPaddingControlConnected,
     blockIsMarginControlConnected,
     blockNewSpacingValuesUpdated,
+    blockIsTypographyColorValueUpdated,
+    contentTypographyColor,
+    headingTypographyColor,
+    dateTypographyColor,
       },
       setAttributes,
     } = this.props;
@@ -513,6 +517,18 @@ export default class Inspector extends Component {
       );
     };
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          contentTypographyColor:          textColor !== undefined ? textColor : contentTypographyColor,
+          headingTypographyColor:         titleColor !== undefined ? titleColor : headingTypographyColor,
+          dateTypographyColor:         numColor !== undefined ? numColor : dateTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -680,11 +696,6 @@ export default class Inspector extends Component {
                 )}
               </PanelBody>
             )}
-
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
 				<TypographyHelperControl
 					title={__("Number Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="date%s"
@@ -695,9 +706,11 @@ export default class Inspector extends Component {
 					sizeTablet: dateFontSizeTablet,
 					weight: dateFontWeight,
 					height: dateLineHeight,
+          color: dateTypographyColor,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { false }
+          showColorControl={true}
 					setAttributes={ setAttributes }
 					{...this.props}
 				/>
@@ -711,9 +724,11 @@ export default class Inspector extends Component {
 					sizeTablet: headingFontSizeTablet,
 					weight: headingFontWeight,
 					height: headingLineHeight,
+          color: headingTypographyColor,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { false }
+          showColorControl={true}
 					setAttributes={ setAttributes }
 					{...this.props}
 				/>
@@ -727,41 +742,18 @@ export default class Inspector extends Component {
 					sizeTablet: contentFontSizeTablet,
 					weight: contentFontWeight,
 					height: contentLineHeight,
+          color: contentTypographyColor,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { false }
+          showColorControl={true}
 					setAttributes={ setAttributes }
 					{...this.props}
 				/>
-            </PanelBody>
             <PanelBody
               title={__("Color", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-               <RbeaColorControl
-									label = {__("Title Color", "responsive-block-editor-addons")}
-									colorValue={titleColor}
-									onChange={(colorValue) =>
-										setAttributes({ titleColor: colorValue })
-									}
-									resetColor={() => setAttributes({ titleColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Number Color", "responsive-block-editor-addons")}
-									colorValue={numColor}
-									onChange={(colorValue) =>
-										setAttributes({ numColor: colorValue })
-									}
-									resetColor={() => setAttributes({ numColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Text Color", "responsive-block-editor-addons")}
-									colorValue={textColor}
-									onChange={(colorValue) =>
-										setAttributes({ textColor: colorValue })
-									}
-									resetColor={() => setAttributes({ textColor: "" })}
-								/>
                <RbeaColorControl
 									label = {__("Background Color", "responsive-block-editor-addons")}
 									colorValue={itemBackgroundColor}

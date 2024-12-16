@@ -1020,5 +1020,55 @@ const attributes = {
     type: "boolean",
     default: false,
   },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  ressubHeadTypographyColor: {
+    type: "string",
+  },
+  resheadTypographyColor: {
+    type: "string",
+  },
+  ctaTextTypographyColor: {
+    type: "string",
+    default: "#333",
+  },
+  resheadBottomSpacing: {
+    type: "number",
+    default: 10,
+  },
+  resheadBottomSpacingMobile: {
+    type: "number",
+    default: "",
+  },
+  resheadBottomSpacingTablet: {
+    type: "number",
+    default: "",
+  },
+  ressubHeadBottomSpacing: {
+    type: "number",
+    default: 10,
+  },
+  ressubHeadBottomSpacingMobile: {
+    type: "number",
+    default: "",
+  },
+  ressubHeadBottomSpacingTablet: {
+    type: "number",
+    default: "",
+  },
+  ctaTextBottomSpacing: {
+    type: "number",
+    default: 10,
+  },
+  ctaTextBottomSpacingMobile: {
+    type: "number",
+    default: "",
+  },
+  ctaTextBottomSpacingTablet: {
+    type: "number",
+    default: "",
+  },
 };
 export default attributes;

@@ -142,6 +142,15 @@ function EditorStyles(props) {
   blockRightPadding,
   blockRightPaddingMobile,
   blockRightPaddingTablet,
+  descTypographyColor,
+  nameTypographyColor,
+  companyTypographyColor,
+  descBottomSpacing,
+  descBottomSpacingMobile,
+  descBottomSpacingTablet,
+  nameBottomSpacing,
+  nameBottomSpacingMobile,
+  nameBottomSpacingTablet,
   } = props.attributes;
 
   var img_align = "center";
@@ -234,8 +243,8 @@ function EditorStyles(props) {
       "font-family": nameFontFamily,
       "font-weight": nameFontWeight,
       "line-height": generateCSSUnit(nameLineHeight, "px"),
-      color: authorColor,
-      "margin-bottom": generateCSSUnit(nameSpace, "px"),
+      color: nameTypographyColor,
+      "margin-bottom": generateCSSUnit(nameBottomSpacing, "px"),
     },
     // Title Style
     " .responsive-block-editor-addons-tm__company": {
@@ -243,7 +252,7 @@ function EditorStyles(props) {
       "font-family": companyFontFamily,
       "font-weight": companyFontWeight,
       "line-height": generateCSSUnit(companyLineHeight, "px"),
-      color: companyColor,
+      color: companyTypographyColor,
     },
     // Description Style
     " .responsive-block-editor-addons-tm__desc": {
@@ -251,8 +260,8 @@ function EditorStyles(props) {
       "font-family": descFontFamily,
       "font-weight": descFontWeight,
       "line-height": generateCSSUnit(descLineHeight, descLineHeightType),
-      color: descColor,
-      "margin-bottom": generateCSSUnit(descSpace, "px"),
+      color: descTypographyColor,
+      "margin-bottom": generateCSSUnit(descBottomSpacing, "px"),
     },
     " .responsive-block-editor-addons-testimonial__wrap.responsive-block-editor-addons-tm__bg-type-color .responsive-block-editor-addons-tm__content": {
       "background-color": backgroundColor,
@@ -361,7 +370,7 @@ function EditorStyles(props) {
     " .responsive-block-editor-addons-tm__desc": {
       "font-size": generateCSSUnit(descFontSizeMobile, descFontSizeType) + "!important",
       "line-height": generateCSSUnit(descLineHeightMobile, descLineHeightType),
-      "margin-bottom": generateCSSUnit(descSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(descBottomSpacingMobile, "px"),
     },
     " .responsive-block-editor-addons-tm__company": {
       "font-size": generateCSSUnit(companyFontSizeMobile, companyFontSizeType)  + "!important",
@@ -373,7 +382,7 @@ function EditorStyles(props) {
     " .responsive-block-editor-addons-tm__author-name": {
       "font-size": generateCSSUnit(nameFontSizeMobile, nameFontSizeType)  + "!important",
       "line-height": generateCSSUnit(nameLineHeightMobile, nameLineHeightType),
-      "margin-bottom": generateCSSUnit(nameSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(nameBottomSpacingMobile, "px"),
     },
     " .responsive-block-editor-addons-tm__content": {
       "text-align": headingAlignMobile,
@@ -408,7 +417,7 @@ function EditorStyles(props) {
     " .responsive-block-editor-addons-tm__desc": {
       "font-size": generateCSSUnit(descFontSizeTablet, descFontSizeType)  + "!important",
       "line-height": generateCSSUnit(descLineHeightTablet, descLineHeightType),
-      "margin-bottom": generateCSSUnit(descSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(descBottomSpacingTablet, "px"),
     },
     " .responsive-block-editor-addons-tm__company": {
       "font-size": generateCSSUnit(companyFontSizeTablet, companyFontSizeType)  + "!important",
@@ -420,7 +429,7 @@ function EditorStyles(props) {
     " .responsive-block-editor-addons-tm__author-name": {
       "font-size": generateCSSUnit(nameFontSizeTablet, nameFontSizeType)  + "!important",
       "line-height": generateCSSUnit(nameLineHeightTablet, nameLineHeightType),
-      "margin-bottom": generateCSSUnit(nameSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(nameBottomSpacingTablet, "px"),
     },
     " .responsive-block-editor-addons-tm__content": {
       padding: generateCSSUnit(contentPaddingTablet, "px"),

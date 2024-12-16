@@ -254,7 +254,9 @@ export default class Inspector extends Component {
         z_indexMobile,
         textIsPaddingControlConnected,
         blockIsPaddingControlConnected,
-        blockIsMarginControlConnected
+        blockIsMarginControlConnected,
+        quoteTypographyColor,
+        blockIsTypographyColorValueUpdated
       },
       setAttributes,
     } = this.props;
@@ -325,6 +327,16 @@ export default class Inspector extends Component {
         }
       )
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
+    }
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          quoteTypographyColor: quoteTextColor !== undefined ? quoteTextColor : quoteTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
     }
 
     return (
@@ -515,7 +527,13 @@ export default class Inspector extends Component {
                     setAttributes={ setAttributes }
                     {...this.props}
                 />
-              <BoxShadowControl
+            </PanelBody>
+
+            <PanelBody 
+              title={__("Box Shadow", "responsive-block-editor-addons")} 
+              initialOpen={false}
+            >
+            <BoxShadowControl
                 setAttributes={setAttributes}
                 label={__("Box Shadow", "responsive-block-editor-addons")}
                 boxShadowColor={{ value: boxShadowColor, label: __("Color", "responsive-block-editor-addons") }}
@@ -569,36 +587,24 @@ export default class Inspector extends Component {
                 />
               </PanelBody>
             </PanelBody>
-            <PanelBody title={__("Color", "responsive-block-editor-addons")} initialOpen={false}>
-             <RbeaColorControl
-                label = {__("Text Color", "responsive-block-editor-addons")}
-                colorValue={quoteTextColor}
-                onChange={onChangeTextColor}
-                resetColor={() => setAttributes({ quoteTextColor: "" })}
-              />
-            </PanelBody>
-
-			<PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-				<TypographyHelperControl
-					title={__("Quote Typography", "responsive-block-editor-addons")}
-					attrNameTemplate="quote%s"
-					values = {{
-						family: quoteFontFamily,
-						size: quoteFontSize,
-						sizeMobile: quoteFontSizeMobile,
-						sizeTablet: quoteFontSizeTablet,
-						weight: quoteFontWeight,
-						height: quoteLineHeight,
-					}}
-					showLetterSpacing = { false }
-					showTextTransform = { false }
-					setAttributes={ setAttributes }
-					{...this.props}
-				/>
-			</PanelBody>
+				    <TypographyHelperControl
+				    	title={__("Quote Typography", "responsive-block-editor-addons")}
+				    	attrNameTemplate="quote%s"
+				    	values = {{
+				    		family: quoteFontFamily,
+				    		size: quoteFontSize,
+				    		sizeMobile: quoteFontSizeMobile,
+				    		sizeTablet: quoteFontSizeTablet,
+				    		weight: quoteFontWeight,
+				    		height: quoteLineHeight,
+                color: quoteTypographyColor,
+				    	}}
+				    	showLetterSpacing = { false }
+				    	showTextTransform = { false }
+              showColorControl={true}
+				    	setAttributes={ setAttributes }
+				    	{...this.props}
+				    />
           </InspectorTab>
           <InspectorTab key={"advance"}>
             <PanelBody

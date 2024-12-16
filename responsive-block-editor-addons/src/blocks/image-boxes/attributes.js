@@ -493,6 +493,36 @@ const attributes = {
   boxImageRepeat: {
     type: "string",
   },
+  titleTypographyColor: {
+    type: "string",
+    default: "#1E1E1E",
+  },
+  descriptionTypographyColor: {
+    type: "string",
+    default: "#1E1E1E",
+  },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  descriptionBottomSpacing: {
+    type: "number",
+  },
+  descriptionBottomSpacingMobile: {
+    type: "number",
+  },
+  descriptionBottomSpacingTablet: {
+    type: "number",
+  },
+  titleBottomSpacing: {
+    type: "number",
+  },
+  titleBottomSpacingMobile: {
+    type: "number",
+  },
+  titleBottomSpacingTablet: {
+    type: "number",
+  },
 };
 
 export default attributes;

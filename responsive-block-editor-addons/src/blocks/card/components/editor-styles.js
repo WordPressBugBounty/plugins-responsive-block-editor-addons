@@ -190,6 +190,16 @@ function EditorStyles(props) {
     cardImagePositionTablet,
     cardImageSizeTab,
     cardImageRepeat,
+    headingTypographyColor,
+    headingBottomSpacing,
+    headingBottomSpacingMobile,
+    headingBottomSpacingTablet,
+    subBottomSpacing,
+    subBottomSpacingMobile,
+    subBottomSpacingTablet,
+    contentBottomSpacing,
+    contentBottomSpacingMobile,
+    contentBottomSpacingTablet,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -282,7 +292,7 @@ function EditorStyles(props) {
       "border-bottom-right-radius": generateCSSUnit(blockBottomRadius, "px"),
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadius, "px"),
       "opacity": generateCSSUnit(imgopacity, "px"),
-      color: textColor,
+      color: headingTypographyColor,
       "background-color":
         backgroundType == "color"
           ? itemBackgroundColor !== 'empty' && backgroundColor === '' ? `${hexToRgba(itemBackgroundColor || "#fff", imgopacity || 0)}` : `${hexToRgba(backgroundColor || "#fff", imgopacity || 0)}`  //For compatibility with v1.3.2.
@@ -375,8 +385,8 @@ function EditorStyles(props) {
 
     " .wp-block-responsive-block-editor-addons-card-item__title": {
       "margin-top": 0,
-      "margin-bottom": generateCSSUnit(titleSpace, "px"),
-      color: textColor,
+      "margin-bottom": generateCSSUnit(headingBottomSpacing, "px"),
+      color: headingTypographyColor,
       "line-height": headingLineHeight,
       "font-family": headingFontFamily,
       "font-weight": headingFontWeight,
@@ -385,8 +395,8 @@ function EditorStyles(props) {
 
     " .wp-block-responsive-block-editor-addons-card-item__subtitle": {
       "margin-top": 0,
-      "margin-bottom": generateCSSUnit(subtitleSpace, "px"),
-      color: textColor,
+      "margin-bottom": generateCSSUnit(subBottomSpacing, "px"),
+      color: headingTypographyColor,
       "line-height": subLineHeight,
       "font-weight": subFontWeight,
       "font-family": subFontFamily,
@@ -395,8 +405,8 @@ function EditorStyles(props) {
 
     " .wp-block-responsive-block-editor-addons-card-item__content": {
       "margin-top": 0,
-        "margin-bottom": generateCSSUnit(contentSpace, "px"),
-        color: textColor,
+        "margin-bottom": generateCSSUnit(contentBottomSpacing, "px"),
+        color: headingTypographyColor,
       "line-height": contentLineHeight,
       "font-weight": contentFontWeight,
       "font-size": generateCSSUnit(contentFontSize, "px"),
@@ -438,17 +448,17 @@ function EditorStyles(props) {
     },
 
     " .wp-block-responsive-block-editor-addons-card-item__title": {
-      "margin-bottom": generateCSSUnit(titleSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(headingBottomSpacingMobile, "px"),
 	  "font-size": generateCSSUnit(headingFontSizeMobile, "px"),
     },
 
     " .wp-block-responsive-block-editor-addons-card-item__subtitle": {
-      "margin-bottom": generateCSSUnit(subtitleSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(subBottomSpacingMobile, "px"),
 	  "font-size": generateCSSUnit(subFontSizeMobile, "px"),
     },
 	" .wp-block-responsive-block-editor-addons-card-item__content": {
 		"font-size": generateCSSUnit(contentFontSizeMobile, "px"),
-        "margin-bottom": generateCSSUnit(contentSpaceMobile, "px"),
+        "margin-bottom": generateCSSUnit(contentBottomSpacingMobile, "px"),
     },
   " .responsive-block-editor-addons-card-button-inner": {
     "padding-top": generateCSSUnit(ctaVpaddingMobile, "px"),
@@ -490,17 +500,17 @@ function EditorStyles(props) {
     },
 
     " .wp-block-responsive-block-editor-addons-card-item__title": {
-      "margin-bottom": generateCSSUnit(titleSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(headingBottomSpacingTablet, "px"),
 	  "font-size": generateCSSUnit(headingFontSizeTablet, "px"),
     },
 
     " .wp-block-responsive-block-editor-addons-card-item__subtitle": {
-      "margin-bottom": generateCSSUnit(subtitleSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(subBottomSpacingTablet, "px"),
 	  "font-size": generateCSSUnit(subFontSizeTablet, "px"),
     },
 	" .wp-block-responsive-block-editor-addons-card-item__content": {
 		"font-size": generateCSSUnit(contentFontSizeTablet, "px"),
-        "margin-bottom": generateCSSUnit(contentSpaceTablet, "px"),
+        "margin-bottom": generateCSSUnit(contentBottomSpacingTablet, "px"),
     },
   " .responsive-block-editor-addons-card-button-inner": {
     "padding-top": generateCSSUnit(ctaVpaddingTablet, "px"),

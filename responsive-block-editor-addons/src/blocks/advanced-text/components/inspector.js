@@ -145,6 +145,11 @@ export default class Inspector extends Component {
         hideWidget,
         hideWidgetTablet,
         hideWidgetMobile,
+
+        blockIsTypographyColorValueUpdated,
+        titleTypographyColor,
+        subtitleTypographyColor,
+        textTypographyColor,
       },
       setAttributes,
     } = this.props;
@@ -201,6 +206,18 @@ export default class Inspector extends Component {
       }
     };
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          titleTypographyColor:         titleColor !== undefined ? titleColor : titleTypographyColor,
+          subtitleTypographyColor:          subtitleColor !== undefined ? subtitleColor : subtitleTypographyColor,
+          textTypographyColor:          textColor !== undefined ? textColor : textTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -248,81 +265,82 @@ export default class Inspector extends Component {
                   defaultValue={"h1"}
                 />
               )}
-              <BaseControl>
-                <BaseControl.VisualLabel>
-                  {__("Block Alignment", "responsive-block-editor-addons")}
-                </BaseControl.VisualLabel>
-                <br></br>
-                <br></br>
-                <AlignmentToolbar
-                  value={contentAlign}
-                  onChange={(value) =>
-                    setAttributes({
-                      textAlign: "",
-                      titleAlign: "",
-                      subtitleAlign: "",
-                      contentAlign: value,
-                    })
-                  }
-                  controls={["left", "center", "right"]}
-                  isCollapsed={false}
-                />
-              </BaseControl>
-              {displayTitle && (
+              <Fragment>
                 <BaseControl>
-                  <BaseControl.VisualLabel>
+                  <p>
+                    {__("Block Alignment", "responsive-block-editor-addons")}
+                  </p>
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={contentAlign}
+                      onChange={(value) =>
+                        setAttributes({
+                          contentAlign: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
+                </BaseControl>
+              </Fragment>
+              {displayTitle && (<Fragment>
+                <BaseControl>
+                  <p>
                     {__("Title Alignment", "responsive-block-editor-addons")}
-                  </BaseControl.VisualLabel>
-                  <br></br>
-                  <br></br>
-                  <AlignmentToolbar
-                    value={titleAlign}
-                    onChange={(value) =>
-                      setAttributes({
-                        titleAlign: value,
-                      })
-                    }
-                    controls={["left", "center", "right"]}
-                    isCollapsed={false}
-                  />
+                  </p>
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={titleAlign}
+                      onChange={(value) =>
+                        setAttributes({
+                          titleAlign: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
                 </BaseControl>
-              )}
-              {displaySubtitle && (
+              </Fragment>)}
+              {displaySubtitle && (<Fragment>
                 <BaseControl>
-                  <BaseControl.VisualLabel>
+                  <p>
                     {__("Subtitle Alignment", "responsive-block-editor-addons")}
-                  </BaseControl.VisualLabel>
-                  <br></br>
-                  <br></br>
-                  <AlignmentToolbar
-                    value={subtitleAlign}
-                    onChange={(value) =>
-                      setAttributes({
-                        subtitleAlign: value,
-                      })
-                    }
-                    controls={["left", "center", "right"]}
-                    isCollapsed={false}
-                  />
+                  </p>
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={subtitleAlign}
+                      onChange={(value) =>
+                        setAttributes({
+                          subtitleAlign: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
                 </BaseControl>
-              )}
-              <BaseControl>
-                <BaseControl.VisualLabel>
-                  {__("Text Alignment", "responsive-block-editor-addons")}
-                </BaseControl.VisualLabel>
-                <br></br>
-                <br></br>
-                <AlignmentToolbar
-                  value={textAlign}
-                  onChange={(value) =>
-                    setAttributes({
-                      textAlign: value,
-                    })
-                  }
-                  controls={["left", "center", "right"]}
-                  isCollapsed={false}
-                />
-              </BaseControl>
+              </Fragment>)}
+              <Fragment>
+                <BaseControl>
+                  <p>
+                    {__("Text Alignment", "responsive-block-editor-addons")}
+                  </p>
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={textAlign}
+                      onChange={(value) =>
+                        setAttributes({
+                          textAlign: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
+                </BaseControl>
+              </Fragment>
             </PanelBody>
             <PanelBody
               title={__("Layouts", "responsive-block-editor-addons")}
@@ -581,57 +599,23 @@ export default class Inspector extends Component {
                 </TabPanel>
               </PanelBody>
             )}
-            <PanelBody
-              title={__("Color Settings", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              {columnsCount > 1 && (
-                <Fragment>
-                  <RbeaColorControl
-                    label = {__("Divider Color", "responsive-block-editor-addons")}
-                    colorValue={dividerColor}
-                    onChange={(colorValue) =>
-                      setAttributes({ dividerColor: colorValue })
-                    }
-                    resetColor={() => setAttributes({ dividerColor: "" })}
-                  />
-                </Fragment>
+            {columnsCount > 1 && (
+                <PanelBody
+                  title={__("Color Settings", "responsive-block-editor-addons")}
+                  initialOpen={false}
+                >
+                  <Fragment>
+                      <RbeaColorControl
+                        label = {__("Divider Color", "responsive-block-editor-addons")}
+                        colorValue={dividerColor}
+                        onChange={(colorValue) =>
+                          setAttributes({ dividerColor: colorValue })
+                        }
+                        resetColor={() => setAttributes({ dividerColor: "" })}
+                      />
+                    </Fragment>
+                </PanelBody>
               )}
-              <Fragment>
-                <RbeaColorControl
-                  label = {__("Title Color", "responsive-block-editor-addons")}
-                  colorValue={titleColor}
-                  onChange={(colorValue) =>
-                    setAttributes({ titleColor: colorValue })
-                  }
-                  resetColor={() => setAttributes({ titleColor: "" })}
-                />
-              </Fragment>
-              <Fragment>
-                <RbeaColorControl
-                  label = {__("Subtitle Color", "responsive-block-editor-addons")}
-                  colorValue={subtitleColor}
-                  onChange={(colorValue) =>
-                    setAttributes({ subtitleColor: colorValue })
-                  }
-                  resetColor={() => setAttributes({ subtitleColor: "" })}
-                />
-              </Fragment>
-              <Fragment>
-                <RbeaColorControl
-                  label = {__("Text Color", "responsive-block-editor-addons")}
-                  colorValue={textColor}
-                  onChange={(colorValue) =>
-                    setAttributes({ textColor: colorValue })
-                  }
-                  resetColor={() => setAttributes({ textColor: "" })}
-                />
-              </Fragment>
-            </PanelBody>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
               <TypographyHelperControl
                 title={__("Title Typography", "responsive-block-editor-addons")}
                 attrNameTemplate="title%s"
@@ -642,9 +626,11 @@ export default class Inspector extends Component {
                   sizeTablet: titleFontSizeTablet,
                   weight: titleFontWeight,
                   height: titleLineHeight,
+                  color: titleTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -661,9 +647,11 @@ export default class Inspector extends Component {
                   sizeTablet: subtitleFontSizeTablet,
                   weight: subtitleFontWeight,
                   height: subtitleLineHeight,
+                  color: subtitleTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -677,13 +665,14 @@ export default class Inspector extends Component {
                   sizeTablet: textFontSizeTablet,
                   weight: textFontWeight,
                   height: textLineHeight,
+                  color: textTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
-            </PanelBody>
           </InspectorTab>
           <InspectorTab key={"advance"}>
             <PanelBody
@@ -725,6 +714,7 @@ export default class Inspector extends Component {
               title={__("General", "responsive-block-editor-addons")}
               initialOpen={false}
             >
+              <div className="responsive-block-html-tag-wrapper">
               <RbeaTabRadioControl
                 label={__("Block HTML Tag", "responsive-block-editor-addons")}
                 value={blockTag}
@@ -732,6 +722,7 @@ export default class Inspector extends Component {
                 options={rbeaOptions.blockTags}
                 defaultValue={"div"}
               />
+              </div>
               <RbeaRangeControl
                 label={__("Opacity", "responsive-block-editor-addons")}
                 value={blockOpacity}

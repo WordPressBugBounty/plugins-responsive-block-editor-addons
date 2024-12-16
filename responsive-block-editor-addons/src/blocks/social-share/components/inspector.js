@@ -137,6 +137,8 @@ export default class Inspector extends Component {
         z_indexTablet,
         blockIsMarginControlConnected,
         blockIsPaddingControlConnected,
+        blockIsTypographyColorValueUpdated,
+        labelTypographyColor,
       },
       setAttributes,
     } = this.props;
@@ -322,6 +324,17 @@ export default class Inspector extends Component {
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
     }
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          labelTypographyColor:          labelColor !== undefined ? labelColor : labelTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -438,17 +451,25 @@ export default class Inspector extends Component {
                   options={viewOptions}
                 />
               )}
-              <h2>{__("Alignment", "responsive-block-editor-addons")}</h2>
-              <BlockAlignmentToolbar
-                value={iconsAlign}
-                onChange={(value) =>
-                  setAttributes({
-                    iconsAlign: value,
-                  })
-                }
-                controls={["left", "center", "right"]}
-                isCollapsed={false}
-              />
+              <Fragment>
+                <BaseControl>
+                  <p>
+                    {__("Alignment", "responsive-block-editor-addons")}
+                  </p>
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={iconsAlign}
+                      onChange={(value) =>
+                        setAttributes({
+                          iconsAlign: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
+                </BaseControl>
+              </Fragment>
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
@@ -573,12 +594,6 @@ export default class Inspector extends Component {
                   />
                 </Fragment>
               )}
-              <RbeaColorControl
-                label = {__("Label", "responsive-block-editor-addons")}
-                colorValue={labelColor}
-                onChange={(colorValue) => setAttributes({ labelColor: colorValue })}
-                resetColor={() => setAttributes({ labelColor: "" })}
-              />
             </PanelBody>
             <TypographyHelperControl
               title={__("Label Typography", "responsive-block-editor-addons")}
@@ -590,9 +605,11 @@ export default class Inspector extends Component {
                 sizeTablet: labelFontSizeTablet,
                 weight: labelFontWeight,
                 height: labelLineHeight,
+                color: labelTypographyColor,
               }}
               showLetterSpacing={false}
               showTextTransform={false}
+              showColorControl={true}
               setAttributes={setAttributes}
               {...this.props}
             />
@@ -765,17 +782,6 @@ export default class Inspector extends Component {
                   }}
               </TabPanel>
             </PanelBody>
-            {/* <InspectorAdvancedControls>
-              <RbeaRangeControl
-                label={__("Z-Index", "responsive-block-editor-addons")}
-                value={socialZindex}
-                min={-10}
-                max={500}
-                allowReset={true}
-                onChange={(value) => setAttributes({ socialZindex: value })}
-              />
-              <br></br>
-            </InspectorAdvancedControls> */}
           </InspectorTab>
         </InspectorTabs>
       </InspectorControls>

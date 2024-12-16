@@ -707,6 +707,14 @@ const attributes = {
       type: "number",
       default: '',
     },
+    popupTextTypographyTypographyColor: {
+        type: "string",
+        default: "black",
+    },
+    blockIsTypographyColorValueUpdated: {
+        type: "boolean",
+        default: false,
+    },
 };
 
 export default attributes;

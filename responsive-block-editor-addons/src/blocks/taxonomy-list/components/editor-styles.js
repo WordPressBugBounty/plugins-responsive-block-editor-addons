@@ -115,6 +115,8 @@ function EditorStyles(props) {
 		blockRightPadding,
 		blockRightPaddingMobile,
 		blockRightPaddingTablet,
+        countTypographyColor,
+        titleTypographyColor,
     } = props.attributes;
 
 
@@ -159,7 +161,7 @@ function EditorStyles(props) {
             "box-shadow": boxShadowValues,
         },
         " .responsive-block-editor-addons-block-title": {
-            "color": titleColor,
+            "color": titleTypographyColor,
             "margin-bottom": generateCSSUnit(titleBottomSpace, "px"),
             "margin-top": 0,
             "font-family": titleFontFamily,
@@ -168,7 +170,7 @@ function EditorStyles(props) {
             "line-height": titleLineHeight
         },
         " .responsive-block-editor-addons-block-count": {
-            "color": countColor,
+            "color": countTypographyColor,
             "font-family": countFontFamily,
             "font-size": `${generateCSSUnit(countFontSize, "px")} !important`,
             "font-weight": countFontWeight,

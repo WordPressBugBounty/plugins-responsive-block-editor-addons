@@ -334,7 +334,7 @@ export default class Inspector extends Component {
                 )}
                 defaultValue={"none"}
               />
-              <SelectControl
+              <RbeaTabRadioControl
                 label={__("Container Width", "responsive-block-editor-addons")}
                 value={contentWidth}
                 onChange={(value) => setAttributes({ contentWidth: value })}
@@ -342,7 +342,7 @@ export default class Inspector extends Component {
                   {
                     value: "theme",
                     label: __(
-                      "Theme Container Width",
+                      "Theme Width",
                       "responsive-block-editor-addons"
                     ),
                   },
@@ -401,19 +401,19 @@ export default class Inspector extends Component {
                   />
                 </Fragment>
               )}
-
-              <SelectControl
+              <div className="rbea-height-selector-wrapper">
+              <RbeaTabRadioControl
                 label={__("Height", "responsive-block-editor-addons")}
                 value={height}
                 onChange={(value) => setAttributes({ height: value })}
                 options={[
                   { value: "", label: __("Normal", "responsive-block-editor-addons") },
-                  { value: "half", label: __("Half-Screen Height", "responsive-block-editor-addons") },
-                  { value: "full", label: __("Full-Screen Height", "responsive-block-editor-addons") },
+                  { value: "half", label: __("Half Screen", "responsive-block-editor-addons") },
+                  { value: "full", label: __("Full Screen", "responsive-block-editor-addons") },
                   { value: "custom", label: __("Custom", "responsive-block-editor-addons") },
                 ]}
-                defaultValue={"Normal"}
-              />
+                defaultValue={""}
+              /></div>
               {"custom" == height && (
                 <RbeaRangeControl
                   label={__("Custom Height", "responsive-block-editor-addons")}
@@ -437,7 +437,7 @@ export default class Inspector extends Component {
                   { value: "right", label: __("Right", "responsive-block-editor-addons") },
                   { value: "center", label: __("Center", "responsive-block-editor-addons") },
                 ]}
-                defaultValue={"ceter"}
+                defaultValue={"center"}
               />
               <RbeaTabRadioControl
                 label={__("Vertical Align", "responsive-block-editor-addons")}
@@ -507,8 +507,12 @@ export default class Inspector extends Component {
                 setAttributes={ setAttributes }
                 {...this.props}
             />
-
-              <BoxShadowControl
+            </PanelBody>
+            <PanelBody
+              title={__("Box Shadow", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+            <BoxShadowControl
                 setAttributes={setAttributes}
                 label={__("Box Shadow", "responsive-block-editor-addons")}
                 boxShadowColor={{ value: boxShadowColor, label: __("Color", "responsive-block-editor-addons") }}

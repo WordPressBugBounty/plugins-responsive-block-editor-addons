@@ -207,6 +207,8 @@ class LatestPostsBlock extends Component {
 	let queryControls = (
 		<PanelBody title={__("Query", "responsive-block-editor-addons")} initialOpen={true}>
 			  <p>{__("Text Alignment", "responsive-block-editor-addons")}</p>
+        <Fragment>
+        <div className="responsive-block-editor-addons-alignment">
 			  <AlignmentToolbar
 				value={attributes.textAlignment}
 				onChange={(value) =>
@@ -217,6 +219,8 @@ class LatestPostsBlock extends Component {
 				controls={["left", "center", "right"]}
 				isCollapsed={false}
 			  />
+        </div>
+        </Fragment>
 			  <Fragment>
 			  <SelectControl
 				label={__("Content Type", "responsive-block-editor-addons")}

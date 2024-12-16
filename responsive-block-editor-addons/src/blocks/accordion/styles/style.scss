@@ -16,3 +16,21 @@
 .wp-block-cover .responsive-block-editor-addons-accordion-item__outer-wrap {
   color: #333;
 }
+
+.responsive-block-editor-addons-accordion-alignment-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid #C9C8C8;
+
+  .components-button {
+    width: 100%;
+  }
+
+  .components-button.is-pressed {
+    &:hover{
+      background: #007CBA;
+    }
+    background: #007CBA;
+  }
+}

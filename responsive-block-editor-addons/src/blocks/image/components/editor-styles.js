@@ -143,6 +143,8 @@ function EditorStyles(props) {
     imageRightPadding,
     imageRightPaddingMobile,
     imageRightPaddingTablet,
+    layoverHeadingTypographyColor,
+    captionTypographyColor,
   } = props.attributes;
   var base_url = window.location.origin;
   var filtervalue =
@@ -263,7 +265,7 @@ function EditorStyles(props) {
       "line-height":layoverHeadingLineHeight,
       "letter-spacing":generateCSSUnit(layoverHeadingLetterSpacing,"px"),
       "text-transform": layoverHeadingTextTransform,
-      "color":layoverHeadingColor,
+      "color":layoverHeadingTypographyColor,
       "margin-top":generateCSSUnit(layoverHeadingtopmargin,"px"),
       "margin-bottom":generateCSSUnit(layoverHeadingbottommargin,"px"),
       "margin-left":generateCSSUnit(layoverHeadingleftmargin,"px"),
@@ -278,7 +280,7 @@ function EditorStyles(props) {
       "line-height": captionLineHeight,
       "letter-spacing": generateCSSUnit(captionLetterSpacing, "px"),
       "text-transform": captionTextTransform,
-      "color": captionColor,
+      "color": captionTypographyColor,
       "margin-top": generateCSSUnit(captiontopmargin, "px"),
       "margin-bottom": generateCSSUnit(captionbottommargin, "px"),
       "margin-left": generateCSSUnit(captionleftmargin, "px"),

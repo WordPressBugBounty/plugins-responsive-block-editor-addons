@@ -1144,7 +1144,50 @@ function responsive_block_editor_addons_post_timeline_register_latest_posts() {
 				'blockRightPaddingTablet' => array(
 					'type'    => 'number',
 					'default' => '',
-				),         
+				),    
+				'blockIsTypographyColorValueUpdated' => array(
+					'type' => 'boolean',
+					'default' => false,
+				),
+      			'headingTypographyColor' => array(
+					'type' => 'string',
+					'default' => '#333',
+				),
+      			'authorTypographyColor' => array(
+					'type' => 'string',
+					'default' => '#626e81',
+				),
+      			'contentTypographyColor' => array(
+					'type' => 'string',
+					'default' => '#333',
+				),
+      			'headingBottomSpacing' => array(
+					'type' => 'number',
+				),
+      			'headingBottomSpacingMobile' => array(
+					'type' => 'number',
+				),
+      			'headingBottomSpacingTablet' => array(
+					'type' => 'number',
+				),
+      			'authorBottomSpacing' => array(
+					'type' => 'number',
+				),
+      			'authorBottomSpacingMobile' => array(
+					'type' => 'number',
+				),
+      			'authorBottomSpacingTablet' => array(
+					'type' => 'number',
+				),
+      			'contentBottomSpacing' => array(
+					'type' => 'number',
+				),
+      			'contentBottomSpacingMobile' => array(
+					'type' => 'number',
+				),
+      			'contentBottomSpacingTablet' => array(
+					'type' => 'number',
+				),     
 			),
 			'render_callback' => 'responsive_block_editor_addons_post_timeline_render_latest_posts',
 		)

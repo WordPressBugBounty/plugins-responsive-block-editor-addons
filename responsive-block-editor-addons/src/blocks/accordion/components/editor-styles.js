@@ -159,6 +159,8 @@ function EditorStyles(props) {
     blockRightPadding,
     blockRightPaddingMobile,
     blockRightPaddingTablet,
+    contentTypographyColor,
+    titleTypographyColor,
   } = props.attributes;
 
   var selectors = {};
@@ -168,7 +170,7 @@ function EditorStyles(props) {
   var icon_active_color = iconActiveColor;
 
   if ("undefined" == typeof iconColor || "" == iconColor) {
-    icon_color = titleTextColor;
+    icon_color = titleTypographyColor;
   }
   if ("undefined" == typeof iconActiveColor || "" == iconActiveColor) {
     icon_active_color = titleTextActiveColor;
@@ -300,7 +302,7 @@ function EditorStyles(props) {
     },
     " .responsive-block-editor-addons-accordion-item .responsive-block-editor-addons-accordion-titles-button.responsive-block-editor-addons-accordion-titles": {
       "flex-direction": iconAlign,
-      "color": titleTextColor,
+      "color": titleTypographyColor,
       "background-color": `${hexToRgba(titleBackgroundColor || "#fff", contentOpacity || 0)}`,
       "padding-top": generateCSSUnit(titleTopSpacing, "px"),
       "padding-bottom": generateCSSUnit(titleBottomSpacing, "px"),
@@ -321,7 +323,7 @@ function EditorStyles(props) {
       "font-weight": titleFontWeight,
     },
     " .responsive-block-editor-addons-accordion-item .responsive-block-editor-addons-accordion-content": {
-      "color": contentTextColor,
+      "color": contentTypographyColor,
       "background-image": contentGradient,
       "font-size": generateCSSUnit(contentFontSize, "px"),
       "font-family": contentFontFamily,

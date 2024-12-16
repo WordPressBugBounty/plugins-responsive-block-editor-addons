@@ -359,6 +359,14 @@ const attributes = {
 		type: "boolean",
 		default: false,
 	},
+  blockIsTypographyColorValueUpdated : {
+    type: "boolean",
+    default: false,
+  },
+  labelTypographyColor : {
+    type: "string",
+    default: "#333",
+  },
 };
 
 export default attributes;

@@ -99,6 +99,7 @@ function EditorStyles(props) {
     bottomPadding, // For compatibility with v1.3.2.
     leftPadding, // For compatibility with v1.3.2.
     rightPadding, // For compatibility with v1.3.2.
+    quoteTypographyColor,
   } = props.attributes;
 
   let quoteopacity = quoteOpacity / 100;
@@ -115,7 +116,7 @@ function EditorStyles(props) {
         backgroundType == "color"
           ? `${hexToRgba(backgroundColor || "#ffffff", imgopacity || 0)}`
           : undefined,
-      color: quoteTextColor,
+      color: quoteTypographyColor,
       "border-color": borderColor !== "empty" && blockBorderColor === "" ? borderColor : blockBorderColor, // For compatibility with v1.3.2.
       "border-style": borderStyle !== "empty" && blockBorderStyle === "none" ? borderStyle : blockBorderStyle, // For compatibility with v1.3.2.
       "border-width": borderWidth !== 999 && blockBorderWidth === 1 ? generateCSSUnit(borderWidth, "px") : generateCSSUnit(blockBorderWidth, "px"), // For compatibility with v1.3.2.

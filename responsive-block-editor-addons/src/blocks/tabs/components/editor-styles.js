@@ -99,6 +99,9 @@ function EditorStyles(props) {
     hideWidget,
     hideWidgetTablet,
     hideWidgetMobile,
+    tabTitleTypographyColor,
+    tabTitleActiveTypographyColor,
+    tabContentTypographyColor,
   } = props.attributes;
 
 
@@ -223,17 +226,17 @@ function EditorStyles(props) {
       "border-color" : tabBorderColor,
     },
     " > .responsive-block-editor-addons-tabs__panel .responsive-block-editor-addons-tab a > p" : {
-			"color": tabTitleColor,
+			"color": tabTitleTypographyColor,
       "font-family": tabTitleFontFamily,
 			"font-weight": tabTitleFontWeight,
 			"font-size": generateCSSUnit( tabTitleFontSize, "px" ),
 			"line-height": generateCSSUnit( tabTitleLineHeight, "px" ),
 		},
     " > .responsive-block-editor-addons-tabs__panel .responsive-block-editor-addons-tab.responsive-block-editor-addons-tabs__active p" : {
-			"color": tabTitleActiveColor ,
+			"color": tabTitleActiveTypographyColor ,
 		},
     " > .responsive-block-editor-addons-tabs__body-wrap > .block-editor-inner-blocks p" : {
-			"color": tabContentColor,
+			"color": tabContentTypographyColor,
       "font-family": tabContentFontFamily,
 			"font-weight": tabContentFontWeight,
 			"font-size": generateCSSUnit( tabContentFontSize, "px" ),

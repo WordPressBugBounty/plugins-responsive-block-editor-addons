@@ -119,6 +119,14 @@ function EditorStyles(props) {
     boxImagePositionMobile,
     boxImagePositionTablet,
     boxImageRepeat,
+    titleTypographyColor,
+    descriptionTypographyColor,
+    descriptionBottomSpacing,
+    descriptionBottomSpacingMobile,
+    descriptionBottomSpacingTablet,
+    titleBottomSpacing,
+    titleBottomSpacingMobile,
+    titleBottomSpacingTablet,
   } = props.attributes;
 
   let imgopacity = opacity / 100;
@@ -281,16 +289,16 @@ function EditorStyles(props) {
       "font-weight": titleFontWeight,
       "font-size": generateCSSUnit(titleFontSize, "px"),
       "line-height": titleLineHeight,
-      color: titleColor,
-      "margin-bottom": generateCSSUnit(titleSpacing, "px"),
+      color: titleTypographyColor,
+      "margin-bottom": generateCSSUnit(titleBottomSpacing, "px"),
     },
     " .wp-block-responsive-block-editor-addons-image-boxes-block-item__description": {
       "font-family": descriptionFontFamily,
       "font-size": generateCSSUnit(descriptionFontSize, "px"),
       "font-weight": descriptionFontWeight,
       "line-height": descriptionLineHeight,
-      color: descriptionColor,
-      "margin-bottom": generateCSSUnit(descriptionSpacing, "px"),
+      color: descriptionTypographyColor,
+      "margin-bottom": generateCSSUnit(descriptionBottomSpacing, "px"),
     },
     " .imagebox-arrow": {
       color: arrowColor,
@@ -316,11 +324,11 @@ function EditorStyles(props) {
     },
     " .wp-block-responsive-block-editor-addons-image-boxes-block-item__title": {
       "font-size": generateCSSUnit(titleFontSizeMobile, "px"),
-      "margin-bottom": generateCSSUnit(titleSpacingMobile, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacingMobile, "px"),
     },
 	" .wp-block-responsive-block-editor-addons-image-boxes-block-item__description": {
 		"font-size": generateCSSUnit(descriptionFontSizeMobile, "px"),
-    "margin-bottom": generateCSSUnit(descriptionSpacingMobile, "px"),
+    "margin-bottom": generateCSSUnit(descriptionBottomSpacingMobile, "px"),
 	},
   };
 
@@ -342,11 +350,11 @@ function EditorStyles(props) {
     },
     " .wp-block-responsive-block-editor-addons-image-boxes-block-item__title": {
       "font-size": generateCSSUnit(titleFontSizeTablet, "px"),
-      "margin-bottom": generateCSSUnit(titleSpacingTablet, "px"),
+      "margin-bottom": generateCSSUnit(titleBottomSpacingTablet, "px"),
     },
 	" .wp-block-responsive-block-editor-addons-image-boxes-block-item__description": {
 		"font-size": generateCSSUnit(descriptionFontSizeTablet, "px"),
-    	"margin-bottom": generateCSSUnit(descriptionSpacingTablet, "px"),
+    	"margin-bottom": generateCSSUnit(descriptionBottomSpacingTablet, "px"),
 	},
   };
 

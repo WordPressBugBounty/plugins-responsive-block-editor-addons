@@ -173,7 +173,6 @@ function EditorStyles(props) {
   imageSizeTab,
   backgroundSizeTablet,
   backgroundSizeMobile,
-  blockIsTypographyColorValueUpdated,
   contentTypographyColor,
   titleTypographyColor,
   nameTypographyColor

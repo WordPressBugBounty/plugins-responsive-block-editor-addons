@@ -666,5 +666,15 @@ const attributes = {
     type: "number",
     default: '',
   },
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  titleTypographyColor: {
+    type: 'string',
+  },
+  descTypographyColor: {
+    type: 'string',
+  },
 };
 export default attributes;

@@ -5,7 +5,7 @@ Tags: block, blocks, block editor, page builder, gutenberg templates
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 1.9.7
+Stable tag: 1.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -235,6 +235,15 @@ This is how you can easily install the Responsive Gutenberg Blocks plugin on you
 8. Gutenberg Starter Templates
 
 == Changelog ==
+
+= 1.9.8 - 16th December 2024 =
+* Improvement - Improved UI for Typography controls across all blocks.
+* Improvement - Improved UI for Box Shadow controls across all blocks.
+* Improvement - Improved UI for Alignment controls across blocks.
+* Improvement - Improved UI for Color controls across all blocks.
+* Improvement - Improved UI for Select controls in Call/mail Buttons.
+* Improvement - Improved UI for Select controls in Advanced Columns.
+* Fix - Fixed minor bugs.
 
 = 1.9.7 - 6th December 2024 =
 * Improvement - Improved UI for Typography controls in Testimonial block.

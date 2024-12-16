@@ -808,5 +808,48 @@ const attributes = {
     type: "string",
     default: "desktop",
   },
+  blockIsTypographyColorValueUpdated: {
+    type: 'boolean',
+    default: false,
+  },
+  headingTypographyColor: {
+    type: 'string',
+  },
+  headingBottomSpacing: {
+    type: 'number',
+    default: 8,
+  },
+  headingBottomSpacingMobile: {
+    type: 'number',
+    default: 8,
+  },
+  headingBottomSpacingTablet: {
+    type: 'number',
+    default: 8,
+  },
+  subBottomSpacing: {
+    type: 'number',
+    default: 16,
+  },
+  subBottomSpacingMobile: {
+    type: 'number',
+    default: 16,
+  },
+  subBottomSpacingTablet: {
+    type: 'number',
+    default: 16,
+  },
+  contentBottomSpacing: {
+    type: 'number',
+    default: 16,
+  },
+  contentBottomSpacingMobile: {
+    type: 'number',
+    default: 16,
+  },
+  contentBottomSpacingTablet: {
+    type: 'number',
+    default: 16,
+  },
 };
 export default attributes;

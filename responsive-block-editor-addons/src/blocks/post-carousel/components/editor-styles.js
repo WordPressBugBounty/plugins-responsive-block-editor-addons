@@ -133,6 +133,9 @@ function EditorStyles(props) {
     blockRightPadding,
     blockRightPaddingMobile,
     blockRightPaddingTablet,
+    excerptTypographyColor,
+    titleTypographyColor,
+    metaTypographyColor,
   } = props.attributes;
 
   var slickButtonStyles = {
@@ -192,13 +195,13 @@ function EditorStyles(props) {
       "font-size": generateCSSUnit(titleFontSize, "px"),
     },
     " .responsive-block-editor-addons-block-post-carousel-title a": {
-      color: titleColor,
+      color: titleTypographyColor,
       "line-height": titleLineHeight,
       "font-family": titleFontFamily,
       "font-weight": titleFontWeight,
     },
     " .responsive-block-editor-addons-block-post-carousel-byline": {
-      color: metaColor,
+      color: metaTypographyColor,
       "font-family": metaFontFamily,
       "font-weight": metaFontWeight,
       "line-height": metaLineHeight,
@@ -206,16 +209,16 @@ function EditorStyles(props) {
       "margin-bottom": generateCSSUnit(dateSpace, "px"),
     },
     " .responsive-block-editor-addons-block-post-carousel-date": {
-      color: metaColor,
+      color: metaTypographyColor,
     },
     " .responsive-block-editor-addons-block-post-carousel-author a": {
-      color: metaColor,
+      color: metaTypographyColor,
     },
     " .responsive-block-editor-addons-block-post-carousel-taxonomy a": {
-      color: metaColor,
+      color: metaTypographyColor,
     },
     " .responsive-block-editor-addons-block-post-carousel-excerpt": {
-      color: contentColor,
+      color: excerptTypographyColor,
       "text-align": blockAlign,
       "font-family": excerptFontFamily,
       "font-weight": excerptFontWeight,

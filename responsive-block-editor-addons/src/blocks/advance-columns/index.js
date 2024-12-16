@@ -317,7 +317,7 @@ registerBlockType("responsive-block-editor-addons/advance-columns", {
     },
     height: {
       type: "string",
-      default: "normal",
+      default: "",
     },
     customHeight: {
       type: "number",

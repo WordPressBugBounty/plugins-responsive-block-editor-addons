@@ -648,6 +648,16 @@ const attributes = {
     type: "number",
     default: '',
   },
+  blockIsTypographyColorValueUpdated : {
+    type: 'boolean',
+    default: false,
+  },
+  layoverHeadingTypographyColor : {
+    type: 'string',
+  },
+  captionTypographyColor : {
+    type: 'string',
+  },
 };
 
 export default attributes;

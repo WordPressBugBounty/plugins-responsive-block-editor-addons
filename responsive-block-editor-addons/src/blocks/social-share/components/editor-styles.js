@@ -82,6 +82,7 @@ function EditorStyles(props) {
     hideWidget,
     hideWidgetTablet,
     hideWidgetMobile,
+    labelTypographyColor,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -182,7 +183,7 @@ function EditorStyles(props) {
       "font-weight": labelFontWeight,
       "line-height": labelLineHeight,
       "margin-left": generateCSSUnit(iconLabelGap, "px"),
-      color: labelColor,
+      color: labelTypographyColor,
     },
     " .responsive-block-editor-addons-icon-facebook, .responsive-block-editor-addons-icon-facebook-f, .responsive-block-editor-addons-icon-facebook-square, .responsive-block-editor-addons-icon-facebook-messenger": {
       fill: "#3b5998",

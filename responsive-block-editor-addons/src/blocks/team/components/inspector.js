@@ -277,6 +277,19 @@ export default class Inspector extends Component {
         blockRightPaddingTablet,
         blockIsMarginControlConnected,
         blockIsPaddingControlConnected,
+        blockIsTypographyColorValueUpdated,
+        titleTypographyColor,
+        descriptionTypographyColor,
+        designationTypographyColor,
+        designationBottomSpacing,
+        designationBottomSpacingMobile,
+        designationBottomSpacingTablet,
+        descriptionBottomSpacing,
+        descriptionBottomSpacingMobile,
+        descriptionBottomSpacingTablet,
+        titleBottomSpacing,
+        titleBottomSpacingMobile,
+        titleBottomSpacingTablet,
       },
       setAttributes,
     } = this.props;
@@ -466,6 +479,29 @@ export default class Inspector extends Component {
         }
       )
       this.props.setAttributes({iconIsRadiusValueUpdated: true});
+    }
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          descriptionTypographyColor:          descriptionColor !== undefined ? descriptionColor : descriptionTypographyColor,
+          titleTypographyColor:         titleColor !== undefined ? titleColor : titleTypographyColor,
+          designationTypographyColor:         designationColor !== undefined ? designationColor : designationTypographyColor,
+          descriptionBottomSpacing: descriptionSpacing !== undefined ? descriptionSpacing : descriptionBottomSpacing,
+          descriptionBottomSpacingMobile: descriptionSpacingMobile !== undefined ? descriptionSpacingMobile : descriptionBottomSpacingMobile,
+          descriptionBottomSpacingTablet: descriptionSpacingTablet !== undefined ? descriptionSpacingTablet : descriptionBottomSpacingTablet,
+
+          designationBottomSpacing: designationSpacing !== undefined ? designationSpacing : designationBottomSpacing,
+          designationBottomSpacingMobile: designationSpacingMobile !== undefined ? designationSpacingMobile : designationBottomSpacingMobile,
+          designationBottomSpacingTablet: designationSpacingTablet !== undefined ? designationSpacingTablet : designationBottomSpacingTablet,
+
+          titleBottomSpacing: titleSpacing !== undefined ? titleSpacing : titleBottomSpacing,
+          titleBottomSpacingMobile: titleSpacingMobile !== undefined ? titleSpacingMobile : titleBottomSpacingMobile,
+          titleBottomSpacingTablet: titleSpacingTablet !== undefined ? titleSpacingTablet : titleBottomSpacingTablet,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
     }
 
     return (
@@ -830,10 +866,6 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
               <TypographyHelperControl
                 title={__("Title Typography", "responsive-block-editor-addons")}
                 attrNameTemplate="title%s"
@@ -844,9 +876,15 @@ export default class Inspector extends Component {
                   sizeTablet: titleFontSizeTablet,
                   weight: titleFontWeight,
                   height: titleLineHeight,
+                  color: titleTypographyColor,
+                  bottomSpacing: titleBottomSpacing,
+                  bottomSpacingMoible: titleBottomSpacingMobile,
+                  bottomSpacingTablet: titleBottomSpacingTablet,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
+                showTextBottomSpacing={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -863,9 +901,15 @@ export default class Inspector extends Component {
                   sizeTablet: designationFontSizeTablet,
                   weight: designationFontWeight,
                   height: designationLineHeight,
+                  color: designationTypographyColor,
+                  bottomSpacing: designationBottomSpacing,
+                  bottomSpacingMoible: designationBottomSpacingMobile,
+                  bottomSpacingTablet: designationBottomSpacingTablet,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showTextBottomSpacing={true}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -882,14 +926,18 @@ export default class Inspector extends Component {
                   sizeTablet: descriptionFontSizeTablet,
                   weight: descriptionFontWeight,
                   height: descriptionLineHeight,
+                  color: descriptionTypographyColor,
+                  bottomSpacing: descriptionBottomSpacing,
+                  bottomSpacingMoible: descriptionBottomSpacingMobile,
+                  bottomSpacingTablet: descriptionBottomSpacingTablet,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showTextBottomSpacing={true}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
-            </PanelBody>
-
             <PanelBody
               title={__("Color Settings", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -901,30 +949,6 @@ export default class Inspector extends Component {
 										setAttributes({ borderColor: colorValue })
 									}
 									resetColor={() => setAttributes({ borderColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Title Color", "responsive-block-editor-addons")}
-									colorValue={titleColor}
-									onChange={(colorValue) =>
-										setAttributes({ titleColor: colorValue })
-									}
-									resetColor={() => setAttributes({ titleColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Designation Color", "responsive-block-editor-addons")}
-									colorValue={designationColor}
-									onChange={(colorValue) =>
-										setAttributes({ designationColor: colorValue })
-									}
-									resetColor={() => setAttributes({ designationColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Description Color", "responsive-block-editor-addons")}
-									colorValue={descriptionColor}
-									onChange={(colorValue) =>
-										setAttributes({ descriptionColor: colorValue })
-									}
-									resetColor={() => setAttributes({ descriptionColor: "" })}
 								/>
             </PanelBody>
                         <PanelBody
@@ -939,39 +963,6 @@ export default class Inspector extends Component {
               <ResponsiveNewMarginControl
                 attrNameTemplate="block%s"
                 resetValues={blockMarginResetValues}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Title Bottom Spacing"}
-                attrNameTemplate="titleSpacing%s"
-                values={{
-                  desktop: titleSpacing,
-                  tablet: titleSpacingTablet,
-                  mobile: titleSpacingMobile,
-                }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Designation Bottom Spacing"}
-                attrNameTemplate="designationSpacing%s"
-                values={{
-                  desktop: designationSpacing,
-                  tablet: designationSpacingTablet,
-                  mobile: designationSpacingMobile,
-                }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Description Bottom Spacing"}
-                attrNameTemplate="descriptionSpacing%s"
-                values={{
-                  desktop: descriptionSpacing,
-                  tablet: descriptionSpacingTablet,
-                  mobile: descriptionSpacingMobile,
-                }}
-                setAttributes={setAttributes}
                 {...this.props}
               />
               <ResponsiveSpacingControl

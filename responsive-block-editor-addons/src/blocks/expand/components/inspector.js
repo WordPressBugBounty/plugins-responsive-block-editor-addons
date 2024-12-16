@@ -98,6 +98,19 @@ export default class Inspector extends Component {
         blockRightMarginTablet,
         blockIsPaddingControlConnected,
         blockIsMarginControlConnected,
+        blockIsTypographyColorValueUpdated,
+        titleTypographyColor,
+        linkTypographyColor,
+        textTypographyColor,
+        titleBottomSpacing,
+        titleBottomSpacingTablet,
+        titleBottomSpacingMobile,
+        textBottomSpacing,
+        textBottomSpacingTablet,
+        textBottomSpacingMobile,
+        linkBottomSpacing,
+        linkBottomSpacingTablet,
+        linkBottomSpacingMobile,
 			},
 			setAttributes,
 		} = this.props;
@@ -174,6 +187,27 @@ export default class Inspector extends Component {
     const onChangeLinkColor = (value) => setAttributes({ linkColor: value });
     const onChangeTitleColor = (value) => setAttributes({ titleColor: value });
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          textTypographyColor:textColor !== undefined ? textColor : textTypographyColor,
+          titleTypographyColor:titleColor !== undefined ? titleColor : titleTypographyColor,
+          linkTypographyColor:linkColor !== undefined ? linkColor : linkTypographyColor,
+          titleBottomSpacing:titleSpace !== undefined ? titleSpace : titleBottomSpacing,
+          titleBottomSpacingTablet:titleSpaceTablet !== undefined ? titleSpaceTablet : titleBottomSpacingTablet,
+          titleBottomSpacingMobile:titleSpaceMobile !== undefined ? titleSpaceMobile : titleBottomSpacingMobile,
+          textBottomSpacing:textSpace !== undefined ? textSpace : textBottomSpacing,
+          textBottomSpacingTablet:textSpaceTablet !== undefined ? textSpaceTablet : textBottomSpacingTablet,
+          textBottomSpacingMobile:textSpaceMobile !== undefined ? textSpaceMobile : textBottomSpacingMobile,
+          linkBottomSpacing:linkSpace !== undefined ? linkSpace : linkBottomSpacing,
+          linkBottomSpacingTablet:linkSpaceTablet !== undefined ? linkSpaceTablet : linkBottomSpacingTablet,
+          linkBottomSpacingMobile:linkSpaceMobile !== undefined ? linkSpaceMobile : linkBottomSpacingMobile,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -194,10 +228,6 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-		  	<PanelBody
-				title={__("Typography", "responsive-block-editor-addons")}
-				initialOpen={false}
-			>
 				{showTitle && (
 					<TypographyHelperControl
 						title={__("Title Typography", "responsive-block-editor-addons")} 
@@ -209,8 +239,14 @@ export default class Inspector extends Component {
 						sizeTablet: titleFontSizeTablet, 
 						weight: titleFontWeight, 
 						height: titleLineHeight,
+            color: titleTypographyColor,
+            bottomSpacing: titleBottomSpacing,
+            bottomSpacingTablet: titleBottomSpacingTablet,
+            bottomSpacingMobile: titleBottomSpacingMobile,
 						}}
 						showLetterSpacing = { false }
+            showColorControl={true}
+            showTextBottomSpacing={true}
 						showTextTransform = { false }
 						setAttributes={ setAttributes }
 						{...this.props}            
@@ -226,9 +262,15 @@ export default class Inspector extends Component {
 						sizeTablet: textFontSizeTablet, 
 						weight: textFontWeight, 
 						height: textLineHeight,
+            color: textTypographyColor,
+            bottomSpacing: textBottomSpacing,
+            bottomSpacingTablet: textBottomSpacingTablet,
+            bottomSpacingMobile: textBottomSpacingMobile,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { false }
+          showColorControl={true}
+          showTextBottomSpacing={true}
 					setAttributes={ setAttributes }
 					{...this.props}            
 				/>
@@ -242,42 +284,18 @@ export default class Inspector extends Component {
 						sizeTablet: linkFontSizeTablet, 
 						weight: linkFontWeight, 
 						height: linkLineHeight,
+            color: linkTypographyColor,
+            bottomSpacing: linkBottomSpacing,
+            bottomSpacingTablet: linkBottomSpacingTablet,
+            bottomSpacingMobile: linkBottomSpacingMobile,
 					}}
 					showLetterSpacing = { false }
 					showTextTransform = { false }
+          showTextBottomSpacing={true}
+          showColorControl={true}
 					setAttributes={ setAttributes }
 					{...this.props}            
 				/>
-			</PanelBody>
-            <PanelBody
-              title={__("Color Setting", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-               <RbeaColorControl
-									label = {__("Text Color", "responsive-block-editor-addons")}
-									colorValue={textColor}
-									onChange={(colorValue) =>
-										setAttributes({ textColor: colorValue })
-									}
-									resetColor={() => setAttributes({ textColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Link Color", "responsive-block-editor-addons")}
-									colorValue={linkColor}
-									onChange={(colorValue) =>
-										setAttributes({ linkColor: colorValue })
-									}
-									resetColor={() => setAttributes({ linkColor: "" })}
-								/>
-               <RbeaColorControl
-									label = {__("Title Color", "responsive-block-editor-addons")}
-									colorValue={titleColor}
-									onChange={(colorValue) =>
-										setAttributes({ titleColor: colorValue })
-									}
-									resetColor={() => setAttributes({ titleColor: "" })}
-								/>
-            </PanelBody>
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -290,39 +308,6 @@ export default class Inspector extends Component {
               <ResponsiveNewMarginControl 
                 attrNameTemplate="block%s"
                 resetValues={blockMarginResetValues}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Title - Margin Bottom"}
-                attrNameTemplate="titleSpace%s"
-                values={{
-                  desktop: titleSpace,
-                  tablet: titleSpaceTablet,
-                  mobile: titleSpaceMobile,
-                }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Text - Margin Bottom"}
-                attrNameTemplate="textSpace%s"
-                values={{
-                  desktop: textSpace,
-                  tablet: textSpaceTablet,
-                  mobile: textSpaceMobile,
-                }}
-                setAttributes={setAttributes}
-                {...this.props}
-              />
-              <ResponsiveSpacingControl
-                title={"Link - Margin Bottom"}
-                attrNameTemplate="linkSpace%s"
-                values={{
-                  desktop: linkSpace,
-                  tablet: linkSpaceTablet,
-                  mobile: linkSpaceMobile,
-                }}
-                setAttributes={setAttributes}
                 {...this.props}
               />
             </PanelBody>

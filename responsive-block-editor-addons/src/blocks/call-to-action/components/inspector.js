@@ -201,6 +201,14 @@ export default class Inspector extends Component {
       z_indexTablet,
       blockIsPaddingControlConnected,
       blockIsMarginControlConnected,
+      blockIsTypographyColorValueUpdated,
+      ctaTitleTypographyColor,
+      ctaTitleBottomSpacing,
+      ctaTitleBottomSpacingMobile,
+      ctaTitleBottomSpacingTablet,
+      ctaTextBottomSpacing,
+      ctaTextBottomSpacingMobile,
+      ctaTextBottomSpacingTablet,
     } = this.props.attributes;
     const { setAttributes } = this.props;
 
@@ -420,6 +428,22 @@ export default class Inspector extends Component {
       )
     }
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          ctaTitleTypographyColor:          ctaTextColor !== undefined ? ctaTextColor : ctaTitleTypographyColor,
+          ctaTitleBottomSpacing: titleSpace !== undefined ? titleSpace : ctaTitleBottomSpacing,
+          ctaTitleBottomSpacingMobile: titleSpaceMobile !== undefined ? titleSpaceMobile : ctaTitleBottomSpacingMobile,
+          ctaTitleBottomSpacingTablet: titleSpaceTablet !== undefined ? titleSpaceTablet : ctaTitleBottomSpacingTablet,
+          ctaTextBottomSpacing: subtitleSpace !== undefined ? subtitleSpace : ctaTextBottomSpacing,
+          ctaTextBottomSpacingMobile: subtitleSpaceMobile !== undefined ? subtitleSpaceMobile : ctaTextBottomSpacingMobile,
+          ctaTextBottomSpacingTablet: subtitleSpaceTablet !== undefined ? subtitleSpaceTablet : ctaTextBottomSpacingTablet,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -460,10 +484,7 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-			<PanelBody
-				title={__("Typography Options", "responsive-block-editor-addons")}
-				initialOpen={false}
-			>
+			
 				<TypographyHelperControl
 					title={__("Title Typography", "responsive-block-editor-addons")}
 					attrNameTemplate="ctaTitle%s"
@@ -474,9 +495,15 @@ export default class Inspector extends Component {
 						sizeTablet: ctaTitleFontSizeTablet,
 						weight: ctaTitleFontWeight,
 						height: ctaTitleLineHeight,
+            color: ctaTitleTypographyColor,
+            bottomSpacing: ctaTitleBottomSpacing,
+            bottomSpacingMoible: ctaTitleBottomSpacingMobile,
+            bottomSpacingTablet: ctaTitleBottomSpacingTablet,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showColorControl={true}
+          showTextBottomSpacing={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -490,9 +517,13 @@ export default class Inspector extends Component {
 						sizeTablet: ctaTextFontSizeTablet,
 						weight: ctaTextFontWeight,
 						height: ctaTextLineHeight,
+            bottomSpacing: ctaTextBottomSpacing,
+            bottomSpacingMoible: ctaTextBottomSpacingMobile,
+            bottomSpacingTablet: ctaTextBottomSpacingTablet,
 					}}
 					showLetterSpacing={false}
 					showTextTransform={false}
+          showTextBottomSpacing={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -835,15 +866,6 @@ export default class Inspector extends Component {
 						/>
 					</PanelBody>
 				)}
-         <RbeaColorControl
-					label = {__("Text Color", "responsive-block-editor-addons")}
-					colorValue={ctaTextColor}
-					onChange={(colorValue) =>
-						setAttributes({ ctaTextColor: colorValue })
-					}
-					resetColor={() => setAttributes({ ctaTextColor: "" })}
-				/>
-            </PanelBody>
             <PanelBody
               title={__("Background", "responsive-block-editor-addons")}
               initialOpen={false}

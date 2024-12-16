@@ -112,6 +112,9 @@ function EditorStyles(props) {
     blockRightMargin,
     blockRightMarginMobile,
     blockRightMarginTablet,
+    contentTypographyColor,
+    headingTypographyColor,
+    dateTypographyColor,
   } = props.attributes;
 
   let imgopacity = opacity / 100;
@@ -170,7 +173,7 @@ function EditorStyles(props) {
       "margin-bottom": generateCSSUnit(iconSpacing, "px"),
     },
     " .responsive-count-item__title": {
-      color: titleColor,
+      color: headingTypographyColor,
       "line-height": headingLineHeight,
       "font-size": generateCSSUnit(headingFontSize, "px"),
 	    "font-weight": titleFontWeight !== "empty" && headingFontWeight === "900" ? titleFontWeight : headingFontWeight, //For compatibility with v1.3.2
@@ -178,7 +181,7 @@ function EditorStyles(props) {
       "margin-bottom": generateCSSUnit(titleSpace, "px"),
     },
     ".responsive-count__inner .responsive-count-item__price-wrapper .responsive-count-item__amount": {
-      color: numColor,
+      color: dateTypographyColor,
       "line-height": dateLineHeight,
       "font-weight": dateFontWeight,
       "font-size": generateCSSUnit(dateFontSize, "px"),
@@ -186,7 +189,7 @@ function EditorStyles(props) {
       "margin-bottom": generateCSSUnit(numSpace, "px"),
     },
     " .responsive-count-item__features": {
-      color: textColor,
+      color: contentTypographyColor,
       "line-height": contentLineHeight,
       "font-weight": contentFontWeight,
       "font-size": `${contentFontSize}px`,

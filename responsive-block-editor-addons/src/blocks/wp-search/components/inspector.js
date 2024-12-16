@@ -204,6 +204,9 @@ export default class Inspector extends Component {
         blockRightPaddingTablet,
         blockIsMarginControlConnected,
         blockIsPaddingControlConnected,
+        blockIsTypographyColorValueUpdated,
+        inputTypographyColor,
+        buttonTypographyColor,
       },
       setAttributes,
     } = this.props;
@@ -274,6 +277,39 @@ export default class Inspector extends Component {
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
     }
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          inputTypographyColor:          inputTextColor !== undefined ? inputTextColor : inputTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
+    // Border Color Component For Color&Hover Typography Control
+		const typographyColorControl = (
+      <RbeaColorControl
+        label = {__("Text Color", "responsive-block-editor-addons")}
+        colorValue={buttonTextColor}
+        onChange={(colorValue) => setAttributes({ buttonTextColor: colorValue })}
+        resetColor={() => setAttributes({ buttonTextColor: "" })}
+      />
+		);
+
+		const typographyColorControlHover = (
+			<RbeaColorControl
+        label = {__("Text Hover Color", "responsive-block-editor-addons")}
+        colorValue={buttonTextHoverColor}
+        onChange={(colorValue) => setAttributes({ buttonTextHoverColor: colorValue })}
+        resetColor={() => setAttributes({ buttonTextHoverColor: "" })}
+      />
+		);
+
+    const emptyColorControl = (
+			<div className="responsive-block-editor-addons-empty-color-control"></div>
+		);
+
     return (
       <InspectorControls key="inspector">
         <InspectorTabs>
@@ -343,12 +379,6 @@ export default class Inspector extends Component {
                 initialOpen={false}
               >
                 <RbeaColorControl
-                  label = {__("Text Color", "responsive-block-editor-addons")}
-                  colorValue={inputTextColor}
-                  onChange={(colorValue) => setAttributes({ inputTextColor: colorValue })}
-                  resetColor={() => setAttributes({ inputTextColor: "" })}
-                />
-                <RbeaColorControl
                   label = {__("Background Color", "responsive-block-editor-addons")}
                   colorValue={inputBackgroundColor}
                   onChange={(colorValue) => setAttributes({ inputBackgroundColor: colorValue })}
@@ -364,7 +394,12 @@ export default class Inspector extends Component {
                     setAttributes={setAttributes}
                     {...this.props}
                   />
-                  <BoxShadowControl
+                </PanelBody>
+                <PanelBody
+                  title={__("Box Shadow", "responsive-block-editor-addons")}
+                  initialOpen={false}
+                >
+                <BoxShadowControl
                     setAttributes={setAttributes}
                     label={__("Box Shadow", "responsive-block-editor-addons")}
                     boxShadowColor={{ value: boxShadowColor, label: __("Color", "responsive-block-editor-addons") }}
@@ -400,16 +435,17 @@ export default class Inspector extends Component {
                     {...this.props}
                   />
                 </PanelBody>
-                <TypographyHelperControl
+              </PanelBody>
+              <TypographyHelperControl
                   title={__("Input Typography", "responsive-block-editor-addons")}
                   attrNameTemplate="input%s"
-                  values = {{family: inputFontFamily, size: inputFontSize, sizeMobile: inputFontSizeMobile, sizeTablet: inputFontSizeTablet, weight: inputFontWeight, height: inputLineHeight}}
+                  values = {{family: inputFontFamily, size: inputFontSize, sizeMobile: inputFontSizeMobile, sizeTablet: inputFontSizeTablet, weight: inputFontWeight, height: inputLineHeight, color: inputTypographyColor,}}
                   showLetterSpacing = { false }
                   showTextTransform = { false }
+                  showColorControl={true}
                   setAttributes={ setAttributes }
                   {...this.props}
-                />
-              </PanelBody>
+              />
               {
                 "minimal" === layout && (
                   <PanelBody
@@ -456,15 +492,6 @@ export default class Inspector extends Component {
                                 value={buttonText}
                                 onChange={(value) => setAttributes({buttonText: value})}
                               />
-                              <TypographyHelperControl
-                                title={__("Typography", "responsive-block-editor-addons")}
-                                attrNameTemplate="button%s"
-                                values = {{family: buttonFontFamily, size: buttonFontSize, sizeMobile: buttonFontSizeMobile, sizeTablet: buttonFontSizeTablet, weight: buttonFontWeight, height: buttonLineHeight}}
-                                showLetterSpacing = { false }
-                                showTextTransform = { false }
-                                setAttributes={ setAttributes }
-                                {...this.props}
-                              />
                             </Fragment>
                           )
                         }
@@ -487,24 +514,6 @@ export default class Inspector extends Component {
                           onChange={(colorValue) => setAttributes({ buttonBackgroundHoverColor: colorValue })}
                           resetColor={() => setAttributes({ buttonBackgroundHoverColor: "" })}
                         />
-                        {
-                          "text" === buttonType && (
-                            <Fragment>
-                              <RbeaColorControl
-                                label = {__("Text Color", "responsive-block-editor-addons")}
-                                colorValue={buttonTextColor}
-                                onChange={(colorValue) => setAttributes({ buttonTextColor: colorValue })}
-                                resetColor={() => setAttributes({ buttonTextColor: "" })}
-                              />
-                              <RbeaColorControl
-                                label = {__("Text Hover Color", "responsive-block-editor-addons")}
-                                colorValue={buttonTextHoverColor}
-                                onChange={(colorValue) => setAttributes({ buttonTextHoverColor: colorValue })}
-                                resetColor={() => setAttributes({ buttonTextHoverColor: "" })}
-                              />
-                            </Fragment>
-                          )
-                        }
                       </PanelBody>
                       {
                         "button" == buttonType && (
@@ -537,6 +546,22 @@ export default class Inspector extends Component {
                     </Fragment>
                 )
               }
+              {("classic" === layout && "text" === buttonType) && (
+                <TypographyHelperControl
+                  title={__("Text Typography", "responsive-block-editor-addons")}
+                  attrNameTemplate="button%s"
+                  values = {{family: buttonFontFamily, size: buttonFontSize, sizeMobile: buttonFontSizeMobile, sizeTablet: buttonFontSizeTablet, weight: buttonFontWeight, height: buttonLineHeight,
+                    typographyColorControl: typographyColorControl,
+										typographyColorControlHover: typographyColorControlHover,
+										emptyColorControl: emptyColorControl,
+                  }}
+                  showLetterSpacing = { false }
+                  showTextTransform = { false }
+                  showColorWithHoverControlTab={true}
+                  setAttributes={ setAttributes }
+                  {...this.props}
+                />
+              )}
               <PanelBody title={__("Spacing", "responsive-block-editor-addons")} initialOpen={false}>
                 <ResponsiveNewPaddingControl
                   attrNameTemplate="block%s"

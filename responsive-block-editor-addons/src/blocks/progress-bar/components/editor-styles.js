@@ -150,6 +150,15 @@ function EditorStyles(props) {
 		blockRightPadding,
 		blockRightPaddingMobile,
 		blockRightPaddingTablet,
+		topTitleValueTypographyColor,
+		innerTitleValueTypographyColor,
+		bottomTitleValueTypographyColor,
+		circularTopTitleValueTypographyColor,
+		circularInnerValueTypographyColor,
+		circularBottomTitleValueTypographyColor,
+		semiCircularTopTitleValueTypographyColor,
+		semiCircularInnerValueTypographyColor,
+		semiCircularBottomTitleValueTypographyColor,
 	} = props.attributes;
 
 	let circleRadiusVal = 0;
@@ -267,7 +276,7 @@ function EditorStyles(props) {
 			"background-image": trackStripeColor,
 		},
 		" .responsive-horizontal-progress-bar-top-title": {
-			"color": horizontalProgressBarTopTitleValueColor,
+			"color": topTitleValueTypographyColor,
 			"font-family": topTitleValueFontFamily,
 			"font-size": generateCSSUnit(topTitleValueFontSize, "px"),
 			"font-weight": topTitleValueFontWeight,
@@ -276,7 +285,7 @@ function EditorStyles(props) {
 			"text-transform": topTitleValueTextTransform,
 		},
 		" .responsive-horizontal-progress-bar-top-value": {
-			"color": horizontalProgressBarTopTitleValueColor,
+			"color": topTitleValueTypographyColor,
 			"font-family": topTitleValueFontFamily,
 			"font-size": generateCSSUnit(topTitleValueFontSize, "px"),
 			"font-weight": topTitleValueFontWeight,
@@ -285,7 +294,7 @@ function EditorStyles(props) {
 			"text-transform": topTitleValueTextTransform,
 		},
 		" .responsive-horizontal-progress-bar-inner-title": {
-			"color": horizontalProgressBarInnerTitleValueColor,
+			"color": innerTitleValueTypographyColor,
 			"font-family": innerTitleValueFontFamily,
 			"font-size": generateCSSUnit(innerTitleValueFontSize, "px"),
 			"line-height": innerTitleValueLineHeight,
@@ -294,7 +303,7 @@ function EditorStyles(props) {
 			"text-transform": innerTitleValueTextTransform,
 		},
 		" .responsive-horizontal-progress-bar-inner-value": {
-			"color": horizontalProgressBarInnerTitleValueColor,
+			"color": innerTitleValueTypographyColor,
 			"font-family": innerTitleValueFontFamily,
 			"font-size": generateCSSUnit(innerTitleValueFontSize, "px"),
 			"line-height": innerTitleValueLineHeight,
@@ -303,7 +312,7 @@ function EditorStyles(props) {
 			"text-transform": innerTitleValueTextTransform,
 		},
 		" .responsive-horizontal-progress-bar-bottom-title": {
-			"color": horizontalProgressBarBottomTitleValueColor,
+			"color": bottomTitleValueTypographyColor,
 			"font-family": bottomTitleValueFontFamily,
 			"font-size": generateCSSUnit(bottomTitleValueFontSize, "px"),
 			"line-height": bottomTitleValueLineHeight,
@@ -312,7 +321,7 @@ function EditorStyles(props) {
 			"text-transform": bottomTitleValueTextTransform,
 		},
 		" .responsive-horizontal-progress-bar-bottom-value": {
-			"color": horizontalProgressBarBottomTitleValueColor,
+			"color": bottomTitleValueTypographyColor,
 			"font-family": bottomTitleValueFontFamily,
 			"font-size": generateCSSUnit(bottomTitleValueFontSize, "px"),
 			"line-height": bottomTitleValueLineHeight,
@@ -321,7 +330,7 @@ function EditorStyles(props) {
 			"text-transform": bottomTitleValueTextTransform,
 		},
 		" .responsive-circular-progress-bar-top-title": {
-			"color": circularProgressBarTopTitleValueColor,
+			"color": circularTopTitleValueTypographyColor,
 			"font-family": circularTopTitleValueFontFamily,
 			"font-size": generateCSSUnit(circularTopTitleValueFontSize, "px"),
 			"line-height": circularTopTitleValueLineHeight,
@@ -330,7 +339,7 @@ function EditorStyles(props) {
 			"text-transform": circularTopTitleValueTextTransform,
 		},
 		" .responsive-circular-progress-bar-top-value": {
-			"color": circularProgressBarTopTitleValueColor,
+			"color": circularTopTitleValueTypographyColor,
 			"font-family": circularTopTitleValueFontFamily,
 			"font-size": generateCSSUnit(circularTopTitleValueFontSize, "px"),
 			"line-height": circularTopTitleValueLineHeight,
@@ -339,7 +348,7 @@ function EditorStyles(props) {
 			"text-transform": circularTopTitleValueTextTransform,
 		},
 		" .responsive-circular-progress-bar-progress": {
-			"color": circularProgressBarInnerValueColor,
+			"color": circularInnerValueTypographyColor,
 			"font-family": circularInnerValueFontFamily,
 			"font-size": generateCSSUnit(circularInnerValueFontSize, "px"),
 			"line-height": circularInnerValueLineHeight,
@@ -355,7 +364,7 @@ function EditorStyles(props) {
 			"width": generateCSSUnit(circularProgressBarSize-40, "px"),
 		},
 		" .responsive-circular-progress-bar-bottom-title": {
-			"color": circularProgressBarBottomTitleValueColor,
+			"color": circularBottomTitleValueTypographyColor,
 			"font-family": circularBottomTitleValueFontFamily,
 			"font-size": generateCSSUnit(circularBottomTitleValueFontSize, "px"),
 			"line-height": circularBottomTitleValueLineHeight,
@@ -364,7 +373,7 @@ function EditorStyles(props) {
 			"text-transform": circularBottomTitleValueTextTransform,
 		},
 		" .responsive-circular-progress-bar-bottom-value": {
-			"color": circularProgressBarBottomTitleValueColor,
+			"color": circularBottomTitleValueTypographyColor,
 			"font-family": circularBottomTitleValueFontFamily,
 			"font-size": generateCSSUnit(circularBottomTitleValueFontSize, "px"),
 			"line-height": circularBottomTitleValueLineHeight,
@@ -373,7 +382,7 @@ function EditorStyles(props) {
 			"text-transform": circularBottomTitleValueTextTransform,
 		},
 		" .responsive-semi-circular-progress-bar-top-title": {
-			"color": semiCircularProgressBarTopTitleValueColor,
+			"color": semiCircularTopTitleValueTypographyColor,
 			"font-family": semiCircularTopTitleValueFontFamily,
 			"font-size": generateCSSUnit(semiCircularTopTitleValueFontSize, "px"),
 			"line-height": semiCircularTopTitleValueLineHeight,
@@ -382,7 +391,7 @@ function EditorStyles(props) {
 			"text-transform": semiCircularTopTitleValueTextTransform,
 		},
 		" .responsive-semi-circular-progress-bar-top-value": {
-			"color": semiCircularProgressBarTopTitleValueColor,
+			"color": semiCircularTopTitleValueTypographyColor,
 			"font-family": semiCircularTopTitleValueFontFamily,
 			"font-size": generateCSSUnit(semiCircularTopTitleValueFontSize, "px"),
 			"line-height": semiCircularTopTitleValueLineHeight,
@@ -391,7 +400,7 @@ function EditorStyles(props) {
 			"text-transform": semiCircularTopTitleValueTextTransform,
 		},
 		" .responsive-semi-circular-progress-bar-value": {
-			"color": semiCircularProgressBarInnerValueColor,
+			"color": semiCircularInnerValueTypographyColor,
 			"font-family": semiCircularInnerValueFontFamily,
 			"font-size": generateCSSUnit(semiCircularInnerValueFontSize, "px"),
 			"line-height": semiCircularInnerValueLineHeight,
@@ -400,7 +409,7 @@ function EditorStyles(props) {
 			"text-transform": semiCircularInnerValueTextTransform,
 		},
 		" .responsive-semi-circular-progress-bar-bottom-title": {
-			"color": semiCircularProgressBarBottomTitleValueColor,
+			"color": semiCircularBottomTitleValueTypographyColor,
 			"font-family": semiCircularBottomTitleValueFontFamily,
 			"font-size": generateCSSUnit(semiCircularBottomTitleValueFontSize, "px"),
 			"line-height": semiCircularBottomTitleValueLineHeight,
@@ -409,7 +418,7 @@ function EditorStyles(props) {
 			"text-transform": semiCircularBottomTitleValueTextTransform,
 		},
 		" .responsive-semi-circular-progress-bar-bottom-value": {
-			"color": semiCircularProgressBarBottomTitleValueColor,
+			"color": semiCircularBottomTitleValueTypographyColor,
 			"font-family": semiCircularBottomTitleValueFontFamily,
 			"font-size": generateCSSUnit(semiCircularBottomTitleValueFontSize, "px"),
 			"line-height": semiCircularBottomTitleValueLineHeight,

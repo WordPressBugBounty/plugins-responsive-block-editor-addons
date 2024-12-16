@@ -27,8 +27,8 @@ class AuthorName extends React.Component {
           placeholder={__("Author Name", "responsive-block-editor-addons")}
           className="responsive-block-editor-addons-tm__author-name"
           style={{
-            color: attributes.authorColor,
-            marginBottom: attributes.nameSpace,
+            color: attributes.nameTypographyColor,
+            marginBottom: attributes.nameBottomSpacing,
             fontFamily: attributes.nameFontFamily,
             fontWeight: attributes.nameFontWeight,
             lineHeight: attributes.nameLineHeight,
@@ -66,8 +66,8 @@ class AuthorName extends React.Component {
           value={author_name}
           className="responsive-block-editor-addons-tm__author-name"
           style={{
-            color: attributes.authorColor,
-            marginBottom: attributes.nameSpace,
+            color: attributes.nameTypographyColor,
+            marginBottom: attributes.nameBottomSpacing,
             fontFamily: attributes.nameFontFamily,
             fontWeight: attributes.nameFontWeight,
             lineHeight: attributes.nameLineHeight,

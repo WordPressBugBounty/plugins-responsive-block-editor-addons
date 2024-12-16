@@ -250,6 +250,10 @@ export default class Inspector extends Component {
       blockRightPaddingMobile,
       blockRightPaddingTablet,
       blockIsPaddingControlConnected,
+      blockIsTypographyColorValueUpdated,
+      excerptTypographyColor,
+      titleTypographyColor,
+      metaTypographyColor,
     } = attributes;
 
     const blockMarginResetValues = {
@@ -436,6 +440,18 @@ export default class Inspector extends Component {
         }
       )
       this.props.setAttributes({arrowIsRadiusValueUpdated: true});
+    }
+
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          excerptTypographyColor:          contentColor !== undefined ? contentColor : excerptTypographyColor,
+          titleTypographyColor:         titleColor !== undefined ? titleColor : titleTypographyColor,
+          metaTypographyColor:         metaColor !== undefined ? metaColor : metaTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
     }
 
     return (
@@ -861,11 +877,7 @@ export default class Inspector extends Component {
             </PanelBody>
           </InspectorTab>
           <InspectorTab key={"style"}>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <TypographyHelperControl
+          <TypographyHelperControl
                 title={__("Title Typography", "responsive-block-editor-addons")}
                 attrNameTemplate="title%s"
                 values={{
@@ -875,9 +887,11 @@ export default class Inspector extends Component {
                   sizeTablet: titleFontSizeTablet,
                   weight: titleFontWeight,
                   height: titleLineHeight,
+                  color: titleTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -891,9 +905,11 @@ export default class Inspector extends Component {
                   sizeTablet: metaFontSizeTablet,
                   weight: metaFontWeight,
                   height: metaLineHeight,
+                  color: metaTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -910,9 +926,11 @@ export default class Inspector extends Component {
                   sizeTablet: excerptFontSizeTablet,
                   weight: excerptFontWeight,
                   height: excerptLineHeight,
+                  color: excerptTypographyColor,
                 }}
                 showLetterSpacing={false}
                 showTextTransform={false}
+                showColorControl={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -932,7 +950,6 @@ export default class Inspector extends Component {
                 setAttributes={setAttributes}
                 {...this.props}
               />
-            </PanelBody>
             <PanelBody
               title={__("Color Settings", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -942,24 +959,6 @@ export default class Inspector extends Component {
                 colorValue={attributes.bgColor}
                 onChange={(colorValue) => this.props.setAttributes({ bgColor: colorValue })}
                 resetColor={() => this.props.setAttributes({ bgColorMe: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Title Color", "responsive-block-editor-addons")}
-                colorValue={titleColor}
-                onChange={(colorValue) => this.props.setAttributes({ titleColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ titleColor: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Content Color", "responsive-block-editor-addons")}
-                colorValue={contentColor}
-                onChange={(colorValue) => this.props.setAttributes({ contentColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ contentColor: "" })}
-              />
-              <RbeaColorControl
-                label = {__("Meta Color", "responsive-block-editor-addons")}
-                colorValue={metaColor}
-                onChange={(colorValue) => this.props.setAttributes({ metaColor: colorValue })}
-                resetColor={() => this.props.setAttributes({ metaColor: "" })}
               />
               <RbeaColorControl
                 label = {__("Arrow & Dots Color", "responsive-block-editor-addons")}

@@ -442,5 +442,21 @@ const attributes = {
     type: "number",
     default: '',
   },
+  blockIsTypographyColorValueUpdated: {
+    type: "boolean",
+    default: false,
+  },
+  contentTypographyColor: {
+    type: "string",
+    default: '',
+  },
+  headingTypographyColor: {
+    type: "string",
+    default: '',
+  },
+  dateTypographyColor: {
+    type: "string",
+    default: '',
+  }
 };
 export default attributes;

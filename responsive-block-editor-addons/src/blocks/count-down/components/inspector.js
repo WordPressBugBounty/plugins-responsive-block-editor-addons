@@ -211,6 +211,9 @@ export default class Inspector extends Component {
         containerIsPaddingControlConnected,
         containerIsMarginControlConnected,
         boxIsPaddingControlConnected,
+        blockIsTypographyColorValueUpdated,
+        labelTypographyColor,
+        digitTypographyColor,
       },
       setAttributes,
     } = this.props;
@@ -365,6 +368,17 @@ export default class Inspector extends Component {
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
     }
 
+    // backward compatibility for typography color control
+    if (!blockIsTypographyColorValueUpdated) {
+      this.props.setAttributes(
+        {
+          labelTypographyColor:          labelColor !== undefined ? labelColor : labelTypographyColor,
+          digitTypographyColor:         digitColor !== undefined ? digitColor : digitTypographyColor,
+        }
+      )
+      this.props.setAttributes({blockIsTypographyColorValueUpdated: true});
+    }
+
     return (
       <InspectorControls key="controls">
         <InspectorTabs>
@@ -392,23 +406,25 @@ export default class Inspector extends Component {
               title={__("Display", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <BaseControl>
-                <BaseControl.VisualLabel>
-                  {__("Text Alignment", "responsive-block-editor-addons")}
-                </BaseControl.VisualLabel>
-                <br></br>
-                <br></br>
-                <AlignmentToolbar
-                  value={boxItemTextAlign}
-                  onChange={(value) =>
-                    setAttributes({
-                      boxItemTextAlign: value,
-                    })
-                  }
-                  controls={["left", "center", "right"]}
-                  isCollapsed={false}
-                />
-              </BaseControl>
+              <Fragment>
+                <BaseControl>
+                  <p>
+                    {__("Text Alignment", "responsive-block-editor-addons")}
+                  </p>
+                  <div className="responsive-block-editor-addons-alignment">
+                    <AlignmentToolbar
+                      value={boxItemTextAlign}
+                      onChange={(value) =>
+                        setAttributes({
+                          boxItemTextAlign: value,
+                        })
+                      }
+                      controls={["left", "center", "right"]}
+                      isCollapsed={false}
+                    />
+                  </div>
+                </BaseControl>
+              </Fragment>
               <ToggleControl
                 label={__("Inline", "responsive-block-editor-addons")}
                 checked={displayInline}
@@ -525,6 +541,46 @@ export default class Inspector extends Component {
                 resetValues={boxPaddingResetValues}
                 {...this.props}
               />
+            </PanelBody>
+            
+              <TypographyHelperControl
+                title={__("Digit Typography", "responsive-block-editor-addons")}
+                attrNameTemplate="digit%s"
+                values = {{
+                family: digitFontFamily,
+                size: digitFontSize,
+                sizeMobile: digitFontSizeMobile,
+                sizeTablet: digitFontSizeTablet,
+                weight: digitFontWeight,
+                height: digitLineHeight,
+                spacing: digitLetterSpacing,
+                color: digitTypographyColor,
+                }}
+                showLetterSpacing = { true }
+                showTextTransform = { false }
+                showColorControl={true}
+                setAttributes={ setAttributes }
+                {...this.props}
+              />
+              <TypographyHelperControl
+                title={__("Label Typography", "responsive-block-editor-addons")}
+                attrNameTemplate="label%s"
+                values = {{
+                family: labelFontFamily,
+                size: labelFontSize,
+                sizeMobile: labelFontSizeMobile,
+                sizeTablet: labelFontSizeTablet,
+                weight: labelFontWeight,
+                height: labelLineHeight,
+                spacing: labelLetterSpacing,
+                color: labelTypographyColor,
+                }}
+                showLetterSpacing = { true }
+                showTextTransform = { false }
+                showColorControl={true}
+                setAttributes={ setAttributes }
+                {...this.props}
+              />
               <PanelBody
                 title={__("Border", "responsive-block-editor-addons")}
                 initialOpen={false}
@@ -596,62 +652,6 @@ export default class Inspector extends Component {
                   }}
                 />
               </PanelBody>
-                  <RbeaColorControl
-                    label = {__("Digit Color", "responsive-block-editor-addons")}
-                    colorValue={digitColor}
-                    onChange={(colorValue) =>
-                      setAttributes({ digitColor: colorValue })
-                    }
-                    resetColor={() => setAttributes({ digitColor: "" })}
-                  />
-                  <RbeaColorControl
-                    label = {__("Label Color", "responsive-block-editor-addons")}
-                    colorValue={labelColor}
-                    onChange={(colorValue) =>
-                      setAttributes({ labelColor: colorValue })
-                    }
-                    resetColor={() => setAttributes({ labelColor: "" })}
-                  />
-            </PanelBody>
-            <PanelBody
-              title={__("Typography", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <TypographyHelperControl
-                title={__("Digit Typography", "responsive-block-editor-addons")}
-                attrNameTemplate="digit%s"
-                values = {{
-                family: digitFontFamily,
-                size: digitFontSize,
-                sizeMobile: digitFontSizeMobile,
-                sizeTablet: digitFontSizeTablet,
-                weight: digitFontWeight,
-                height: digitLineHeight,
-                spacing: digitLetterSpacing
-                }}
-                showLetterSpacing = { true }
-                showTextTransform = { false }
-                setAttributes={ setAttributes }
-                {...this.props}
-              />
-              <TypographyHelperControl
-                title={__("Label Typography", "responsive-block-editor-addons")}
-                attrNameTemplate="label%s"
-                values = {{
-                family: labelFontFamily,
-                size: labelFontSize,
-                sizeMobile: labelFontSizeMobile,
-                sizeTablet: labelFontSizeTablet,
-                weight: labelFontWeight,
-                height: labelLineHeight,
-                spacing: labelLetterSpacing
-                }}
-                showLetterSpacing = { true }
-                showTextTransform = { false }
-                setAttributes={ setAttributes }
-                {...this.props}
-              />
-            </PanelBody>
             <PanelBody
               title={__("Container Spacing", "responsive-block-editor-addons")}
               initialOpen={false}

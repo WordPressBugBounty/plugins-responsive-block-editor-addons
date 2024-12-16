@@ -157,7 +157,7 @@ function responsive_block_editor_addons_render_block_core_latest_posts_portfolio
 		wp_reset_postdata();
 
 		/* Build the block classes */
-		$class = "block-id-{$attributes['block_id']} responsive-block-editor-addons-block-portfolio featured{$attributes['postType']} }";
+		$class = "block-id-{$attributes['block_id']} responsive-block-editor-addons-block-portfolio featured{$attributes['postType']}";
 
 		if ( isset( $attributes['className'] ) ) {
 			$class .= ' ' . $attributes['className'];
@@ -190,21 +190,13 @@ function responsive_block_editor_addons_render_block_core_latest_posts_portfolio
 			$section_title = null;
 		}
 
-		/* portfolio section tag */
-		if ( isset( $attributes['sectionTag'] ) ) {
-			$section_tag = $attributes['sectionTag'];
-		} else {
-			$section_tag = 'section';
-		}
-
 		$main_class = new Responsive_Block_Editor_Addons();
 
 		$paginations_markup = '';
 
 		/* Output the post markup */
 		$block_content = sprintf(
-			'<%1$s class="%2$s">%3$s<div class="%4$s">%5$s</div>%6$s</%1$s>',
-			$section_tag,
+			'<section class="%1$s">%2$s<div class="%3$s">%4$s</div>%5$s</section>',
 			esc_attr( $class ),
 			$section_title,
 			esc_attr( $grid_class ),
@@ -604,6 +596,14 @@ function responsive_block_editor_addons_register_block_core_latest_posts_portfol
 				'blockIsRadiusValueUpdated'           => array(
 					'type'    => 'boolean',
 					'default' => 'false',
+				),
+				'blockIsTypographyColorValueUpdated' => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+      			'overlayTextTypographyColor' => array(
+					'type'    => 'string',
+					'default' => '#fff',
 				),
 			),
 			'render_callback' => 'responsive_block_editor_addons_render_block_core_latest_posts_portfolio',

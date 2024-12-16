@@ -158,6 +158,13 @@ function EditorStyles(props) {
 	headingFontWeight, // For compatibility with v1.3.2.
 	contentLineHeight, // For compatibility with v1.3.2.
 	contentFontWeight, // For compatibility with v1.3.2.
+  ctaTitleTypographyColor,
+  ctaTitleBottomSpacing,
+  ctaTitleBottomSpacingMobile,
+  ctaTitleBottomSpacingTablet,
+  ctaTextBottomSpacing,
+  ctaTextBottomSpacingMobile,
+  ctaTextBottomSpacingTablet,
   } = props.attributes;
 
   let updatedButtonBackgroundColor = "";
@@ -283,21 +290,21 @@ function EditorStyles(props) {
     },
 
     " .responsive-block-editor-addons-cta-title": {
-      "color": ctaTextColor,
+      "color": ctaTitleTypographyColor,
       "line-height": headingLineHeight !== 999 && ctaTitleLineHeight === 1.8 ? headingLineHeight : ctaTitleLineHeight, // For compatibility with v1.3.2.
       "font-family": ctaTitleFontFamily,
       "font-weight": headingFontWeight !== 'empty' && ctaTitleFontWeight === "400" ? headingFontWeight : ctaTitleFontWeight, // For compatibility with v1.3.2.
-      "margin-bottom": generateCSSUnit(titleSpace, "px"),
+      "margin-bottom": generateCSSUnit(ctaTitleBottomSpacing, "px"),
       "font-size": generateCSSUnit(ctaTitleFontSize, "px"),
     },
 
     " .responsive-block-editor-addons-cta-text": {
-      "color": ctaTextColor,
+      "color": ctaTitleTypographyColor,
       "font-size": generateCSSUnit(ctaTextFontSize, "px"),
       "font-family": ctaTextFontFamily,
       "line-height": contentLineHeight !== 999 && ctaTextLineHeight === 1.75 ? contentLineHeight : ctaTextLineHeight, // For compatibility with v1.3.2
       "font-weight": contentFontWeight !== 'empty' && ctaTextFontWeight === "400" ? contentFontWeight : ctaTextFontWeight, // For compatibility with v1.3.2.
-      "margin-bottom": generateCSSUnit(subtitleSpace, "px"),
+      "margin-bottom": generateCSSUnit(ctaTextBottomSpacing, "px"),
     },
 
     " .responsive-block-editor-addons-cta-button-wrapper": {
@@ -333,7 +340,7 @@ function EditorStyles(props) {
 
   var mobile_selectors = {
     " h2.responsive-block-editor-addons-cta-title": {
-      "margin-bottom": generateCSSUnit(titleSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(ctaTitleBottomSpacingMobile, "px"),
       "font-size": generateCSSUnit(ctaTitleFontSizeMobile, "px") + "!important",
     },
     "": {
@@ -352,7 +359,7 @@ function EditorStyles(props) {
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusMobile, "px"),
     },
     " .responsive-block-editor-addons-cta-text": {
-      "margin-bottom": generateCSSUnit(subtitleSpaceMobile, "px"),
+      "margin-bottom": generateCSSUnit(ctaTextBottomSpacingMobile, "px"),
       "font-size": generateCSSUnit(ctaTextFontSizeMobile, "px") + "!important",
     },
     " .responsive-block-editor-addons-cta-button-wrapper": {
@@ -382,7 +389,7 @@ function EditorStyles(props) {
 
   var tablet_selectors = {
     " h2.responsive-block-editor-addons-cta-title": {
-      "margin-bottom": generateCSSUnit(titleSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(ctaTitleBottomSpacingTablet, "px"),
       "font-size": generateCSSUnit(ctaTitleFontSizeTablet, "px"),
     },
     "": {
@@ -401,7 +408,7 @@ function EditorStyles(props) {
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusTablet, "px"),
     },
     " .responsive-block-editor-addons-cta-text": {
-      "margin-bottom": generateCSSUnit(subtitleSpaceTablet, "px"),
+      "margin-bottom": generateCSSUnit(ctaTextBottomSpacingTablet, "px"),
       "font-size": generateCSSUnit(ctaTextFontSizeTablet, "px"),
     },
     " .responsive-block-editor-addons-cta-button-wrapper": {

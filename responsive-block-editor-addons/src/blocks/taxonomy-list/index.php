@@ -524,6 +524,18 @@ function responsive_block_editor_addons_register_taxonomy_list() {
 					'type'    => 'number',
 					'default' => 0,
 				),
+				'blockIsTypographyColorValueUpdated' => array(
+					'type'	=> 'boolean',
+					'default' => false,
+				),
+      			'countTypographyColor' => array(
+					'type'	=> 'string',
+					'default' => '#777777',
+				),
+      			'titleTypographyColor' => array(
+					'type'	=> 'string',
+					'default' => '#3b3b3b',
+				),
 			),
 			'render_callback' => 'responsive_block_editor_addons_render_taxonomy_list',
 		)
@@ -563,7 +575,7 @@ function responsive_block_editor_addons_render_taxonomy_list( $attributes ) {
 	} else {
 		?>
 			<div class="reponsive-block-editor-addons-taxonomy-list-no-taxonomy-available">
-				<?php echo esc_attr( $attributes['noTaxDisplaytext'] ); ?>
+				<?php echo esc_html( $attributes['noTaxDisplaytext'] ); ?>
 				</div>
 			<?php
 	}
@@ -627,7 +639,7 @@ function responsive_block_editor_addons_render_grid_layout( $attributes ) {
 	} else {
 		?>
 				<div class="reponsive-block-editor-addons-taxonomy-list-no-taxonomy-available">
-				<?php echo esc_attr( $attributes['noTaxDisplaytext'] ); ?>
+				<?php echo esc_html( $attributes['noTaxDisplaytext'] ); ?>
 				</div>
 			<?php
 	}
@@ -702,7 +714,7 @@ function responsive_block_editor_addons_render_list_layout( $attributes ) {
 	} else {
 		?>
 				<div class="reponsive-block-editor-addons-taxonomy-list-no-taxonomy-available">
-					<?php echo esc_attr( $attributes['noTaxDisplaytext'] ); ?>
+					<?php echo esc_html( $attributes['noTaxDisplaytext'] ); ?>
 				</div>
 			<?php
 	}

@@ -98,6 +98,9 @@ function EditorStyles(props) {
     blockRightMargin,
     blockRightMarginMobile,
     blockRightMarginTablet,
+    contentTypographyColor,
+    headingTypographyColor,
+    dateTypographyColor
   } = props.attributes;
 
   var border_with_color = "13px solid" + backgroundColor;
@@ -195,7 +198,7 @@ function EditorStyles(props) {
     },
 
     " .responsive-timeline__inner-date-new": {
-      color: dateColor,
+      color: dateTypographyColor,
       "line-height": dateLineHeight,
       "font-weight": dateFontWeight,
       "font-size": generateCSSUnit(dateFontSize, "px"),
@@ -203,7 +206,7 @@ function EditorStyles(props) {
     },
 
     " .responsive-timeline__heading": {
-      color: headingColor,
+      color: headingTypographyColor,
       "line-height": headingLineHeight,
       "font-weight": headingFontWeight,
       "font-size": generateCSSUnit(headingFontSize, "px"),
@@ -212,7 +215,7 @@ function EditorStyles(props) {
     },
 
     " .responsive-timeline-desc-content": {
-      color: contentColor,
+      color: contentTypographyColor,
       "line-height": contentLineHeight,
       "font-weight": contentFontWeight,
       "font-size": generateCSSUnit(contentFontSize, "px"),
@@ -220,7 +223,7 @@ function EditorStyles(props) {
     },
 
     " .responsive-timeline__date-new": {
-      color: dateColor,
+      color: dateTypographyColor,
       "line-height": dateLineHeight,
       "font-weight": dateFontWeight,
       "font-size": generateCSSUnit(dateFontSize, "px"),

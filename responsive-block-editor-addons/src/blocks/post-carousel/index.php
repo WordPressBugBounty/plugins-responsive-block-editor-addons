@@ -1273,6 +1273,22 @@ function responsive_block_editor_addons_register_block_core_latest_posts2() {
 					'type'    => 'number',
 					'default' => '',
 				),
+				'blockIsTypographyColorValueUpdated' => array(
+					'type' => 'boolean',
+					'default' => false,
+				),
+      			'excerptTypographyColor' => array(
+					'type' => 'string',
+					'default' => '#333333',
+				),
+      			'titleTypographyColor' => array(
+					'type' => 'string',
+					'default' => '#333333',
+				),
+      			'metaTypographyColor' => array(
+					'type' => 'string',
+					'default' => '#333333',
+				),
 			),
 			'render_callback' => 'responsive_block_editor_addons_render_block_core_latest_posts2',
 		)
