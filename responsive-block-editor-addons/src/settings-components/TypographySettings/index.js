@@ -22,6 +22,12 @@ const { SelectControl, RangeControl, PanelBody, Dashicon, TabPanel } = wp.compon
 const { Component, Fragment } = wp.element;
 import "./editor.scss";
 
+// Add the 'Default' option at the beginning of the font options
+const updatedFontOptions = [
+    { label: __("Default", "responsive-block-editor-addons"), value: 'Default' },
+    ...fontOptions,
+];
+
 const TypographyHelperControl = (props) => {
     const getAttrName = attrName => camelCase(sprintf(props.attrNameTemplate, attrName));
     var advancedControls;
@@ -158,7 +164,7 @@ class TypographyControl extends Component {
                     )}
                     <SelectControl
                         label={__("Font Family", "responsive-block-editor-addons")}
-                        options={fontOptions}
+                        options={updatedFontOptions}
                         value={this.props.values.family}
                         onChange={this.props.onChangeFontFamily}
                     />

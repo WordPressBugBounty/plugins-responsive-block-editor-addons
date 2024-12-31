@@ -89,6 +89,7 @@ export default class Edit extends Component {
     }
 
     return [
+      <style id={`responsive-block-editor-addons-form-input-style-${this.props.clientId}-inner`}>{EditorStyles(this.props)}</style>,
       <BlockControls key="controls">
       </BlockControls>,
       // Show the block controls on focus
