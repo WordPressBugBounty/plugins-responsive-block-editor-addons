@@ -11,9 +11,8 @@ class Company extends React.Component {
     const test_arr = attributes.test_block[index_value];
     let company = "";
     if (test_arr && typeof test_arr !== "undefined") {
-      company = test_arr["company"];
-      if (Array.isArray(company)) {
-        company = company[0];
+      if(test_arr["company"] !== "") {
+        company = test_arr["company"];
       }
     }
 
@@ -26,7 +25,7 @@ class Company extends React.Component {
           value={company}
           className="responsive-block-editor-addons-tm__company"
           style={{
-            color: attributes.companyTypographyColor,
+            color: attributes.companyColor,
             fontFamily: attributes.companyFontFamily,
             fontWeight: attributes.companyFontWeight,
             lineHeight: attributes.companyLineHeight,
@@ -42,7 +41,6 @@ class Company extends React.Component {
             data_copy[index_value] = new_content;
             setAttributes({ test_block: data_copy });
           }}
-          multiline={false}
           placeholder={__("Company Name", "responsive-block-editor-addons")}
           onMerge={props.mergeBlocks}
           onSplit={
@@ -66,7 +64,7 @@ class Company extends React.Component {
           value={company}
           className="responsive-block-editor-addons-tm__company"
           style={{
-            color: attributes.companyTypographyColor,
+            color: attributes.companyColor,
             fontFamily: attributes.companyFontFamily,
             fontWeight: attributes.companyFontWeight,
             lineHeight: attributes.companyLineHeight,
