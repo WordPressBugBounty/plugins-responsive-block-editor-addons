@@ -59,9 +59,9 @@ class Responsive_Block_Editor_Addons {
 		'responsive-block-editor-addons/advanced-heading',
 		'responsive-block-editor-addons/advanced-text',
 		'responsive-block-editor-addons/image',
-		'responsive-block-editor-addons/multi-buttons',
-		'responsive-block-editor-addons/multi-buttons/buttons-child',
-		'responsive-block-editor-addons/call-to-action',
+		'responsive-block-editor-addons/buttons',
+		'responsive-block-editor-addons/buttons/buttons-child',
+		'responsive-block-editor-addons/responsive-block-editor-addons-cta',
 		'responsive-block-editor-addons/blockquote',
 		'responsive-block-editor-addons/divider',
 		'responsive-block-editor-addons/info-block',
@@ -80,7 +80,7 @@ class Responsive_Block_Editor_Addons {
 		'responsive-block-editor-addons/post-grid',
 		'responsive-block-editor-addons/post-carousel',
 		'responsive-block-editor-addons/post-timeline',
-		'responsive-block-editor-addons/image-boxes',
+		'responsive-block-editor-addons/image-boxes-block',
 		'responsive-block-editor-addons/shape-divider',
 		'responsive-block-editor-addons/accordion',
 		'responsive-block-editor-addons/accordion/accordion-item',
@@ -97,7 +97,7 @@ class Responsive_Block_Editor_Addons {
 		'responsive-block-editor-addons/portfolio',
 		'responsive-block-editor-addons/anchor',
 		'responsive-block-editor-addons/call-mail-button',
-		'responsive-block-editor-addons/social-share',
+		'responsive-block-editor-addons/social-icons',
 		'responsive-block-editor-addons/tabs',
 		'responsive-block-editor-addons/tabs/tabs-child',
 		'responsive-block-editor-addons/taxonomy-list',
@@ -1731,22 +1731,26 @@ class Responsive_Block_Editor_Addons {
 	 * @since 2.0.7
 	 */
 	public function responsive_block_editor_addons_allow_blocks_in_editor( $allowed_block_types, $editor_context ) {
-		if ( ! $editor_context->post ) {
+		if(is_plugin_active("ionos-essentials/ionos-essentials.php")){
+			if ( ! $editor_context->post ) {
+				return $allowed_block_types;
+			}
+		
+			// If $allowed_block_types is false or not an array, reinitialize it.
+			if ( ! is_array( $allowed_block_types ) ) {
+				$allowed_block_types = array_keys( WP_Block_Type_Registry::get_instance()->get_all_registered() );
+			}
+		
+			// Merge your blocks into the allowed list if not present
+			foreach ( $this->responsive_block_editor_addons_blocks as $block ) {
+				if ( ! in_array( $block, $allowed_block_types, true ) ) {
+					$allowed_block_types[] = $block;
+				}
+			}
+		
 			return $allowed_block_types;
 		}
-	
-		// If $allowed_block_types is false or not an array, reinitialize it.
-		if ( ! is_array( $allowed_block_types ) ) {
-			$allowed_block_types = array_keys( WP_Block_Type_Registry::get_instance()->get_all_registered() );
-		}
-	
-		// Merge your blocks into the allowed list if not present
-		foreach ( $this->responsive_block_editor_addons_blocks as $block ) {
-			if ( ! in_array( $block, $allowed_block_types, true ) ) {
-				$allowed_block_types[] = $block;
-			}
-		}
-	
 		return $allowed_block_types;
+		
 	}
 }
