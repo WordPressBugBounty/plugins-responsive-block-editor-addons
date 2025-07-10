@@ -18,7 +18,7 @@ import RbeaAngleRangeControl from "../../../utils/components/rbea-angle-range-co
 import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control";
 import RbeaColorControl from "../../../utils/components/rbea-color-control";
 import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
-
+import RbeaSupportControl from "../../../utils/components/rbea-support-control";
 
 
 // Setup the block
@@ -414,80 +414,8 @@ export default class Inspector extends Component {
                   </TabPanel>
                 </Fragment>
               )}
-              <TabPanel
-                  className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin rbea-Z-index-control-tabs"
-                  activeClass="active-tab"
-                  tabs={[
-                    {
-                      name: "desktop",
-                      title: <Dashicon icon="desktop" />,
-                      className:
-                        " responsive-desktop-tab  responsive-responsive-tabs",
-                    },
-                    {
-                      name: "tablet",
-                      title: <Dashicon icon="tablet" />,
-                      className:
-                        " responsive-tablet-tab  responsive-responsive-tabs",
-                    },
-                    {
-                      name: "mobile",
-                      title: <Dashicon icon="smartphone" />,
-                      className:
-                        " responsive-mobile-tab  responsive-responsive-tabs",
-                    },
-                  ]}
-                >
-                  {(tab) => {
-                    let tabout;
-
-                    if ("mobile" === tab.name) {
-                      tabout = (
-                        <RbeaRangeControl
-                        label={__("Z-index", "responsive-block-editor-addons")}
-                        min={-1}
-                        max={99999}
-                        allowReset={true}
-                        resetFallbackValue={1}
-                        value={z_indexMobile}
-                        onChange={(value) =>
-                          setAttributes({ z_indexMobile: value !== undefined ? value : 1 })
-                        }
-                      />
-                      );
-                    } else if ("tablet" === tab.name) {
-                      tabout = (
-                        <RbeaRangeControl
-                        label={__("Z-index", "responsive-block-editor-addons")}
-                        min={-1}
-                        max={99999}
-                        allowReset={true}
-                        resetFallbackValue={1}
-                        value={z_indexTablet}
-                        onChange={(value) =>
-                          setAttributes({ z_indexTablet: value !== undefined ? value : 1 })
-                        }
-                      />
-                      );
-                    } else {
-                      tabout = (
-                        <RbeaRangeControl
-                        label={__("Z-index", "responsive-block-editor-addons")}
-                        min={-1}
-                        max={99999}
-                        allowReset={true}
-                        resetFallbackValue={1}
-                        value={z_index}
-                        onChange={(value) =>
-                          setAttributes({ z_index: value !== undefined ? value : 1 })
-                        }
-                      />
-                      );
-                    }
-
-                    return <div>{tabout}</div>;
-                  }}
-              </TabPanel>
+              
+              <RbeaSupportControl blockSlug={"section"} />
           </InspectorTab>
           <InspectorTab key={"style"}>
           <PanelBody
@@ -975,6 +903,7 @@ export default class Inspector extends Component {
                 {...this.props}
               />
             </PanelBody>
+            <RbeaSupportControl blockSlug={"section"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
             <PanelBody
@@ -1012,6 +941,86 @@ export default class Inspector extends Component {
                 }
               />
             </PanelBody>
+            <PanelBody
+              title={__("Z Index", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+              <TabPanel
+                className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                activeClass="active-tab"
+                tabs={[
+                  {
+                    name: "desktop",
+                    title: <Dashicon icon="desktop" />,
+                    className:
+                      " responsive-desktop-tab  responsive-responsive-tabs",
+                  },
+                  {
+                    name: "tablet",
+                    title: <Dashicon icon="tablet" />,
+                    className:
+                      " responsive-tablet-tab  responsive-responsive-tabs",
+                  },
+                  {
+                    name: "mobile",
+                    title: <Dashicon icon="smartphone" />,
+                    className:
+                      " responsive-mobile-tab  responsive-responsive-tabs",
+                  },
+                ]}
+              >
+                {(tab) => {
+                  let tabout;
+
+                  if ("mobile" === tab.name) {
+                    tabout = (
+                      <RbeaRangeControl
+                        label={__("z-index (Mobile)", "responsive-block-editor-addons")}
+                        min={-1}
+                        max={99999}
+                        allowReset={true}
+                        resetFallbackValue={1}
+                        value={z_indexMobile}
+                        onChange={(value) =>
+                          setAttributes({ z_indexMobile: value !== undefined ? value : 1 })
+                        }
+                      />
+                    );
+                  } else if ("tablet" === tab.name) {
+                    tabout = (
+                      <RbeaRangeControl
+                        label={__("z-index (Tablet)", "responsive-block-editor-addons")}
+                        min={-1}
+                        max={99999}
+                        allowReset={true}
+                        resetFallbackValue={1}
+                        value={z_indexTablet}
+                        onChange={(value) =>
+                          setAttributes({ z_indexTablet: value !== undefined ? value : 1 })
+                        }
+                      />
+                    );
+                  } else {
+                    tabout = (
+                      <RbeaRangeControl
+                        label={__("z-index ", "responsive-block-editor-addons")}
+                        min={-1}
+                        max={99999}
+                        allowReset={true}
+                        resetFallbackValue={1}
+                        value={z_index}
+                        onChange={(value) =>
+                          setAttributes({ z_index: value !== undefined ? value : 1 })
+                        }
+                      />
+                    );
+                  }
+
+                  return <div>{tabout}</div>;
+                }}
+              </TabPanel>
+            </PanelBody>
+            <RbeaSupportControl blockSlug={"section"} />
           </InspectorTab>
         </InspectorTabs>
       </InspectorControls>
