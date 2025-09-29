@@ -21,6 +21,7 @@ import RbeaBorderStyleTabControl from "../../../utils/components/rbea-border-sty
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl";
 import { RadioControl} from "@wordpress/components";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -688,6 +689,7 @@ export default class Inspector extends Component {
                 label={__("Enable Title", "responsive-block-editor-addons")}
                 checked={showTitle}
                 onChange={(value) => setAttributes({ showTitle: !showTitle })}
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -698,6 +700,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ showDescription: !showDescription })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
 
@@ -735,7 +738,9 @@ export default class Inspector extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Horizontal Alignment",
@@ -760,7 +765,9 @@ export default class Inspector extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Horizontal Alignment",
@@ -785,7 +792,9 @@ export default class Inspector extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__("Horizontal Alignment", "responsive-block-editor-addons")}
                           </p>
@@ -839,7 +848,9 @@ export default class Inspector extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Vertical Alignment",
@@ -864,7 +875,9 @@ export default class Inspector extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Vertical Alignment",
@@ -889,7 +902,9 @@ export default class Inspector extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__("Vertical Alignment", "responsive-block-editor-addons")}
                           </p>
@@ -1226,6 +1241,7 @@ export default class Inspector extends Component {
                     bgGradient: !bgGradient,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {bgGradient && (
                 <PanelBody
@@ -1298,6 +1314,7 @@ export default class Inspector extends Component {
                     hoverBgGradient: !hoverBgGradient,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {hoverBgGradient && (
                 <PanelBody
@@ -1604,6 +1621,7 @@ export default class Inspector extends Component {
                     hasArrow: !hasArrow,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               <PanelBody
                 title={__("Color", "responsive-block-editor-addons")}
@@ -1647,6 +1665,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"image-boxes-block"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
             title={__("Responsive Conditions", "responsive-block-editor-addons")}
             initialOpen={false}
@@ -1660,6 +1681,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1670,6 +1692,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1680,6 +1703,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

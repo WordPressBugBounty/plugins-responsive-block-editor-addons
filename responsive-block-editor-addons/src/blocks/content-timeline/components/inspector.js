@@ -23,6 +23,7 @@ import RbeaColorControl from "../../../utils/components/rbea-color-control";
 import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlockBorderSettings";
 import stackOnIcons from "../../../utils/components/rbea-tab-radio-control/rbea-stack-on-icons";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -421,7 +422,9 @@ export default class Inspector extends Component {
                 step={1}
               />
               <Fragment>
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__("Orientation", "responsive-block-editor-addons")}
                   </p>
@@ -440,7 +443,9 @@ export default class Inspector extends Component {
                 </BaseControl>
               </Fragment>
               <Fragment>
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__("Arrow Alignment", "responsive-block-editor-addons")}
                   </p>
@@ -534,6 +539,7 @@ export default class Inspector extends Component {
                     displayPostDate: !displayPostDate,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {displayPostDate && (
                 <SelectControl
@@ -560,6 +566,8 @@ export default class Inspector extends Component {
                     { value: "F Y", label: dateI18n("F Y",  moment( today, 'MM/DD/YYYY' ).format("YYYY-MM-DD")) },
                     { value: "custom", label: __("Normal Text", "responsive-block-editor-addons") },
                   ]}
+                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize={true}
                 />
               )}
 
@@ -572,6 +580,8 @@ export default class Inspector extends Component {
                       onChange={(value) => {
                         this.saveDate({ title: value }, n);
                       }}
+                      __nextHasNoMarginBottom
+                      __next40pxDefaultSize={true}
                     />
                   </Fragment>
                 ))}
@@ -899,6 +909,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"content-timeline"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -912,6 +925,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -922,6 +936,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -932,6 +947,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

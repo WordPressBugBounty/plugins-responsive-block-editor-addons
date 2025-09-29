@@ -18,6 +18,7 @@ import RbeaColorControl from "../../../utils/components/rbea-color-control";
 import RbeaBorderStyleTabControl from "../../../utils/components/rbea-border-style-tab-control";
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 // Setup the block
 const { __ } = wp.i18n;
 const { Fragment, Component } = wp.element;
@@ -401,6 +402,7 @@ export default class Inspector extends Component {
               <BaseControl
                 id="responsive-block-editor-addons-countdown-due-date"
                 label={__("Due Date", "responsive-block-editor-addons")}
+                __nextHasNoMarginBottom
               >
                 <DateTime
                   value={date}
@@ -418,7 +420,9 @@ export default class Inspector extends Component {
               initialOpen={false}
             >
               <Fragment>
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__("Text Alignment", "responsive-block-editor-addons")}
                   </p>
@@ -442,6 +446,7 @@ export default class Inspector extends Component {
                 onChange={() =>
                   setAttributes({ displayInline: !displayInline })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__("Stack on Mobile", "responsive-block-editor-addons")}
@@ -449,6 +454,7 @@ export default class Inspector extends Component {
                 onChange={() =>
                   setAttributes({ stackOnMobile: !stackOnMobile })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__("Labels", "responsive-block-editor-addons")}
@@ -456,18 +462,21 @@ export default class Inspector extends Component {
                 onChange={() =>
                   setAttributes({ showDigitLabels: !showDigitLabels })
                 }
+                __nextHasNoMarginBottom
               />
 
               <ToggleControl
                 label={__("Days", "responsive-block-editor-addons")}
                 checked={showDaysBox}
                 onChange={() => setAttributes({ showDaysBox: !showDaysBox })}
+                __nextHasNoMarginBottom
               />
 
               <ToggleControl
                 label={__("Hours", "responsive-block-editor-addons")}
                 checked={showHoursBox}
                 onChange={() => setAttributes({ showHoursBox: !showHoursBox })}
+                __nextHasNoMarginBottom
               />
 
               <ToggleControl
@@ -476,6 +485,7 @@ export default class Inspector extends Component {
                 onChange={() =>
                   setAttributes({ showMinutesBox: !showMinutesBox })
                 }
+                __nextHasNoMarginBottom
               />
 
               <ToggleControl
@@ -484,6 +494,7 @@ export default class Inspector extends Component {
                 onChange={() =>
                   setAttributes({ showSecondsBox: !showSecondsBox })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
 
@@ -497,6 +508,8 @@ export default class Inspector extends Component {
                 onChange={(newValue) =>
                   setAttributes({ digitDaysLabel: newValue })
                 }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               <TextControl
                 label={__("Hours", "responsive-block-editor-addons")}
@@ -504,6 +517,8 @@ export default class Inspector extends Component {
                 onChange={(newValue) =>
                   setAttributes({ digitHoursLabel: newValue })
                 }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               <TextControl
                 label={__("Minutes", "responsive-block-editor-addons")}
@@ -511,6 +526,8 @@ export default class Inspector extends Component {
                 onChange={(newValue) =>
                   setAttributes({ digitMinutesLabel: newValue })
                 }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               <TextControl
                 label={__("Seconds", "responsive-block-editor-addons")}
@@ -518,6 +535,8 @@ export default class Inspector extends Component {
                 onChange={(newValue) =>
                   setAttributes({ digitSecondsLabel: newValue })
                 }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
             </PanelBody>
             <RbeaSupportControl blockSlug={"count-down"} />
@@ -713,6 +732,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"count-down"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -726,6 +748,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -736,6 +759,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -746,6 +770,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

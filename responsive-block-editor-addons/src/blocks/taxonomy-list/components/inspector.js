@@ -13,6 +13,7 @@ import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-contro
 import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlockBorderSettings";
 import RbeaSeparatorStyleTabControl from "../../../utils/components/rbea-separator-style-tab-control";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 /**
  * Inspector Controls
  */
@@ -536,6 +537,8 @@ if (!gridIsRadiusValueUpdated) {
                 value={ noTaxDisplaytext }
                 onChange={ ( value ) => setAttributes( { noTaxDisplaytext: value } ) }
                 help={ __( "What to display if taxonomy not found.", "responsive-block-editor-addons" ) }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               <ToggleControl
                 label={__(
@@ -550,6 +553,7 @@ if (!gridIsRadiusValueUpdated) {
                   "Show Empty Taxonomy ",
                   "responsive-block-editor-addons"
                 )}
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__("Show Posts Count", "responsive-block-editor-addons")}
@@ -561,9 +565,12 @@ if (!gridIsRadiusValueUpdated) {
                   "Show Count of taxonomy ",
                   "responsive-block-editor-addons"
                 )}
+                __nextHasNoMarginBottom
               />
               {"grid" == layout && (<Fragment>
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__("Alignment", "responsive-block-editor-addons")}
                   </p>
@@ -996,6 +1003,9 @@ if (!gridIsRadiusValueUpdated) {
             <RbeaSupportControl blockSlug={"taxonomy-list"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1009,6 +1019,7 @@ if (!gridIsRadiusValueUpdated) {
                 onChange={(value) =>
                 setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1019,6 +1030,7 @@ if (!gridIsRadiusValueUpdated) {
                 onChange={(value) =>
                 setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1029,6 +1041,7 @@ if (!gridIsRadiusValueUpdated) {
                 onChange={(value) =>
                 setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

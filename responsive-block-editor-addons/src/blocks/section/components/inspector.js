@@ -19,6 +19,7 @@ import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-
 import RbeaColorControl from "../../../utils/components/rbea-color-control";
 import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 
 
 // Setup the block
@@ -801,6 +802,8 @@ export default class Inspector extends Component {
                                   label: __("Bottom Right", "responsive-block-editor-addons"),
                                 },
                               ]}
+                              __nextHasNoMarginBottom
+                              __next40pxDefaultSize={true}
                             />
                           )}
                         </Fragment>
@@ -938,6 +941,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"section"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -951,6 +957,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -961,6 +968,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -971,6 +979,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
             <PanelBody

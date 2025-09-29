@@ -11,6 +11,7 @@ import RbeaColorControl from "../../../utils/components/rbea-color-control";
 import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-control";
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 /**
  * Inspector Controls
  */
@@ -477,6 +478,7 @@ export default class Inspector extends Component {
                   onChange={(value) =>
                     setAttributes({ equalHeight: !equalHeight })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Featured Image", "responsive-block-editor-addons")}
@@ -497,6 +499,7 @@ export default class Inspector extends Component {
                       displayPostImage: !attributes.displayPostImage,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Post Title", "responsive-block-editor-addons")}
@@ -517,6 +520,7 @@ export default class Inspector extends Component {
                       displayPostTitle: !attributes.displayPostTitle,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Post Author", "responsive-block-editor-addons")}
@@ -537,6 +541,7 @@ export default class Inspector extends Component {
                       displayPostAuthor: !attributes.displayPostAuthor,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Post date", "responsive-block-editor-addons")}
@@ -555,6 +560,7 @@ export default class Inspector extends Component {
                   onChange={() =>
                     setAttributes({ displayPostDate: !displayPostDate })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Post Comments", "responsive-block-editor-addons")}
@@ -573,6 +579,7 @@ export default class Inspector extends Component {
                   onChange={() =>
                     setAttributes({ displayPostComment: !displayPostComment })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Post Taxonomy", "responsive-block-editor-addons")}
@@ -591,6 +598,7 @@ export default class Inspector extends Component {
                   onChange={() =>
                     setAttributes({ displayPostTaxonomy: !displayPostTaxonomy })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Post Excerpt", "responsive-block-editor-addons")}
@@ -609,6 +617,7 @@ export default class Inspector extends Component {
                   onChange={() =>
                     setAttributes({ displayPostExcerpt: !displayPostExcerpt })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__("Post Link", "responsive-block-editor-addons")}
@@ -627,6 +636,7 @@ export default class Inspector extends Component {
                   onChange={() =>
                     setAttributes({ displayPostLink: !displayPostLink })
                   }
+                  __nextHasNoMarginBottom
                 />
                 {attributes.displayPostExcerpt && (
                   <RbeaRangeControl
@@ -749,11 +759,13 @@ export default class Inspector extends Component {
                 label={__("Pause On Hover", "responsive-block-editor-addons")}
                 checked={pauseOnHover}
                 onChange={this.togglePauseOnHover}
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__("Autoplay", "responsive-block-editor-addons")}
                 checked={autoplay}
                 onChange={this.toggleAutoplay}
+                __nextHasNoMarginBottom
               />
               {autoplay == true && (
                 <RbeaRangeControl
@@ -768,6 +780,7 @@ export default class Inspector extends Component {
                 label={__("Infinite Loop", "responsive-block-editor-addons")}
                 checked={infiniteLoop}
                 onChange={this.toggleInfiniteLoop}
+                __nextHasNoMarginBottom
               />
               <RbeaRangeControl
                 label={__("Transition Speed (ms)", "responsive-block-editor-addons")}
@@ -876,6 +889,8 @@ export default class Inspector extends Component {
                     readMoreText: value,
                   })
                 }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               <ButtonSettingsControl
                 {...this.props}
@@ -1088,6 +1103,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"post-carousel"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1101,6 +1119,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1111,6 +1130,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1121,6 +1141,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

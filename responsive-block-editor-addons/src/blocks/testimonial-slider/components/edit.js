@@ -34,7 +34,7 @@ import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-
 import RbeaAngleRangeControl from "../../../utils/components/rbea-angle-range-control";
 import stackOnIcons from "../../../utils/components/rbea-tab-radio-control/rbea-stack-on-icons";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
-
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 
 const { __ } = wp.i18n;
 
@@ -1381,6 +1381,8 @@ class edit extends Component {
                                 label: __("Bottom Right", "responsive-block-editor-addons"),
                               },
                             ]}
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize={true}
                           />
                         )}
                       </Fragment>
@@ -1560,11 +1562,13 @@ class edit extends Component {
           label={__("Pause On Hover", "responsive-block-editor-addons")}
           checked={pauseOnHover}
           onChange={this.togglePauseOnHover}
+          __nextHasNoMarginBottom
         />
         <ToggleControl
           label={__("Autoplay", "responsive-block-editor-addons")}
           checked={autoplay}
           onChange={this.toggleAutoplay}
+          __nextHasNoMarginBottom
         />
         {autoplay == true && (
           <RbeaRangeControl
@@ -1579,6 +1583,7 @@ class edit extends Component {
           label={__("Infinite Loop", "responsive-block-editor-addons")}
           checked={infiniteLoop}
           onChange={this.toggleInfiniteLoop}
+          __nextHasNoMarginBottom
         />
         <RbeaRangeControl
           label={__("Transition Speed (ms)", "responsive-block-editor-addons")}
@@ -1670,7 +1675,9 @@ class edit extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Mobile",
@@ -1695,7 +1702,9 @@ class edit extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Tablet",
@@ -1720,7 +1729,9 @@ class edit extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__("Alignment", "responsive-block-editor-addons")}
                           </p>
@@ -2030,6 +2041,9 @@ class edit extends Component {
             {marginSettings}
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -2043,6 +2057,7 @@ class edit extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -2053,6 +2068,7 @@ class edit extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -2063,6 +2079,7 @@ class edit extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

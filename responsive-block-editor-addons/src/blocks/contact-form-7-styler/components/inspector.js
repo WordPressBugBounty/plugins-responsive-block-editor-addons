@@ -21,6 +21,7 @@ import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl";
 import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlockBorderSettings";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -36,7 +37,7 @@ const {
   PanelColorSettings,
   ColorPalette,
   AlignmentToolbar,
-} = wp.editor;
+} = wp.blockEditor;
 
 // Import Inspector components
 const {
@@ -816,6 +817,8 @@ export default class Inspector extends Component {
 					    value={formId}
               onChange={(newformId)=> this.props.onSelectForm(newformId) }
 					    options={ responsive_globals.cf7_forms }
+              __nextHasNoMarginBottom
+              __next40pxDefaultSize={true}
 				      />
               
               <ToggleControl
@@ -826,6 +829,7 @@ export default class Inspector extends Component {
                     showFormTitle: !showFormTitle,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__("Form Description", "responsive-block-editor-addons")}
@@ -835,6 +839,7 @@ export default class Inspector extends Component {
                     showFormDescription: !showFormDescription,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               
             </PanelBody>            
@@ -853,6 +858,7 @@ export default class Inspector extends Component {
                     showErrorMsgs: !showErrorMsgs,
                   })
                 }
+                __nextHasNoMarginBottom
               />
              
             </PanelBody>
@@ -893,7 +899,9 @@ export default class Inspector extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Mobile",
@@ -918,7 +926,9 @@ export default class Inspector extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Tablet",
@@ -943,7 +953,9 @@ export default class Inspector extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__("Alignment", "responsive-block-editor-addons")}
                           </p>
@@ -1258,7 +1270,9 @@ export default class Inspector extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Mobile",
@@ -1283,7 +1297,9 @@ export default class Inspector extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Tablet",
@@ -1308,7 +1324,9 @@ export default class Inspector extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__("Alignment", "responsive-block-editor-addons")}
                           </p>
@@ -1980,6 +1998,7 @@ export default class Inspector extends Component {
                 label={__("Show Placeholder", "responsive-block-editor-addons")}
                 checked={showPlaceholder}
                 onChange={this.toggleShowPlaceholder}
+                __nextHasNoMarginBottom
               />
               {showPlaceholder == true && (         
               <RbeaColorControl
@@ -2003,6 +2022,7 @@ export default class Inspector extends Component {
                 label={__("Custom Styles", "responsive-block-editor-addons")}
                 checked={enableCustomStyles}
                 onChange={this.toggleEnableCustomStyles}
+                __nextHasNoMarginBottom
               />
               {enableCustomStyles == true && (
                 <PanelBody>
@@ -2132,7 +2152,9 @@ export default class Inspector extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Mobile",
@@ -2157,7 +2179,9 @@ export default class Inspector extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Tablet",
@@ -2182,7 +2206,9 @@ export default class Inspector extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__("Alignment", "responsive-block-editor-addons")}
                           </p>
@@ -2541,6 +2567,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"contact-form-7-styler"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -2554,6 +2583,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -2564,6 +2594,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -2574,6 +2605,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
             <PanelBody

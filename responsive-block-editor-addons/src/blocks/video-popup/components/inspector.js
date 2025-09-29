@@ -15,6 +15,7 @@ import RbeaBorderStyleTabControl from "../../../utils/components/rbea-border-sty
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl/index.js";
 import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control/index.js";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 // Setup the block
 const { __ } = wp.i18n;
 const { select } = wp.data;
@@ -326,6 +327,8 @@ export default class Inspector extends Component {
                     }
                     min={1}
                     max={4}
+                    __nextHasNoMarginBottom
+                    __next40pxDefaultSize={true}
                   />
                 )}
               </PanelBody>
@@ -715,6 +718,9 @@ export default class Inspector extends Component {
               <RbeaSupportControl blockSlug={"video-popup"} />
             </InspectorTab>
             <InspectorTab key={"advance"}>
+
+              <RbeaExtensions {...this.props} />
+
               <PanelBody
                 title={__("Responsive Conditions", "responsive-block-editor-addons")}
                 initialOpen={false}
@@ -728,6 +734,7 @@ export default class Inspector extends Component {
                   onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__(
@@ -738,6 +745,7 @@ export default class Inspector extends Component {
                   onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                   }
+                  __nextHasNoMarginBottom
                 />
                 <ToggleControl
                   label={__(
@@ -748,6 +756,7 @@ export default class Inspector extends Component {
                   onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                   }
+                  __nextHasNoMarginBottom
                 />
               </PanelBody>
             

@@ -3980,14 +3980,14 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'hMargin'                  => 14,
 				'hMarginTablet'            => '',
 				'hMarginMobile'            => '',
-				'borderWidth'              => 1,
-				'borderRadius'             => 2,
-				'borderStyle'              => 'solid',
-				'borderColor'              => '#000',
+				'borderWidth'              => 0,
+				'borderRadius'             => 0,
+				'borderStyle'              => 'none',
+				'borderColor'              => '',
 				'borderHColor'             => '',
-				'color'                    => '#000',
-				'background'               => '',
-				'hColor'                   => '',
+				'color'                    => 'white',
+				'background'               => '#007cba',
+				'hColor'                   => 'white',
 				'sizeType'                 => 'px',
 				'sizeMobile'               => '',
 				'sizeTablet'               => '',
@@ -4028,7 +4028,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'buttonFontWeight'         => '400',
 				'inheritFromTheme'         => false,
 				'hoverEffect'              => '',
-				'backgroundType'           => 'none',
+				'backgroundType'           => 'color',
 				'z_index'                  => 1,
 				'z_indexMobile'            => 1,
 				'z_indexTablet'            => 1,
@@ -15079,7 +15079,9 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 
 						_toggleCollapse: function( e ) {
 							if ( $( this ).find( '.responsive-block-editor-addons-toc__collapsible-wrap' ).length > 0 ) {
-								let $root = $( this ).closest( '.wp-block-responsive-block-editor-addons-table-of-contents' )
+								let $root = $(this).closest(
+  '.responsive-block-editor-addons-block-table-of-contents'
+);
 								if ( $root.hasClass( 'responsive-block-editor-addons-toc__collapse' ) ) {
 									$root.removeClass( 'responsive-block-editor-addons-toc__collapse' );
 								} else {

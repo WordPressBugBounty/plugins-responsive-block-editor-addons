@@ -29,6 +29,7 @@ import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlock
 import { RadioControl} from "@wordpress/components";
 import stackOnIcons from "../../../utils/components/rbea-tab-radio-control/rbea-stack-on-icons";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -650,7 +651,11 @@ export default class Inspector extends Component {
           initialOpen={true}
           className={"rbea-repeater-panel"}
         >
-          <BaseControl className="editor-bg-image-control" label={__("", "responsive-block-editor-addons")}>
+          <BaseControl 
+            className="editor-bg-image-control" 
+            label={__("", "responsive-block-editor-addons")}
+            __nextHasNoMarginBottom
+          >
             <MediaUpload
               title={__("Select Image" + (index + 1), "responsive-block-editor-addons")}
               onSelect={(media) => {
@@ -856,6 +861,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ resshowImage: !resshowImage })
                 }
+                __nextHasNoMarginBottom
               />
               {resshowImage && (
                 <Fragment>
@@ -1687,6 +1693,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"card"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1700,6 +1709,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1710,6 +1720,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1720,6 +1731,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

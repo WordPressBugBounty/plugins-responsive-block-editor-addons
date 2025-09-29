@@ -23,6 +23,7 @@ import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-
 import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background-type-control";
 import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlockBorderSettings";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 
 let svg_icons = Object.keys(ResponsiveBlocksQuoteIcon);
 // Setup the block
@@ -444,7 +445,9 @@ export default class Inspector extends Component {
                   if ("mobile" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Mobile",
@@ -469,7 +472,9 @@ export default class Inspector extends Component {
                   } else if ("tablet" === tab.name) {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__(
                               "Alignment Tablet",
@@ -494,7 +499,9 @@ export default class Inspector extends Component {
                   } else {
                     tabout = (
                       <Fragment>
-                        <BaseControl>
+                        <BaseControl
+                          __nextHasNoMarginBottom
+                        >
                           <p>
                             {__("Alignment", "responsive-block-editor-addons")}
                           </p>
@@ -528,6 +535,7 @@ export default class Inspector extends Component {
                 label={__("Enable Icon", "responsive-block-editor-addons")}
                 checked={!!this.props.attributes.twEnabled}
                 onChange={(v) => setAttributes({ twEnabled: !!v })}
+                __nextHasNoMarginBottom
               />
 
               {/* Show other Twitter options only when Enable Icon is turned on */}
@@ -625,6 +633,7 @@ export default class Inspector extends Component {
                     showQuote: !showQuote,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               <Fragment>
                 <p className="components-base-control__label">{__("Icon", "responsive-block-editor-addons")}</p>
@@ -1022,6 +1031,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"blockquote"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1035,6 +1047,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1045,6 +1058,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1055,6 +1069,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

@@ -17,7 +17,7 @@ import RbeaBackgroundTypeControl from "../../../utils/components/rbea-background
 import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlockBorderSettings";
 import { alignLeft, alignRight} from '@wordpress/icons';
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
-
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 
 // Setup the block
 const { __ } = wp.i18n;
@@ -380,7 +380,9 @@ export default class Inspector extends Component {
 
               </Fragment>
               {positionTab === 'desktop' && tabsStyleD === 'hstyle3' && (<Fragment>
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__("Alignment", "responsive-block-editor-addons")}
                   </p>
@@ -400,7 +402,9 @@ export default class Inspector extends Component {
               </Fragment>)}
 
               {positionTab === 'desktop' && tabsStyleD === 'vstyle8' && (<Fragment>
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__("Alignment", "responsive-block-editor-addons")}
                   </p>
@@ -427,7 +431,9 @@ export default class Inspector extends Component {
 
               {positionTab === 'tablet' && tabsStyleT === 'hstyle3' && (
                 <Fragment>
-                  <BaseControl>
+                  <BaseControl
+                    __nextHasNoMarginBottom
+                  >
                     <p>{__("Alignment (Tablet)", "responsive-block-editor-addons")}</p>
                     <div className="responsive-block-editor-addons-alignment">
                       <AlignmentToolbar
@@ -446,7 +452,9 @@ export default class Inspector extends Component {
               )}
               {positionTab === 'tablet' && tabsStyleT === 'vstyle8' && (
                 <Fragment>
-                  <BaseControl>
+                  <BaseControl
+                    __nextHasNoMarginBottom
+                  >
                     <p>{__("Alignment (Tablet)", "responsive-block-editor-addons")}</p>
                     <div className="responsive-block-editor-addons-tabs-alignment-container">
                       <Button
@@ -472,7 +480,9 @@ export default class Inspector extends Component {
 
               {positionTab === 'mobile' && tabsStyleM === 'hstyle3' && (
                 <Fragment>
-                  <BaseControl>
+                  <BaseControl
+                    __nextHasNoMarginBottom
+                  >
                     <p>{__("Alignment (Mobile)", "responsive-block-editor-addons")}</p>
                     <div className="responsive-block-editor-addons-alignment">
                       <AlignmentToolbar
@@ -492,7 +502,9 @@ export default class Inspector extends Component {
 
               {positionTab === 'mobile' && tabsStyleM === 'vstyle8' && (
                 <Fragment>
-                  <BaseControl>
+                  <BaseControl
+                    __nextHasNoMarginBottom
+                  >
                     <p>{__("Alignment (Mobile)", "responsive-block-editor-addons")}</p>
                     <div className="responsive-block-editor-addons-tabs-alignment-container">
                       <Button
@@ -767,6 +779,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"tabs"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -780,6 +795,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -790,6 +806,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -800,6 +817,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                 setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
             <PanelBody
@@ -829,6 +847,8 @@ export default class Inspector extends Component {
                     { value: "fold", label: __("Fold", "responsive-block-editor-addons") },
                     { value: "rotate", label: __("Rotate", "responsive-block-editor-addons") },
                   ]}
+                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize={true}
                 />
                 {animationName !== "none" && (
                   <Fragment>
@@ -884,6 +904,8 @@ export default class Inspector extends Component {
                         { value: "ease-out", label: "ease-out" },
                         { value: "linear", label: "linear" },
                       ]}
+                      __nextHasNoMarginBottom
+                      __next40pxDefaultSize={true}
                     />
                   </Fragment>
                 )}

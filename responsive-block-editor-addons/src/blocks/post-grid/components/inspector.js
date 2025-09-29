@@ -14,6 +14,7 @@ import RbeaTabRadioControl from "../../../utils/components/rbea-tab-radio-contro
 import RbeaBlockBorderHelperControl from "../../../settings-components/RbeaBlockBorderSettings";
 import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadiusControl";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 /**
  * Inspector Controls
  */
@@ -568,6 +569,7 @@ export default class Inspector extends Component {
                     equalHeight: !attributes.equalHeight,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__("Post Pagination", "responsive-block-editor-addons")}
@@ -578,6 +580,7 @@ export default class Inspector extends Component {
                     paginationMarkup: "empty",
                   })
                 }
+                __nextHasNoMarginBottom
               />
               <RbeaRangeControl
                 label={__("Page Limit", "responsive-block-editor-addons")}
@@ -614,6 +617,8 @@ export default class Inspector extends Component {
                   "Change the post grid section tag to match your content hierarchy.",
                   "responsive-block-editor-addons"
                 )}
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               {attributes.sectionTitle && (
                 <RbeaTabRadioControl
@@ -674,6 +679,7 @@ export default class Inspector extends Component {
                       stackonMobile: !attributes.stackonMobile,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
               )}
               <ToggleControl
@@ -688,6 +694,7 @@ export default class Inspector extends Component {
                     displaySectionTitle: !attributes.displaySectionTitle,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.displaySectionTitle && (
                 <TextControl
@@ -700,6 +707,8 @@ export default class Inspector extends Component {
                       sectionTitle: value,
                     })
                   }
+                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize={true}
                 />
               )}
               <ToggleControl
@@ -714,6 +723,7 @@ export default class Inspector extends Component {
                     displayPostImage: !attributes.displayPostImage,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.postLayout === 'list' && [
                 <TabPanel
@@ -925,6 +935,7 @@ export default class Inspector extends Component {
                     displayPostTitle: !attributes.displayPostTitle,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {isPost && (
                 <ToggleControl
@@ -936,6 +947,7 @@ export default class Inspector extends Component {
                       displayPostAuthor: !attributes.displayPostAuthor,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
               )}
               {isPost && (
@@ -948,6 +960,7 @@ export default class Inspector extends Component {
                       displayPostDate: !attributes.displayPostDate,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
               )}
               <ToggleControl
@@ -959,6 +972,7 @@ export default class Inspector extends Component {
                     displayPostExcerpt: !attributes.displayPostExcerpt,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.displayPostExcerpt && (
                 <RbeaRangeControl
@@ -982,6 +996,7 @@ export default class Inspector extends Component {
                     displayPostLink: !attributes.displayPostLink,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.displayPostLink && (
                 <TextControl
@@ -997,6 +1012,8 @@ export default class Inspector extends Component {
                       readMoreText: value,
                     })
                   }
+                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize={true}
                 />
               )}
             </PanelBody>
@@ -1195,7 +1212,9 @@ export default class Inspector extends Component {
                 }
               />
               <Fragment>
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__(
                       "Pagination Alignment",
@@ -1275,6 +1294,8 @@ export default class Inspector extends Component {
                     paginationMarkup: "empty",
                   })
                 }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               <TextControl
                 label={__("Next Button Text", "responsive-block-editor-addons")}
@@ -1286,6 +1307,8 @@ export default class Inspector extends Component {
                     paginationMarkup: "empty",
                   })
                 }
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
             </PanelBody>
             <PanelBody
@@ -1383,6 +1406,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"responsive-block-editor-addons-post-grid"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1396,6 +1422,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1406,6 +1433,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1416,6 +1444,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           

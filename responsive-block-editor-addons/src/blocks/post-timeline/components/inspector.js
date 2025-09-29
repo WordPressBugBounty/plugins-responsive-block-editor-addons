@@ -26,6 +26,7 @@ import BoxShadowControl from "../../../utils/components/box-shadow";
 import { loadGoogleFont } from "../../../utils/font";
 import ResponsiveBlocksIcon from "../../../ResponsiveBlocksIcon.json";
 import renderSVG from "../../../renderIcon";
+import RbeaExtensions from "../../../extensions/RbeaExtensions";
 
 // Import block components
 const { InspectorControls, ColorPalette, PanelColorSettings, AlignmentToolbar } = wp.blockEditor;
@@ -485,7 +486,9 @@ export default class Inspector extends Component {
                   },
                 ]}
               /> */}
-                <BaseControl>
+                <BaseControl
+                  __nextHasNoMarginBottom
+                >
                   <p>
                     {__("Orientation", "responsive-block-editor-addons")}
                   </p>
@@ -563,6 +566,7 @@ export default class Inspector extends Component {
                     displaySectionTitle: !attributes.displaySectionTitle,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.displaySectionTitle && (
                 <TextControl
@@ -574,6 +578,8 @@ export default class Inspector extends Component {
                       sectionTitle: value,
                     })
                   }
+                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize={true}
                 />
               )}
               <ToggleControl
@@ -587,6 +593,7 @@ export default class Inspector extends Component {
                     displayPostImage: !attributes.displayPostImage,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.displayPostImage && (
                 <div className = "rbea-repeat-selector-wrapper">
@@ -610,6 +617,7 @@ export default class Inspector extends Component {
                     displayPostTitle: !attributes.displayPostTitle,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {isPost && (
                 <ToggleControl
@@ -620,6 +628,7 @@ export default class Inspector extends Component {
                       displayPostAuthor: !attributes.displayPostAuthor,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
               )}
               {isPost && (
@@ -631,6 +640,7 @@ export default class Inspector extends Component {
                       displayPostDate: !attributes.displayPostDate,
                     })
                   }
+                  __nextHasNoMarginBottom
                 />
               )}
               <ToggleControl
@@ -641,6 +651,7 @@ export default class Inspector extends Component {
                     displayPostExcerpt: !attributes.displayPostExcerpt,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.displayPostExcerpt && (
                 <RbeaRangeControl
@@ -662,6 +673,7 @@ export default class Inspector extends Component {
                     displayPostLink: !attributes.displayPostLink,
                   })
                 }
+                __nextHasNoMarginBottom
               />
               {attributes.displayPostLink && (
                 <Fragment>
@@ -677,6 +689,8 @@ export default class Inspector extends Component {
                         readMoreText: value,
                       })
                     }
+                    __nextHasNoMarginBottom
+                    __next40pxDefaultSize={true}
                   />
                   <ToggleControl
                     label={__(
@@ -687,6 +701,7 @@ export default class Inspector extends Component {
                     onChange={() => {
                       this.props.setAttributes({ target: !attributes.target });
                     }}
+                    __nextHasNoMarginBottom
                   />
                 </Fragment>
               )}
@@ -713,6 +728,8 @@ export default class Inspector extends Component {
                   "Change the post grid section tag to match your content hierarchy.",
                   "responsive-block-editor-addons"
                 )}
+                __nextHasNoMarginBottom
+                __next40pxDefaultSize={true}
               />
               {attributes.sectionTitle && (
                 <RbeaTabRadioControl
@@ -1258,6 +1275,9 @@ export default class Inspector extends Component {
             <RbeaSupportControl blockSlug={"post-timeline"} />
           </InspectorTab>
           <InspectorTab key={"advance"}>
+
+            <RbeaExtensions {...this.props} />
+
             <PanelBody
               title={__("Responsive Conditions", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -1271,6 +1291,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidget: !hideWidget })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1281,6 +1302,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetTablet: !hideWidgetTablet })
                 }
+                __nextHasNoMarginBottom
               />
               <ToggleControl
                 label={__(
@@ -1291,6 +1313,7 @@ export default class Inspector extends Component {
                 onChange={(value) =>
                   setAttributes({ hideWidgetMobile: !hideWidgetMobile })
                 }
+                __nextHasNoMarginBottom
               />
             </PanelBody>
           
