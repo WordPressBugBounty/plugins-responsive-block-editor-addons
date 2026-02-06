@@ -671,6 +671,18 @@ const attributes = {
     type: "string",
     default: "center center",
   },
+  backgroundPositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalTablet: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
   backgroundSize: {
     type: "string",
     default: "cover",
@@ -754,5 +766,31 @@ const attributes = {
     type: "string",
     default: "",
   },
+  hasImagePositionMigrated: {
+    type: "boolean",
+    default: false,
+  },
+  isPreview: {
+    type: "boolean",
+    default: false, 
+  },
+  gradient: {
+    type: "string",
+  },
+  gradientOverlay: {
+    type: "string",
+  },
+  titleTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  designationTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  descriptionTextDecoration: {
+    type: "string",
+    default: "",
+  },    
 };
 export default attributes;

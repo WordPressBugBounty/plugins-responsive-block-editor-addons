@@ -19,6 +19,7 @@ import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadi
 import { RadioControl} from "@wordpress/components";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
 import RbeaExtensions from "../../../extensions/RbeaExtensions";
+import { convertPositionToFocalPoint } from "../../../getImagePosition";
 /**
  * Inspector Controls
  */
@@ -50,6 +51,7 @@ const {
   Dashicon,
   BaseControl,
   PanelRow,
+  FocalPointPicker,
 } = wp.components;
 
 let svg_icons = Object.keys(ResponsiveBlocksIcon);
@@ -352,14 +354,31 @@ export default class Inspector extends Component {
         backgroundSizeMobile,
         backgroundPositionMobile,
         backgroundPositionTablet,
+        backgroundPositionFocal,
+        backgroundPositionFocalTablet,
+        backgroundPositionFocalMobile,
         imageSizeTab,
         headingTextTransform,
         headingFontStyle,
         contentTextTransform,
         contentFontStyle,
+        hasImagePositionMigrated,
+        headingTextDecoration,
+        contentTextDecoration,
       },
       setAttributes,
     } = this.props;
+
+    if ( ! hasImagePositionMigrated ) {
+      this.props.setAttributes(
+        {
+          backgroundPositionFocal: convertPositionToFocalPoint( backgroundPosition ),
+          backgroundPositionFocalMobile: convertPositionToFocalPoint( backgroundPositionMobile ),
+          backgroundPositionFocalTablet: convertPositionToFocalPoint( backgroundPositionTablet ),
+          hasImagePositionMigrated: true,
+        }
+      )
+    }
 
     const blockMarginResetValues = {
 			marginTop: 0,
@@ -784,126 +803,123 @@ export default class Inspector extends Component {
                 }
                 __nextHasNoMarginBottom
               />
+
+              { isCollapsible && (
+                <>
+                  <p className="components-base-control__label">
+                    {__("Select Icon", "responsive-block-editor-addons")}
+                  </p>
+
+                  <FontIconPicker
+                    icons={svg_icons}
+                    renderFunc={renderSVG}
+                    theme="default"
+                    value={icon}
+                    onChange={(value) => setAttributes({ icon: value })}
+                    // isMulti={false}
+                    noSelectedPlaceholder={__(
+                      "Select Icon",
+                      "responsive-block-editor-addons"
+                    )}
+                  />
+
+                  <hr className="responsive-block-editor-addons-editor__separator" />
+
+                  <TabPanel
+                    className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                    activeClass="active-tab"
+                    tabs={[
+                      {
+                        name: "desktop",
+                        title: <Dashicon icon="desktop" />,
+                        className:
+                          " responsive-desktop-tab  responsive-responsive-tabs",
+                      },
+                      {
+                        name: "tablet",
+                        title: <Dashicon icon="tablet" />,
+                        className:
+                          " responsive-tablet-tab  responsive-responsive-tabs",
+                      },
+                      {
+                        name: "mobile",
+                        title: <Dashicon icon="smartphone" />,
+                        className:
+                          " responsive-mobile-tab  responsive-responsive-tabs",
+                      },
+                    ]}
+                  >
+                    {(tab) => {
+                        let tabout;
+
+                        if ("mobile" === tab.name) {
+                          tabout = (
+                            <Fragment>
+                              <RbeaRangeControl
+                                label={__(
+                                  "Icon Size Mobile",
+                                  "responsive-block-editor-addons"
+                                )}
+                                value={sizeMobile}
+                                onChange={(value) =>
+                                  setAttributes({
+                                    sizeMobile: value !== undefined ? value : 20,
+                                  })
+                                }
+                                min={0}
+                                max={500}
+                                allowReset
+                              />
+                            </Fragment>
+                          );
+                        } else if ("tablet" === tab.name) {
+                          tabout = (
+                            <Fragment>
+                              <RbeaRangeControl
+                                label={__(
+                                  "Icon Size Tablet",
+                                  "responsive-block-editor-addons"
+                                )}
+                                value={sizeTablet}
+                                onChange={(value) =>
+                                  setAttributes({
+                                    sizeTablet: value !== undefined ? value : 20,
+                                  })
+                                }
+                                min={0}
+                                max={500}
+                                allowReset
+                              />
+                            </Fragment>
+                          );
+                        } else {
+                          tabout = (
+                            <Fragment>
+                              <RbeaRangeControl
+                                label={__(
+                                  "Icon Size",
+                                  "responsive-block-editor-addons"
+                                )}
+                                value={size}
+                                onChange={(value) =>
+                                  setAttributes({
+                                    size: value !== undefined ? value : 20,
+                                  })
+                                }
+                                min={0}
+                                max={500}
+                                allowReset
+                              />
+                            </Fragment>
+                          );
+                        }
+
+                      return <div>{tabout}</div>;
+                    }}
+                  </TabPanel>
+                </>
+              )}
             </PanelBody>
-            { isCollapsible &&
-            <>
-              <PanelBody
-                title={__("Icon", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <Fragment>
-                <p className="components-base-control__label">
-                  {__("Select Icon", "responsive-block-editor-addons")}
-                </p>
-                <FontIconPicker
-                  icons={svg_icons}
-                  renderFunc={renderSVG}
-                  theme="default"
-                  value={icon}
-                  onChange={(value) => setAttributes({ icon: value })}
-                  // isMulti={false}
-                  noSelectedPlaceholder={__(
-                    "Select Icon",
-                    "responsive-block-editor-addons"
-                  )}
-                />
-                <hr className="responsive-block-editor-addons-editor__separator" />
-              </Fragment>
-              <TabPanel
-              className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
-              activeClass="active-tab"
-              tabs={[
-                {
-                  name: "desktop",
-                  title: <Dashicon icon="desktop" />,
-                  className:
-                    " responsive-desktop-tab  responsive-responsive-tabs",
-                },
-                {
-                  name: "tablet",
-                  title: <Dashicon icon="tablet" />,
-                  className:
-                    " responsive-tablet-tab  responsive-responsive-tabs",
-                },
-                {
-                  name: "mobile",
-                  title: <Dashicon icon="smartphone" />,
-                  className:
-                    " responsive-mobile-tab  responsive-responsive-tabs",
-                },
-              ]}
-            >
-                {(tab) => {
-                    let tabout;
-
-                    if ("mobile" === tab.name) {
-                      tabout = (
-                        <Fragment>
-                          <RbeaRangeControl
-                            label={__(
-                              "Icon Size Mobile",
-                              "responsive-block-editor-addons"
-                            )}
-                            value={sizeMobile}
-                            onChange={(value) =>
-                              setAttributes({
-                                sizeMobile: value !== undefined ? value : 20,
-                              })
-                            }
-                            min={0}
-                            max={500}
-                            allowReset
-                          />
-                        </Fragment>
-                      );
-                    } else if ("tablet" === tab.name) {
-                      tabout = (
-                        <Fragment>
-                          <RbeaRangeControl
-                            label={__(
-                              "Icon Size Tablet",
-                              "responsive-block-editor-addons"
-                            )}
-                            value={sizeTablet}
-                            onChange={(value) =>
-                              setAttributes({
-                                sizeTablet: value !== undefined ? value : 20,
-                              })
-                            }
-                            min={0}
-                            max={500}
-                            allowReset
-                          />
-                        </Fragment>
-                      );
-                    } else {
-                      tabout = (
-                        <Fragment>
-                          <RbeaRangeControl
-                            label={__(
-                              "Icon Size",
-                              "responsive-block-editor-addons"
-                            )}
-                            value={size}
-                            onChange={(value) =>
-                              setAttributes({
-                                size: value !== undefined ? value : 20,
-                              })
-                            }
-                            min={0}
-                            max={500}
-                            allowReset
-                          />
-                        </Fragment>
-                      );
-                    }
-
-                  return <div>{tabout}</div>;
-                }}
-              </TabPanel>
-              </PanelBody>
-            </>
-            }
             <RbeaSupportControl blockSlug={"table-of-contents"} />
           </InspectorTab>
           <InspectorTab key={"style"}>
@@ -911,115 +927,101 @@ export default class Inspector extends Component {
               title={__("Heading", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <PanelBody
-                title={__("Color Settings", "responsive-block-editor-addons")}
-                initialOpen={false}
+              <TabPanel
+                className="responsive-block-editor-addons-inspect-tabs 
+                responsive-block-editor-addons-inspect-tabs-col-2  
+                responsive-block-editor-addons-color-inspect-tabs"
+                activeClass="active-tab"
+                initialTabName="normal" // Set the default active tab here
+                tabs={[
+                  {
+                    name: "empty-1",
+                    title: __("", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-empty-tab",
+                  },
+                  {
+                    name: "normal",
+                    title: __("Normal", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-normal-tab",
+                  },
+                  {
+                    name: "empty-2",
+                    title: __("", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-empty-tab-middle",
+                  },
+                  {
+                    name: "hover",
+                    title: __("Hover", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-hover-tab",
+                  },
+                  {
+                    name: "empty-3",
+                    title: __("", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-empty-tab",
+                  },
+                ]}
               >
-                <TabPanel
-                  className="responsive-block-editor-addons-inspect-tabs 
-                  responsive-block-editor-addons-inspect-tabs-col-2  
-                  responsive-block-editor-addons-color-inspect-tabs"
-                  activeClass="active-tab"
-                  initialTabName="normal" // Set the default active tab here
-                  tabs={[
-                    {
-                      name: "empty-1",
-                      title: __("", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-empty-tab",
-                    },
-                    {
-                      name: "normal",
-                      title: __("Normal", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-normal-tab",
-                    },
-                    {
-                      name: "empty-2",
-                      title: __("", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-empty-tab-middle",
-                    },
-                    {
-                      name: "hover",
-                      title: __("Hover", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-hover-tab",
-                    },
-                    {
-                      name: "empty-3",
-                      title: __("", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-empty-tab",
-                    },
-                  ]}
-                >
-                  {(tabName) => {
-                    let tabout;
-                    if ("hover" === tabName.name) {
-                      tabout = (
-                        <Fragment>
-                          <RbeaColorControl
-                            label = {__("Background Hover Color", "responsive-block-editor-addons")}
-                            colorValue={headingBgColorHover}
-                            onChange={(colorValue) => setAttributes({ headingBgColorHover: colorValue })}
-                            resetColor={() => setAttributes({ headingBgColorHover: "" })}
-                          />
-                        </Fragment>
-                      );
-                    } else if ("normal" === tabName.name) {
-                      tabout = (
-                        <Fragment>
-                          <RbeaColorControl
-                            label = {__("Background Color", "responsive-block-editor-addons")}
-                            colorValue={headingBgColor}
-                            onChange={(colorValue) => setAttributes({ headingBgColor: colorValue })}
-                            resetColor={() => setAttributes({ headingBgColor: "" })}
-                          />
-                        </Fragment>
-                      );
-                    } else {
-                      tabout = emptyColorControl;
-                    }
-                    return <div>{tabout}</div>;
-                  }}
-                </TabPanel>
-              </PanelBody>
+                {(tabName) => {
+                  let tabout;
+                  if ("hover" === tabName.name) {
+                    tabout = (
+                      <Fragment>
+                        <RbeaColorControl
+                          label = {__("Background Hover Color", "responsive-block-editor-addons")}
+                          colorValue={headingBgColorHover}
+                          onChange={(colorValue) => setAttributes({ headingBgColorHover: colorValue })}
+                          resetColor={() => setAttributes({ headingBgColorHover: "" })}
+                        />
+                      </Fragment>
+                    );
+                  } else if ("normal" === tabName.name) {
+                    tabout = (
+                      <Fragment>
+                        <RbeaColorControl
+                          label = {__("Background Color", "responsive-block-editor-addons")}
+                          colorValue={headingBgColor}
+                          onChange={(colorValue) => setAttributes({ headingBgColor: colorValue })}
+                          resetColor={() => setAttributes({ headingBgColor: "" })}
+                        />
+                      </Fragment>
+                    );
+                  } else {
+                    tabout = emptyColorControl;
+                  }
+                  return <div>{tabout}</div>;
+                }}
+              </TabPanel>
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
 
               {/* Padding */}
-              <PanelBody
-                title={__("Padding", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveNewPaddingControl
-                  attrNameTemplate="heading%s"
-                  resetValues={headingAndContentPaddingResetValues}
-                  {...this.props}
-                />
-              </PanelBody>
-
+              <ResponsiveNewPaddingControl
+                attrNameTemplate="heading%s"
+                resetValues={headingAndContentPaddingResetValues}
+                {...this.props}
+                label={__('Heading Padding', 'responsive-block-editor-addons')}
+              />
 
               {/* Margin */}
-              <PanelBody
-                title={__("Margin", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveNewMarginControl
-                  attrNameTemplate="heading%s"
-                  resetValues={headingAndContentMarginResetValues}
-                  {...this.props}
-                />
-              </PanelBody>
+              <ResponsiveNewMarginControl
+                attrNameTemplate="heading%s"
+                resetValues={headingAndContentMarginResetValues}
+                {...this.props}
+                label={__('Heading Margin', 'responsive-block-editor-addons')}
+              />
 
+              <hr className="responsive-block-editor-addons-editor__separator" />
 
               {/* Border */}
-              <PanelBody
-                title={__("Border", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <RbeaBorderStyleTabControl
-                  selected={headingBorderStyle}
-                  onChange={(value) =>
-                    setAttributes({ headingBorderStyle: value })
-                  }
-                />
-                {"none" != headingBorderStyle && (
-                  <Fragment>
+              <RbeaBorderStyleTabControl
+                selected={headingBorderStyle}
+                onChange={(value) =>
+                  setAttributes({ headingBorderStyle: value })
+                }
+              />
+
+              {"none" != headingBorderStyle && (
+                <Fragment>
                   <BaseControl.VisualLabel>
                       {__("Border Width:", "responsive-block-editor-addons")}
                     </BaseControl.VisualLabel>              
@@ -1250,22 +1252,19 @@ export default class Inspector extends Component {
                     }}
                   </TabPanel>
                 </Fragment>
-                )}
-                <RbeaBorderRadiusControl
-                  attrNameTemplate="headingBorder%s"
-                  {...this.props}
+              )}
+              <RbeaBorderRadiusControl
+                attrNameTemplate="headingBorder%s"
+                {...this.props}
+              />
+              {"none" != headingBorderStyle && (
+                <RbeaColorControl
+                  label = {__("Border Color", "responsive-block-editor-addons")}
+                  colorValue={headingBorderColor}
+                  onChange={(colorValue) => setAttributes({ headingBorderColor: colorValue })}
+                  resetColor={() => setAttributes({ headingBorderColor: "" })}
                 />
-                {"none" != headingBorderStyle && (
-                  <Fragment>
-                    <RbeaColorControl
-                      label = {__("Border Color", "responsive-block-editor-addons")}
-                      colorValue={headingBorderColor}
-                      onChange={(colorValue) => setAttributes({ headingBorderColor: colorValue })}
-                      resetColor={() => setAttributes({ headingBorderColor: "" })}
-                    />
-                  </Fragment>
-                )}
-              </PanelBody>
+              )}
             </PanelBody>
             <TypographyHelperControl
                 title={__("Heading Typography", "responsive-block-editor-addons")}
@@ -1282,9 +1281,11 @@ export default class Inspector extends Component {
 									emptyColorControl: emptyColorControl,
                   transform: headingTextTransform,
                   fontstyle: headingFontStyle,
+                  textDecoration: headingTextDecoration,
                 }}
                 showLetterSpacing={false}
                 showColorWithHoverControlTab={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -1355,40 +1356,38 @@ export default class Inspector extends Component {
                       </TabPanel>
                       </div>
                         <Fragment>
-                          <div className = "rbea-background-image-positon-control"
-                          style={{
-                            backgroundImage: `url(${background_image_url})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition:  'center',
-                          }}>
+                          <div className = "rbea-background-image-positon-control">
                           { imagePositionTab === "desktop" && 
-                              <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backgroundPosition}
-                                options={imagePositionOptions}
-                                onChange={(value) =>
-                                  setAttributes({ backgroundPosition: value })
-                                }
-                              />
+                            <FocalPointPicker
+                              __nextHasNoMarginBottom
+                              __next40pxDefaultSize
+                              url={background_image_url}
+                              value={backgroundPositionFocal}
+                              onChange={(value) =>
+                                setAttributes({ backgroundPositionFocal: value })
+                              }
+                            />
                           }
                           {imagePositionTab === "tablet" &&
-                             <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backgroundPositionTablet}
-                                options={imagePositionOptions}
-                                onChange={(value) =>
-                                  setAttributes({ backgroundPositionTablet: value })
-                                }
+                            <FocalPointPicker
+                              __nextHasNoMarginBottom
+                              __next40pxDefaultSize
+                              url={background_image_url}
+                              value={backgroundPositionFocalTablet}
+                              onChange={(value) =>
+                                setAttributes({ backgroundPositionFocalTablet: value })
+                              }
                             />
                           }
                           {imagePositionTab === "mobile" && 
-                            <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backgroundPositionMobile}
-                                options={imagePositionOptions}
-                                onChange={(value) =>
-                                  setAttributes({ backgroundPositionMobile: value })
-                                }
+                            <FocalPointPicker
+                              __nextHasNoMarginBottom
+                              __next40pxDefaultSize
+                              url={background_image_url}
+                              value={backgroundPositionFocalMobile}
+                              onChange={(value) =>
+                                setAttributes({ backgroundPositionFocalMobile: value })
+                              }
                             />
                           }
                           </div>
@@ -1517,359 +1516,343 @@ export default class Inspector extends Component {
               title={__("Body", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <PanelBody
-                title={__("Color Settings", "responsive-block-editor-addons")}
-                initialOpen={false}
+              <TabPanel
+                className="responsive-block-editor-addons-inspect-tabs 
+                responsive-block-editor-addons-inspect-tabs-col-2  
+                responsive-block-editor-addons-color-inspect-tabs"
+                activeClass="active-tab"
+                initialTabName="normal" // Set the default active tab here
+                tabs={[
+                  {
+                    name: "empty-1",
+                    title: __("", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-empty-tab",
+                  },
+                  {
+                    name: "normal",
+                    title: __("Normal", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-normal-tab",
+                  },
+                  {
+                    name: "empty-2",
+                    title: __("", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-empty-tab-middle",
+                  },
+                  {
+                    name: "hover",
+                    title: __("Hover", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-hover-tab",
+                  },
+                  {
+                    name: "empty-3",
+                    title: __("", "responsive-block-editor-addons"),
+                    className: "responsive-block-editor-addons-empty-tab",
+                  },
+                ]}
               >
+                {(tabName) => {
+                  let tabout;
+                  if ("hover" === tabName.name) {
+                    tabout = (
+                      <Fragment>
+                        <RbeaColorControl
+                          label = {__("Background Hover Color", "responsive-block-editor-addons")}
+                          colorValue={bodyBgColorHover}
+                          onChange={(colorValue) => setAttributes({ bodyBgColorHover: colorValue })}
+                          resetColor={() => setAttributes({ bodyBgColorHover: "" })}
+                        />
+                      </Fragment>
+                    );
+                  } else if ("normal" === tabName.name) {
+                    tabout = (
+                      <Fragment>
+                        <RbeaColorControl
+                          label = {__("Background Color", "responsive-block-editor-addons")}
+                          colorValue={bodyBgColor}
+                          onChange={(colorValue) => setAttributes({ bodyBgColor: colorValue })}
+                          resetColor={() => setAttributes({ bodyBgColor: "" })}
+                        />
+                      </Fragment>
+                    );
+                  } else {
+                    tabout = emptyColorControl;
+                  }
+                  return <div>{tabout}</div>;
+                }}
+              </TabPanel>
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
+              {/* Padding */}
+              <ResponsiveNewPaddingControl
+                attrNameTemplate="content%s"
+                resetValues={headingAndContentPaddingResetValues}
+                {...this.props}
+              />
+
+              {/* Margin */}
+              <ResponsiveNewMarginControl
+                attrNameTemplate="content%s"
+                resetValues={headingAndContentMarginResetValues}
+                {...this.props}
+              />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
+              {/* Border */}
+              <RbeaBorderStyleTabControl
+                selected={bodyBorderStyle}
+                onChange={(value) =>
+                  setAttributes({ bodyBorderStyle: value })
+                }
+              />
+              {"none" != bodyBorderStyle && (
+                <Fragment>
+                <BaseControl.VisualLabel>
+                    {__("Border Width:", "responsive-block-editor-addons")}
+                  </BaseControl.VisualLabel>             
                 <TabPanel
-                  className="responsive-block-editor-addons-inspect-tabs 
-                  responsive-block-editor-addons-inspect-tabs-col-2  
-                  responsive-block-editor-addons-color-inspect-tabs"
+                  className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
                   activeClass="active-tab"
-                  initialTabName="normal" // Set the default active tab here
                   tabs={[
                     {
-                      name: "empty-1",
-                      title: __("", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-empty-tab",
+                      name: "desktop",
+                      title: <Dashicon icon="desktop" />,
+                      className:
+                        " responsive-desktop-tab  responsive-responsive-tabs",
                     },
                     {
-                      name: "normal",
-                      title: __("Normal", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-normal-tab",
+                      name: "tablet",
+                      title: <Dashicon icon="tablet" />,
+                      className:
+                        " responsive-tablet-tab  responsive-responsive-tabs",
                     },
                     {
-                      name: "empty-2",
-                      title: __("", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-empty-tab-middle",
-                    },
-                    {
-                      name: "hover",
-                      title: __("Hover", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-hover-tab",
-                    },
-                    {
-                      name: "empty-3",
-                      title: __("", "responsive-block-editor-addons"),
-                      className: "responsive-block-editor-addons-empty-tab",
+                      name: "mobile",
+                      title: <Dashicon icon="smartphone" />,
+                      className:
+                        " responsive-mobile-tab  responsive-responsive-tabs",
                     },
                   ]}
                 >
-                  {(tabName) => {
+                  {(tab) => {
                     let tabout;
-                    if ("hover" === tabName.name) {
+
+                    if ("mobile" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RbeaColorControl
-                            label = {__("Background Hover Color", "responsive-block-editor-addons")}
-                            colorValue={bodyBgColorHover}
-                            onChange={(colorValue) => setAttributes({ bodyBgColorHover: colorValue })}
-                            resetColor={() => setAttributes({ bodyBgColorHover: "" })}
+                          <RbeaRangeControl
+                            label={__(
+                              "Top (Mobile)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderTopWidthMobile}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderTopWidthMobile: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Bottom (Mobile)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderBottomWidthMobile}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderBottomWidthMobile: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Left (Mobile)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderLeftWidthMobile}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderLeftWidthMobile: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Right (Mobile)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderRightWidthMobile}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderRightWidthMobile: value,
+                              })
+                            }
                           />
                         </Fragment>
                       );
-                    } else if ("normal" === tabName.name) {
+                    } else if ("tablet" === tab.name) {
                       tabout = (
                         <Fragment>
-                          <RbeaColorControl
-                            label = {__("Background Color", "responsive-block-editor-addons")}
-                            colorValue={bodyBgColor}
-                            onChange={(colorValue) => setAttributes({ bodyBgColor: colorValue })}
-                            resetColor={() => setAttributes({ bodyBgColor: "" })}
+                          <RbeaRangeControl
+                            label={__(
+                              "Top (Tablet)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderTopWidthTablet}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderTopWidthTablet: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Bottom (Tablet)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderBottomWidthTablet}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderBottomWidthTablet: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Left (Tablet)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderLeftWidthTablet}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderLeftWidthTablet: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Right (Tablet)",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderRightWidthTablet}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderRightWidthTablet: value,
+                              })
+                            }
                           />
                         </Fragment>
                       );
                     } else {
-                      tabout = emptyColorControl;
+                      tabout = (
+                        <Fragment>
+                          <RbeaRangeControl
+                            label={__(
+                              "Top",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderTopWidth}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderTopWidth: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Bottom",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderBottomWidth}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderBottomWidth: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Left",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderLeftWidth}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderLeftWidth: value,
+                              })
+                            }
+                          />
+                          <RbeaRangeControl
+                            label={__(
+                              "Right",
+                              "responsive-block-editor-addons"
+                            )}
+                            min={0}
+                            max={2000}
+                            allowReset
+                            value={bodyBorderRightWidth}
+                            onChange={(value) =>
+                              setAttributes({
+                                bodyBorderRightWidth: value,
+                              })
+                            }
+                          />
+                        </Fragment>
+                      );
                     }
                     return <div>{tabout}</div>;
                   }}
                 </TabPanel>
-              </PanelBody>
-
-              {/* Padding */}
-              <PanelBody
-                title={__("Padding", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveNewPaddingControl
-                  attrNameTemplate="content%s"
-                  resetValues={headingAndContentPaddingResetValues}
-                  {...this.props}
-                />
-              </PanelBody>
-
-              {/* Margin */}
-              <PanelBody
-                title={__("Margin", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveNewMarginControl
-                  attrNameTemplate="content%s"
-                  resetValues={headingAndContentMarginResetValues}
-                  {...this.props}
-                />
-              </PanelBody>
-
-              {/* Border */}
-              <PanelBody
-                title={__("Border", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <RbeaBorderStyleTabControl
-                  selected={bodyBorderStyle}
-                  onChange={(value) =>
-                    setAttributes({ bodyBorderStyle: value })
-                  }
-                />
-                {"none" != bodyBorderStyle && (
-                  <Fragment>
-                  <BaseControl.VisualLabel>
-                      {__("Border Width:", "responsive-block-editor-addons")}
-                    </BaseControl.VisualLabel>             
-                  <TabPanel
-                    className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
-                    activeClass="active-tab"
-                    tabs={[
-                      {
-                        name: "desktop",
-                        title: <Dashicon icon="desktop" />,
-                        className:
-                          " responsive-desktop-tab  responsive-responsive-tabs",
-                      },
-                      {
-                        name: "tablet",
-                        title: <Dashicon icon="tablet" />,
-                        className:
-                          " responsive-tablet-tab  responsive-responsive-tabs",
-                      },
-                      {
-                        name: "mobile",
-                        title: <Dashicon icon="smartphone" />,
-                        className:
-                          " responsive-mobile-tab  responsive-responsive-tabs",
-                      },
-                    ]}
-                  >
-                    {(tab) => {
-                      let tabout;
-
-                      if ("mobile" === tab.name) {
-                        tabout = (
-                          <Fragment>
-                            <RbeaRangeControl
-                              label={__(
-                                "Top (Mobile)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderTopWidthMobile}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderTopWidthMobile: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Bottom (Mobile)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderBottomWidthMobile}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderBottomWidthMobile: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Left (Mobile)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderLeftWidthMobile}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderLeftWidthMobile: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Right (Mobile)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderRightWidthMobile}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderRightWidthMobile: value,
-                                })
-                              }
-                            />
-                          </Fragment>
-                        );
-                      } else if ("tablet" === tab.name) {
-                        tabout = (
-                          <Fragment>
-                            <RbeaRangeControl
-                              label={__(
-                                "Top (Tablet)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderTopWidthTablet}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderTopWidthTablet: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Bottom (Tablet)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderBottomWidthTablet}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderBottomWidthTablet: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Left (Tablet)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderLeftWidthTablet}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderLeftWidthTablet: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Right (Tablet)",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderRightWidthTablet}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderRightWidthTablet: value,
-                                })
-                              }
-                            />
-                          </Fragment>
-                        );
-                      } else {
-                        tabout = (
-                          <Fragment>
-                            <RbeaRangeControl
-                              label={__(
-                                "Top",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderTopWidth}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderTopWidth: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Bottom",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderBottomWidth}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderBottomWidth: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Left",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderLeftWidth}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderLeftWidth: value,
-                                })
-                              }
-                            />
-                            <RbeaRangeControl
-                              label={__(
-                                "Right",
-                                "responsive-block-editor-addons"
-                              )}
-                              min={0}
-                              max={2000}
-                              allowReset
-                              value={bodyBorderRightWidth}
-                              onChange={(value) =>
-                                setAttributes({
-                                  bodyBorderRightWidth: value,
-                                })
-                              }
-                            />
-                          </Fragment>
-                        );
-                      }
-                      return <div>{tabout}</div>;
-                    }}
-                  </TabPanel>
+              </Fragment>
+              )}
+              <RbeaBorderRadiusControl
+                attrNameTemplate="bodyBorder%s"
+                {...this.props}
+              />
+              {"none" != bodyBorderStyle && (
+                <Fragment>
+                  <RbeaColorControl
+                    label = {__("Border Color", "responsive-block-editor-addons")}
+                    colorValue={bodyBorderColor}
+                    onChange={(colorValue) => setAttributes({ bodyBorderColor: colorValue })}
+                    resetColor={() => setAttributes({ bodyBorderColor: "" })}
+                  />
                 </Fragment>
-                )}
-                <RbeaBorderRadiusControl
-                  attrNameTemplate="bodyBorder%s"
-                  {...this.props}
-                />
-                {"none" != bodyBorderStyle && (
-                  <Fragment>
-                    <RbeaColorControl
-                      label = {__("Border Color", "responsive-block-editor-addons")}
-                      colorValue={bodyBorderColor}
-                      onChange={(colorValue) => setAttributes({ bodyBorderColor: colorValue })}
-                      resetColor={() => setAttributes({ bodyBorderColor: "" })}
-                    />
-                  </Fragment>
-                )}
-              </PanelBody>
+              )}
             </PanelBody>
             <TypographyHelperControl
                 title={__("Content Typography", "responsive-block-editor-addons")}
@@ -1886,9 +1869,11 @@ export default class Inspector extends Component {
 									emptyColorControl: emptyColorControl,
                   transform: contentTextTransform,
                   fontstyle: contentFontStyle,
+                  textDecoration: contentTextDecoration,
                 }}
                 showLetterSpacing={false}
                 showColorWithHoverControlTab={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -1940,44 +1925,7 @@ export default class Inspector extends Component {
 
           <RbeaExtensions {...this.props} />
 
-          <PanelBody
-              title={__("Responsive Conditions", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <ToggleControl
-                label={__(
-                "Hide on Desktop",
-                "responsive-block-editor-addons"
-                )}
-                checked={hideWidget}
-                onChange={(value) =>
-                setAttributes({ hideWidget: !hideWidget })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                "Hide on Tablet",
-                "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetTablet}
-                onChange={(value) =>
-                setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                "Hide on Mobile",
-                "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetMobile}
-                onChange={(value) =>
-                setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-                }
-                __nextHasNoMarginBottom
-              />
-            </PanelBody>
+          
             <PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}
               initialOpen={false}

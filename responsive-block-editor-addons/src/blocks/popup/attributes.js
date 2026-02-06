@@ -1,3 +1,5 @@
+import { convertTruthyFalsyValue } from "../../utils/helper";
+
 const attributes = {
     block_id: {
         type: "string",
@@ -768,20 +770,53 @@ const attributes = {
       default: false,
     },
     popupButtonTypographyTextTransform: {
-        type: "string",
-        default: "", 
+      type: "string",
+      default: "", 
     },
     popupButtonTypographyFontStyle: {
-        type: "string",
-        default: "", 
+      type: "string",
+      default: "", 
     },
     popupTextTypographyTextTransform: {
-        type: "string",
-        default: "", 
+      type: "string",
+      default: "", 
     },
     popupTextTypographyFontStyle: {
-        type: "string",
-        default: "", 
+      type: "string",
+      default: "", 
+    },
+    z_index: {
+      type: "number",
+    },
+    z_indexTablet: {
+      type: "number",
+    },
+    z_indexMobile: {
+      type: "number",
+    },
+    inheritFromTheme: {
+      type: "boolean",
+      default: convertTruthyFalsyValue(responsive_globals?.global_inherit_from_theme),
+    },
+    inheritFromThemesaved: {
+      type: "boolean",
+      default: false,
+    },
+    inheritFromThemeLocalTimestamp: {
+      type: "string",
+      default: "",
+    },
+    isPreview: {
+      type: "boolean",
+      default: false, 
+    },
+    popupButtonTypographyTextDecoration: {
+      type: "string",
+      default: "",
+    },
+    popupTextTypographyTextDecoration: {
+      type: "string",
+      default: "",
     },
 };
 

@@ -523,6 +523,18 @@ const attributes = {
     type: "string",
     default: "center center"
   },
+  boxImagePositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  boxImagePositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  boxImagePositionFocalTablet: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
   boxImageSizeTab: {
     type: "string",
   },
@@ -646,7 +658,37 @@ const attributes = {
   descriptionFontStyle: {
     type: "string",
     default: "",
-  }
+  },
+  hasImagePositionMigrated: {
+    type: "boolean",
+    default: false,
+  },
+  isPreview: {
+    type: "boolean",
+    default: false, 
+  },
+  backgroundType: {
+    type: "string",
+    default: "none",
+  },
+  gradient: {
+    type: "string",
+  },
+  hoverGradient: {
+    type: "string",
+  },
+  hoverBackgroundType: {
+    type: "string",
+    default: "none",
+  },
+  titleTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  descriptionTextDecoration: {
+    type: "string",
+    default: "",
+  },
 };
 
 export default attributes;

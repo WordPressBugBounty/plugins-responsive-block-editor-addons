@@ -1,3 +1,5 @@
+import { convertTruthyFalsyValue } from "../../utils/helper";
+
 const ITEM_COUNT = 1;
 const cardsArray = [];
 const { __ } = wp.i18n;
@@ -243,7 +245,6 @@ const attributes = {
   },
   backgroundColor2: {
     type: "string",
-    default: "#fff",
   },
   backgroundType: {
     type: "string",
@@ -399,7 +400,6 @@ const attributes = {
   },
   buttonbackgroundColor2: {
     type: "string",
-    default: "#fff",
   },
   buttonbackgroundType: {
     type: "string",
@@ -755,6 +755,18 @@ const attributes = {
     type: "string",
     default: "center center",
   },
+  backgroundPositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalTablet: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
   backgroundAttachment: {
     type: "string",
     default: "scroll",
@@ -801,6 +813,18 @@ const attributes = {
   cardImagePositionTablet: {
     type: "string",
     default: "center center",
+  },
+  cardImagePositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  cardImagePositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  cardImagePositionFocalTablet: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
   },
   cardImageAttachment: {
     type: "string",
@@ -994,6 +1018,44 @@ const attributes = {
     default: "",
   },
   contentFontStyle: {
+    type: "string",
+    default: "",
+  },
+  hasImagePositionMigrated: {
+    type: "boolean",
+    default: false,
+  },
+  inheritFromTheme: {
+    type: "boolean",
+    default: convertTruthyFalsyValue(responsive_globals?.global_inherit_from_theme),
+  },
+  inheritFromThemesaved: {
+    type: "boolean",
+    default: false,
+  },
+  inheritFromThemeLocalTimestamp: {
+    type: "string",
+    default: "",
+  },
+  isPreview: {
+    type: "boolean",
+    default: false, 
+  },
+  gradient: {
+    type: "string",
+  },
+  gradientButton: {
+    type: "string",
+  },
+  contentTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  subTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  headingTextDecoration: {
     type: "string",
     default: "",
   },

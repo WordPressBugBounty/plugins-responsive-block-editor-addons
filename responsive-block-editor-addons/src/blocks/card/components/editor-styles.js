@@ -6,6 +6,7 @@ import generateCSS from "../../../generateCSS";
 import generateCSSUnit from "../../../generateCSSUnit";
 import { hexToRgba } from "../../../utils/index.js";
 import generateBackgroundImageEffect from "../../../generateBackgroundImageEffect";
+import { getImagePostionCSS } from "../../../getImagePosition";
 
 function EditorStyles(props) {
   const {
@@ -64,6 +65,9 @@ function EditorStyles(props) {
     backgroundPosition,
     backgroundPositionMobile,
     backgroundPositionTablet,
+    backgroundPositionFocal,
+    backgroundPositionFocalMobile,
+    backgroundPositionFocalTablet,
     backgroundAttachment,
     backgroundRepeat,
     backgroundSize,
@@ -194,6 +198,9 @@ function EditorStyles(props) {
     cardImagePosition,
     cardImagePositionMobile,
     cardImagePositionTablet,
+    cardImagePositionFocal,
+    cardImagePositionFocalMobile,
+    cardImagePositionFocalTablet,
     cardImageSizeTab,
     cardImageRepeat,
     headingTypographyColor,
@@ -237,6 +244,12 @@ function EditorStyles(props) {
     subFontStyle,
     contentTextTransform,
     contentFontStyle,
+    inheritFromTheme,
+    gradient,
+    gradientButton,
+    contentTextDecoration,
+    subTextDecoration,
+    headingTextDecoration,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -268,7 +281,7 @@ function EditorStyles(props) {
   }
 
   if ( 'gradient' === buttonbackgroundType) {
-    updatedButtonBackgroundImage = generateBackgroundImageEffect(
+    updatedButtonBackgroundImage = gradientButton ? gradientButton : generateBackgroundImageEffect(
       buttonbackgroundColor1,
       buttonbackgroundColor2,
       buttongradientDirection,
@@ -276,15 +289,16 @@ function EditorStyles(props) {
       buttoncolorLocation2
     )
   }
+  const isOn = responsive_globals?.is_responsive_conditions_on ?? 1;
 
   var selectors = {
     " .responsive-block-editor-addons-card-button-inner .res-button": {
-      color: buttonTextColor !== 'empty' && '#fff' === ctaColor ? buttonTextColor : ctaColor, //For compatibility with v1.3.2.
+      color: inheritFromTheme ? '' : buttonTextColor !== 'empty' && '#fff' === ctaColor ? buttonTextColor : ctaColor, //For compatibility with v1.3.2.
       opacity: textOpacity,
     },
 
     " .responsive-block-editor-addons-card-button-inner:hover .res-button": {
-      color: buttonhTextColor !== 'empty' && ctaHoverColor === '#e6f2ff' ? buttonhTextColor : ctaHoverColor, //For compatibility with v1.3.2.
+      color: inheritFromTheme ? '' : buttonhTextColor !== 'empty' && ctaHoverColor === '#e6f2ff' ? buttonhTextColor : ctaHoverColor, //For compatibility with v1.3.2.
     },
 
     " .responsive-block-editor-addons-card-button-inner .responsive-block-editor-addons-button__icon svg": {
@@ -296,23 +310,23 @@ function EditorStyles(props) {
     },
 
     " .wp-block-responsive-block-editor-addons-card-item__button-wrapper .responsive-block-editor-addons-card-button-inner": {
-      "background-color": hexToRgba(
+      "background-color": inheritFromTheme ? '' : hexToRgba(
         updatedButtonColor || "#2091e1",
         but_opacity || 0
       ),
     },
 
     " .responsive-block-editor-addons-card-button-inner:hover": {
-      "background-color": hexToRgba(
+      "background-color": inheritFromTheme ? '' : hexToRgba(
         updatedButtonhColor || "none",
         buthopacity || 0
       ),
       "border-color": ctaHoverBorderColor,
-      "background-image": buttonHbackgroundType == 'color' ? 'none' : updatedButtonBackgroundImage,
+      "background-image": inheritFromTheme ? '' : buttonHbackgroundType == 'color' ? 'none' : updatedButtonBackgroundImage,
     },
 
     "": {
-      "opacity": hideWidget ? 0.2 : 1,
+      "opacity": hideWidget && isOn ? 0.2 : 1,
       'margin-top': generateCSSUnit(blockTopMargin, "px"),
 			'margin-right': generateCSSUnit(blockRightMargin, "px"),
 			'margin-bottom': generateCSSUnit(blockBottomMargin, "px"),
@@ -340,7 +354,7 @@ function EditorStyles(props) {
         "background-image":
           backgroundType == "gradient"
             ? 
-            generateBackgroundImageEffect(
+            gradient ? gradient : generateBackgroundImageEffect(
                 hexToRgba( backgroundColor1 === undefined ? "ffffff" : backgroundColor1, imgopacity),
                 hexToRgba( backgroundColor2 === undefined ? "ffffff" : backgroundColor2, imgopacity),
                 gradientDirection,
@@ -383,7 +397,7 @@ function EditorStyles(props) {
       "background-attachment": backgroundAttachment,
       "opacity": imgopacity,
       height: 100 + "%",
-      "background-position": backgroundPosition ? backgroundPosition : "center center",
+      "background-position": getImagePostionCSS(backgroundPositionFocal),
       "background-repeat": backgroundRepeat ? backgroundRepeat : "no-repeat",
       "background-size": backgroundSize ? backgroundSize : "cover",
     },
@@ -393,7 +407,7 @@ function EditorStyles(props) {
     },
 
     " .responsive-block-editor-addons-card-avatar-img": {
-      "background-position": cardImagePosition,
+      "background-position": getImagePostionCSS(cardImagePositionFocal),
       "background-repeat": cardImageRepeat,
       "background-size": cardImageSize,
     },
@@ -447,6 +461,7 @@ function EditorStyles(props) {
       "font-weight": headingFontWeight,
       "font-size": generateCSSUnit(headingFontSize, "px"),
       "text-transform": headingTextTransform,
+      "text-decoration": headingTextDecoration,
       "font-style": headingFontStyle,
     },
 
@@ -459,6 +474,7 @@ function EditorStyles(props) {
       "font-family": subFontFamily,
       "font-size": generateCSSUnit(subFontSize, "px"),
       "text-transform": subTextTransform,
+      "text-decoration": subTextDecoration,
       "font-style": subFontStyle,
     },
 
@@ -471,6 +487,7 @@ function EditorStyles(props) {
       "font-size": generateCSSUnit(contentFontSize, "px"),
       "font-family": contentFontFamily,
       "text-transform": contentTextTransform,
+      "text-decoration": contentTextDecoration,
       "font-style": contentFontStyle,
     },
 
@@ -491,13 +508,13 @@ function EditorStyles(props) {
       "border-width": butborderWidth !== 999 && ctaBorderWidth === 1 ? generateCSSUnit(butborderWidth, "px") : ctaBorderWidth //For compatibility with v1.3.2.
         ? generateCSSUnit(ctaBorderWidth, "px")
         : "0px",
-      "background-image": updatedButtonBackgroundImage,
+      "background-image": inheritFromTheme ? '' : updatedButtonBackgroundImage,
     },
   };
 
   var mobile_selectors = {
     "": {
-      "opacity": hideWidgetMobile ? 0.2 : 1,
+      "opacity": hideWidgetMobile && isOn ? 0.2 : 1,
       'margin-top': generateCSSUnit(blockTopMarginMobile, "px"),
       'margin-right': generateCSSUnit(blockRightMarginMobile, "px"),
       'margin-bottom': generateCSSUnit(blockBottomMarginMobile, "px"),
@@ -538,18 +555,18 @@ function EditorStyles(props) {
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusMobile, "px"),
   },
   " .responsive-block-editor-addons-card-background-image": {
-    "background-position": backgroundPositionMobile,
+    "background-position": getImagePostionCSS(backgroundPositionFocalMobile),
     "background-size": backgroundSizeMobile === '' ? backgroundSize : backgroundSizeMobile,
   },
   " .responsive-block-editor-addons-card-avatar-img": {
-    "background-position": cardImagePositionMobile,
+    "background-position": getImagePostionCSS(cardImagePositionFocalMobile),
     "background-size": cardImageSizeMobile,
   },
   };
 
   var tablet_selectors = {
     "": {
-      "opacity": hideWidgetTablet ? 0.2 : 1,
+      "opacity": hideWidgetTablet && isOn ? 0.2 : 1,
       'margin-top': generateCSSUnit(blockTopMarginTablet, "px"),
       'margin-right': generateCSSUnit(blockRightMarginTablet, "px"),
       'margin-bottom': generateCSSUnit(blockBottomMarginTablet, "px"),
@@ -590,11 +607,11 @@ function EditorStyles(props) {
       "border-bottom-left-radius": generateCSSUnit(blockLeftRadiusTablet, "px"),
   },
   " .responsive-block-editor-addons-card-background-image": {
-    "background-position": backgroundPositionTablet,
+    "background-position": getImagePostionCSS(backgroundPositionFocalTablet),
     "background-size": backgroundSizeTablet === '' ? backgroundSize : backgroundSizeTablet,
   },
   " .responsive-block-editor-addons-card-avatar-img": {
-    "background-position": cardImagePositionTablet,
+    "background-position": getImagePostionCSS(cardImagePositionFocalTablet),
     "background-size": cardImageSizeTablet,
   },
   };

@@ -230,7 +230,16 @@ export default class Inspector extends Component {
 				circularBottomTitleValueFontStyle,
 				semiCircularTopTitleValueFontStyle,
 				semiCircularInnerValueFontStyle,
-				semiCircularBottomTitleValueFontStyle
+				semiCircularBottomTitleValueFontStyle,
+				topTitleValueTextDecoration,
+				innerTitleValueTextDecoration,
+				bottomTitleValueTextDecoration,
+				circularTopTitleValueTextDecoration,
+				circularInnerValueTextDecoration,
+				circularBottomTitleValueTextDecoration,
+				semiCircularTopTitleValueTextDecoration,
+				semiCircularInnerValueTextDecoration,
+				semiCircularBottomTitleValueTextDecoration,
 			},
 			setAttributes,
 		} = this.props;
@@ -692,57 +701,52 @@ export default class Inspector extends Component {
 							/>
 							{progressBarColorType === "default" && progressBarStyle === "horizontal" && (
 								<Fragment>
-									<PanelBody
-										title={__("Progress Bar Colors", "responsive-block-editor-addons")}
-										initialOpen={false}
-									>
-										 <RbeaColorControl
-											label = {__("Background Color", "responsive-block-editor-addons")}
-											colorValue={horizontalProgressBarBackgroundColor}
-											onChange={(colorValue) =>
-												setAttributes({ horizontalProgressBarBackgroundColor: colorValue })
-											}
-											resetColor={() => setAttributes({ horizontalProgressBarBackgroundColor: "" })}
-										/>
-										 <RbeaColorControl
-											label = {__("Primary Track Color", "responsive-block-editor-addons")}
-											colorValue={horizontalProgressBarPrimaryTrackColor}
-											onChange={(colorValue) =>
-												setAttributes({ horizontalProgressBarPrimaryTrackColor: colorValue })
-											}
-											resetColor={() => setAttributes({ horizontalProgressBarPrimaryTrackColor: "" })}
-										/>
-										{progressBarStyle === "horizontal" && (horizontalProgressBarStyle === "striped" || horizontalProgressBarStyle === "animatedstriped") && (
-											<Fragment>
-												<RbeaColorControl
-													label = {__("Track Stripe Color", "responsive-block-editor-addons")}
-													colorValue={horizontalProgressBarStripeColor}
-													onChange={(colorValue) => setAttributes({ horizontalProgressBarStripeColor: colorValue })}
-													resetColor={() => setAttributes({ horizontalProgressBarStripeColor: "" })}
-												/>
-											</Fragment>
-										)}
-										<ToggleControl
-											label="Gradient Track Color"
-											checked={gradientTrack}
-											onChange={() =>
-												this.props.setAttributes({
-													gradientTrack: !gradientTrack,
-												})
-											}
-											__nextHasNoMarginBottom
-										/>
-										{gradientTrack && (
-											<Fragment>
-												<RbeaColorControl
-													label = {__("Secondary Track Color", "responsive-block-editor-addons")}
-													colorValue={horizontalProgressBarSecondaryTrackColor}
-													onChange={(colorValue) => setAttributes({ horizontalProgressBarSecondaryTrackColor: colorValue })}
-													resetColor={() => setAttributes({ horizontalProgressBarSecondaryTrackColor: "" })}
-												/>
-											</Fragment>
-										)}
-									</PanelBody>
+									<RbeaColorControl
+										label = {__("Background Color", "responsive-block-editor-addons")}
+										colorValue={horizontalProgressBarBackgroundColor}
+										onChange={(colorValue) =>
+											setAttributes({ horizontalProgressBarBackgroundColor: colorValue })
+										}
+										resetColor={() => setAttributes({ horizontalProgressBarBackgroundColor: "" })}
+									/>
+										<RbeaColorControl
+										label = {__("Primary Track Color", "responsive-block-editor-addons")}
+										colorValue={horizontalProgressBarPrimaryTrackColor}
+										onChange={(colorValue) =>
+											setAttributes({ horizontalProgressBarPrimaryTrackColor: colorValue })
+										}
+										resetColor={() => setAttributes({ horizontalProgressBarPrimaryTrackColor: "" })}
+									/>
+									{progressBarStyle === "horizontal" && (horizontalProgressBarStyle === "striped" || horizontalProgressBarStyle === "animatedstriped") && (
+										<Fragment>
+											<RbeaColorControl
+												label = {__("Track Stripe Color", "responsive-block-editor-addons")}
+												colorValue={horizontalProgressBarStripeColor}
+												onChange={(colorValue) => setAttributes({ horizontalProgressBarStripeColor: colorValue })}
+												resetColor={() => setAttributes({ horizontalProgressBarStripeColor: "" })}
+											/>
+										</Fragment>
+									)}
+									<ToggleControl
+										label="Gradient Track Color"
+										checked={gradientTrack}
+										onChange={() =>
+											this.props.setAttributes({
+												gradientTrack: !gradientTrack,
+											})
+										}
+										__nextHasNoMarginBottom
+									/>
+									{gradientTrack && (
+										<Fragment>
+											<RbeaColorControl
+												label = {__("Secondary Track Color", "responsive-block-editor-addons")}
+												colorValue={horizontalProgressBarSecondaryTrackColor}
+												onChange={(colorValue) => setAttributes({ horizontalProgressBarSecondaryTrackColor: colorValue })}
+												resetColor={() => setAttributes({ horizontalProgressBarSecondaryTrackColor: "" })}
+											/>
+										</Fragment>
+									)}
 								</Fragment>
 							)}
 							{progressBarColorType === "default" && progressBarStyle === "circular"
@@ -798,145 +802,6 @@ export default class Inspector extends Component {
 									</Fragment>
 								)}
 						</PanelBody>
-						{((progressBarStyle === "horizontal" && (progressBarTopTitleEnable || progressBarTopValueEnable || progressBarInnerTitleEnable || progressBarInnerValueEnable || progressBarBottomTitleEnable || progressBarBottomValueEnable))
-						|| (progressBarStyle === "circular" && circularProgressBarStyle === "circle" && (circularProgressBarValueEnable || circularProgressBarTopTitleEnable || circularProgressBarTopValueEnable || circularProgressBarBottomTitleEnable || circularProgressBarBottomValueEnable))
-						|| (progressBarStyle === "circular" && circularProgressBarStyle === "semicircle" && (semiCircularProgressBarValueEnable || semiCircularProgressBarTopTitleEnable || semiCircularProgressBarTopValueEnable || semiCircularProgressBarBottomTitleEnable || semiCircularProgressBarBottomValueEnable))
-						) && (
-							<PanelBody
-								title={__("Text Colors", "responsive-block-editor-addons")}
-								initialOpen={false}
-							>
-								{(progressBarStyle === "horizontal") && (progressBarTopTitleEnable || progressBarTopValueEnable) && (
-									<PanelBody
-										title={__("Top Title and Value Color", "responsive-block-editor-addons")}
-										initialOpen={false}
-									>
-										<RbeaColorControl
-											label = {__("Color", "responsive-block-editor-addons")}
-											colorValue={horizontalProgressBarTopTitleValueColor}
-											onChange={(colorValue) => setAttributes({ horizontalProgressBarTopTitleValueColor: colorValue })}
-											resetColor={() => setAttributes({ horizontalProgressBarTopTitleValueColor: "" })}
-										/>
-									</PanelBody>
-								)}
-								{(progressBarStyle === "horizontal") && (progressBarInnerTitleEnable || progressBarInnerValueEnable)
-									&& (horizontalProgressBarStyle !== "striped" && horizontalProgressBarStyle !== "animatedstriped")
-									&& (
-										<PanelBody
-											title={__("Inner Title and Value Color", "responsive-block-editor-addons")}
-											initialOpen={false}
-										>
-											<RbeaColorControl
-												label = {__("Color", "responsive-block-editor-addons")}
-												colorValue={horizontalProgressBarInnerTitleValueColor}
-												onChange={(colorValue) => setAttributes({ horizontalProgressBarInnerTitleValueColor: colorValue })}
-												resetColor={() => setAttributes({ horizontalProgressBarInnerTitleValueColor: "" })}
-											/>
-										</PanelBody>
-									)}
-								{(progressBarStyle === "horizontal") && (progressBarBottomTitleEnable || progressBarBottomValueEnable) && (
-									<PanelBody
-										title={__("Bottom Title and Value Color", "responsive-block-editor-addons")}
-										initialOpen={false}
-									>
-										<RbeaColorControl
-    										label = {__("Color", "responsive-block-editor-addons")}
-											colorValue={horizontalProgressBarBottomTitleValueColor}
-											onChange={(colorValue) => setAttributes({ horizontalProgressBarBottomTitleValueColor: colorValue })}
-											resetColor={() => setAttributes({ horizontalProgressBarBottomTitleValueColor: "" })}
-										/>
-									</PanelBody>
-								)}
-								{(progressBarStyle === "circular" && circularProgressBarStyle === "circle") &&
-									(circularProgressBarTopTitleEnable || circularProgressBarTopValueEnable)
-									&& (
-										<PanelBody
-											title={__("Top Title and Value Color", "responsive-block-editor-addons")}
-											initialOpen={false}
-										>
-											<RbeaColorControl
-												label = {__("Color", "responsive-block-editor-addons")}
-												colorValue={circularProgressBarTopTitleValueColor}
-												onChange={(colorValue) => setAttributes({ circularProgressBarTopTitleValueColor: colorValue })}
-												resetColor={() => setAttributes({ circularProgressBarTopTitleValueColor: "" })}
-											/>
-										</PanelBody>
-									)}
-								{(progressBarStyle === "circular" && circularProgressBarStyle === "circle")
-									&& (circularProgressBarValueEnable) && (
-										<PanelBody
-											title={__("Inner Value Color", "responsive-block-editor-addons")}
-											initialOpen={false}
-										>
-											<RbeaColorControl
-												label = {__("Color", "responsive-block-editor-addons")}
-												colorValue={circularProgressBarInnerValueColor}
-												onChange={(colorValue) => setAttributes({ circularProgressBarInnerValueColor: colorValue })}
-												resetColor={() => setAttributes({ circularProgressBarInnerValueColor: "" })}
-											/>
-										</PanelBody>
-									)}
-								{(progressBarStyle === "circular" && circularProgressBarStyle === "circle") &&
-									(circularProgressBarBottomTitleEnable || circularProgressBarBottomValueEnable)
-									&& (
-										<PanelBody
-											title={__("Bottom Title and Value Color", "responsive-block-editor-addons")}
-											initialOpen={false}
-										>
-											<RbeaColorControl
-												label = {__("Color", "responsive-block-editor-addons")}
-												colorValue={circularProgressBarBottomTitleValueColor}
-												onChange={(colorValue) => setAttributes({ circularProgressBarBottomTitleValueColor: colorValue })}
-												resetColor={() => setAttributes({ circularProgressBarBottomTitleValueColor: "" })}
-											/>
-										</PanelBody>
-									)}
-								{(progressBarStyle === "circular" && circularProgressBarStyle === "semicircle") &&
-									(semiCircularProgressBarTopTitleEnable || semiCircularProgressBarTopValueEnable)
-									&& (
-										<PanelBody
-											title={__("Top Title and Value Color", "responsive-block-editor-addons")}
-											initialOpen={false}
-										>
-											<RbeaColorControl
-												label = {__("Color", "responsive-block-editor-addons")}
-												colorValue={semiCircularProgressBarTopTitleValueColor}
-												onChange={(colorValue) => setAttributes({ semiCircularProgressBarTopTitleValueColor: colorValue })}
-												resetColor={() => setAttributes({ semiCircularProgressBarTopTitleValueColor: "" })}
-											/>
-										</PanelBody>
-									)}
-								{(progressBarStyle === "circular" && circularProgressBarStyle === "semicircle")
-									&& (semiCircularProgressBarValueEnable) && (
-										<PanelBody
-											title={__("Inner Value Color", "responsive-block-editor-addons")}
-											initialOpen={false}
-										>
-											<RbeaColorControl
-												label = {__("Color", "responsive-block-editor-addons")}
-												colorValue={semiCircularProgressBarInnerValueColor}
-												onChange={(colorValue) => setAttributes({ semiCircularProgressBarInnerValueColor: colorValue })}
-												resetColor={() => setAttributes({ semiCircularProgressBarInnerValueColor: "" })}
-											/>
-										</PanelBody>
-									)}
-								{(progressBarStyle === "circular" && circularProgressBarStyle === "semicircle") &&
-									(semiCircularProgressBarBottomTitleEnable || semiCircularProgressBarBottomValueEnable)
-									&& (
-										<PanelBody
-											title={__("Bottom Title and Value Color", "responsive-block-editor-addons")}
-											initialOpen={false}
-										>
-											<RbeaColorControl
-												label = {__("Color", "responsive-block-editor-addons")}
-												colorValue={semiCircularProgressBarBottomTitleValueColor}
-												onChange={(colorValue) => setAttributes({ semiCircularProgressBarBottomTitleValueColor: colorValue })}
-												resetColor={() => setAttributes({ semiCircularProgressBarBottomTitleValueColor: "" })}
-											/>
-										</PanelBody>
-									)}
-							</PanelBody>
-						)}
 						{progressBarStyle === "horizontal" && (
 							<PanelBody
 								title={__("Border", "responsive-block-editor-addons")}
@@ -976,9 +841,11 @@ export default class Inspector extends Component {
 												transform: topTitleValueTextTransform,
 												color: topTitleValueTypographyColor,
                   								fontstyle: topTitleValueFontStyle,
+												textDecoration: topTitleValueTextDecoration,
 											}}
 											showLetterSpacing={true}
 											showColorControl={true}
+											showTextDecoration={true}
 											setAttributes={setAttributes}
 											{...this.props}
 										/>
@@ -1002,9 +869,11 @@ export default class Inspector extends Component {
 													transform: innerTitleValueTextTransform,
 													color: innerTitleValueTypographyColor,
 													fontstyle: innerTitleValueFontStyle,
+													textDecoration: innerTitleValueTextDecoration,
 												}}
 												showLetterSpacing={true}
 												showColorControl={true}
+												showTextDecoration={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1026,9 +895,11 @@ export default class Inspector extends Component {
 												transform: bottomTitleValueTextTransform,
 												color: bottomTitleValueTypographyColor,
 												fontstyle: bottomTitleValueFontStyle,
+												textDecoration: bottomTitleValueTextDecoration,
 											}}
 											showLetterSpacing={true}
 											showColorControl={true}
+											showTextDecoration={true}
 											setAttributes={setAttributes}
 											{...this.props}
 										/>
@@ -1052,9 +923,11 @@ export default class Inspector extends Component {
 													transform: circularTopTitleValueTextTransform,
 													color: circularTopTitleValueTypographyColor,
 													fontstyle: circularTopTitleValueFontStyle,
+													textDecoration: circularTopTitleValueTextDecoration,
 												}}
 												showLetterSpacing={true}
 												showColorControl={true}
+												showTextDecoration={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1076,10 +949,12 @@ export default class Inspector extends Component {
 													spacing: circularInnerValueLetterSpacing,
 													color: circularInnerValueTypographyColor,
 													fontstyle: circularInnerValueFontStyle,
+													textDecoration: circularInnerValueTextDecoration,
 												}}
 												showLetterSpacing={true}
 												showTextTransform={false}
 												showColorControl={true}
+												showTextDecoration={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1103,9 +978,11 @@ export default class Inspector extends Component {
 													transform: circularBottomTitleValueTextTransform,
 													color: circularBottomTitleValueTypographyColor,
 													fontstyle: circularBottomTitleValueFontStyle,
+													textDecoration: circularBottomTitleValueTextDecoration,
 												}}
 												showLetterSpacing={true}
 												showColorControl={true}
+												showTextDecoration={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1129,9 +1006,11 @@ export default class Inspector extends Component {
 													transform: semiCircularTopTitleValueTextTransform,
 													color: semiCircularTopTitleValueTypographyColor,
 													fontstyle: semiCircularTopTitleValueFontStyle,
+													textDecoration: semiCircularTopTitleValueTextDecoration,
 												}}
 												showLetterSpacing={true}
 												showColorControl={true}
+												showTextDecoration={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1153,10 +1032,12 @@ export default class Inspector extends Component {
 													spacing: semiCircularInnerValueLetterSpacing,
 													color: semiCircularInnerValueTypographyColor,
 													fontstyle: semiCircularInnerValueFontStyle,
+													textDecoration: semiCircularInnerValueTextDecoration,
 												}}
 												showLetterSpacing={true}
 												showColorControl={true}
 												showTextTransform={false}
+												showTextDecoration={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1180,9 +1061,11 @@ export default class Inspector extends Component {
 													transform: semiCircularBottomTitleValueTextTransform,
 													color: semiCircularBottomTitleValueTypographyColor,
 													fontstyle: semiCircularBottomTitleValueFontStyle,
+													textDecoration: semiCircularBottomTitleValueTextDecoration,
 												}}
 												showLetterSpacing={true}
 												showColorControl={true}
+												showTextDecoration={true}
 												setAttributes={setAttributes}
 												{...this.props}
 											/>
@@ -1211,44 +1094,7 @@ export default class Inspector extends Component {
 
 						<RbeaExtensions {...this.props} />
 
-						<PanelBody
-							title={__("Responsive Conditions", "responsive-block-editor-addons")}
-							initialOpen={false}
-						>
-							<ToggleControl
-								label={__(
-								"Hide on Desktop",
-								"responsive-block-editor-addons"
-								)}
-								checked={hideWidget}
-								onChange={(value) =>
-								setAttributes({ hideWidget: !hideWidget })
-								}
-								__nextHasNoMarginBottom
-							/>
-							<ToggleControl
-								label={__(
-								"Hide on Tablet",
-								"responsive-block-editor-addons"
-								)}
-								checked={hideWidgetTablet}
-								onChange={(value) =>
-								setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-								}
-								__nextHasNoMarginBottom
-							/>
-							<ToggleControl
-								label={__(
-								"Hide on Mobile",
-								"responsive-block-editor-addons"
-								)}
-								checked={hideWidgetMobile}
-								onChange={(value) =>
-								setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-								}
-								__nextHasNoMarginBottom
-							/>
-						</PanelBody>
+						
           			
 					<PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}

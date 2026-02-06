@@ -8,13 +8,23 @@
  function EditorStyles(props) {
    const {
      block_id,
+     hideWidget,
+     hideWidgetTablet,
+     hideWidgetMobile,
+     z_index,
+     z_indexTablet,
+     z_indexMobile,
    } = props.attributes;
- 
+   const isOn = responsive_globals?.is_responsive_conditions_on ?? 1;
+
    var selectors = {
-     " .responsive-block-editor-addons-anchor-edit": {
+    "": {
+      'opacity': hideWidget && isOn ? 0.2 : 1,
+    },
+    " .responsive-block-editor-addons-anchor-edit": {
        "display": "grid",
        "grid-template-columns": '49% 2% 49%',
-     },
+    },
     " .responsive-block-editor-addons-anchor-border-left": {
       "border-top": `${generateCSSUnit(1, "px")} solid black `,
       "margin": "8px 6px 0 0",
@@ -31,9 +41,15 @@
    };
  
    var mobile_selectors = {
+    "": {
+      'opacity': hideWidgetMobile && isOn ? 0.2 : 1,
+    },
    };
  
    var tablet_selectors = {
+    "": {
+      'opacity': hideWidgetTablet && isOn ? 0.2 : 1,
+    },
    };
  
    var styling_css = "";

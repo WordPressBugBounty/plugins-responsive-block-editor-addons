@@ -168,6 +168,7 @@ class Responsive_Block_Editor_Addons {
 		add_action( 'admin_notices', array( $this, 'rbea_admin_review_notice' ) );
 		add_action( 'admin_init', array( $this, 'rba_notice_dismissed' ) );
 		add_action( 'admin_init', array( $this, 'rba_notice_change_timeout' ) );
+		add_action( 'admin_init', array( $this, 'rba_notice_cross_dismiss' ) );
 
 		add_action( 'wp_ajax_responsive_block_editor_cf7_shortcode', array( $this, 'cf7_shortcode' ) );
 		add_action( 'wp_ajax_nopriv_responsive_block_editor_cf7_shortcode', array( $this, 'cf7_shortcode' ) );
@@ -177,11 +178,28 @@ class Responsive_Block_Editor_Addons {
 
 		// RBEA Getting Started Blocks Toggle.
 		add_action( 'wp_ajax_rbea_blocks_toggle', array( $this, 'rbea_blocks_toggle' ) );
-		add_action( 'wp_ajax_nopriv_rbea_blocks_toggle', array( $this, 'rbea_blocks_toggle' ) );
 
 		// RBEA Auto Block Recovery Toggle.
 		add_action( 'wp_ajax_rbea_toggle_auto_block_recovery', array( $this, 'rbea_toggle_auto_block_recovery' ) );
-		add_action( 'wp_ajax_nopriv_rbea_toggle_auto_block_recovery', array( $this, 'rbea_toggle_auto_block_recovery' ) );
+
+		// RBEA Global Inherit From Theme Toggle.
+		add_action( 'wp_ajax_rbea_toggle_global_inherit_from_theme', array( $this, 'rbea_toggle_global_inherit_from_theme' ) );
+
+		// RBEA Custom CSS Toggle.
+		add_action( 'wp_ajax_rbea_toggle_custom_css', array( $this, 'rbea_toggle_custom_css' ) );
+
+		// RBEA Template Library Button Toggle.
+		add_action( 'wp_ajax_rbea_toggle_template_library_button', array( $this, 'rbea_toggle_template_library_button' ) );
+
+		// RBEA Content Width Setting.
+		add_action( 'wp_ajax_rbea_save_content_width', array( $this, 'rbea_save_content_width' ) );
+
+		// RBEA Container Padding Setting.
+		add_action( 'wp_ajax_rbea_save_container_padding', array( $this, 'rbea_save_container_padding' ) );
+
+		// RBEA Container Gap Setting.
+		add_action( 'wp_ajax_rbea_save_container_gap', array( $this, 'rbea_save_container_gap' ) );
+
 		add_action( 'rest_api_init', array( $this, 'register_custom_rest_endpoint' ) );
 		add_action( 'wp_ajax_rbea_sync_library', array( $this, 'rbea_sync_library' ) );
 
@@ -557,6 +575,7 @@ class Responsive_Block_Editor_Addons {
 		require_once RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'classes/class-responsive-block-editor-addons-frontend-styles.php';
 		require_once RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'src/blocks/inline-notice/index.php';
 		require_once RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'src/blocks/taxonomy-list/index.php';
+		require_once RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'src/blocks/table-of-contents/index.php';
 		require_once RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'src/blocks/instagram/index.php';
 		require_once RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'src/blocks/image-hotspot/index.php';
 		require_once RESPONSIVE_BLOCK_EDITOR_ADDONS_DIR . 'src/blocks/portfolio/index.php';
@@ -658,6 +677,8 @@ class Responsive_Block_Editor_Addons {
 		$is_taxonomy_list_on         = 1;
 		$is_contact_7_form_styler_on = 1;
 		$is_animation_toggled_on     = 1;
+		$is_display_conditions_on    = 1;
+		$is_responsive_conditions_on    = 1;
 
 		$block_status_map = array_column( (array) $blocks, 'status', 'key' );
 
@@ -671,6 +692,14 @@ class Responsive_Block_Editor_Addons {
 
 		if ( isset( $block_status_map['animations'] ) ) {
 			$is_animation_toggled_on = $block_status_map['animations'];
+		}
+
+		if ( isset( $block_status_map['display-conditions'] ) ) {
+			$is_display_conditions_on = $block_status_map['display-conditions'];
+		}
+
+		if ( isset( $block_status_map['responsive-conditions'] ) ) {
+			$is_responsive_conditions_on = $block_status_map['responsive-conditions'];
 		}
 
 		$include_all_taxonomy = 0;
@@ -706,8 +735,18 @@ class Responsive_Block_Editor_Addons {
 				'cf7_forms'                          => $is_contact_7_form_styler_on ? $this->get_cf7_forms() : array(),
 				'plugin_url'                         => plugin_dir_url( __DIR__ ),
 				'auto_block_recovery'                => get_option( 'rbea_auto_block_recovery', '1' ),
+				'global_inherit_from_theme'          => get_option( 'rbea_global_inherit_from_theme', '0' ),
+				'global_inherit_from_theme_last_changed' => get_option( 'rbea_global_inherit_from_theme_last_changed', '' ),
+				'is_custom_css_on'                   => (int) get_option( 'rbea_custom_css_on', '1' ),
+				'template_library_button_on'         => get_option( 'rbea_template_library_button_on', '1' ),
+				'default_content_width'              => get_option( 'rbea_default_content_width', 1340 ),
+				'default_container_padding'          => get_option( 'rbea_default_container_padding', 10 ),
+				'default_container_gap'              => get_option( 'rbea_default_container_gap', 20 ),
 				'blocks'                             => $blocks,
 				'is_animation_on'                    => $is_animation_toggled_on,
+				'is_display_conditions_on'           => $is_display_conditions_on,
+				'is_responsive_conditions_on'           => $is_responsive_conditions_on,
+				'user_roles'                         => $is_display_conditions_on ? $this->responsive_block_editor_addons_get_user_roles() : array(),
 			)
 		);
 
@@ -1162,6 +1201,58 @@ class Responsive_Block_Editor_Addons {
 	}
 
 	/**
+	 * Check if plugin is installed or activated.
+	 *
+	 * @return string
+	 */
+	public function rbea_plugin_status( $path ) {
+
+		if ( is_plugin_active( $path ) ) {
+			return 'activated';
+		}
+
+		// Check if RST is installed.
+		$installed_plugins = get_plugins();
+
+		if ( isset( $installed_plugins[ $path ] ) ) {
+			return 'activate';
+		} else {
+			return 'install';
+		}
+	}
+
+	/**
+	 * Get responsive theme status.
+	 * 
+	 * @return string 'activated' if active, 'activate' if installed, 'install' if not found.
+	 */
+	function get_responsive_theme_status() {
+		
+		$theme_slug = 'responsive';
+		$current_theme = wp_get_theme();
+		
+		// Check if responsive theme or its child theme is active.
+		if ($current_theme->get_stylesheet() === $theme_slug || $current_theme->get('Template') === $theme_slug) {
+			return 'activated';
+		}
+		
+		// Check if responsive theme is installed
+		$themes = wp_get_themes();
+		if (isset($themes[$theme_slug])) {
+			return 'activate';
+		}
+		
+		// Check if any child theme of responsive is installed
+		foreach ($themes as $theme) {
+			if ($theme->get('Template') === $theme_slug) {
+				return 'activate';
+			}
+		}
+		
+		return 'install';
+	}
+
+	/**
 	 * Include Admin css
 	 *
 	 * @return void [description]
@@ -1192,10 +1283,12 @@ class Responsive_Block_Editor_Addons {
 			wp_enqueue_script(
 				'responsive-block-editor-addons-admin-jsfile',
 				RESPONSIVE_BLOCK_EDITOR_ADDONS_URL . 'dist/responsive-block-editor-addons-getting-started.js',
-				array( 'jquery', 'react', 'react-dom' ),
+				array( 'jquery', 'react', 'react-dom', 'wp-components' ),
 				RESPONSIVE_BLOCK_EDITOR_ADDONS_VER,
 				true
 			);
+
+			wp_enqueue_style( 'wp-components' );
 
 			wp_enqueue_script( 'updates' );
 
@@ -1211,7 +1304,7 @@ class Responsive_Block_Editor_Addons {
 
 			$rst_path = 'responsive-add-ons/responsive-add-ons.php';
 
-			$nonce = add_query_arg(
+			$rst_nonce = add_query_arg(
 				array(
 					'action'        => 'activate',
 					'plugin'        => rawurlencode( $rst_path ),
@@ -1222,10 +1315,35 @@ class Responsive_Block_Editor_Addons {
 				network_admin_url( 'plugins.php' )
 			);
 
+			$rae_path = 'responsive-addons-for-elementor/responsive-addons-for-elementor.php';
+
+			$rae_nonce = add_query_arg(
+				array(
+					'action'        => 'activate',
+					'plugin'        => rawurlencode( $rae_path ),
+					'plugin_status' => 'all',
+					'paged'         => '1',
+					'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $rae_path ),
+				),
+				network_admin_url( 'plugins.php' )
+			);
+
+			$theme_slug = 'responsive';
+
+			$responsive_nonce = add_query_arg(
+				array(
+					'action'   => 'activate',
+					'stylesheet' => rawurlencode( $theme_slug ),
+					'_wpnonce' => wp_create_nonce( 'switch-theme_' . $theme_slug ),
+				),
+				admin_url( 'themes.php' )
+			);
+
 			wp_localize_script(
 				'responsive-block-editor-addons-admin-jsfile',
 				'rbealocalize',
 				array(
+					'pageurl'               => admin_url( 'post-new.php?post_type=page' ),
 					'ajaxurl'               => admin_url( 'admin-ajax.php' ),
 					'responsiveurl'         => RESPONSIVE_BLOCK_EDITOR_ADDONS_URL,
 					'siteurl'               => site_url(),
@@ -1243,10 +1361,22 @@ class Responsive_Block_Editor_Addons {
 					'rst_url'               => esc_url( 'https://wordpress.org/plugins/responsive-add-ons/' ),
 					'rbea_blocks'           => $blocks,
 					'auto_block_recovery'   => get_option( 'rbea_auto_block_recovery', '1' ),
+					'global_inherit_from_theme' => get_option( 'rbea_global_inherit_from_theme', '0' ),
+					'custom_css_on'         => get_option( 'rbea_custom_css_on', '1' ),
+					'template_library_button_on' => get_option( 'rbea_template_library_button_on', '1' ),
+					'default_content_width'  => get_option( 'rbea_default_content_width', 1340 ),
+					'default_container_padding' => get_option( 'rbea_default_container_padding', 10 ),
+					'default_container_gap'  => get_option( 'rbea_default_container_gap', 20 ),
 					'nonce'                 => wp_create_nonce( 'responsive_block_editor_ajax_nonce' ),
-					'rst_status'            => $this->rst_status(),
-					'rst_nonce'             => $nonce,
+					'rst_status'            => $this->rbea_plugin_status( $rst_path ),
+					'rae_status'            => $this->rbea_plugin_status( 'responsive-addons-for-elementor/responsive-addons-for-elementor.php' ),
+					'responsive_status'     => $this->get_responsive_theme_status(),
+					'rst_nonce'             => $rst_nonce,
+					'rae_nonce'             => $rae_nonce,
+					'responsive_nonce'      => $responsive_nonce,
 					'rst_redirect'          => admin_url( 'admin.php?page=responsive_add_ons' ),
+					'rae_redirect'          => admin_url( 'admin.php?page=rael_getting_started' ),
+					'responsive_redirect'   => admin_url( 'admin.php?page=responsive' ),
 				)
 			);
 
@@ -1350,10 +1480,40 @@ class Responsive_Block_Editor_Addons {
 	 */
 	public function rbea_admin_review_notice() {
 
+		// Don't show notice if it has been dismissed
+		if ( get_option( 'responsive_block_editor_addons_review_notice_dismissed' ) ) {
+			return;
+		}
+
+		// Initialize the review notice option if it doesn't exist
 		if ( false === get_option( 'responsive_block_editor_addons_review_notice' ) ) {
-			set_transient( 'responsive_block_editor_addons_ask_review_flag', true, 7 * 24 * 60 * 60 );
+			set_transient( 'responsive_block_editor_addons_intial_timeout', true, 7 * 24 * 60 * 60 );
 			update_option( 'responsive_block_editor_addons_review_notice', true );
-		} elseif ( false === (bool) get_transient( 'responsive_block_editor_addons_ask_review_flag' ) && false === get_option( 'responsive_block_editor_addons_review_notice_dismissed' ) ) {
+		}
+
+		// Check if the "maybe later" transient is active (user clicked "maybe later")
+		$maybe_later_active = (bool) get_transient( 'responsive_block_editor_addons_timeout' );
+		
+		// If "maybe later" is active, don't show notice regardless of other conditions
+		if ( $maybe_later_active ) {
+			return;
+		}
+		
+		// Check if 7-day delay has passed (original 7-day timer)
+		$seven_day_delay_passed = false === get_option( 'responsive_block_editor_addons_intial_timeout' ) ? false : true;
+		
+		// Check if user has at least 3 posts/pages with RBA blocks
+		$posts_with_blocks = $this->count_posts_with_rba_blocks();
+		$has_five_posts_with_blocks = $posts_with_blocks >= 3;
+		
+		// Check if user has used template library
+		$template_library_used = (bool) get_option( 'responsive_block_editor_addons_template_library_used' );
+		
+		// Show notice if:
+		// 1. 7-day delay has passed, OR
+		// 2. User has 3+ posts/pages with RBA blocks, OR
+		// 3. User has used template library
+		if ( $seven_day_delay_passed || $has_five_posts_with_blocks || $template_library_used ) {
 			$image_url = plugins_url( 'admin/images/responsive-blocks.svg', __DIR__ );
 			printf(
 				'<div class="notice notice-info rbea-ask-for-review-notice">
@@ -1382,7 +1542,7 @@ class Responsive_Block_Editor_Addons {
 						</div>
 					</div>
 					<div>
-						<a href="%7$s"><button type="button" class="rbea-ask-review-notice-dismiss"></button></a>
+						<a href="%10$s"><button type="button" class="rbea-ask-review-notice-dismiss"></button></a>
 					</div>
 				</div>',
 				esc_url( 'https://wordpress.org/support/plugin/responsive-block-editor-addons/reviews/' ),
@@ -1393,7 +1553,8 @@ class Responsive_Block_Editor_Addons {
 				esc_html__( 'I already did', 'responsive-block-editor-addons' ),
 				esc_url( '?responsive-block-editor-addons-notice-dismissed=true' ),
 				esc_url( $image_url ),
-				esc_url( '?responsive-block-editor-addons-review-notice-change-timeout=true' )
+				esc_url( '?responsive-block-editor-addons-review-notice-change-timeout=true' ),
+				esc_url( '?responsive-block-editor-addons-cross-dismiss=true' )
 			);
 		}
 	}
@@ -1413,9 +1574,105 @@ class Responsive_Block_Editor_Addons {
 	 */
 	public function rba_notice_change_timeout() {
 		if ( isset( $_GET['responsive-block-editor-addons-review-notice-change-timeout'] ) ) {
-			set_transient( 'responsive_block_editor_addons_ask_review_flag', true, DAY_IN_SECONDS );
+			set_transient( 'responsive_block_editor_addons_timeout', true, DAY_IN_SECONDS );
 			wp_safe_redirect( remove_query_arg( array( 'responsive-block-editor-addons-review-notice-change-timeout' ), wp_get_referer() ) );
 		}
+	}
+
+	/**
+	 * Handle cross button dismiss with 30-day timeout.
+	 */
+	public function rba_notice_cross_dismiss() {
+		if ( isset( $_GET['responsive-block-editor-addons-cross-dismiss'] ) ) {
+			set_transient( 'responsive_block_editor_addons_timeout', true, 30 * DAY_IN_SECONDS );
+			wp_safe_redirect( remove_query_arg( array( 'responsive-block-editor-addons-cross-dismiss' ), wp_get_referer() ) );
+		}
+	}
+
+	/**
+	 * Count posts and pages that contain at least one RBA block.
+	 *
+	 * @return int Number of posts/pages with RBA blocks.
+	 */
+	public function count_posts_with_rba_blocks() {
+		// Get all RBA block names
+		$rba_blocks = array(
+			'responsive-block-editor-addons/accordion',
+			'responsive-block-editor-addons/advance-columns',
+			'responsive-block-editor-addons/advanced-heading',
+			'responsive-block-editor-addons/advanced-text',
+			'responsive-block-editor-addons/anchor',
+			'responsive-block-editor-addons/blockquote',
+			'responsive-block-editor-addons/buttons',
+			'responsive-block-editor-addons/call-mail-button',
+			'responsive-block-editor-addons/call-to-action',
+			'responsive-block-editor-addons/card',
+			'responsive-block-editor-addons/container',
+			'responsive-block-editor-addons/contact-form-7-styler',
+			'responsive-block-editor-addons/content-timeline',
+			'responsive-block-editor-addons/count-down',
+			'responsive-block-editor-addons/count-up',
+			'responsive-block-editor-addons/divider',
+			'responsive-block-editor-addons/expand',
+			'responsive-block-editor-addons/feature-grid',
+			'responsive-block-editor-addons/flipbox',
+			'responsive-block-editor-addons/form',
+			'responsive-block-editor-addons/gallery-masonry',
+			'responsive-block-editor-addons/googlemap',
+			'responsive-block-editor-addons/how-to',
+			'responsive-block-editor-addons/icons-list',
+			'responsive-block-editor-addons/image',
+			'responsive-block-editor-addons/image-boxes',
+			'responsive-block-editor-addons/image-hotspot',
+			'responsive-block-editor-addons/image-slider',
+			'responsive-block-editor-addons/inline-notice',
+			'responsive-block-editor-addons/instagram',
+			'responsive-block-editor-addons/popup',
+			'responsive-block-editor-addons/portfolio',
+			'responsive-block-editor-addons/post-carousel',
+			'responsive-block-editor-addons/post-grid',
+			'responsive-block-editor-addons/post-timeline',
+			'responsive-block-editor-addons/pricing-list',
+			'responsive-block-editor-addons/pricing-table',
+			'responsive-block-editor-addons/progress-bar',
+			'responsive-block-editor-addons/section',
+			'responsive-block-editor-addons/section-block',
+			'responsive-block-editor-addons/shape-divider',
+			'responsive-block-editor-addons/social-share',
+			'responsive-block-editor-addons/spacer',
+			'responsive-block-editor-addons/table-of-contents',
+			'responsive-block-editor-addons/tabs',
+			'responsive-block-editor-addons/taxonomy-list',
+			'responsive-block-editor-addons/team',
+			'responsive-block-editor-addons/testimonial',
+			'responsive-block-editor-addons/testimonial-slider',
+			'responsive-block-editor-addons/video-popup',
+			'responsive-block-editor-addons/wp-search',
+		);
+
+		// Query for published posts and pages
+		$args = array(
+			'post_type'      => array( 'post', 'page' ),
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		);
+
+		$posts = get_posts( $args );
+		$count = 0;
+
+		foreach ( $posts as $post_id ) {
+			$content = get_post_field( 'post_content', $post_id );
+			
+			// Check if any RBA block exists in the content
+			foreach ( $rba_blocks as $block_name ) {
+				if ( strpos( $content, '<!-- wp:' . $block_name ) !== false ) {
+					$count++;
+					break; // Count this post only once, even if it has multiple RBA blocks
+				}
+			}
+		}
+		return $count;
 	}
 
 	/**
@@ -1498,6 +1755,145 @@ class Responsive_Block_Editor_Addons {
 		$value = ( '1' === $value ) ? '1' : '0';
 
 		update_option( 'rbea_auto_block_recovery', $value );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Saves the global inherit from theme setting in database when the toggle is changed.
+	 *
+	 * @since 2.1.4
+	 */
+	public function rbea_toggle_global_inherit_from_theme() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! isset( $_POST['value'] ) ) {
+			wp_send_json_error();
+		}
+
+		// Sanitize the boolean value.
+		$raw_value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
+		$value = ( '1' === $raw_value ) ? '1' : '0';
+
+		update_option( 'rbea_global_inherit_from_theme', $value );
+
+		// Record the time when the toggle was changed
+		$timestamp = current_datetime()->format( 'c' );
+		update_option( 'rbea_global_inherit_from_theme_last_changed', $timestamp, 'no' );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Saves the custom CSS setting in database when the toggle is changed.
+	 *
+	 * @since 2.1.7
+	 */
+	public function rbea_toggle_custom_css() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! isset( $_POST['value'] ) ) {
+			wp_send_json_error();
+		}
+
+		// Sanitize the boolean value.
+		$value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
+		$value = ( '1' === $value ) ? '1' : '0';
+
+		update_option( 'rbea_custom_css_on', $value );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Saves the template library button setting in database when the toggle is changed.
+	 *
+	 * @since 2.1.8
+	 */
+	public function rbea_toggle_template_library_button() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! isset( $_POST['value'] ) ) {
+			wp_send_json_error();
+		}
+
+		// Sanitize the boolean value.
+		$value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
+		$value = ( '1' === $value ) ? '1' : '0';
+
+		update_option( 'rbea_template_library_button_on', $value );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Handles AJAX request to save the default content width setting.
+	 *
+	 * @since 2.1.5
+	 * @return void
+	 */
+	public function rbea_save_content_width() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! isset( $_POST['value'] ) ) {
+			wp_send_json_error();
+		}
+
+		// Sanitize the numeric value.
+		$value = intval( sanitize_text_field( wp_unslash( $_POST['value'] ) ) );
+		
+		// Ensure value is within reasonable bounds.
+		$value = max( 100, min( 2000, $value ) );
+
+		update_option( 'rbea_default_content_width', $value );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Handles AJAX request to save the default container padding setting.
+	 *
+	 * @since 2.1.5
+	 * @return void
+	 */
+	public function rbea_save_container_padding() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! isset( $_POST['value'] ) ) {
+			wp_send_json_error();
+		}
+
+		// Sanitize the numeric value.
+		$value = intval( sanitize_text_field( wp_unslash( $_POST['value'] ) ) );
+		
+		// Ensure value is within reasonable bounds.
+		$value = max( 0, min( 2000, $value ) );
+
+		update_option( 'rbea_default_container_padding', $value );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Handles AJAX request to save the default container gap setting.
+	 *
+	 * @since 2.1.5
+	 * @return void
+	 */
+	public function rbea_save_container_gap() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! isset( $_POST['value'] ) ) {
+			wp_send_json_error();
+		}
+
+		// Sanitize the numeric value.
+		$value = intval( sanitize_text_field( wp_unslash( $_POST['value'] ) ) );
+		
+		// Ensure value is within reasonable bounds.
+		$value = max( 0, min( 2000, $value ) );
+
+		update_option( 'rbea_default_container_gap', $value );
 
 		wp_send_json_success();
 	}
@@ -1943,6 +2339,27 @@ class Responsive_Block_Editor_Addons {
 			);
 		}
 
+		// Enqueue inherit from theme frontend script
+		wp_enqueue_script(
+			'responsive-block-editor-addons-inherit-theme',
+			RESPONSIVE_BLOCK_EDITOR_ADDONS_URL . 'dist/responsive-block-editor-addons-inherit-theme.js',
+			array(),
+			RESPONSIVE_BLOCK_EDITOR_ADDONS_VER,
+			true
+		);
+
+		// Localize script with global inherit from theme settings
+		$global_inherit_value = get_option( 'rbea_global_inherit_from_theme', '0' );
+		$global_inherit_value = ( '1' === (string) $global_inherit_value || 1 === $global_inherit_value ) ? '1' : '0';
+		wp_localize_script(
+			'responsive-block-editor-addons-inherit-theme',
+			'rbea_globals',
+			array(
+				'global_inherit_from_theme' => $global_inherit_value,
+				'global_inherit_from_theme_last_changed' => get_option( 'rbea_global_inherit_from_theme_last_changed', '' ),
+			)
+		);
+
 	}
 
 	/**
@@ -1953,6 +2370,38 @@ class Responsive_Block_Editor_Addons {
 		$blocks = get_option( 'rbea_blocks' );
 
 		$block_status_map = array_column( (array) $blocks, 'status', 'key' );
+
+		if ( isset( $block_status_map['display-conditions'] ) ) {
+			$is_display_conditions_toggled_on = $block_status_map['display-conditions'];
+		}
+
+		if ( $is_display_conditions_toggled_on && ! empty( $block['attrs']['RBEADisplayConditions'] ) ) {
+			switch ( $block['attrs']['RBEADisplayConditions'] ) {
+				case 'userstate':
+					$block_content = $this->responsive_block_editor_addons_user_state_visibility( $block['attrs'], $block_content );
+					break;
+
+				case 'userrole':
+					$block_content = $this->responsive_block_editor_addons_user_role_visibility( $block['attrs'], $block_content );
+					break;
+
+				case 'browser':
+					$block_content = $this->responsive_block_editor_addons_browser_visibility( $block['attrs'], $block_content );
+					break;
+
+				case 'os':
+					$block_content = $this->responsive_block_editor_addons_os_visibility( $block['attrs'], $block_content );
+					break;
+
+				case 'day':
+					$block_content = $this->responsive_block_editor_addons_day_visibility( $block['attrs'], $block_content );
+					break;
+
+				default:
+					// nothing for now.
+					break;
+			}
+		}
 
 		if ( isset( $block_status_map['animations'] ) ) {
 			$is_animations_toggled_on = $block_status_map['animations'];
@@ -1968,6 +2417,308 @@ class Responsive_Block_Editor_Addons {
 			$aos_attributes = '<div data-aos= "' . esc_attr( $attrs['RBEAAnimationType'] ) . '" data-aos-duration="' . esc_attr( $attrs['RBEAAnimationTime'] ) . '" data-aos-delay="' . esc_attr( $attrs['RBEAAnimationDelay'] ) . '" data-aos-easing="' . esc_attr( $attrs['RBEAAnimationEasing'] ) . '" data-aos-once="' . esc_attr( $attrs['RBEAAnimationRepeat'] ) . '" ';
 			$block_content  = preg_replace( '/<div /', $aos_attributes, $block_content, 1 );
 		}
+
+		// Inject inherit from theme data attributes for old blocks that don't have them
+		$block_content = $this->inject_inherit_from_theme_attributes( $block_content, $block );
+
+		// Replace SVG placeholders with actual SVG markup
+		$block_content = $this->render_svg_icons_dynamically( $block_content );
+
 		return $block_content;
+	}
+
+	/**
+	 * Inject inherit from theme data attributes for old blocks.
+	 * 
+	 * This ensures that blocks saved before the inherit-from-theme feature was added
+	 * will still work correctly when the global inherit setting is enabled.
+	 *
+	 */
+	public function inject_inherit_from_theme_attributes( $block_content, $block ) {
+		// Skip if block content is empty or block doesn't already have data-rbea-inherit-wrapper
+		if ( empty( $block_content ) || strpos( $block_content, 'data-rbea-inherit-wrapper' ) !== false ) {
+			return $block_content;
+		}
+
+		// Define block-specific selectors for inject inherit from theme data attributes
+		$inherit_blocks_config = array(
+			'responsive-block-editor-addons/buttons-child' => array(
+				'wrapper_class' => 'responsive-block-editor-addons-button__wrapper',
+				'parent' => 'self',
+				'child' => '.responsive-block-editor-addons-buttons-repeater',
+			),
+			'responsive-block-editor-addons/card' => array(
+				'wrapper_class' => 'wp-block-responsive-block-editor-addons-card-item__button-wrapper',
+				'parent' => 'self',
+				'child' => '.responsive-block-editor-addons-card-button-inner a',
+			),
+			'responsive-block-editor-addons/call-mail-button' => array(
+				'wrapper_class' => 'responsive-block-editor-addons-block-call-mail-button',
+				'parent' => 'self',
+				'child' => '.responsive-block-editor-addons-call-mail-button-button-container',
+			),
+			'responsive-block-editor-addons/popup' => array(
+				'wrapper_class' => 'responsive-block-editor-addons-popup-trigger-wrap',
+				'parent' => 'self',
+				'child' => '.responsive-block-editor-addons-popup-button-trigger',
+				'child_extra' => 'wp-block-button',
+			),
+			'responsive-block-editor-addons/responsive-block-editor-addons-cta' => array(
+				'wrapper_class' => 'responsive-block-editor-addons-cta-button-wrapper',
+				'parent' => 'self',
+				'child' => 'a',
+			),
+			'responsive-block-editor-addons/pricing-table' => array(
+				'wrapper_class' => 'wp-block-responsive-block-editor-addons-pricing-table-item__button-wrapper',
+				'button_class' => 'wp-block-responsive-block-editor-addons-pricing-table-item__button',
+				'parent' => 'self',
+				'child' => 'a',
+		),
+		);
+
+		// Check if this block supports inherit from theme
+		if ( ! isset( $inherit_blocks_config[ $block['blockName'] ] ) ) {
+			return $block_content;
+		}
+
+		$config = $inherit_blocks_config[ $block['blockName'] ];
+		$attrs = $block['attrs'];
+
+		// Get attribute values (with defaults for old blocks)
+		$inherit_from_theme_saved = isset( $attrs['inheritFromThemesaved'] ) ? $attrs['inheritFromThemesaved'] : false;
+		$local_timestamp = isset( $attrs['inheritFromThemeLocalTimestamp'] ) ? $attrs['inheritFromThemeLocalTimestamp'] : '';
+
+		// Build data attributes string
+		$data_attrs = sprintf(
+			' data-rbea-inherit-wrapper="true" data-inherit-from-theme="%s" data-local-timestamp="%s" data-rbea-inherit-parent="%s" data-rbea-inherit-child="%s"',
+			$inherit_from_theme_saved ? '1' : '0',
+			esc_attr( $local_timestamp ),
+			esc_attr( $config['parent'] ),
+			esc_attr( $config['child'] )
+		);
+
+	// Add extra child class if defined (for popup block)
+	if ( isset( $config['child_extra'] ) ) {
+		$data_attrs .= sprintf( ' data-rbea-inherit-child-extra="%s"', esc_attr( $config['child_extra'] ) );
+	}
+
+	// Special handling for pricing table block
+	// Old pricing table blocks don't have the button wrapper div, so we need to create it
+	if ( $block['blockName'] === 'responsive-block-editor-addons/pricing-table' && 
+	     strpos( $block_content, $config['wrapper_class'] ) === false ) {
+		// Find all pricing table item buttons and wrap them
+		$button_class = $config['button_class'];
+		$wrapper_class = $config['wrapper_class'];
+		
+		// Pattern to match: <a class="...wp-block-responsive-block-editor-addons-pricing-table-item__button..." ...>...</a>
+		$button_pattern = '/(<a\s+[^>]*class="[^"]*' . preg_quote( $button_class, '/' ) . '[^"]*"[^>]*>.*?<\/a>)/s';
+		
+		$block_content = preg_replace_callback( $button_pattern, function( $matches ) use ( $wrapper_class, $data_attrs ) {
+			$button_html = $matches[1];
+			// Wrap the button with the new wrapper div
+			return sprintf( '<div class="%s"%s>%s</div>', $wrapper_class, $data_attrs, $button_html );
+		}, $block_content );
+		
+		return $block_content;
+	}
+
+	// Inject attributes into the wrapper element
+	// Look for the wrapper class and add attributes to that element
+	$pattern = '/(<[^>]*class="[^"]*' . preg_quote( $config['wrapper_class'], '/' ) . '[^"]*"[^>]*)(>)/';
+	$replacement = '$1' . $data_attrs . '$2';
+	$block_content = preg_replace( $pattern, $replacement, $block_content, 1 );
+
+	return $block_content;
+}
+
+	/**
+	 *  Get the User Roles
+	 *
+	 *  @since 2.1.3
+	 */
+	public function responsive_block_editor_addons_get_user_roles() {
+
+		global $wp_roles;
+
+		$field_options = array();
+
+		$role_lists = $wp_roles->get_names();
+
+		$field_options[0] = array(
+			'value' => '',
+			'label' => __( 'None', 'responsive-block-editor-addons' ),
+		);
+
+		foreach ( $role_lists as $key => $role_list ) {
+			$field_options[] = array(
+				'value' => $key,
+				'label' => $role_list,
+			);
+		}
+
+		return $field_options;
+	}
+
+	/**
+	 * User State Visibility.
+	 *
+	 * @param array $block_attributes The block data.
+	 * @param mixed $block_content The block content.
+	 *
+	 * @since 2.1.3
+	 * @return mixed Returns the new block content.
+	 */
+	public function responsive_block_editor_addons_user_state_visibility( $block_attributes, $block_content ) {
+		if ( ! empty( $block_attributes['RBEALoggedIn'] ) && is_user_logged_in() ) {
+			return '';
+		}
+
+		if ( ! empty( $block_attributes['RBEALoggedOut'] ) && ! is_user_logged_in() ) {
+			return '';
+		}
+
+		return $block_content;
+	}
+
+	/**
+	 * User Role Visibility.
+	 *
+	 * @param array $block_attributes The block data.
+	 * @param mixed $block_content The block content.
+	 *
+	 * @since 2.1.3
+	 * @return mixed Returns the new block content.
+	 */
+	public function responsive_block_editor_addons_user_role_visibility( $block_attributes, $block_content ) {
+		if ( empty( $block_attributes['RBEARole'] ) ) {
+			return $block_content;
+		}
+
+		$user = wp_get_current_user();
+		return is_user_logged_in() && ! empty( $user->roles ) && in_array( $block_attributes['RBEARole'], $user->roles, true ) ? '' : $block_content;
+	}
+
+	/**
+	 * Browser Visibility.
+	 *
+	 * @param array $block_attributes The block data.
+	 * @param mixed $block_content The block content.
+	 *
+	 * @since 2.1.3
+	 * @return mixed Returns the new block content.
+	 */
+	public function responsive_block_editor_addons_browser_visibility( $block_attributes, $block_content ) {
+
+		if ( empty( $block_attributes['RBEABrowser'] ) ) {
+			return $block_content;
+		}
+		$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? Responsive_Block_Editor_Addons_Helper::get_instance()->rbea_get_browser_name( sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
+
+		return $block_attributes['RBEABrowser'] === $user_agent ? '' : $block_content;
+	}
+
+	/**
+	 * Operating System Visibility.
+	 *
+	 * @param array $block_attributes The block data.
+	 * @param mixed $block_content The block content.
+	 * @since 2.1.3
+	 * @return mixed Returns the new block content.
+	 */
+	public function responsive_block_editor_addons_os_visibility( $block_attributes, $block_content ) {
+
+		if ( empty( $block_attributes['RBEASystem'] ) ) {
+			return $block_content;
+		}
+
+		$os = array(
+			'iphone'   => '(iPhone)',
+			'android'  => '(Android)',
+			'windows'  => 'Win16|(Windows 95)|(Win95)|(Windows_95)|(Windows 98)|(Win98)|(Windows NT 5.0)|(Windows 2000)|(Windows NT 5.1)|(Windows XP)|(Windows NT 5.2)|(Windows NT 6.0)|(Windows Vista)|(Windows NT 6.1)|(Windows 7)|(Windows NT 4.0)|(WinNT4.0)|(WinNT)|(Windows NT)|Windows ME',
+			'open_bsd' => 'OpenBSD',
+			'sun_os'   => 'SunOS',
+			'linux'    => '\bLinux\b(?!.*\bAndroid\b)', // Linux but NOT Android.
+			'mac_os'   => '(Mac_PowerPC|Macintosh|Mac OS|MacOS)',
+		);
+
+		$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ) : '';
+
+		return isset( $os[ $block_attributes['RBEASystem'] ] ) && preg_match( '@' . $os[ $block_attributes['RBEASystem'] ] . '@', $user_agent ) ? '' : $block_content;
+	}
+
+	/**
+	 * Day Visibility.
+	 *
+	 * @param array $block_attributes The block data.
+	 * @param mixed $block_content The block content.
+	 *
+	 * @since 2.1.3
+	 * @return mixed Returns the new block content.
+	 */
+	public function responsive_block_editor_addons_day_visibility( $block_attributes, $block_content ) {
+
+		// If not set restriction.
+		if ( empty( $block_attributes['RBEADay'] ) ) {
+			return $block_content;
+		}
+
+		$current_day = strtolower( current_datetime()->format( 'l' ) );
+		// Check in restricted day.
+		return ! in_array( $current_day, $block_attributes['RBEADay'] ) ? $block_content : '';
+
+	}
+
+	/**
+	 * Render SVG icons dynamically from placeholders.
+	 *
+	 * Replaces placeholder spans with actual SVG markup on the frontend.
+	 *
+	 * @param string $block_content The block content.
+	 * @return string Modified block content with SVGs rendered.
+	 */
+	public function render_svg_icons_dynamically( $block_content ) {
+		if ( empty( $block_content ) ) {
+			return $block_content;
+		}
+
+		// Pattern to match placeholder spans with rbea-dynamic-icon class (including closing tag)
+		$pattern = '/<span\s+([^>]*\s+)?class=["\']([^"\']*\s+)?rbea-dynamic-icon([^"\']*)?["\']([^>]*)?>\s*<\/span>/i';
+
+		$replaced_content = preg_replace_callback(
+			$pattern,
+			function( $matches ) {
+				// Extract the full span tag (opening tag only for attribute extraction)
+				$full_match = $matches[0];
+				$opening_tag = $matches[0];
+				if ( preg_match( '/<span[^>]*>/', $full_match, $tag_match ) ) {
+					$opening_tag = $tag_match[0];
+				}
+
+				// Extract data-icon attribute
+				if ( preg_match( '/data-icon=["\']([^"\']+)["\']/', $opening_tag, $icon_matches ) ) {
+					$icon_name = $icon_matches[1];
+
+					// Render SVG using the renderer class
+					$svg = Responsive_Block_Editor_Addons_SVG_Renderer::render( $icon_name );
+
+					if ( ! empty( $svg ) ) {
+						// Wrap SVG in span with original classes preserved
+						$wrapper_classes = 'rbea-svg-icon-wrap';
+						if ( preg_match( '/class=["\']([^"\']+)["\']/', $opening_tag, $class_matches ) ) {
+							$original_classes = $class_matches[1];
+							$wrapper_classes = $original_classes . ' rbea-svg-icon-wrap';
+						}
+
+						return '<span class="' . esc_attr( $wrapper_classes ) . '">' . $svg . '</span>';
+					}
+				}
+
+				// Return original if no icon found
+				return $full_match;
+			},
+			$block_content
+		);
+
+		return is_null( $replaced_content ) ? $block_content : $replaced_content;
 	}
 }

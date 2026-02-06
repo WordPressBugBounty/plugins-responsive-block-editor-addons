@@ -188,6 +188,8 @@ export default class Inspector extends Component {
         titleFontStyle,
         contentTextTransform,
         contentFontStyle,
+        titleTextDecoration,
+        contentTextDecoration,
       },
       setAttributes,
     } = this.props;
@@ -362,9 +364,11 @@ export default class Inspector extends Component {
                   color: titleTypographyColor,
                   transform: titleTextTransform,
                   fontstyle: titleFontStyle,
+                  textDecoration: titleTextDecoration,
                 }}
                 showLetterSpacing={true}
                 showColorControl={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -382,9 +386,11 @@ export default class Inspector extends Component {
                   color: contentTypographyColor,
                   transform: contentTextTransform,
                   fontstyle: contentFontStyle,
+                  titleDecoration: contentTextDecoration,
                 }}
                 showLetterSpacing={true}
                 showColorControl={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -392,44 +398,37 @@ export default class Inspector extends Component {
               title={__("Padding", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <PanelBody
-                title={__("Title Padding", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveSpacingControl
-                  title={"Title Padding Horizontal"}
-                  attrNameTemplate="titlePaddingHorizontal%s"
-                  values={{ desktop: titlePaddingHorizontal, tablet: titlePaddingHorizontalTablet, mobile: titlePaddingHorizontalMobile }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-                <ResponsiveSpacingControl
-                  title={"Title Padding Vertical"}
-                  attrNameTemplate="titlePaddingVertical%s"
-                  values={{ desktop: titlePaddingVertical, tablet: titlePaddingVerticalTablet, mobile: titlePaddingVerticalMobile }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-              </PanelBody>
-              <PanelBody
-                title={__("Content Padding", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveSpacingControl
-                  title={"Content Padding Horizontal"}
-                  attrNameTemplate="contentPaddingHorizontal%s"
-                  values={{ desktop: contentPaddingHorizontal, tablet: contentPaddingHorizontalTablet, mobile: contentPaddingHorizontalMobile }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-                <ResponsiveSpacingControl
-                  title={"Content Padding Vertical"}
-                  attrNameTemplate="contentPaddingVertical%s"
-                  values={{ desktop: contentPaddingVertical, tablet: contentPaddingVerticalTablet, mobile: contentPaddingVerticalMobile }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-              </PanelBody>
+              <ResponsiveSpacingControl
+                title={"Title Padding Horizontal"}
+                attrNameTemplate="titlePaddingHorizontal%s"
+                values={{ desktop: titlePaddingHorizontal, tablet: titlePaddingHorizontalTablet, mobile: titlePaddingHorizontalMobile }}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
+              <ResponsiveSpacingControl
+                title={"Title Padding Vertical"}
+                attrNameTemplate="titlePaddingVertical%s"
+                values={{ desktop: titlePaddingVertical, tablet: titlePaddingVerticalTablet, mobile: titlePaddingVerticalMobile }}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
+              <ResponsiveSpacingControl
+                title={"Content Padding Horizontal"}
+                attrNameTemplate="contentPaddingHorizontal%s"
+                values={{ desktop: contentPaddingHorizontal, tablet: contentPaddingHorizontalTablet, mobile: contentPaddingHorizontalMobile }}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
+              <ResponsiveSpacingControl
+                title={"Content Padding Vertical"}
+                attrNameTemplate="contentPaddingVertical%s"
+                values={{ desktop: contentPaddingVertical, tablet: contentPaddingVerticalTablet, mobile: contentPaddingVerticalMobile }}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
             </PanelBody>
             <PanelBody
               title={__("Spacing", "responsive-block-editor-addons")}
@@ -452,44 +451,7 @@ export default class Inspector extends Component {
 
             <RbeaExtensions {...this.props} />
 
-            <PanelBody
-              title={__("Responsive Conditions", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <ToggleControl
-                label={__(
-                  "Hide on Desktop",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidget}
-                onChange={(value) =>
-                  setAttributes({ hideWidget: !hideWidget })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Tablet",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetTablet}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Mobile",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetMobile}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-                }
-                __nextHasNoMarginBottom
-              />
-            </PanelBody>
+            
                 <PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}
               initialOpen={false}

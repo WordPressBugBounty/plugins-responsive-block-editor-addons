@@ -25,6 +25,9 @@ import RbeaBorderRadiusControl from "../../../settings-components/RbeaBorderRadi
 import RbeaMediaUploadControl from "../../../utils/components/rbea-media-upload-control";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
 import RbeaExtensions from "../../../extensions/RbeaExtensions";
+import { convertPositionToFocalPoint } from '../../../getImagePosition';
+import PresetControl from "../../../settings-components/PresetSettings";
+import { presets, resetPreset, buttonPreset, resetButtonPreset } from './presets';
 <RbeaSupportControl blockSlug={"multi-buttons"} />
 
 // Setup the block
@@ -50,6 +53,7 @@ const {
   TabPanel,
   Dashicon,
   RadioControl,
+  FocalPointPicker,
 } = wp.components;
 
 let svg_icons = Object.keys(ResponsiveBlocksIcon);
@@ -223,6 +227,9 @@ export default class Inspector extends Component {
       backgroundPosition,
       backgroundPositionMobile,
       backgroundPositionTablet,
+      backgroundPositionFocal,
+      backgroundPositionFocalMobile,
+      backgroundPositionFocalTablet,
       backgroundAttachment,
       backgroundRepeat,
       backgroundSize,
@@ -237,6 +244,13 @@ export default class Inspector extends Component {
       ctaTextFontStyle,
       buttonTextTextTransform,
       buttonTextFontStyle,
+      hasImagePositionMigrated,
+      inheritFromTheme,
+      inheritFromThemesaved,
+      inheritFromThemeLocalTimestamp,
+      ctaTitleTextDecoration,
+      ctaTextTextDecoration,
+      buttonTextTextDecoration,
     } = this.props.attributes;
     const { setAttributes } = this.props;
 
@@ -500,6 +514,17 @@ export default class Inspector extends Component {
       this.props.setAttributes({backgroundImageValueUpdated: true});
     }
 
+    if ( ! hasImagePositionMigrated ) {
+      this.props.setAttributes(
+        {
+          backgroundPositionFocal: convertPositionToFocalPoint( backgroundPosition ),
+          backgroundPositionFocalMobile: convertPositionToFocalPoint( backgroundPositionMobile ),
+          backgroundPositionFocalTablet: convertPositionToFocalPoint( backgroundPositionTablet ),
+          hasImagePositionMigrated: true,
+        }
+      )
+    }
+
     // Background image URL
     let background_image_url = backgroundImage || '';
 
@@ -569,6 +594,37 @@ export default class Inspector extends Component {
                 }}
               </TabPanel>
             </PanelBody>
+            <PanelBody
+              title={__("Presets", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+              <PresetControl
+                label={__('Select Preset', 'responsive-block-editor-addons')}
+                presets={presets}
+                onApply={(newAttrs) => setAttributes(newAttrs)}
+                activeId={null}
+                isResetAllowed={true}
+                resetAttr={resetPreset}
+                onResetApply={(newAttrs) => setAttributes(newAttrs)}
+              />
+            </PanelBody>
+            <PanelBody
+              title={__("Button Settings", "responsive-block-editor-addons")}
+              initialOpen={false}
+            >
+              <ToggleControl
+                label={__("Inherit from Theme", "responsive-block-editor-addons")}
+                checked={inheritFromTheme}
+                onChange={(next) => {
+                  setAttributes({
+                    inheritFromTheme: next,
+                    inheritFromThemesaved: next,
+                    inheritFromThemeLocalTimestamp: new Date().toISOString(),
+                  });
+                }}
+                __nextHasNoMarginBottom
+              />
+            </PanelBody>
             <RbeaSupportControl blockSlug={"responsive-block-editor-addons-cta"} />
           </InspectorTab>
           <InspectorTab key={"style"}>
@@ -589,10 +645,12 @@ export default class Inspector extends Component {
             bottomSpacingTablet: ctaTitleBottomSpacingTablet,
             transform: ctaTitleTextTransform,
             fontstyle: ctaTitleFontStyle,
+            textDecoration: ctaTitleTextDecoration,
 					}}
 					showLetterSpacing={false}
           showColorControl={true}
           showTextBottomSpacing={true}
+          showTextDecoration={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -611,9 +669,11 @@ export default class Inspector extends Component {
             bottomSpacingTablet: ctaTextBottomSpacingTablet,
             transform: ctaTextTextTransform,
             fontstyle: ctaTextFontStyle,
+            textDecoration: ctaTextTextDecoration,
 					}}
 					showLetterSpacing={false}
           showTextBottomSpacing={true}
+          showTextDecoration={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -630,9 +690,11 @@ export default class Inspector extends Component {
 						height: buttonTextLineHeight,
             transform: buttonTextTextTransform,
             fontstyle: buttonTextFontStyle,
+            textDecoration: buttonTextTextDecoration,
 					}}
 					showLetterSpacing={false}
           showTextBottomSpacing={false}
+          showTextDecoration={true}
 					setAttributes={setAttributes}
 					{...this.props}
 				/>
@@ -650,9 +712,11 @@ export default class Inspector extends Component {
 				  		height: buttonTextLineHeight,
               transform: buttonTextTextTransform,
               fontstyle: buttonTextFontStyle,
+              textDecoration: buttonTextTextDecoration,
 				  	}}
 				  	showLetterSpacing={false}
             showTextBottomSpacing={false}
+            showTextDecoration={true}
 				  	setAttributes={setAttributes}
 				  	{...this.props}
 				  />
@@ -722,41 +786,39 @@ export default class Inspector extends Component {
                     </TabPanel>
                     </div>
                     <Fragment>
-                      <div className = "rbea-background-image-positon-control"
-                      style={{
-                        backgroundImage: `url(${background_image_url})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition:  'center',
-                      }}>
+                      <div className = "rbea-background-image-positon-control">
                       { imagePositionTab === "desktop" && 
-                          <RadioControl 
-                            className = "rbea-background-image-positon-control-options"
-                            selected={backgroundPosition}
-                            options={imagePositionOptions}
+                          <FocalPointPicker
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
+                            url={background_image_url}
+                            value={backgroundPositionFocal}
                             onChange={(value) =>
-                              setAttributes({ backgroundPosition: value })
+                              setAttributes({ backgroundPositionFocal: value })
                             }
                           />
                       }
                       {imagePositionTab === "tablet" &&
-                         <RadioControl 
-                            className = "rbea-background-image-positon-control-options"
-                            selected={backgroundPositionTablet}
-                            options={imagePositionOptions}
+                          <FocalPointPicker
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
+                            url={background_image_url}
+                            value={backgroundPositionFocalTablet}
                             onChange={(value) =>
-                              setAttributes({ backgroundPositionTablet: value })
+                              setAttributes({ backgroundPositionFocalTablet: value })
                             }
-                        />
+                          />
                       }
                       {imagePositionTab === "mobile" && 
-                        <RadioControl 
-                            className = "rbea-background-image-positon-control-options"
-                            selected={backgroundPositionMobile}
-                            options={imagePositionOptions}
+                          <FocalPointPicker
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
+                            url={background_image_url}
+                            value={backgroundPositionFocalMobile}
                             onChange={(value) =>
-                              setAttributes({ backgroundPositionMobile: value })
+                              setAttributes({ backgroundPositionFocalMobile: value })
                             }
-                        />
+                          />
                       }
                       </div>
                     </Fragment>
@@ -991,6 +1053,19 @@ export default class Inspector extends Component {
                 ]}
                 defaultValue={"text"}
               />
+
+              {resctaType === 'button' && (
+                <PresetControl
+                  label={__('Button Shape', 'responsive-block-editor-addons')}
+                  presets={buttonPreset}
+                  onApply={(newAttrs) => setAttributes(newAttrs)}
+                  activeId={null}
+                  isResetAllowed={true}
+                  resetAttr={resetButtonPreset}
+                  onResetApply={(newAttrs) => setAttributes(newAttrs)}
+                />
+              )}
+
               <ButtonSettingsControl
                 {...this.props}
                 showMarginControls={false}
@@ -1051,59 +1126,51 @@ export default class Inspector extends Component {
               title={__("Spacing", "responsive-block-editor-addons")}
               initialOpen={false}
             >
-              <PanelBody
-                title={__("Padding", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveNewPaddingControl
-                  attrNameTemplate="block%s"
-                  resetValues={blockPaddingResetValues}
-                  {...this.props}
-                />
-              </PanelBody>
-              <PanelBody
-                title={__("Margin", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveNewMarginControl
-                  attrNameTemplate="block%s"
-                  resetValues={blockMarginResetValues}
-                  {...this.props}
-                />
-                <ResponsiveSpacingControl
-                  title={"Title Bottom Margin"}
-                  attrNameTemplate="titleSpace%s"
-                  values={{
-                    desktop: titleSpace,
-                    tablet: titleSpaceTablet,
-                    mobile: titleSpaceMobile,
-                  }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-                <ResponsiveSpacingControl
-                  title={"Text Bottom Margin"}
-                  attrNameTemplate="subtitleSpace%s"
-                  values={{
-                    desktop: subtitleSpace,
-                    tablet: subtitleSpaceTablet,
-                    mobile: subtitleSpaceMobile,
-                  }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-                <ResponsiveSpacingControl
-                  title={"Button Bottom Margin"}
-                  attrNameTemplate="buttonSpace%s"
-                  values={{
-                    desktop: buttonSpace,
-                    tablet: buttonSpaceTablet,
-                    mobile: buttonSpaceMobile,
-                  }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-                />
-              </PanelBody>
+              <ResponsiveNewPaddingControl
+                attrNameTemplate="block%s"
+                resetValues={blockPaddingResetValues}
+                {...this.props}
+              />
+              
+              <ResponsiveNewMarginControl
+                attrNameTemplate="block%s"
+                resetValues={blockMarginResetValues}
+                {...this.props}
+              />
+              <ResponsiveSpacingControl
+                title={"Title Bottom Margin"}
+                attrNameTemplate="titleSpace%s"
+                values={{
+                  desktop: titleSpace,
+                  tablet: titleSpaceTablet,
+                  mobile: titleSpaceMobile,
+                }}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
+              <ResponsiveSpacingControl
+                title={"Text Bottom Margin"}
+                attrNameTemplate="subtitleSpace%s"
+                values={{
+                  desktop: subtitleSpace,
+                  tablet: subtitleSpaceTablet,
+                  mobile: subtitleSpaceMobile,
+                }}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
+              <ResponsiveSpacingControl
+                title={"Button Bottom Margin"}
+                attrNameTemplate="buttonSpace%s"
+                values={{
+                  desktop: buttonSpace,
+                  tablet: buttonSpaceTablet,
+                  mobile: buttonSpaceMobile,
+                }}
+                setAttributes={setAttributes}
+                {...this.props}
+              />
+              
             </PanelBody>
             <RbeaSupportControl blockSlug={"responsive-block-editor-addons-cta"} />
           </InspectorTab>
@@ -1111,44 +1178,7 @@ export default class Inspector extends Component {
 
             <RbeaExtensions {...this.props} />
 
-            <PanelBody
-              title={__("Responsive Conditions", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <ToggleControl
-                label={__(
-                  "Hide on Desktop",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidget}
-                onChange={(value) =>
-                  setAttributes({ hideWidget: !hideWidget })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Tablet",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetTablet}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Mobile",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetMobile}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-                }
-                __nextHasNoMarginBottom
-              />
-            </PanelBody>
+            
           
           <PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}

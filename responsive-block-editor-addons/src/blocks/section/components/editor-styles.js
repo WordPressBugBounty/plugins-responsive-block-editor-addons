@@ -6,6 +6,7 @@ import generateCSS from "../../../generateCSS";
 import generateCSSUnit from "../../../generateCSSUnit";
 import { hexToRgba } from "../../../utils";
 import generateBackgroundImageEffect from "../../../generateBackgroundImageEffect";
+import { getImagePostionCSS } from "../../../getImagePosition";
 
 function EditorStyles(props) {
   const {
@@ -127,6 +128,9 @@ function EditorStyles(props) {
     hideWidget,
     hideWidgetTablet,
     hideWidgetMobile,
+    backgroundPositionFocal,
+    backgroundPositionFocalMobile,
+    backgroundPositionFocalTablet,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -197,10 +201,11 @@ function EditorStyles(props) {
         hoverboxShadowPositionCSS,
     }
   }
+  const isOn = responsive_globals?.is_responsive_conditions_on ?? 1;
 
   var selectors = {
 		" ": {
-		  "opacity": hideWidget? 0.2 : 1,
+		  "opacity": hideWidget && isOn ? 0.2 : 1,
 		},
     " > .responsive-block-editor-addons-block-section.responsive-section-wrap": {
       "margin-top": topMargin !== 999 && blockTopMargin === 0 ? generateCSSUnit(topMargin, "px") : generateCSSUnit(blockTopMargin, "px"), // For compatibility with v1.3.2.
@@ -227,7 +232,7 @@ function EditorStyles(props) {
     },
     " > .responsive-section-wrap": {
       "background-image": updatedBackgroundImage,
-      "background-position": backgroundPosition,
+      "background-position": getImagePostionCSS(backgroundPositionFocal),
       "background-attachment": backgroundAttachment,
       "background-repeat": backgroundRepeat,
       "background-size": backgroundSize,
@@ -282,7 +287,7 @@ function EditorStyles(props) {
 
   var mobile_selectors = {
 		" ": {
-		  "opacity": hideWidgetMobile? 0.2 : 1,
+		  "opacity": hideWidgetMobile && isOn ? 0.2 : 1,
 		},
     " > .responsive-block-editor-addons-block-section": {
       "margin-top": topMarginMobile !== 999 && blockTopMarginMobile === "" ? generateCSSUnit(topMarginMobile, "px") : (blockTopMarginMobile ? generateCSSUnit(blockTopMarginMobile, "px") : generateCSSUnit(blockTopMargin, "px")), // For compatibility with v1.3.2.
@@ -303,14 +308,14 @@ function EditorStyles(props) {
         (align == "full" && innerWidthMobile) ? generateCSSUnit(innerWidthMobile, "px") : generateCSSUnit(innerWidth, "px"),
     },
     " > .responsive-section-wrap": {
-      "background-position": backgroundPositionMobile,
+      "background-position": getImagePostionCSS(backgroundPositionFocalMobile),
       "background-size": backgroundSizeMobile === '' ? backgroundSize : backgroundSizeMobile,
     },
   };
 
   var tablet_selectors = {
 		" ": {
-		  "opacity": hideWidgetTablet? 0.2 : 1,
+		  "opacity": hideWidgetTablet && isOn ? 0.2 : 1,
 		},
     " > .responsive-block-editor-addons-block-section": {
 	  "margin-top": topMarginTablet !== 999 && blockTopMarginTablet === "" ? generateCSSUnit(topMarginTablet, "px") : (blockTopMarginTablet ? generateCSSUnit(blockTopMarginTablet, "px") : generateCSSUnit(blockTopMargin, "px")), // For compatibility with v1.3.2.
@@ -331,7 +336,7 @@ function EditorStyles(props) {
         (align == "full" && innerWidthTablet) ? generateCSSUnit(innerWidthTablet, "px") : generateCSSUnit(innerWidth, "px"),
     },
     " > .responsive-section-wrap": {
-      "background-position": backgroundPositionTablet,
+      "background-position": getImagePostionCSS(backgroundPositionFocalTablet),
       "background-size": backgroundSizeTablet === '' ? backgroundSize : backgroundSizeTablet,
     },
   };

@@ -1002,6 +1002,18 @@ bodyBorderBottomRightRadius: {
     type: "string",
     default: "center center",
   },
+  backgroundPositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalTablet: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
   backgroundAttachment: {
     type: "string",
     default: "scroll",
@@ -1043,6 +1055,22 @@ bodyBorderBottomRightRadius: {
     default: "",
   },
   contentFontStyle: {
+    type: "string",
+    default: "",
+  },
+  hasImagePositionMigrated: {
+    type: "boolean",
+    default: false,
+  },
+  isPreview: {
+    type: "boolean",
+    default: false, 
+  },
+  headingTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  contentTextDecoration: {
     type: "string",
     default: "",
   },

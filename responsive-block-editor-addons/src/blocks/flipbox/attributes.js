@@ -122,7 +122,6 @@ const attributes = {
   },
   buttonbackgroundColor2: {
     type: "string",
-    default: "#fff",
   },
   buttonHTextColor: {
     type: "string",
@@ -159,7 +158,6 @@ const attributes = {
   },
   buttonHbackgroundColor2: {
     type: "string",
-    default: "#fff",
   },
   buttonBorderRadius: {
     type: "number",
@@ -821,6 +819,18 @@ const attributes = {
     type: "string",
     default: "center center",
   },
+  backgroundPositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalTablet: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
   backgroundAttachment: {
     type: "string",
     default: "scroll",
@@ -870,6 +880,18 @@ const attributes = {
   backBackgroundPositionTablet: {
     type: "string",
     default: "center center",
+  },
+  backBackgroundPositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backBackgroundPositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backBackgroundPositionFocalTablet: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
   },
   backBackgroundAttachment: {
     type: "string",
@@ -1050,6 +1072,40 @@ const attributes = {
     default: "",
   },
   backButtonFontStyle: {
+    type: "string",
+    default: "",
+  },
+  hasImagePositionMigrated: {
+    type: "boolean",
+    default: false,
+  },
+  isPreview: {
+    type: "boolean",
+    default: false, 
+  },
+  gradientButton: {
+    type: "string",
+  },
+  gradientButtonH: {
+    type: "string",
+  },
+  backButtonTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  backSubtitleTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  backTitleTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  frontSubtitleTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  frontTitleTextDecoration: {
     type: "string",
     default: "",
   },

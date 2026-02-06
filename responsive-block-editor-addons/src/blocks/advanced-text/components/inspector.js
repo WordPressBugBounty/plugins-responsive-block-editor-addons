@@ -41,6 +41,7 @@ export default class Inspector extends Component {
     super(...arguments);
   }
 
+
   render() {
     const {
       attributes: {
@@ -157,6 +158,9 @@ export default class Inspector extends Component {
         subtitleFontStyle,
         textTextTransform,
         textFontStyle,
+        titleTextDecoration,
+        subtitleTextDecoration,
+        textTextDecoration,
       },
       setAttributes,
     } = this.props;
@@ -648,9 +652,11 @@ export default class Inspector extends Component {
                   color: titleTypographyColor,
                   transform: titleTextTransform,
                   fontstyle: titleFontStyle,
+                  textDecoration: titleTextDecoration,
                 }}
                 showLetterSpacing={false}
                 showColorControl={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -670,9 +676,11 @@ export default class Inspector extends Component {
                   color: subtitleTypographyColor,
                   transform: subtitleTextTransform,
                   fontstyle: subtitleFontStyle,
+                  textDecoration: subtitleTextDecoration,
                 }}
                 showLetterSpacing={false}
                 showColorControl={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -689,9 +697,11 @@ export default class Inspector extends Component {
                   color: textTypographyColor,
                   transform: textTextTransform,
                   fontstyle: textFontStyle,
+                  textDecoration: textTextDecoration,
                 }}
                 showLetterSpacing={false}
                 showColorControl={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -701,44 +711,7 @@ export default class Inspector extends Component {
 
             <RbeaExtensions {...this.props} />
 
-            <PanelBody
-              title={__("Responsive Conditions", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <ToggleControl
-                label={__(
-                  "Hide on Desktop",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidget}
-                onChange={(value) =>
-                  setAttributes({ hideWidget: !hideWidget })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Tablet",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetTablet}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Mobile",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetMobile}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-                }
-                __nextHasNoMarginBottom
-              />
-            </PanelBody>
+            
             <PanelBody
               title={__("General", "responsive-block-editor-addons")}
               initialOpen={false}
@@ -765,94 +738,83 @@ export default class Inspector extends Component {
               initialOpen={false}
             >
               <TabPanel
-      className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
-      activeClass="active-tab"
-      tabs={[
-          {
-              name: "desktop",
-              title: <Dashicon icon="desktop" />,
-          className:
-              " responsive-desktop-tab  responsive-responsive-tabs",
-      },
-      {
-          name: "tablet",
-          title: <Dashicon icon="tablet" />,
-          className:
-      " responsive-tablet-tab  responsive-responsive-tabs",
-  },
-      {
-          name: "mobile",
-              title: <Dashicon icon="smartphone" />,
-          className:
-          " responsive-mobile-tab  responsive-responsive-tabs",
-      },
-  ]}
-  >
-      {(tab) => {
-          let tabout;
-
-          if ("mobile" === tab.name) {
-              tabout = (
-                  <Fragment>
-                  <RbeaRangeControl
-              label={__("Max Content Width", "responsive-block-editor-addons")}
-              min={0}
-              max={2000}
-              value={containerWidthMobile }
-              onChange={(value) => setAttributes({ containerWidthMobile: value })}
-              />
-              </Fragment>
-          );
-          } else if ("tablet" === tab.name) {
-              tabout = (
-                  <Fragment>
-                  <RbeaRangeControl
-              label={__("Max Content Width", "responsive-block-editor-addons")}
-              min={0}
-              max={2000}
-              value={containerWidthTablet }
-              onChange={(value) => setAttributes({ containerWidthTablet: value })}
-              />
-              </Fragment>
-          );
-          } else {
-              tabout = (
-                  <Fragment>
-                  <RbeaRangeControl
-              label={__("Max Content Width", "responsive-block-editor-addons")}
-              min={0}
-              max={2000}
-              value={containerWidth }
-              onChange={(value) => setAttributes({ containerWidth: value })}
-              />
-              </Fragment>
-          );
-          }
-
-          return <div>{tabout}</div>;
-      }}
-  </TabPanel>
-
-      <PanelBody
-                title={__("Padding", "responsive-block-editor-addons")}
-                initialOpen={false}
+                className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                activeClass="active-tab"
+                tabs={[
+                  {
+                    name: "desktop",
+                    title: <Dashicon icon="desktop" />,
+                    className:" responsive-desktop-tab  responsive-responsive-tabs",
+                  },
+                  {
+                    name: "tablet",
+                    title: <Dashicon icon="tablet" />,
+                    className:" responsive-tablet-tab  responsive-responsive-tabs",
+                  },
+                  {
+                    name: "mobile",
+                    title: <Dashicon icon="smartphone" />,
+                    className:" responsive-mobile-tab  responsive-responsive-tabs",
+                  },
+                ]}
               >
-                <ResponsiveNewPaddingControl
-                  attrNameTemplate="container%s"
-                  resetValues={containerPaddingResetValues}
-                  {...this.props}
-                />
-              </PanelBody>
-              <PanelBody
-                title={__("Margin", "responsive-block-editor-addons")}
-                initialOpen={false}
-              >
-                <ResponsiveNewMarginControl
-                  attrNameTemplate="container%s"
-                  resetValues={containerMarginResetValues}
-                  {...this.props}
-                />
-              </PanelBody>
+                {(tab) => {
+                  let tabout;
+
+                  if ("mobile" === tab.name) {
+                    tabout = (
+                      <Fragment>
+                        <RbeaRangeControl
+                          label={__("Max Content Width", "responsive-block-editor-addons")}
+                          min={0}
+                          max={2000}
+                          value={containerWidthMobile }
+                          onChange={(value) => setAttributes({ containerWidthMobile: value })}
+                        />
+                      </Fragment>
+                    );
+                  } else if ("tablet" === tab.name) {
+                    tabout = (
+                      <Fragment>
+                        <RbeaRangeControl
+                          label={__("Max Content Width", "responsive-block-editor-addons")}
+                          min={0}
+                          max={2000}
+                          value={containerWidthTablet }
+                          onChange={(value) => setAttributes({ containerWidthTablet: value })}
+                        />
+                      </Fragment>
+                    );
+                  } else {
+                    tabout = (
+                      <Fragment>
+                        <RbeaRangeControl
+                          label={__("Max Content Width", "responsive-block-editor-addons")}
+                          min={0}
+                          max={2000}
+                          value={containerWidth }
+                          onChange={(value) => setAttributes({ containerWidth: value })}
+                        />
+                      </Fragment>
+                    );
+                  }
+
+                  return <div>{tabout}</div>;
+                }}
+              </TabPanel>
+
+              <ResponsiveNewPaddingControl
+                attrNameTemplate="container%s"
+                resetValues={containerPaddingResetValues}
+                {...this.props}
+              />
+
+              <ResponsiveNewMarginControl
+                attrNameTemplate="container%s"
+                resetValues={containerMarginResetValues}
+                {...this.props}
+              />
+
             </PanelBody>
             <PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}

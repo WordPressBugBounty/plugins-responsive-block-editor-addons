@@ -35,6 +35,8 @@ import RbeaAngleRangeControl from "../../../utils/components/rbea-angle-range-co
 import stackOnIcons from "../../../utils/components/rbea-tab-radio-control/rbea-stack-on-icons";
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
 import RbeaExtensions from "../../../extensions/RbeaExtensions";
+import { convertPositionToFocalPoint } from '../../../getImagePosition';
+import AutoRegisterCSSBlock from "../../../extensions/custom-css/AutoRegisterCSSBlock";
 
 const { __ } = wp.i18n;
 
@@ -58,6 +60,7 @@ const {
   Dashicon,
   TabPanel,
   RadioControl,
+  FocalPointPicker,
 } = wp.components;
 
 const { Component, Fragment } = wp.element;
@@ -614,6 +617,9 @@ class edit extends Component {
       backgroundPosition,
       backgroundPositionMobile,
       backgroundPositionTablet,
+      backgroundPositionFocal,
+      backgroundPositionFocalMobile,
+      backgroundPositionFocalTablet,
       backgroundRepeat,
       backgroundSize,
       backgroundSizeTablet,
@@ -628,10 +634,25 @@ class edit extends Component {
       nameFontStyle,
       companyTextTransform,
       companyFontStyle,
+      hasImagePositionMigrated,
+      descTextDecoration,
+      nameTextDecoration,
+      companyTextDecoration,
       },
       setAttributes,
       className,
     } = this.props;
+
+    if ( ! hasImagePositionMigrated ) {
+      this.props.setAttributes(
+        {
+          backgroundPositionFocal: convertPositionToFocalPoint( backgroundPosition ),
+          backgroundPositionFocalMobile: convertPositionToFocalPoint( backgroundPositionMobile ),
+          backgroundPositionFocalTablet: convertPositionToFocalPoint( backgroundPositionTablet ),
+          hasImagePositionMigrated: true,
+        }
+      )
+    }
 
     const blockMarginResetValues = {
 			marginTop: 0,
@@ -829,10 +850,12 @@ class edit extends Component {
         bottomSpacingTablet: descBottomSpacingTablet,
         transform: descTextTransform,
         fontstyle: descFontStyle,
+        textDecoration: descTextDecoration,
 				}}
 				showLetterSpacing={false}
         showColorControl={true}
         showTextBottomSpacing={true}
+        showTextDecoration={true}
 				setAttributes={setAttributes}
 				{...this.props}
 			/>
@@ -852,10 +875,12 @@ class edit extends Component {
         bottomSpacingTablet: nameBottomSpacingTablet,
         transform: nameTextTransform,
         fontstyle: nameFontStyle,
+        textDecoration: nameTextDecoration,
 				}}
 				showLetterSpacing={false}
         showColorControl={true}
         showTextBottomSpacing={true}
+        showTextDecoration={true}
 				setAttributes={setAttributes}
 				{...this.props}
 			/>
@@ -872,10 +897,12 @@ class edit extends Component {
         color: companyTypographyColor,
         transform: companyTextTransform,
         fontstyle: companyFontStyle,
+        textDecoration: companyTextDecoration,
 				}}
 				showLetterSpacing={false}
         showColorControl={true}
         showTextBottomSpacing={true}
+        showTextDecoration={true}
 				setAttributes={setAttributes}
 				{...this.props}
 			/>
@@ -1103,41 +1130,39 @@ class edit extends Component {
                     </TabPanel>
                     </div>
                       <Fragment>
-                        <div className = "rbea-background-image-positon-control"
-                        style={{
-                          backgroundImage: `url(${background_image_url})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition:  'center center',
-                        }}>
+                        <div className = "rbea-background-image-positon-control">
                         { imagePositionTab === "desktop" && 
-                            <RadioControl 
-                              className = "rbea-background-image-positon-control-options"
-                              selected={backgroundPosition}
-                              options={imagePositionOptions}
+                            <FocalPointPicker
+                              __nextHasNoMarginBottom
+                              __next40pxDefaultSize
+                              url={background_image_url}
+                              value={backgroundPositionFocal}
                               onChange={(value) =>
-                                setAttributes({ backgroundPosition: value })
+                                setAttributes({ backgroundPositionFocal: value })
                               }
                             />
                         }
                         {imagePositionTab === "tablet" &&
-                           <RadioControl 
-                              className = "rbea-background-image-positon-control-options"
-                              selected={backgroundPositionTablet}
-                              options={imagePositionOptions}
+                            <FocalPointPicker
+                              __nextHasNoMarginBottom
+                              __next40pxDefaultSize
+                              url={background_image_url}
+                              value={backgroundPositionFocalTablet}
                               onChange={(value) =>
-                                setAttributes({ backgroundPositionTablet: value })
+                                setAttributes({ backgroundPositionFocalTablet: value })
                               }
-                          />
+                            />
                         }
                         {imagePositionTab === "mobile" && 
-                          <RadioControl 
-                              className = "rbea-background-image-positon-control-options"
-                              selected={backgroundPositionMobile}
-                              options={imagePositionOptions}
+                            <FocalPointPicker
+                              __nextHasNoMarginBottom
+                              __next40pxDefaultSize
+                              url={background_image_url}
+                              value={backgroundPositionFocalMobile}
                               onChange={(value) =>
-                                setAttributes({ backgroundPositionMobile: value })
+                                setAttributes({ backgroundPositionFocalMobile: value })
                               }
-                          />
+                            />
                         }
                         </div>
                       </Fragment>
@@ -1592,6 +1617,9 @@ class edit extends Component {
           min={100}
           max={5000}
         />
+
+        <hr className="responsive-block-editor-addons-editor__separator" />
+
         <div className = "rbea-repeat-selector-wrapper">
           <RbeaTabRadioControl
             label={__("Show Arrows & Dots", "responsive-block-editor-addons")}
@@ -1614,14 +1642,13 @@ class edit extends Component {
               min={0}
               max={50}
             />
-              <PanelBody title={__("Arrow Border", "responsive-block-editor-addons")} initialOpen={false}>
-              <RbeaBlockBorderHelperControl
-                  attrNameTemplate="arrow%s"
-                  values={{ radius: arrowBorderRadius, style: arrowBorderStyle, width: arrowBorderWidth, color: arrowBorderColor }}
-                  setAttributes={setAttributes}
-                  {...this.props}
-              />
-              </PanelBody>
+              
+            <RbeaBlockBorderHelperControl
+              attrNameTemplate="arrow%s"
+              values={{ radius: arrowBorderRadius, style: arrowBorderStyle, width: arrowBorderWidth, color: arrowBorderColor }}
+              setAttributes={setAttributes}
+              {...this.props}
+            />
 
           </Fragment>
         )}
@@ -1919,7 +1946,7 @@ class edit extends Component {
                   {(imagePosition == "left" || imagePosition == "right") && (
                     <Fragment>
                       <RbeaTabRadioControl
-                        label={__("Vertical ALignment", "responsive-block-editor-addons")}
+                        label={__("Vertical Alignment", "responsive-block-editor-addons")}
                         value={imageAlignment}
                         onChange={(value) =>
                           setAttributes({ imageAlignment: value })
@@ -2043,45 +2070,6 @@ class edit extends Component {
           <InspectorTab key={"advance"}>
 
             <RbeaExtensions {...this.props} />
-
-            <PanelBody
-              title={__("Responsive Conditions", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <ToggleControl
-                label={__(
-                "Hide on Desktop",
-                "responsive-block-editor-addons"
-                )}
-                checked={hideWidget}
-                onChange={(value) =>
-                setAttributes({ hideWidget: !hideWidget })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                "Hide on Tablet",
-                "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetTablet}
-                onChange={(value) =>
-                setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                "Hide on Mobile",
-                "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetMobile}
-                onChange={(value) =>
-                setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-                }
-                __nextHasNoMarginBottom
-              />
-            </PanelBody>
           
           <PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}
@@ -2172,6 +2160,7 @@ class edit extends Component {
     return (
       <Fragment>
         <style id={`responsive-block-editor-addons-testimonial-slider-style-${this.props.clientId}-inner`}>{EditorStyles(this.props)}</style>
+        <AutoRegisterCSSBlock key="auto-register-css" {...this.props} />
         <Style>
           {`
              .responsive-block-editor-addons-slick-carousel.responsive-block-editor-addons-block-${this.props.clientId.substr(
@@ -2226,7 +2215,8 @@ class edit extends Component {
         <div
           className={classnames(
             className,
-            "responsive-block-editor-addons-testomonial__outer-wrap responsive-block-editor-addons-slick-carousel responsive-block-editor-addons-tm__arrow-outside",
+            "responsive-block-editor-addons-block-testimonial-slider responsive-block-editor-addons-testomonial__outer-wrap responsive-block-editor-addons-slick-carousel responsive-block-editor-addons-tm__arrow-outside",
+            `block-${this.props.clientId}`,
             `responsive-block-editor-addons-block-${this.props.clientId.substr(
               0,
               8

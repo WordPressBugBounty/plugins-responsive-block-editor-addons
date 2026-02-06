@@ -1,4 +1,4 @@
-import { type } from "jquery";
+import { convertTruthyFalsyValue } from "../../utils/helper";
 
 const attributes = {
   block_id: {
@@ -41,7 +41,7 @@ const attributes = {
   },
   ctaBackColor: {
     type: "string",
-    default: "#2091e1",
+    default: '#2091e1'
   },
   ctaColor: {
     type: "string",
@@ -240,6 +240,7 @@ const attributes = {
   },
   backgroundType: {
     type: "string",
+    default: "color",
   },
   buttoncolorLocation1: {
     type: "number",
@@ -261,6 +262,7 @@ const attributes = {
   },
   buttonbackgroundType: {
     type: "string",
+    default: "color",
   },
   boxShadowColor: {
     type: "string",
@@ -732,6 +734,18 @@ const attributes = {
     type: 'string',
     default: "center center",
   },
+  backgroundPositionFocal: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalMobile: {
+    type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
+  backgroundPositionFocalTablet: {
+   type: "object",
+    default: { "x": 0.5, "y": 0.5 }
+  },
   backgroundRepeat: {
     type: 'string',
     default: "no-repeat",
@@ -773,6 +787,44 @@ const attributes = {
     default: "",
   },
   buttonTextFontStyle: {
+    type: "string",
+    default: "",
+  },
+  hasImagePositionMigrated: {
+    type: "boolean",
+    default: false,
+  },
+  inheritFromTheme: {
+    type: "boolean",
+    default: convertTruthyFalsyValue(responsive_globals?.global_inherit_from_theme),
+  },
+  inheritFromThemesaved: {
+    type: "boolean",
+    default: false,
+  },
+  inheritFromThemeLocalTimestamp: {
+    type: "string",
+    default: "",
+  },
+  isPreview: {
+		type: 'boolean',
+		default: false,
+	},
+  gradient: {
+    type: 'string',
+  },
+  gradientButton: {
+    type: 'string',
+  },
+  ctaTitleTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  ctaTextTextDecoration: {
+    type: "string",
+    default: "",
+  },
+  buttonTextTextDecoration: {
     type: "string",
     default: "",
   },

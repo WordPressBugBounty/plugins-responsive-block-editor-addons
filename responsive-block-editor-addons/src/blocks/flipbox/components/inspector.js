@@ -26,6 +26,7 @@ import stackOnIcons from "../../../utils/components/rbea-tab-radio-control/rbea-
 import RbeaSupportControl from "../../../utils/components/rbea-support-control";
 import { transform } from "lodash";
 import RbeaExtensions from "../../../extensions/RbeaExtensions";
+import { convertPositionToFocalPoint } from '../../../getImagePosition'; 
 // Setup the block
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
@@ -45,6 +46,7 @@ const {
   ToggleControl,
   BaseControl,
   TabPanel,
+  FocalPointPicker,
 } = wp.components;
 
 /**
@@ -351,12 +353,18 @@ export default class Inspector extends Component {
         backgroundSizeMobile,
         backgroundPositionMobile,
         backgroundPositionTablet,
+        backgroundPositionFocal,
+        backgroundPositionFocalMobile,
+        backgroundPositionFocalTablet,
         imageSizeTab,
         backImagePositionTab,
         backBackgroundSizeTablet,
         backBackgroundSizeMobile,
         backBackgroundPositionMobile,
         backBackgroundPositionTablet,
+        backBackgroundPositionFocal,
+        backBackgroundPositionFocalMobile,
+        backBackgroundPositionFocalTablet,
         backImageSizeTab,
         blockIsTypographyColorValueUpdated,
         frontTitleTypographyColor,
@@ -399,6 +407,12 @@ export default class Inspector extends Component {
         backSubtitleFontStyle,
         backButtonTextTransform,
         backButtonFontStyle,
+        hasImagePositionMigrated,
+        backButtonTextDecoration,
+        backSubtitleTextDecoration,
+        backTitleTextDecoration,
+        frontSubtitleTextDecoration,
+        frontTitleTextDecoration,
       },
       setAttributes,
     } = this.props;
@@ -524,20 +538,25 @@ export default class Inspector extends Component {
       this.props.setAttributes({blockIsRadiusValueUpdated: true});
     }
 
+    if ( ! hasImagePositionMigrated ) {
+      this.props.setAttributes(
+        {
+          backgroundPositionFocal: convertPositionToFocalPoint( backgroundPosition ),
+          backgroundPositionFocalMobile: convertPositionToFocalPoint( backgroundPositionMobile ),
+          backgroundPositionFocalTablet: convertPositionToFocalPoint( backgroundPositionTablet ),
+          backBackgroundPositionFocal: convertPositionToFocalPoint( backBackgroundPosition ),
+          backBackgroundPositionFocalMobile: convertPositionToFocalPoint( backBackgroundPositionMobile ),
+          backBackgroundPositionFocalTablet: convertPositionToFocalPoint( backBackgroundPositionTablet ),
+          hasImagePositionMigrated: true,
+        }
+      )
+    }
+
     const frontControls = (index) => {
       return (
-        <PanelBody
-          key={index}
-          title={
-            __("Flip Box ", "responsive-block-editor-addons") +
-            " " +
-            (index + 1) +
-            " " +
-            __("Settings", "responsive-block-editor-addons")
-          }
-          initialOpen={false}
-          className={"rbea-repeater-panel"}
-        >
+        <>
+          {index > 0 && <hr className="responsive-block-editor-addons-editor__separator" />}
+          <h3 className="rbea-spacing-secondary-container-title">{__("Flip Box ", "responsive-block-editor-addons") + " " + (index + 1) + " " + __("Settings", "responsive-block-editor-addons")}</h3>
           <TextControl
             label={__("Title", "responsive-block-editor-addons")}
             type="text"
@@ -580,22 +599,14 @@ export default class Inspector extends Component {
             __nextHasNoMarginBottom
             __next40pxDefaultSize={true}
           />
-        </PanelBody>
+        </>
       );
     };
     const frontIconControls = (index) => {
       const icons = svg_icons;
       return (
-        <PanelBody
-          key={index}
-          title={
-            __("Flip Box ", "responsive-block-editor-addons") +
-            " " +
-            (index + 1)
-          }
-          initialOpen={false}
-          className={"rbea-repeater-panel"}
-        >
+        <>
+          {index > 0 && <hr className="responsive-block-editor-addons-editor__separator" />}
           <p>
             {__("Select Icon", "responsive-block-editor-addons")}
             <span className="components-base-control__label"></span>
@@ -622,23 +633,15 @@ export default class Inspector extends Component {
             isMulti={false}
             noSelectedPlaceholder={__("Select Icon", "responsive-block-editor-addons")}
           />
-        </PanelBody>
+        </>
       );
     };
     const backIconControls = (index) => {
       const icons = svg_icons;
 
       return (
-        <PanelBody
-          key={index}
-          title={
-            __("Flip Box ", "responsive-block-editor-addons") +
-            " " +
-            (index + 1)
-          }
-          initialOpen={false}
-          className={"rbea-repeater-panel"}
-        >
+        <>
+          {index > 0 && <hr className="responsive-block-editor-addons-editor__separator" />}
           <p>
             {__("Select Icon", "responsive-block-editor-addons")}
             <span className="components-base-control__label"></span>
@@ -665,24 +668,14 @@ export default class Inspector extends Component {
             isMulti={false}
             noSelectedPlaceholder={__("Select Icon", "responsive-block-editor-addons")}
           />
-        </PanelBody>
+        </>
       );
     };
 
     const backControls = (index) => {
       return (
-        <PanelBody
-          key={index}
-          title={
-            __("Flip Box ", "responsive-block-editor-addons") +
-            " " +
-            (index + 1) +
-            " " +
-            __("Settings", "responsive-block-editor-addons")
-          }
-          initialOpen={false}
-          className={"rbea-repeater-panel"}
-        >
+        <>
+          {index > 0 && <hr className="responsive-block-editor-addons-editor__separator" />}
           <TextControl
             label={__("Title", "responsive-block-editor-addons")}
             type="text"
@@ -725,7 +718,7 @@ export default class Inspector extends Component {
             __nextHasNoMarginBottom
             __next40pxDefaultSize={true}
           />
-        </PanelBody>
+        </>
       );
     };
 
@@ -1152,41 +1145,39 @@ export default class Inspector extends Component {
                       </TabPanel>
                       </div>
                         <Fragment>
-                          <div className = "rbea-background-image-positon-control"
-                          style={{
-                            backgroundImage: `url(${background_image_url})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition:  'center',
-                          }}>
+                          <div className = "rbea-background-image-positon-control">
                           { imagePositionTab === "desktop" && 
-                              <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backgroundPosition}
-                                options={imagePositionOptions}
+                              <FocalPointPicker
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
+                                url={background_image_url}
+                                value={backgroundPositionFocal}
                                 onChange={(value) =>
-                                  setAttributes({ backgroundPosition: value })
+                                  setAttributes({ backgroundPositionFocal: value })
                                 }
                               />
                           }
                           {imagePositionTab === "tablet" &&
-                             <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backgroundPositionTablet}
-                                options={imagePositionOptions}
+                              <FocalPointPicker
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
+                                url={background_image_url}
+                                value={backgroundPositionFocalTablet}
                                 onChange={(value) =>
-                                  setAttributes({ backgroundPositionTablet: value })
+                                  setAttributes({ backgroundPositionFocalTablet: value })
                                 }
-                            />
+                              />
                           }
                           {imagePositionTab === "mobile" && 
-                            <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backgroundPositionMobile}
-                                options={imagePositionOptions}
+                              <FocalPointPicker
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
+                                url={background_image_url}
+                                value={backgroundPositionFocalMobile}
                                 onChange={(value) =>
-                                  setAttributes({ backgroundPositionMobile: value })
+                                  setAttributes({ backgroundPositionFocalMobile: value })
                                 }
-                            />
+                              />
                           }
                           </div>
                         </Fragment>
@@ -1373,41 +1364,39 @@ export default class Inspector extends Component {
                       </TabPanel>
                       </div>
                         <Fragment>
-                          <div className = "rbea-background-image-positon-control"
-                          style={{
-                            backgroundImage: `url(${back_background_image_url})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition:  'center',
-                          }}>
+                          <div className = "rbea-background-image-positon-control">
                           { backImagePositionTab === "desktop" && 
-                              <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backBackgroundPosition}
-                                options={imagePositionOptions}
+                              <FocalPointPicker
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
+                                url={back_background_image_url}
+                                value={backBackgroundPositionFocal}
                                 onChange={(value) =>
-                                  setAttributes({ backBackgroundPosition: value })
+                                  setAttributes({ backBackgroundPositionFocal: value })
                                 }
                               />
                           }
                           {backImagePositionTab === "tablet" &&
-                             <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backBackgroundPositionTablet}
-                                options={imagePositionOptions}
+                              <FocalPointPicker
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
+                                url={back_background_image_url}
+                                value={backBackgroundPositionFocalTablet}
                                 onChange={(value) =>
-                                  setAttributes({ backBackgroundPositionTablet: value })
+                                  setAttributes({ backBackgroundPositionFocalTablet: value })
                                 }
-                            />
+                              />
                           }
                           {backImagePositionTab === "mobile" && 
-                            <RadioControl 
-                                className = "rbea-background-image-positon-control-options"
-                                selected={backBackgroundPositionMobile}
-                                options={imagePositionOptions}
+                              <FocalPointPicker
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
+                                url={back_background_image_url}
+                                value={backBackgroundPositionFocalMobile}
                                 onChange={(value) =>
-                                  setAttributes({ backBackgroundPositionMobile: value })
+                                  setAttributes({ backBackgroundPositionFocalMobile: value })
                                 }
-                            />
+                              />
                           }
                           </div>
                         </Fragment>
@@ -1573,9 +1562,10 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Front Title Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="frontTitle%s"
-                        values = {{family: frontTitleFontFamily, size: frontTitleFontSize, sizeMobile: frontTitleFontSizeMobile, sizeTablet: frontTitleFontSizeTablet, weight: frontTitleFontWeight, height: frontTitleLineHeight, color: frontTitleTypographyColor, transform: frontTitleTextTransform, fontstyle: frontTitleFontStyle,}}
+                        values = {{family: frontTitleFontFamily, size: frontTitleFontSize, sizeMobile: frontTitleFontSizeMobile, sizeTablet: frontTitleFontSizeTablet, weight: frontTitleFontWeight, height: frontTitleLineHeight, color: frontTitleTypographyColor, transform: frontTitleTextTransform, fontstyle: frontTitleFontStyle, textDecoration: frontTitleTextDecoration}}
                         showLetterSpacing = { false }
                         showColorControl={true}
+                        showTextDecoration={true}
                         setAttributes={ setAttributes }
                         {...this.props}
                       />
@@ -1586,8 +1576,9 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Front Subtitle Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="frontSubtitle%s"
-                        values = {{family: frontSubtitleFontFamily, size: frontSubtitleFontSize, sizeMobile: frontSubtitleFontSizeMobile, sizeTablet: frontSubtitleFontSizeTablet, weight: frontSubtitleFontWeight, height: frontSubtitleLineHeight, transform: frontSubtitleTextTransform, fontstyle: frontSubtitleFontStyle}}
+                        values = {{family: frontSubtitleFontFamily, size: frontSubtitleFontSize, sizeMobile: frontSubtitleFontSizeMobile, sizeTablet: frontSubtitleFontSizeTablet, weight: frontSubtitleFontWeight, height: frontSubtitleLineHeight, transform: frontSubtitleTextTransform, fontstyle: frontSubtitleFontStyle, textDecoration: frontSubtitleTextDecoration}}
                         showLetterSpacing = { false }
+                        showTextDecoration={true}
                         setAttributes={ setAttributes }
                         {...this.props}
                       />
@@ -1634,9 +1625,10 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Back Title Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="backTitle%s"
-                        values = {{family: backTitleFontFamily, size: backTitleFontSize, sizeMobile: backTitleFontSizeMobile, sizeTablet: backTitleFontSizeTablet, weight: backTitleFontWeight, height: backTitleLineHeight, color: backTitleTypographyColor, transform: backTitleTextTransform, fontstyle: backTitleFontStyle}}
+                        values = {{family: backTitleFontFamily, size: backTitleFontSize, sizeMobile: backTitleFontSizeMobile, sizeTablet: backTitleFontSizeTablet, weight: backTitleFontWeight, height: backTitleLineHeight, color: backTitleTypographyColor, transform: backTitleTextTransform, fontstyle: backTitleFontStyle, textDecoration: backTitleTextDecoration}}
                         showLetterSpacing = { false }
                         showColorControl={true}
+                        showTextDecoration={true}
                         setAttributes={ setAttributes }
                         {...this.props}
                       />
@@ -1647,8 +1639,9 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Back Subtitle Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="backSubtitle%s"
-                        values = {{family: backSubtitleFontFamily, size: backSubtitleFontSize, sizeMobile: backSubtitleFontSizeMobile, sizeTablet: backSubtitleFontSizeTablet, weight: backSubtitleFontWeight, height: backSubtitleLineHeight, transform: backSubtitleTextTransform, fontstyle: backSubtitleFontStyle}}
+                        values = {{family: backSubtitleFontFamily, size: backSubtitleFontSize, sizeMobile: backSubtitleFontSizeMobile, sizeTablet: backSubtitleFontSizeTablet, weight: backSubtitleFontWeight, height: backSubtitleLineHeight, transform: backSubtitleTextTransform, fontstyle: backSubtitleFontStyle, textDecoration: backSubtitleTextDecoration}}
                         showLetterSpacing = { false }
+                        showTextDecoration={true}
                         setAttributes={ setAttributes }
                         {...this.props}
                       />
@@ -1659,9 +1652,10 @@ export default class Inspector extends Component {
                       <TypographyHelperControl
                         title={__("Back Button Typography", "responsive-block-editor-addons")}
                         attrNameTemplate="backButton%s"
-                        values = {{family: backButtonFontFamily, size: backButtonFontSize, sizeMobile: backButtonFontSizeMobile, sizeTablet: backButtonFontSizeTablet, weight: backButtonFontWeight, height: backButtonLineHeight, transform: backButtonTextTransform, fontstyle: backButtonFontStyle}}
+                        values = {{family: backButtonFontFamily, size: backButtonFontSize, sizeMobile: backButtonFontSizeMobile, sizeTablet: backButtonFontSizeTablet, weight: backButtonFontWeight, height: backButtonLineHeight, transform: backButtonTextTransform, fontstyle: backButtonFontStyle, textDecoration: backButtonTextDecoration}}
                         showLetterSpacing = { false }
                         showTextTransform = { false }
+                        showTextDecoration={true}
                         setAttributes={ setAttributes }
                         {...this.props}
                       />
@@ -1826,44 +1820,7 @@ export default class Inspector extends Component {
 
             <RbeaExtensions {...this.props} />
 
-            <PanelBody
-              title={__("Responsive Conditions", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <ToggleControl
-                label={__(
-                  "Hide on Desktop",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidget}
-                onChange={(value) =>
-                  setAttributes({ hideWidget: !hideWidget })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Tablet",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetTablet}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Mobile",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetMobile}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-                }
-                __nextHasNoMarginBottom
-              />
-            </PanelBody>
+            
           
           <PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}

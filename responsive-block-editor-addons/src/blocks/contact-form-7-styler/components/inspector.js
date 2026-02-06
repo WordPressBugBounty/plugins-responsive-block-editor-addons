@@ -550,6 +550,14 @@ export default class Inspector extends Component {
         messageFontStyle,
         afterSubmitTextTransform,
         afterSubmitFontStyle,
+        afterSubmitTextDecoration,
+        messageTextDecoration,
+        submitButtonTextDecoration,
+        radioCheckboxTextDecoration,
+        labelTextDecoration,
+        inputTextDecoration,
+        formDescriptionTextDecoration,
+        formTitleTextDecoration,
       },
       setAttributes,
     } = this.props;
@@ -1071,10 +1079,7 @@ export default class Inspector extends Component {
                   return <div>{tabout}</div>;
                 }}
               </TabPanel> 
-              <PanelBody
-              title={__("Background", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
+              
               <RbeaBackgroundTypeControl
                 label={__("Type", "responsive-block-editor-addons")}
                 value={backgroundType}
@@ -1083,18 +1088,36 @@ export default class Inspector extends Component {
               />
               {"color" == backgroundType && (
                 <TabPanel
-                  className="rbea-inspect-tabs rbea-inspect-tabs-col-2"
+                  className="responsive-block-editor-addons-inspect-tabs 
+                  responsive-block-editor-addons-inspect-tabs-col-2  
+                  responsive-block-editor-addons-color-inspect-tabs"
                   activeClass="active-tab"
+                  initialTabName="normal"
                   tabs={[
+                    {
+                      name: "empty-1",
+                      title: __("", "responsive-block-editor-addons"),
+                      className: "responsive-block-editor-addons-empty-tab",
+                    },
                     {
                       name: "normal",
                       title: __("Normal", "responsive-block-editor-addons"),
-                      className: "rbea-normal-tab",
+                      className: "responsive-block-editor-addons-normal-tab",
+                    },
+                    {
+                      name: "empty-2",
+                      title: __("", "responsive-block-editor-addons"),
+                      className: "responsive-block-editor-addons-empty-tab-middle",
                     },
                     {
                       name: "hover",
                       title: __("Hover", "responsive-block-editor-addons"),
-                      className: "rbea-focus-tab",
+                      className: "responsive-block-editor-addons-hover-tab",
+                    },
+                    {
+                      name: "empty-3",
+                      title: __("", "responsive-block-editor-addons"),
+                      className: "responsive-block-editor-addons-empty-tab",
                     },
                   ]}
                 >
@@ -1144,11 +1167,8 @@ export default class Inspector extends Component {
                 />
               )}
              
-            </PanelBody>              
-              <PanelBody
-              title={__("Spacing", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
+              <hr className="responsive-block-editor-addons-editor__separator" />
+              
               <ResponsiveNewPaddingControl
                 attrNameTemplate="form%s"
                 resetValues={formPaddingResetValues}
@@ -1159,11 +1179,9 @@ export default class Inspector extends Component {
                 resetValues={formMarginResetValues}
                 {...this.props}
               />      
-            </PanelBody>
-            <PanelBody
-              title={__("Border", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+            
               <RbeaBlockBorderHelperControl
                 attrNameTemplate="form%s"
                 values={{
@@ -1175,11 +1193,11 @@ export default class Inspector extends Component {
                 setAttributes={setAttributes}
                 {...this.props}
               />
-            </PanelBody>            
-            <PanelBody
-              title={__("Box Shadow", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
+              <p className="rbea-inspector-control-label">{__( "Box Shadow", "responsive-block-editor-addons" )}</p>
+                        
               <TabPanel
                 className="responsive-block-editor-addons-inspect-tabs 
                           responsive-block-editor-addons-inspect-tabs-col-2  
@@ -1230,8 +1248,7 @@ export default class Inspector extends Component {
                     />
                   );
                 }}
-              </TabPanel>
-            </PanelBody>            
+              </TabPanel>           
             </PanelBody>
             <PanelBody
               title={__(
@@ -1384,6 +1401,8 @@ export default class Inspector extends Component {
                 ]}
               />
               <hr className="responsive-block-editor-addons-editor__separator" />
+
+              <p className="rbea-inspector-control-label">{__( "Form Title Typography", "responsive-block-editor-addons" )}</p>
               <TypographyHelperControl
                 title={__(
                   "Form Title Typography",
@@ -1400,19 +1419,26 @@ export default class Inspector extends Component {
                   spacing: formTitleLetterSpacing,
                   transform: formTitleTextTransform,
                   fontstyle: formTitleFontStyle,
+                  textDecoration: formTitleTextDecoration,
                 }}
                 showLetterSpacing={true}
                 setAttributes={setAttributes}
+                showTextDecoration={true}
+                isSetting={true}
                 {...this.props}
               />
               <RbeaColorControl
-                label = {__("Form Title Color", "responsive-block-editor-addons")}
+                label = {__("Color", "responsive-block-editor-addons")}
                 colorValue={formTitleColor}
                 onChange={(colorValue) =>
                   setAttributes({ formTitleColor: colorValue })
                 }
                 resetColor={() => setAttributes({ formTitleColor: "" })}
               />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
+              <p className="rbea-inspector-control-label">{__( "Form Description Typography", "responsive-block-editor-addons" )}</p>
               <TypographyHelperControl
                 title={"Form Description Typography"}
                 attrNameTemplate="formDescription%s"
@@ -1426,13 +1452,16 @@ export default class Inspector extends Component {
                   spacing: formDescriptionLetterSpacing,
                   transform: formDescriptionTextTransform,
                   fontstyle: formDescriptionFontStyle,
+                  textDecoration: formDescriptionTextDecoration,
                 }}
                 showLetterSpacing={true}
                 setAttributes={setAttributes}
+                showTextDecoration={true}
+                isSetting={true}
                 {...this.props}
               />
               <RbeaColorControl
-                label = {__("Form Description Color", "responsive-block-editor-addons")}
+                label = {__("Color", "responsive-block-editor-addons")}
                 colorValue={formDescriptionColor}
                 onChange={(colorValue) =>
                   setAttributes({ formDescriptionColor: colorValue })
@@ -1452,125 +1481,123 @@ export default class Inspector extends Component {
                   }
                   resetColor={() => setAttributes({ inputBackgroundColor: "" })}
                 />
-                <PanelBody
-                  title={__("Border", "responsive-block-editor-addons")}
-                  initialOpen={false}
-                >
-                  <RbeaBlockBorderHelperControl
-                    attrNameTemplate="input%s"
-                    values={{ radius: inputBorderRadius, style: inputBorderStyle, width: inputBorderWidth, color: inputBorderColor }}
-                    setAttributes={setAttributes}
-                    {...this.props}
-                  />
-                </PanelBody>
-                <PanelBody
-                  title={__("Box Shadow", "responsive-block-editor-addons")}
-                  initialOpen={false}
-              >
-                  {advancedControls}
-              </PanelBody>
-                <PanelBody
-                  title={__("Padding", "responsive-block-editor-addons")}
-                  initialOpen={false}
-                >
-                  <ResponsiveNewPaddingControl
-                    attrNameTemplate="input%s"
-                    resetValues={spacingResetValues}
-                    {...this.props}
-                  />
-                </PanelBody>
+
+                <hr className="responsive-block-editor-addons-editor__separator" />
+                
+                <RbeaBlockBorderHelperControl
+                  attrNameTemplate="input%s"
+                  values={{ radius: inputBorderRadius, style: inputBorderStyle, width: inputBorderWidth, color: inputBorderColor }}
+                  setAttributes={setAttributes}
+                  {...this.props}
+                />
+
+                <hr className="responsive-block-editor-addons-editor__separator" />
+                
+                <p className="rbea-inspector-control-label">{__( "Box Shadow", "responsive-block-editor-addons" )}</p>
+                {advancedControls}
+
+                <hr className="responsive-block-editor-addons-editor__separator" />
+              
+                <ResponsiveNewPaddingControl
+                  attrNameTemplate="input%s"
+                  resetValues={spacingResetValues}
+                  {...this.props}
+                />
+
+                <hr className="responsive-block-editor-addons-editor__separator" />
+                
                 <TabPanel
-                className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
-                activeClass="active-tab"
-                tabs={[
-                  {
-                    name: "desktop",
-                    title: <Dashicon icon="desktop" />,
-                    className:
-                      " responsive-desktop-tab  responsive-responsive-tabs",
-                  },
-                  {
-                    name: "tablet",
-                    title: <Dashicon icon="tablet" />,
-                    className:
-                      " responsive-tablet-tab  responsive-responsive-tabs",
-                  },
-                  {
-                    name: "mobile",
-                    title: <Dashicon icon="smartphone" />,
-                    className:
-                      " responsive-mobile-tab  responsive-responsive-tabs",
-                  },
-                ]}
-              >
-                {(tab) => {
-                  let tabout;
+                  className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
+                  activeClass="active-tab"
+                  tabs={[
+                    {
+                      name: "desktop",
+                      title: <Dashicon icon="desktop" />,
+                      className:
+                        " responsive-desktop-tab  responsive-responsive-tabs",
+                    },
+                    {
+                      name: "tablet",
+                      title: <Dashicon icon="tablet" />,
+                      className:
+                        " responsive-tablet-tab  responsive-responsive-tabs",
+                    },
+                    {
+                      name: "mobile",
+                      title: <Dashicon icon="smartphone" />,
+                      className:
+                        " responsive-mobile-tab  responsive-responsive-tabs",
+                    },
+                  ]}
+                >
+                  {(tab) => {
+                    let tabout;
 
-                  if ("mobile" === tab.name) {
-                    tabout = (
-                      <Fragment>
-                        <RbeaRangeControl
-                          label={__(
-                            "Text Indent (px)",
-                            "responsive-block-editor-addons"
-                          )}
-                          value={textIndentMobile}
-                          onChange={(value) =>
-                            setAttributes({
-                              textIndentMobile: value,
-                            })
-                          }
-                          min={0}
-                          max={60}
-                          beforeIcon=""
-                        />
-                      </Fragment>
-                    );
-                  } else if ("tablet" === tab.name) {
-                    tabout = (
-                      <Fragment>
-                        <RbeaRangeControl
-                          label={__(
-                            "Text Indent (px)",
-                            "responsive-block-editor-addons"
-                          )}
-                          value={textIndentTablet}
-                          onChange={(value) =>
-                            setAttributes({
-                              textIndentTablet: value,
-                            })
-                          }
-                          min={0}
-                          max={60}
-                          beforeIcon=""
-                        />
-                      </Fragment>
-                    );
-                  } else {
-                    tabout = (
-                      <Fragment>
-                        <RbeaRangeControl
-                          label={__(
-                            "Text Indent (px)",
-                            "responsive-block-editor-addons"
-                          )}
-                          value={textIndent}
-                          onChange={(value) =>
-                            setAttributes({
-                              textIndent: value,
-                            })
-                          }
-                          min={0}
-                          max={60}
-                          beforeIcon=""
-                        />
-                      </Fragment>
-                    );
-                  }
+                    if ("mobile" === tab.name) {
+                      tabout = (
+                        <Fragment>
+                          <RbeaRangeControl
+                            label={__(
+                              "Text Indent (px)",
+                              "responsive-block-editor-addons"
+                            )}
+                            value={textIndentMobile}
+                            onChange={(value) =>
+                              setAttributes({
+                                textIndentMobile: value,
+                              })
+                            }
+                            min={0}
+                            max={60}
+                            beforeIcon=""
+                          />
+                        </Fragment>
+                      );
+                    } else if ("tablet" === tab.name) {
+                      tabout = (
+                        <Fragment>
+                          <RbeaRangeControl
+                            label={__(
+                              "Text Indent (px)",
+                              "responsive-block-editor-addons"
+                            )}
+                            value={textIndentTablet}
+                            onChange={(value) =>
+                              setAttributes({
+                                textIndentTablet: value,
+                              })
+                            }
+                            min={0}
+                            max={60}
+                            beforeIcon=""
+                          />
+                        </Fragment>
+                      );
+                    } else {
+                      tabout = (
+                        <Fragment>
+                          <RbeaRangeControl
+                            label={__(
+                              "Text Indent (px)",
+                              "responsive-block-editor-addons"
+                            )}
+                            value={textIndent}
+                            onChange={(value) =>
+                              setAttributes({
+                                textIndent: value,
+                              })
+                            }
+                            min={0}
+                            max={60}
+                            beforeIcon=""
+                          />
+                        </Fragment>
+                      );
+                    }
 
-                  return <div>{tabout}</div>;
-                }}
-              </TabPanel>
+                    return <div>{tabout}</div>;
+                  }}
+                </TabPanel>
               <TabPanel
                 className=" responsive-size-type-field-tabs  responsive-size-type-field__common-tabs  responsive-inline-margin"
                 activeClass="active-tab"
@@ -1954,9 +1981,11 @@ export default class Inspector extends Component {
                     color: inputTypographyColor,
                     transform: inputTextTransform,
                     fontstyle: inputFontStyle,
+                    textDecoration: inputTextDecoration,
                   }}
                   showLetterSpacing = { false }
                   showColorControl = {true}
+                  showTextDecoration = {true}
                   setAttributes={ setAttributes }
                   {...this.props}
                 />
@@ -1980,10 +2009,12 @@ export default class Inspector extends Component {
                   bottomSpacingMobile: labelBottomSpacingMobile,
                   transform: labelTextTransform,
                   fontstyle: labelFontStyle,
+                  textDecoration: labelTextDecoration,
                 }}
                 showLetterSpacing={true}
                 showTextBottomSpacing={true}
                 showColorControl={true}
+                showTextDecoration={true}
                 setAttributes={setAttributes}
                 {...this.props}
               />
@@ -2037,6 +2068,10 @@ export default class Inspector extends Component {
                 beforeIcon=""
                 allowReset
               />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
+              <p className="rbea-inspector-control-label">{__( "Typography", "responsive-block-editor-addons" )}</p>
               <TypographyHelperControl
                 title={__(
                   "Typography",
@@ -2053,11 +2088,17 @@ export default class Inspector extends Component {
                   spacing: radioCheckboxLetterSpacing,
                   transform: radioCheckboxTextTransform,
                   fontstyle: radioCheckboxFontStyle,
+                  textDecoration: radioCheckboxTextDecoration,
                 }}
                 showLetterSpacing={true}
                 setAttributes={setAttributes}
+                showTextDecoration={true}
+                isSetting={true}
                 {...this.props}
-              /> 
+              />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
               <RbeaColorControl
                 label = {__("Options Color", "responsive-block-editor-addons")}
                 colorValue={radioCheckboxTextColor}
@@ -2082,6 +2123,9 @@ export default class Inspector extends Component {
                 }
                 resetColor={() => setAttributes({ hoverRadioCheckboxColor: "" })}
               />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
               <RbeaRangeControl
                 label={__("Border Width", "responsive-block-editor-addons")}
                 value={radioCheckboxBorderWidth}
@@ -2416,6 +2460,10 @@ export default class Inspector extends Component {
                   return <div>{tabout}</div>;
                 }}
               </TabPanel>
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
+              <p className="rbea-inspector-control-label">{__( "Button Typography", "responsive-block-editor-addons" )}</p>
               <TypographyHelperControl
                 title={__(
                   "Button Typography",
@@ -2432,10 +2480,13 @@ export default class Inspector extends Component {
                   spacing: submitButtonLetterSpacing,
                   transform: submitButtonTextTransform,
                   fontstyle: submitButtonFontStyle,
+                  textDecoration: submitButtonTextDecoration,
                 }}
                 showLetterSpacing={true}
                 setAttributes={setAttributes}
+                showTextDecoration={true}
                 {...this.props}
+                isSetting={true}
               />
 
               {/* Button Settings */}
@@ -2467,11 +2518,17 @@ export default class Inspector extends Component {
                   spacing: messageLetterSpacing,
                   transform: messageTextTransform,
                   fontstyle: messageFontStyle,
+                  textDecoration: messageTextDecoration,
                 }}
                 showLetterSpacing={true}
                 setAttributes={setAttributes}
+                showTextDecoration={true}
+                isSetting={true}
                 {...this.props}
-              />              
+              />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
               <RbeaColorControl
                 label = {__("Error Message Color", "responsive-block-editor-addons")}
                 colorValue={errorMsgColor}
@@ -2502,11 +2559,17 @@ export default class Inspector extends Component {
                   spacing: afterSubmitLetterSpacing,
                   transform: afterSubmitTextTransform,
                   fontstyle: afterSubmitFontStyle,
+                  textDecoration: afterSubmitTextDecoration,
                 }}
                 showLetterSpacing={true}
                 setAttributes={setAttributes}
+                showTextDecoration={true}
+                isSetting={true}
                 {...this.props}
               />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
               <RbeaColorControl
                 label = {__("Success Message Color", "responsive-block-editor-addons")}
                 colorValue={successMsgColor}
@@ -2531,10 +2594,9 @@ export default class Inspector extends Component {
                 }
                 resetColor={() => setAttributes({ afterSubmitMsgbgColor: "" })}
               />
-              <PanelBody
-              title={__("Spacing", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
+              
+              <hr className="responsive-block-editor-addons-editor__separator" />
+
               <ResponsiveNewPaddingControl
                 attrNameTemplate="afterSubmit%s"
                 resetValues={afterSubmitPaddingResetValues}
@@ -2544,12 +2606,10 @@ export default class Inspector extends Component {
                 attrNameTemplate="afterSubmit%s"
                 resetValues={afterSubmitMarginResetValues}
                 {...this.props}
-              />           
-            </PanelBody>
-            <PanelBody
-              title={__("Border", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
+              />
+
+              <hr className="responsive-block-editor-addons-editor__separator" />         
+
               <RbeaBlockBorderHelperControl
                 attrNameTemplate="afterSubmit%s"
                 values={{
@@ -2560,9 +2620,7 @@ export default class Inspector extends Component {
                 }}
                 setAttributes={setAttributes}
                 {...this.props}
-              />
-              
-            </PanelBody>            
+              />          
             </PanelBody>
             <RbeaSupportControl blockSlug={"contact-form-7-styler"} />
           </InspectorTab>
@@ -2570,44 +2628,7 @@ export default class Inspector extends Component {
 
             <RbeaExtensions {...this.props} />
 
-            <PanelBody
-              title={__("Responsive Conditions", "responsive-block-editor-addons")}
-              initialOpen={false}
-            >
-              <ToggleControl
-                label={__(
-                  "Hide on Desktop",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidget}
-                onChange={(value) =>
-                  setAttributes({ hideWidget: !hideWidget })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Tablet",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetTablet}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetTablet: !hideWidgetTablet })
-                }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={__(
-                  "Hide on Mobile",
-                  "responsive-block-editor-addons"
-                )}
-                checked={hideWidgetMobile}
-                onChange={(value) =>
-                  setAttributes({ hideWidgetMobile: !hideWidgetMobile })
-                }
-                __nextHasNoMarginBottom
-              />
-            </PanelBody>
+            
             <PanelBody
               title={__("Z Index", "responsive-block-editor-addons")}
               initialOpen={false}
