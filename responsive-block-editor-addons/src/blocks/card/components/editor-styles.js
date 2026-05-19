@@ -250,6 +250,18 @@ function EditorStyles(props) {
     contentTextDecoration,
     subTextDecoration,
     headingTextDecoration,
+    ctaBlockTopRadius,
+    ctaBlockRightRadius,
+    ctaBlockBottomRadius,
+    ctaBlockLeftRadius,
+    ctaBlockTopRadiusMobile,
+    ctaBlockRightRadiusMobile,
+    ctaBlockBottomRadiusMobile,
+    ctaBlockLeftRadiusMobile,
+    ctaBlockTopRadiusTablet,
+    ctaBlockRightRadiusTablet,
+    ctaBlockBottomRadiusTablet,
+    ctaBlockLeftRadiusTablet,
   } = props.attributes;
 
   var boxShadowPositionCSS = boxShadowPosition;
@@ -412,36 +424,16 @@ function EditorStyles(props) {
       "background-size": cardImageSize,
     },
 
-    " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-0": {
-        "background-image": `url(${backgroundImageOne})`,
-        "display": backgroundImageOne? 'block' : 'none',
-    },
-
     " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-dashicon-0": {
         "display": backgroundImageOne? 'none' : 'flex',
-    },
-
-    " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-1": {
-        "background-image": `url(${backgroundImageTwo})`,
-        "display": backgroundImageTwo? 'block' : 'none',
     },
 
     " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-dashicon-1": {
       "display": backgroundImageTwo? 'none' : 'flex',
     },
 
-    " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-2": {
-        "background-image": `url(${backgroundImageThree})`,
-        "display": backgroundImageThree? 'block' : 'none',
-    },
-
     " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-dashicon-2": {
       "display": backgroundImageThree? 'none' : 'flex',
-    },
-
-    " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-3": {
-         "background-image": `url(${backgroundImageFour})`,
-         "display": backgroundImageFour? 'block' : 'none',
     },
 
     " .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-dashicon-3": {
@@ -492,19 +484,20 @@ function EditorStyles(props) {
     },
 
     " .responsive-block-editor-addons-card-button-inner": {
-      "padding-top": generateCSSUnit(ctaButtonTopPadding, "px"),
-      "padding-bottom": generateCSSUnit(ctaButtonBottomPadding, "px"),
-      "padding-left": generateCSSUnit(ctaButtonLeftPadding, "px"),
-      "padding-right": generateCSSUnit(ctaButtonRightPadding, "px"),
+      "padding-top": !inheritFromTheme ? generateCSSUnit(ctaButtonTopPadding, "px") : '',
+      "padding-bottom": !inheritFromTheme ? generateCSSUnit(ctaButtonBottomPadding, "px") : '',
+      "padding-left": !inheritFromTheme ? generateCSSUnit(ctaButtonLeftPadding, "px") : '',
+      "padding-right": !inheritFromTheme ? generateCSSUnit(ctaButtonRightPadding, "px") : '',
       "margin-top": generateCSSUnit(ctaButtonTopMargin, "px"),
       "margin-bottom": generateCSSUnit(ctaButtonBottomMargin, "px"),
       "margin-left": generateCSSUnit(ctaButtonLeftMargin, "px"),
       "margin-right": generateCSSUnit(ctaButtonRightMargin, "px"),
       "border-style": butborderStyle !== "empty" && ctaBorderStyle === "none" ? butborderStyle : ctaBorderStyle ? ctaBorderStyle : "none", //For compatibility with v1.3.2.
       "border-color": ctaBorderColor,
-      "border-radius": butborderRadius !== 999 && ctaBorderRadius === 2 ? bgenerateCSSUnit(butborderRadius, "px") : ctaBorderRadius //For compatibility with v1.3.2.
-        ? generateCSSUnit(ctaBorderRadius, "px")
-        : "",
+      "border-top-left-radius": generateCSSUnit(ctaBlockTopRadius, "px"),
+      "border-top-right-radius": generateCSSUnit(ctaBlockRightRadius, "px"),
+      "border-bottom-left-radius": generateCSSUnit(ctaBlockBottomRadius, "px"),
+      "border-bottom-right-radius": generateCSSUnit(ctaBlockLeftRadius, "px"),
       "border-width": butborderWidth !== 999 && ctaBorderWidth === 1 ? generateCSSUnit(butborderWidth, "px") : ctaBorderWidth //For compatibility with v1.3.2.
         ? generateCSSUnit(ctaBorderWidth, "px")
         : "0px",
@@ -547,6 +540,10 @@ function EditorStyles(props) {
     "margin-bottom": generateCSSUnit(ctaButtonBottomMarginMobile, "px"),
     "margin-left": generateCSSUnit(ctaButtonLeftMarginMobile, "px"),
     "margin-right": generateCSSUnit(ctaButtonRightMarginMobile, "px"),
+    "border-top-left-radius": generateCSSUnit(ctaBlockTopRadiusMobile, "px"),
+    "border-top-right-radius": generateCSSUnit(ctaBlockRightRadiusMobile, "px"),
+    "border-bottom-left-radius": generateCSSUnit(ctaBlockBottomRadiusMobile, "px"),
+    "border-bottom-right-radius": generateCSSUnit(ctaBlockLeftRadiusMobile, "px"),
   },
   " .wp-block-responsive-block-editor-addons-card-item": {
       "border-top-left-radius": generateCSSUnit(blockTopRadiusMobile, "px"),
@@ -560,7 +557,7 @@ function EditorStyles(props) {
   },
   " .responsive-block-editor-addons-card-avatar-img": {
     "background-position": getImagePostionCSS(cardImagePositionFocalMobile),
-    "background-size": cardImageSizeMobile,
+    "background-size": cardImageSizeMobile === '' || !cardImageSizeMobile ? cardImageSize : cardImageSizeMobile,
   },
   };
 
@@ -599,6 +596,10 @@ function EditorStyles(props) {
     "margin-bottom": generateCSSUnit(ctaButtonBottomMarginTablet, "px"),
     "margin-left": generateCSSUnit(ctaButtonLeftMarginTablet, "px"),
     "margin-right": generateCSSUnit(ctaButtonRightMarginTablet, "px"),
+    "border-top-left-radius": generateCSSUnit(ctaBlockTopRadiusTablet, "px"),
+    "border-top-right-radius": generateCSSUnit(ctaBlockRightRadiusTablet, "px"),
+    "border-bottom-left-radius": generateCSSUnit(ctaBlockBottomRadiusTablet, "px"),
+    "border-bottom-right-radius": generateCSSUnit(ctaBlockLeftRadiusTablet, "px"),
   },
   " .wp-block-responsive-block-editor-addons-card-item": {
       "border-top-left-radius": generateCSSUnit(blockTopRadiusTablet, "px"),
@@ -612,7 +613,7 @@ function EditorStyles(props) {
   },
   " .responsive-block-editor-addons-card-avatar-img": {
     "background-position": getImagePostionCSS(cardImagePositionFocalTablet),
-    "background-size": cardImageSizeTablet,
+    "background-size": cardImageSizeTablet === '' || !cardImageSizeTablet ? cardImageSize : cardImageSizeTablet,
   },
   };
 

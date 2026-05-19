@@ -1301,7 +1301,11 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'fill'   => $attr['icon_color'],
 				),
 				' .responsive-count-item'           => array(
-					'background-color'           => self::hex_to_rgb( $attr['itemBackgroundColor'], $imgopacity ),
+					'background-color'           => '' === $attr['itemBackgroundColor'] ? '' : self::hex_to_rgb( $attr['itemBackgroundColor'], $imgopacity ),
+					'padding-top'                => self::get_css_value( $attr['countupTopPadding'], 'px' ),
+					'padding-right'              => self::get_css_value( $attr['countupRightPadding'], 'px' ),
+					'padding-bottom'             => self::get_css_value( $attr['countupBottomPadding'], 'px' ),
+					'padding-left'               => self::get_css_value( $attr['countupLeftPadding'], 'px' ),
 					'border-width'               => self::get_css_value( $attr['blockBorderWidth'], 'px' ),
 					'border-color'               => $attr['blockBorderColor'],
 					'border-style'               => $attr['blockBorderStyle'],
@@ -1392,6 +1396,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'border-bottom-left-radius'  => self::get_css_value( $attr['shapeBorderLeftRadiusMobile'], 'px' ),
 				),
 				' .responsive-count-item'           => array(
+					'padding-top'                => self::get_css_value( $attr['countupTopPaddingMobile'], 'px' ),
+					'padding-right'              => self::get_css_value( $attr['countupRightPaddingMobile'], 'px' ),
+					'padding-bottom'             => self::get_css_value( $attr['countupBottomPaddingMobile'], 'px' ),
+					'padding-left'               => self::get_css_value( $attr['countupLeftPaddingMobile'], 'px' ),
 					'border-top-left-radius'     => self::get_css_value( $attr['blockTopRadiusMobile'], 'px' ),
 					'border-top-right-radius'    => self::get_css_value( $attr['blockRightRadiusMobile'], 'px' ),
 					'border-bottom-right-radius' => self::get_css_value( $attr['blockBottomRadiusMobile'], 'px' ),
@@ -1443,6 +1451,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'border-bottom-left-radius'  => self::get_css_value( $attr['shapeBorderLeftRadiusTablet'], 'px' ),
 				),
 				' .responsive-count-item'           => array(
+					'padding-top'                => self::get_css_value( $attr['countupTopPaddingTablet'], 'px' ),
+					'padding-right'              => self::get_css_value( $attr['countupRightPaddingTablet'], 'px' ),
+					'padding-bottom'             => self::get_css_value( $attr['countupBottomPaddingTablet'], 'px' ),
+					'padding-left'               => self::get_css_value( $attr['countupLeftPaddingTablet'], 'px' ),
 					'border-top-left-radius'     => self::get_css_value( $attr['blockTopRadiusTablet'], 'px' ),
 					'border-top-right-radius'    => self::get_css_value( $attr['blockRightRadiusTablet'], 'px' ),
 					'border-bottom-right-radius' => self::get_css_value( $attr['blockBottomRadiusTablet'], 'px' ),
@@ -4901,6 +4913,42 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 
 			$attr = array_merge( $defaults, (array) $attr );
 
+			// Resolve size-specific image URLs from stored attachment IDs.
+			$image_size = isset( $attr['imageSize'] ) ? $attr['imageSize'] : 'full';
+
+			$resolved_image_one   = '';
+			$resolved_image_two   = '';
+			$resolved_image_three = '';
+			$resolved_image_four  = '';
+
+			if ( ! empty( $attr['backgroundImageOneId'] ) ) {
+				$src = wp_get_attachment_image_src( $attr['backgroundImageOneId'], $image_size );
+				$resolved_image_one = $src ? $src[0] : $attr['backgroundImageOne'];
+			} else {
+				$resolved_image_one = $attr['backgroundImageOne'];
+			}
+
+			if ( ! empty( $attr['backgroundImageTwoId'] ) ) {
+				$src = wp_get_attachment_image_src( $attr['backgroundImageTwoId'], $image_size );
+				$resolved_image_two = $src ? $src[0] : $attr['backgroundImageTwo'];
+			} else {
+				$resolved_image_two = $attr['backgroundImageTwo'];
+			}
+
+			if ( ! empty( $attr['backgroundImageThreeId'] ) ) {
+				$src = wp_get_attachment_image_src( $attr['backgroundImageThreeId'], $image_size );
+				$resolved_image_three = $src ? $src[0] : $attr['backgroundImageThree'];
+			} else {
+				$resolved_image_three = $attr['backgroundImageThree'];
+			}
+
+			if ( ! empty( $attr['backgroundImageFourId'] ) ) {
+				$src = wp_get_attachment_image_src( $attr['backgroundImageFourId'], $image_size );
+				$resolved_image_four = $src ? $src[0] : $attr['backgroundImageFour'];
+			} else {
+				$resolved_image_four = $attr['backgroundImageFour'];
+			}
+
 			$mobile_selectors = array();
 			$tablet_selectors = array();
 
@@ -5068,22 +5116,22 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				),
 
 				' .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-0' => array(
-					'background-image' => 'url(' . $attr['backgroundImageOne'] . ')',
+					'background-image' => $resolved_image_one ? 'url(' . esc_url( $resolved_image_one ) . ')' : 'none',
 					'display'          => $attr['backgroundImageOne'] ? 'block' : 'none',
 				),
 
 				' .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-1' => array(
-					'background-image' => 'url(' . $attr['backgroundImageTwo'] . ')',
+					'background-image' => $resolved_image_two ? 'url(' . esc_url( $resolved_image_two ) . ')' : 'none',
 					'display'          => $attr['backgroundImageTwo'] ? 'block' : 'none',
 				),
 
 				' .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-2' => array(
-					'background-image' => 'url(' . $attr['backgroundImageThree'] . ')',
+					'background-image' => $resolved_image_three ? 'url(' . esc_url( $resolved_image_three ) . ')' : 'none',
 					'display'          => $attr['backgroundImageThree'] ? 'block' : 'none',
 				),
 
 				' .responsive-block-editor-addons-card-avatar-img.responsive-block-editor-addons-card-avatar-img-3' => array(
-					'background-image' => 'url(' . $attr['backgroundImageFour'] . ')',
+					'background-image' => $resolved_image_four ? 'url(' . esc_url( $resolved_image_four ) . ')' : 'none',
 					'display'          => $attr['backgroundImageFour'] ? 'block' : 'none',
 				),
 
@@ -5132,16 +5180,19 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				),
 
 				' .responsive-block-editor-addons-card-button-inner' => array(
-					'padding-top'      => self::get_css_value( $attr['ctaButtonTopPadding'], 'px' ),
-					'padding-bottom'   => self::get_css_value( $attr['ctaButtonBottomPadding'], 'px' ),
-					'padding-left'     => self::get_css_value( $attr['ctaButtonLeftPadding'], 'px' ),
-					'padding-right'    => self::get_css_value( $attr['ctaButtonRightPadding'], 'px' ),
+					'padding-top'      => !$attr['inheritFromTheme'] ? self::get_css_value( $attr['ctaButtonTopPadding'], 'px' ) : '',
+					'padding-bottom'   => !$attr['inheritFromTheme'] ? self::get_css_value( $attr['ctaButtonBottomPadding'], 'px' ) : '',
+					'padding-left'     => !$attr['inheritFromTheme'] ? self::get_css_value( $attr['ctaButtonLeftPadding'], 'px' ) : '',
+					'padding-right'    => !$attr['inheritFromTheme'] ? self::get_css_value( $attr['ctaButtonRightPadding'], 'px' ) : '',
 					'margin-top'       => self::get_css_value( $attr['ctaButtonTopMargin'], 'px' ),
 					'margin-bottom'    => self::get_css_value( $attr['ctaButtonBottomMargin'], 'px' ),
 					'margin-left'      => self::get_css_value( $attr['ctaButtonLeftMargin'], 'px' ),
 					'margin-right'     => self::get_css_value( $attr['ctaButtonRightMargin'], 'px' ),
 					'border-style'     => 'empty' !== $attr['butborderStyle'] && 'none' !== $attr['ctaBorderStyle'] ? $attr['butborderStyle'] : $attr['ctaBorderStyle'], // For compatibility with v1.3.2.
-					'border-radius'    => 999 !== $attr['butborderRadius'] && 2 === $attr['ctaBorderRadius'] ? self::get_css_value( $attr['butborderRadius'], 'px' ) : self::get_css_value( $attr['ctaBorderRadius'], 'px' ), // For compatibility with v1.3.2.
+					'border-top-left-radius' => self::get_css_value( $attr['ctaBlockTopRadius'], 'px' ),
+					'border-top-right-radius' => self::get_css_value( $attr['ctaBlockRightRadius'], 'px' ),
+					'border-bottom-left-radius' => self::get_css_value( $attr['ctaBlockBottomRadius'], 'px' ),
+					'border-bottom-right-radius' => self::get_css_value( $attr['ctaBlockLeftRadius'], 'px' ),
 					'border-width'     => 999 !== $attr['butborderWidth'] && 1 === $attr['ctaBorderWidth'] ? self::get_css_value( $attr['butborderWidth'], 'px' ) : self::get_css_value( $attr['ctaBorderWidth'], 'px' ), // For compatibility with v1.3.2.
 					'background-image' => $flag ? '' : $updated_button_background_color,
 					'border-color'     => $attr['ctaBorderColor'],
@@ -5185,6 +5236,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'margin-bottom'  => self::get_css_value( $attr['ctaButtonBottomMarginMobile'], 'px' ),
 					'margin-left'    => self::get_css_value( $attr['ctaButtonLeftMarginMobile'], 'px' ),
 					'margin-right'   => self::get_css_value( $attr['ctaButtonRightMarginMobile'], 'px' ),
+					'border-top-left-radius' => self::get_css_value( $attr['ctaBlockTopRadiusMobile'], 'px' ),
+					'border-top-right-radius' => self::get_css_value( $attr['ctaBlockRightRadiusMobile'], 'px' ),
+					'border-bottom-left-radius' => self::get_css_value( $attr['ctaBlockBottomRadiusMobile'], 'px' ),
+					'border-bottom-right-radius' => self::get_css_value( $attr['ctaBlockLeftRadiusMobile'], 'px' ),
 				),
 				' .wp-block-responsive-block-editor-addons-card-item' => array(
 					'border-top-left-radius'     => self::get_css_value( $attr['blockTopRadiusMobile'], 'px' ),
@@ -5238,6 +5293,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'margin-bottom'  => self::get_css_value( $attr['ctaButtonBottomMarginTablet'], 'px' ),
 					'margin-left'    => self::get_css_value( $attr['ctaButtonLeftMarginTablet'], 'px' ),
 					'margin-right'   => self::get_css_value( $attr['ctaButtonRightMarginTablet'], 'px' ),
+					'border-top-left-radius' => self::get_css_value( $attr['ctaBlockTopRadiusTablet'], 'px' ),
+					'border-top-right-radius' => self::get_css_value( $attr['ctaBlockRightRadiusTablet'], 'px' ),
+					'border-bottom-left-radius' => self::get_css_value( $attr['ctaBlockBottomRadiusTablet'], 'px' ),
+					'border-bottom-right-radius' => self::get_css_value( $attr['ctaBlockLeftRadiusTablet'], 'px' ),
 				),
 				' .wp-block-responsive-block-editor-addons-card-item' => array(
 					'border-top-left-radius'     => self::get_css_value( $attr['blockTopRadiusTablet'], 'px' ),
@@ -5533,6 +5592,22 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'contentTextDecoration'		   => '',
     			'subTextDecoration'			   => '',
     			'headingTextDecoration'		   => '',
+				'backgroundImageOneId'         => null,
+				'backgroundImageTwoId'         => null,
+				'backgroundImageThreeId'       => null,
+				'backgroundImageFourId'        => null,
+				'ctaBlockTopRadius'            => 0,
+				'ctaBlockRightRadius'          => 0,
+				'ctaBlockBottomRadius'         => 0,
+				'ctaBlockLeftRadius'           => 0,
+				'ctaBlockTopRadiusMobile'      => 0,
+				'ctaBlockRightRadiusMobile'    => 0,
+				'ctaBlockBottomRadiusMobile'   => 0,
+				'ctaBlockLeftRadiusMobile'     => 0,
+				'ctaBlockTopRadiusTablet'      => 0,
+				'ctaBlockRightRadiusTablet'    => 0,
+				'ctaBlockBottomRadiusTablet'   => 0,
+				'ctaBlockLeftRadiusTablet'     => 0,
 			);
 		}
 
@@ -7169,7 +7244,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'font-weight'    => ( isset( $attr['filterTabTypographyFontWeight'] ) && '' !== $attr['filterTabTypographyFontWeight'] ) ? $attr['filterTabTypographyFontWeight'] : '',
 					'line-height'    => ( isset( $attr['filterTabTypographyLineHeight'] ) && '' !== $attr['filterTabTypographyLineHeight'] ) ? $attr['filterTabTypographyLineHeight'] : '',
 					'letter-spacing' => ( isset( $attr['filterTabTypographyLetterSpacing'] ) && '' !== $attr['filterTabTypographyLetterSpacing'] ) ? self::get_css_value( $attr['filterTabTypographyLetterSpacing'], 'px' ) : '',
-					'text-transform' => isset( $attr['filterTabTypographyTextTransform'] ) ? $attr['filterTabTypographyTextTransform'] : '',
+					'text-transform' => $attr['filterTabTypographyTextTransform'],
 					'text-decoration'=> isset( $attr['filterTabTypographyTextDecoration'] ) ? $attr['filterTabTypographyTextDecoration'] : '',
 				),
 				' .gallery-filter-wrapper .gallery-filter-button' => array(
@@ -7193,7 +7268,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'font-style'       => isset( $attr['filterTabTypographyFontStyle'] ) ? $attr['filterTabTypographyFontStyle'] : 'normal',
 					'line-height'      => ( isset( $attr['filterTabTypographyLineHeight'] ) && '' !== $attr['filterTabTypographyLineHeight'] ) ? $attr['filterTabTypographyLineHeight'] : '',
 					'letter-spacing'   => ( isset( $attr['filterTabTypographyLetterSpacing'] ) && '' !== $attr['filterTabTypographyLetterSpacing'] ) ? self::get_css_value( $attr['filterTabTypographyLetterSpacing'], 'px' ) : '',
-					'text-transform'   => isset( $attr['filterTabTypographyTextTransform'] ) ? $attr['filterTabTypographyTextTransform'] : '',
+					'text-transform'   => $attr['filterTabTypographyTextTransform'],
 					'text-decoration'  => isset( $attr['filterTabTypographyTextDecoration'] ) ? $attr['filterTabTypographyTextDecoration'] : '',
 				),
 				' .gallery-filter-wrapper .gallery-filter-button:hover, .gallery-filter-wrapper .gallery-filter-button.is-active' => array(
@@ -7240,7 +7315,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'font-weight'    => ( isset( $attr['filterTabTypographyFontWeight'] ) && '' !== $attr['filterTabTypographyFontWeight'] ) ? $attr['filterTabTypographyFontWeight'] : '',
 					'line-height'    => ( isset( $attr['filterTabTypographyLineHeight'] ) && '' !== $attr['filterTabTypographyLineHeight'] ) ? $attr['filterTabTypographyLineHeight'] : '',
 					'letter-spacing' => ( isset( $attr['filterTabTypographyLetterSpacing'] ) && '' !== $attr['filterTabTypographyLetterSpacing'] ) ? self::get_css_value( $attr['filterTabTypographyLetterSpacing'], 'px' ) : '',
-					'text-transform' => isset( $attr['filterTabTypographyTextTransform'] ) ? $attr['filterTabTypographyTextTransform'] : '',
+					'text-transform' => $attr['filterTabTypographyTextTransform'],
 					'text-decoration'=> isset( $attr['filterTabTypographyTextDecoration'] ) ? $attr['filterTabTypographyTextDecoration'] : '',
 				),
 				' .gallery-filter-wrapper .gallery-filter-button' => array(
@@ -7249,7 +7324,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'font-weight'      => ( isset( $attr['filterTabTypographyFontWeight'] ) && '' !== $attr['filterTabTypographyFontWeight'] ) ? $attr['filterTabTypographyFontWeight']: '',
 					'line-height'      => ( isset( $attr['filterTabTypographyLineHeight'] ) && '' !== $attr['filterTabTypographyLineHeight'] ) ? $attr['filterTabTypographyLineHeight']: '',
 					'letter-spacing'   => ( isset( $attr['filterTabTypographyLetterSpacing'] ) && '' !== $attr['filterTabTypographyLetterSpacing'] ) ? self::get_css_value( $attr['filterTabTypographyLetterSpacing'], 'px' ): '',
-					'text-transform'   => isset( $attr['filterTabTypographyTextTransform'] ) ? $attr['filterTabTypographyTextTransform'] : '',
+					'text-transform'   => $attr['filterTabTypographyTextTransform'],
 					'text-decoration'  => isset( $attr['filterTabTypographyTextDecoration'] ) ? $attr['filterTabTypographyTextDecoration'] : '',
 					'padding-top'      => ( $v = self::get_css_value( ( isset( $attr['filterTabTopPaddingMobile'] ) && $attr['filterTabTopPaddingMobile'] !== '' ) ? $attr['filterTabTopPaddingMobile'] : ( ( isset( $attr['filterTabTopPadding'] ) && $attr['filterTabTopPadding'] !== '' ) ? $attr['filterTabTopPadding'] : 7 ), 'px' ) ) ? $v : '',
 					'padding-right'    => ( $v = self::get_css_value( ( isset( $attr['filterTabRightPaddingMobile'] ) && $attr['filterTabRightPaddingMobile'] !== '' ) ? $attr['filterTabRightPaddingMobile'] : ( ( isset( $attr['filterTabRightPadding'] ) && $attr['filterTabRightPadding'] !== '' ) ? $attr['filterTabRightPadding'] : 7 ), 'px' ) ) ? $v : '',
@@ -7310,7 +7385,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'font-weight'    => ( isset( $attr['filterTabTypographyFontWeight'] ) && '' !== $attr['filterTabTypographyFontWeight'] ) ? $attr['filterTabTypographyFontWeight'] : '',
 					'line-height'    => ( isset( $attr['filterTabTypographyLineHeight'] ) && '' !== $attr['filterTabTypographyLineHeight'] ) ? $attr['filterTabTypographyLineHeight'] : '',
 					'letter-spacing' => ( isset( $attr['filterTabTypographyLetterSpacing'] ) && '' !== $attr['filterTabTypographyLetterSpacing'] ) ? self::get_css_value( $attr['filterTabTypographyLetterSpacing'], 'px' ) : '',
-					'text-transform' => isset( $attr['filterTabTypographyTextTransform'] ) ? $attr['filterTabTypographyTextTransform'] : '',
+					'text-transform' => $attr['filterTabTypographyTextTransform'],
 					'text-decoration'=> isset( $attr['filterTabTypographyTextDecoration'] ) ? $attr['filterTabTypographyTextDecoration'] : '',
 				),
 				' .gallery-filter-wrapper .gallery-filter-button' => array(
@@ -7319,7 +7394,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'font-weight'      => ( isset( $attr['filterTabTypographyFontWeight'] ) && '' !== $attr['filterTabTypographyFontWeight'] ) ? $attr['filterTabTypographyFontWeight'] : '',
 					'line-height'      => ( isset( $attr['filterTabTypographyLineHeight'] ) && '' !== $attr['filterTabTypographyLineHeight'] ) ? $attr['filterTabTypographyLineHeight'] : '',
 					'letter-spacing'   => ( isset( $attr['filterTabTypographyLetterSpacing'] ) && '' !== $attr['filterTabTypographyLetterSpacing'] ) ? self::get_css_value( $attr['filterTabTypographyLetterSpacing'], 'px' ) : '',
-					'text-transform'   => isset( $attr['filterTabTypographyTextTransform'] ) ? $attr['filterTabTypographyTextTransform'] : '',
+					'text-transform'   => $attr['filterTabTypographyTextTransform'],
 					'text-decoration'  => isset( $attr['filterTabTypographyTextDecoration'] ) ? $attr['filterTabTypographyTextDecoration'] : '',
 					'padding-top'    => '' !== ( $v = self::get_css_value( ( isset( $attr['filterTabTopPaddingTablet'] ) && $attr['filterTabTopPaddingTablet'] !== '' ) ? $attr['filterTabTopPaddingTablet'] : ( ( isset( $attr['filterTabTopPadding'] ) && $attr['filterTabTopPadding'] !== '' ) ? $attr['filterTabTopPadding'] : 7 ), 'px' ) ) ? $v : '',
 					'padding-right'  => '' !== ( $v = self::get_css_value( ( isset( $attr['filterTabRightPaddingTablet'] ) && $attr['filterTabRightPaddingTablet'] !== '' ) ? $attr['filterTabRightPaddingTablet'] : ( ( isset( $attr['filterTabRightPadding'] ) && $attr['filterTabRightPadding'] !== '' ) ? $attr['filterTabRightPadding'] : 7 ), 'px' ) ) ? $v : '',
@@ -7398,6 +7473,15 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'customHeight'             => '',
 				'columnsize'               => 3,
 				'filterTabRightPaddingMobile' => 30,
+				'filterTabTypographyFontFamily' => '',
+				'filterTabTypographyFontSize' => 14,
+				'filterTabTypographyFontSizeTablet' => '',
+				'filterTabTypographyFontSizeMobile' => '',
+				'filterTabTypographyFontWeight' => 400,
+				'filterTabTypographyLineHeight' => 1.5,
+				'filterTabTypographyLetterSpacing' => 0,
+				'filterTabTypographyTextTransform' => 'none',
+				'filterTabTypographyTextDecoration' => '',
 			);
 		}
 
@@ -8329,9 +8413,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'color'         => $attr['descriptionTypographyColor'],
 					'margin-bottom' => self::get_css_value( $attr['descriptionBottomSpacing'], 'px' ),
 				),
-				' .imagebox-arrow' => array(
-					'color'     => $attr['arrowColor'],
-					'font-size' => self::get_css_value( $attr['arrowSize'], 'px' ),
+				' .imagebox-arrow svg' => array(
+					'color'  => $attr['arrowColor'],
+					'width'  => self::get_css_value( $attr['arrowSize'], 'px' ),
+					'height' => self::get_css_value( $attr['arrowSize'], 'px' ),
 				),
 				'.responsive-block-editor-addons-block-image-boxes-0' => array(
 					'background-image' => $background_image_first,
@@ -13399,11 +13484,11 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 
 			$imgopacity = $attr['opacity'] / 100;
 
+			$updated_background_image = 'url(' . $attr['backgroundImage'] . ')';
 			$background_image_effect  = '';
-			$updated_background_image = '';
 
 			$color_type = '';
-			if ( 'color' === $attr['overlayType'] || '' === $attr['overlayType'] || 'none' === $attr['overlayType'] ) {
+			if ( 'color' === $attr['overlayType'] ) {
 				$color_type = self::hex_to_rgba(
 					$attr['backgroundImageColor'],
 					$imgopacity
@@ -13512,11 +13597,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'width'     => self::get_css_value( $attr['imageWidth'], 'px' ),
 					'max-width' => self::get_css_value( $attr['imageWidth'], 'px' ),
 				),
+				' .responsive-block-editor-addons-testimonial__wrap.responsive-block-editor-addons-tm__bg-type-color .responsive-block-editor-addons-tm__overlay' => array(
+					'background-color' => 'color' === $attr['backgroundType'] ? $attr['backgroundColor'] : '',
+				),
 				' .responsive-block-editor-addons-testimonial__wrap.responsive-block-editor-addons-tm__bg-type-image .responsive-block-editor-addons-tm__overlay' => array(
-					'background-color'      =>
-						'color' === $attr['backgroundType']
-						? self::hex_to_rgb( $attr['backgroundColor'] ? $attr['backgroundColor'] : '#fff', $imgopacity )
-						: '',
 					'background-image'      =>
 						'gradient' === $attr['overlayType'] && 'image' === $attr['backgroundType']
 						? $background_image_effect
@@ -13535,7 +13619,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'background-repeat'     => $attr['backgroundRepeat'],
 					'background-position'   => $background_position_focal,
 					'background-attachment' => $attr['backgroundAttachment'],
-					'opacity'               => 'image' === $attr['backgroundType'] ? $attr['imgopacity'] : '',
+					'opacity'               => 'image' === $attr['backgroundType'] ? $imgopacity : '',
 				),
 				' .responsive-block-editor-addons-testimonial__wrap' => array(
 					'padding-left'  => self::get_css_value( $attr['columnGap'] / 2, 'px' ),
@@ -14731,7 +14815,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'resshowDesc'                   => true,
 				'blockBorderStyle'              => 'none',
 				'blockBorderWidth'              => 1,
-				'opacity'                       => 10,
+				'opacity'                       => 100,
 				'icon_color'                    => '#3a3a3a',
 				'iconsize'                      => 16,
 				'resshowNum'                    => true,
@@ -14823,6 +14907,18 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'contentTextDecoration'			=> '',
 				'headingTextDecoration'			=> '',
 				'dateTextDecoration'			=> '',
+				'countupTopPadding'             => 30,
+				'countupTopPaddingMobile'       => '',
+				'countupTopPaddingTablet'       => '',
+				'countupBottomPadding'          => '',
+				'countupBottomPaddingMobile'    => '',
+				'countupBottomPaddingTablet'    => '',
+				'countupLeftPadding'            => '',
+				'countupLeftPaddingMobile'      => '',
+				'countupLeftPaddingTablet'      => '',
+				'countupRightPadding'           => '',
+				'countupRightPaddingMobile'     => '',
+				'countupRightPaddingTablet'     => '',
 			);
 		}
 
@@ -16932,6 +17028,8 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 			$button_background       = 'transparent' === $attr['buttonStyleToggle'] ? '' : $attr['buttonColor'];
 			$text_color_hover        = 'transparent' === $attr['buttonStyleToggle'] ? $attr['buttonColorHover'] : $attr['buttonTextColorHover'];
 			$button_background_hover = 'transparent' === $attr['buttonStyleToggle'] ? '' : $attr['buttonColorHover'];
+			$icon_color              = isset( $attr['icon_color'] ) ? $attr['icon_color'] : '';
+			$icon_fill               = ! empty( $icon_color ) ? $icon_color : $text_color;
 
 			$justify_content_direction = 'flex-start';
 			if ( 'left' === $attr['buttonAlign'] ) {
@@ -16971,7 +17069,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'justify-content' => $justify_content_direction,
 				),
 				' .responsive-block-editor-addons-call-mail-button-button-container' => array(
-					'width'            => $button_width_css,
+					'width'            => $flag ? '' : $button_width_css,
 					'border'           => $flag ? '' : $button_border,
 					'background-color' => $flag ? '' : $button_background,
 					'border-radius'    => $flag ? '' : $button_border_radius,
@@ -16987,7 +17085,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'font-style' => $flag ? '' : $attr['textFontStyle'],
 				),
 				' .responsive-block-editor-addons-call-mail-button-icon' => array(
-					'fill' => $text_color,
+					'fill' => $icon_fill,
+				),
+				' .responsive-block-editor-addons-call-mail-button-icon svg, .responsive-block-editor-addons-call-mail-button-icon svg path' => array(
+					'fill' => $icon_fill,
 				),
 				' .responsive-block-editor-addons-call-mail-button-icon svg' => array(
 					'height' => self::get_css_value( $attr['iconSize'], 'px' ) . ' !important',
@@ -17001,7 +17102,10 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'color' => $flag ? '' : $text_color_hover,
 				),
 				' .responsive-block-editor-addons-call-mail-button-button-container:hover .responsive-block-editor-addons-call-mail-button-icon' => array(
-					'fill' => $text_color_hover,
+					'fill' => ! empty( $icon_color ) ? $icon_color : $text_color_hover,
+				),
+				' .responsive-block-editor-addons-call-mail-button-button-container:hover .responsive-block-editor-addons-call-mail-button-icon svg, .responsive-block-editor-addons-call-mail-button-button-container:hover .responsive-block-editor-addons-call-mail-button-icon svg path' => array(
+					'fill' => ! empty( $icon_color ) ? $icon_color : $text_color_hover,
 				),
 				' .responsive-block-editor-addons-call-mail-button-icon-iconPosition-left' => array(
 					'margin-right' => self::get_css_value( $attr['iconTextGap'], 'px' ),
@@ -17013,7 +17117,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 
 			$mobile_selectors = array(
 				' .responsive-block-editor-addons-call-mail-button-button-container' => array(
-					'width' => $button_width_css_mobile,
+					'width' => $flag ? '' : $button_width_css_mobile,
 				),
 				' .responsive-block-editor-addons-call-mail-button-text' => array(
 					'font-size' => $flag ? '' : self::get_css_value( $attr['textFontSizeMobile'], 'px' ) . ' !important',
@@ -17038,7 +17142,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 
 			$tablet_selectors = array(
 				' .responsive-block-editor-addons-call-mail-button-button-container' => array(
-					'width' => $button_width_css_tablet,
+					'width' => $flag ? '' : $button_width_css_tablet,
 				),
 				' .responsive-block-editor-addons-call-mail-button-text' => array(
 					'font-size' => $flag ? '' : self::get_css_value( $attr['textFontSizeTablet'], 'px' ) . ' !important',
@@ -17084,9 +17188,9 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'buttonWidth'              => 200,
 				'buttonWidthMobile'        => 200,
 				'buttonWidthTablet'        => 200,
-				'iconSize'                 => '',
-				'iconSizeMobile'           => '',
-				'iconSizeTablet'           => '',
+				'iconSize'                 => 20,
+				'iconSizeMobile'           => 20,
+				'iconSizeTablet'           => 20,
 				'buttonColor'              => '#4aac38',
 				'buttonTextColor'          => '#ffffff',
 				'buttonColorHover'         => '',
@@ -18056,52 +18160,52 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'margin-left' => self::get_css_value( $attr['iconLabelGap'], 'px' ),
 					'color'       => $attr['labelTypographyColor'],
 				),
-				' .responsive-block-editor-addons-icon-facebook, .responsive-block-editor-addons-icon-facebook-f, .responsive-block-editor-addons-icon-facebook-square, .responsive-block-editor-addons-icon-facebook-messenger' => array(
+				' .responsive-block-editor-addons-icon-facebook svg, .responsive-block-editor-addons-icon-facebook-f svg, .responsive-block-editor-addons-icon-facebook-square svg, .responsive-block-editor-addons-icon-facebook-messenger svg' => array(
 					'fill' => '#3b5998',
 				),
-				' .responsive-block-editor-addons-icon-twitter, .responsive-block-editor-addons-icon-twitter-square' => array(
+				' .responsive-block-editor-addons-icon-twitter svg, .responsive-block-editor-addons-icon-twitter-square svg' => array(
 					'fill' => '#00aced',
 				),
-				' .responsive-block-editor-addons-icon-linkedin, .responsive-block-editor-addons-icon-linkedin-in' => array(
+				' .responsive-block-editor-addons-icon-linkedin svg, .responsive-block-editor-addons-icon-linkedin-in svg' => array(
 					'fill' => '#007bb6',
 				),
-				' .responsive-block-editor-addons-icon-youtube, .responsive-block-editor-addons-icon-youtube-square' => array(
+				' .responsive-block-editor-addons-icon-youtube svg, .responsive-block-editor-addons-icon-youtube-square svg' => array(
 					'fill' => '#bb0000',
 				),
-				' .responsive-block-editor-addons-icon-pinterest, .responsive-block-editor-addons-icon-pinterest-p, .responsive-block-editor-addons-icon-pinterest-square' => array(
+				' .responsive-block-editor-addons-icon-pinterest svg, .responsive-block-editor-addons-icon-pinterest-p svg, .responsive-block-editor-addons-icon-pinterest-square svg' => array(
 					'fill' => '#bb0000',
 				),
-				' .responsive-block-editor-addons-icon-instagram' => array(
+				' .responsive-block-editor-addons-icon-instagram svg' => array(
 					'fill' => '#e95950',
 				),
-				' .responsive-block-editor-addons-icon-snapchat, .responsive-block-editor-addons-icon-snapchat-ghost,  .responsive-block-editor-addons-icon-snapchat-square' => array(
+				' .responsive-block-editor-addons-icon-snapchat svg, .responsive-block-editor-addons-icon-snapchat-ghost svg,  .responsive-block-editor-addons-icon-snapchat-square svg' => array(
 					'fill' => '#fffc00',
 				),
-				' .responsive-block-editor-addons-icon-tumblr, .responsive-block-editor-addons-icon-tumblr-square' => array(
+				' .responsive-block-editor-addons-icon-tumblr svg, .responsive-block-editor-addons-icon-tumblr-square svg' => array(
 					'fill' => '#32506d',
 				),
-				' .responsive-block-editor-addons-icon-vimeo, .responsive-block-editor-addons-icon-vimeo-v, .responsive-block-editor-addons-icon-vimeo-square' => array(
+				' .responsive-block-editor-addons-icon-vimeo svg, .responsive-block-editor-addons-icon-vimeo-v svg, .responsive-block-editor-addons-icon-vimeo-square svg' => array(
 					'fill' => '#aad450',
 				),
-				' .responsive-block-editor-addons-icon-quora' => array(
+				' .responsive-block-editor-addons-icon-quora svg' => array(
 					'fill' => '#a82400',
 				),
-				' .responsive-block-editor-addons-icon-google-plus, .responsive-block-editor-addons-icon-google-plus-g, .responsive-block-editor-addons-icon-google-plus-square' => array(
+				' .responsive-block-editor-addons-icon-google-plus svg, .responsive-block-editor-addons-icon-google-plus-g svg, .responsive-block-editor-addons-icon-google-plus-square svg' => array(
 					'fill' => '#dd4b39',
 				),
-				' .responsive-block-editor-addons-icon-reddit, .responsive-block-editor-addons-icon-reddit-alien, .responsive-block-editor-addons-icon-reddit-square' => array(
+				' .responsive-block-editor-addons-icon-reddit svg, .responsive-block-editor-addons-icon-reddit-alien svg, .responsive-block-editor-addons-icon-reddit-square svg' => array(
 					'fill' => '#FF5700',
 				),
-				' .responsive-block-editor-addons-icon-skype' => array(
+				' .responsive-block-editor-addons-icon-skype svg' => array(
 					'fill' => '#00aff0',
 				),
-				' .responsive-block-editor-addons-icon-telegram, .responsive-block-editor-addons-icon-telegram-plane' => array(
+				' .responsive-block-editor-addons-icon-telegram svg, .responsive-block-editor-addons-icon-telegram-plane svg' => array(
 					'fill' => '#0088cc',
 				),
-				' .responsive-block-editor-addons-icon-whatsapp, .responsive-block-editor-addons-icon-whatsapp-square' => array(
+				' .responsive-block-editor-addons-icon-whatsapp svg, .responsive-block-editor-addons-icon-whatsapp-square svg' => array(
 					'fill' => '#34B7F1',
 				),
-				' .responsive-block-editor-addons-icon-envelope' => array(
+				' .responsive-block-editor-addons-icon-envelope svg' => array(
 					'fill' => '#BB001B',
 				),
 			);
@@ -19217,7 +19321,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 			$selectors = array(
 				' ' => array(
 					'display'                    => true === $attr['hideWidget'] && $is_on ? 'none' : 'block',
-					'width'                      => $width,
+					'width'                      => '100%',
 					'border-top-left-radius'     => self::get_css_value( $attr['blockTopRadius'], 'px' ),
 					'border-top-right-radius'    => self::get_css_value( $attr['blockRightRadius'], 'px' ),
 					'border-bottom-right-radius' => self::get_css_value( $attr['blockBottomRadius'], 'px' ),
@@ -19260,6 +19364,9 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 						$attr['hoverboxShadowColor'] .
 						' ' .
 						$hover_box_shadow_position_css : '',
+				),
+				' .responsive-block-editor-addons-search-form-container' => array(
+					'width' => $width,
 				),
 				' .responsive-block-editor-addons-search-form__input' => array(
 					'border-top'       => $input_border_top . ' !important',
@@ -20636,13 +20743,13 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'ctaBackColor'                 => '',
 				'ctaHoverColor'                => '',
 				'ctaHoverBackColor'            => '',
-				'buttonbackgroundType'         => 'color',
+				'buttonbackgroundType'         => '',
 				'buttoncolorLocation1'         => 0,
 				'buttoncolorLocation2'         => 100,
 				'buttongradientDirection'      => 90,
 				'buttonbackgroundColor1'       => '',
 				'buttonbackgroundColor2'       => '#fff',
-				'buttonHbackgroundType'        => 'color',
+				'buttonHbackgroundType'        => '',
 				'buttonHcolorLocation1'        => 0,
 				'buttonHcolorLocation2'        => 100,
 				'buttonHgradientDirection'     => 90,
@@ -20750,18 +20857,18 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'titleTypographyColor'         => '',
 				'descTypographyColor'          => '',
 
-				'ctaButtonTopPadding'          => '',
-				'ctaButtonBottomPadding'       => '',
-				'ctaButtonLeftPadding'         => '',
-				'ctaButtonRightPadding'        => '',
-				'ctaButtonTopPaddingTablet'    => '',
-				'ctaButtonBottomPaddingTablet' => '',
-				'ctaButtonRightPaddingTablet'  => '',
-				'ctaButtonLeftPaddingTablet'   => '',
-				'ctaButtonTopPaddingMobile'    => '',
-				'ctaButtonBottomPaddingMobile' => '',
-				'ctaButtonLeftPaddingMobile'   => '',
-				'ctaButtonRightPaddingMobile'  => '',
+				'ctaButtonTopPadding'          => 15,
+				'ctaButtonBottomPadding'       => 15,
+				'ctaButtonLeftPadding'         => 30,
+				'ctaButtonRightPadding'        => 30,
+				'ctaButtonTopPaddingTablet'    => 15,
+				'ctaButtonBottomPaddingTablet' => 15,
+				'ctaButtonRightPaddingTablet'  => 30,
+				'ctaButtonLeftPaddingTablet'   => 30,
+				'ctaButtonTopPaddingMobile'    => 15,
+				'ctaButtonBottomPaddingMobile' => 15,
+				'ctaButtonLeftPaddingMobile'   => 30,
+				'ctaButtonRightPaddingMobile'  => 30,
 
 				'ctaBlockTopRadius'            => '',
 				'ctaBlockRightRadius'          => '',
@@ -21264,6 +21371,27 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 
 			}
 
+			$cta_button_alignment_tablet = isset( $attr['ctaButtonAlignmentTablet'] ) && '' !== $attr['ctaButtonAlignmentTablet'] ? $attr['ctaButtonAlignmentTablet'] : $attr['ctaButtonAlignment'];
+			$cta_button_alignment_mobile = isset( $attr['ctaButtonAlignmentMobile'] ) && '' !== $attr['ctaButtonAlignmentMobile'] ? $attr['ctaButtonAlignmentMobile'] : $attr['ctaButtonAlignment'];
+
+			$cta_button_margin_left_tablet  = '';
+			$cta_button_margin_right_tablet = '';
+			if ( 'right' === $cta_button_alignment_tablet ) {
+				$cta_button_margin_right_tablet = self::get_css_value( 0, 'px' );
+			}
+			if ( 'left' === $cta_button_alignment_tablet ) {
+				$cta_button_margin_left_tablet = self::get_css_value( 0, 'px' );
+			}
+
+			$cta_button_margin_left_mobile  = '';
+			$cta_button_margin_right_mobile = '';
+			if ( 'right' === $cta_button_alignment_mobile ) {
+				$cta_button_margin_right_mobile = self::get_css_value( 0, 'px' );
+			}
+			if ( 'left' === $cta_button_alignment_mobile ) {
+				$cta_button_margin_left_mobile = self::get_css_value( 0, 'px' );
+			}
+
 			$imgopacity = $attr['opacity'] / 100;
 
 			$background_image_gradient = '';
@@ -21490,6 +21618,9 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'text-transform' => $attr['labelTextTransform'],
 					'font-style'     => $attr['labelFontStyle'],
 				),
+				' .wpcf7 form.wpcf7-form label' => array(
+					'color' => $attr['labelTypographyColor'],
+				),
 				' ::-webkit-input-placeholder'             => array(
 					'color' => $attr['placeholderColor'],
 				),
@@ -21624,6 +21755,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'box-shadow'                 => self::get_css_value( $attr['submitButtonBoxShadowHOffset'], 'px' ) . ' ' . self::get_css_value( $attr['submitButtonBoxShadowVOffset'], 'px' ) . ' ' . self::get_css_value( $attr['submitButtonBoxShadowBlur'], 'px' ) . ' ' . self::get_css_value( $attr['submitButtonBoxShadowSpread'], 'px' ) . ' ' . $attr['submitButtonBoxShadowColor'] . ' ' . $submit_button_box_shadow_position_css,
 					'text-transform' 			 => $attr['submitButtonTextTransform'],
 					'font-style'     			 => $attr['submitButtonFontStyle'],
+					'text-decoration'			 => $attr['submitButtonTextDecoration'],
 				),
 
 				' .wpcf7 input.wpcf7-form-control.wpcf7-submit:hover' => array(
@@ -21765,6 +21897,9 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'padding-bottom'             => self::get_css_value( $attr['ctaButtonBottomPaddingMobile'], 'px' ),
 					'padding-left'               => self::get_css_value( $attr['ctaButtonLeftPaddingMobile'], 'px' ),
 					'padding-right'              => self::get_css_value( $attr['ctaButtonRightPaddingMobile'], 'px' ),
+					'margin'                     => 'auto',
+					'margin-left'                => $cta_button_margin_left_mobile,
+					'margin-right'               => $cta_button_margin_right_mobile,
 					'width'                      => self::get_css_value( $attr['submitButtonWidthMobile'], '%' ),
 					'height'                     => self::get_css_value( $attr['submitButtonHeightMobile'], 'px' ),
 					'border-top-left-radius'     => self::get_css_value( $attr['ctaTopRadiusMobile'], 'px' ),
@@ -21909,6 +22044,9 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 					'padding-bottom'             => self::get_css_value( $attr['ctaButtonBottomPaddingTablet'], 'px' ),
 					'padding-left'               => self::get_css_value( $attr['ctaButtonLeftPaddingTablet'], 'px' ),
 					'padding-right'              => self::get_css_value( $attr['ctaButtonRightPaddingTablet'], 'px' ),
+					'margin'                     => 'auto',
+					'margin-left'                => $cta_button_margin_left_tablet,
+					'margin-right'               => $cta_button_margin_right_tablet,
 					'width'                      => self::get_css_value( $attr['submitButtonWidthTablet'], '%' ),
 					'height'                     => self::get_css_value( $attr['submitButtonHeightTablet'], 'px' ),
 					'border-top-left-radius'     => self::get_css_value( $attr['ctaTopRadiusTablet'], 'px' ),
@@ -22225,6 +22363,7 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'submitButtonFontWeight'              => 400,
 				'submitButtonLineHeight'              => 1,
 				'submitButtonLetterSpacing'           => 0,
+				'submitButtonTextDecoration'          => '',
 				'ctaColor'                            => '#ffffff',
 				'ctaBackColor'                        => '#ff6f61',
 				'ctaHoverColor'                       => '#ffffff',
@@ -22242,6 +22381,8 @@ if ( ! class_exists( 'Responsive_Block_Editor_Addons_Frontend_Styles' ) ) {
 				'buttonHbackgroundColor1'             => '',
 				'buttonHbackgroundColor2'             => '#fff',
 				'ctaButtonAlignment'                  => 'center',
+				'ctaButtonAlignmentTablet'            => 'center',
+				'ctaButtonAlignmentMobile'            => 'center',
 				'ctaButtonmarginleft'                 => 0,
 				'ctaButtonmarginright'                => 0,
 				'ctaVpadding'                         => 15,
