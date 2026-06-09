@@ -204,6 +204,13 @@ class Responsive_Block_Editor_Addons {
 		// RBEA Container Gap Setting.
 		add_action( 'wp_ajax_rbea_save_container_gap', array( $this, 'rbea_save_container_gap' ) );
 
+		// RBEA Ai Suite — save all dashboard settings in one payload.
+		add_action( 'wp_ajax_rbea_save_ai_suite_settings', array( $this, 'rbea_save_ai_suite_settings' ) );
+
+		// RBEA Ai Suite — proxy generation request to the configured AI provider.
+		add_action( 'wp_ajax_rbea_ai_generate', array( $this, 'rbea_ai_generate' ) );
+		add_action( 'wp_ajax_rbea_ai_rewrite', array( $this, 'rbea_ai_rewrite' ) );
+
 		add_action( 'rest_api_init', array( $this, 'register_custom_rest_endpoint' ) );
 		add_action( 'wp_ajax_rbea_sync_library', array( $this, 'rbea_sync_library' ) );
 
@@ -762,6 +769,7 @@ class Responsive_Block_Editor_Addons {
 				'is_display_conditions_on'           => $is_display_conditions_on,
 				'is_responsive_conditions_on'           => $is_responsive_conditions_on,
 				'user_roles'                         => $is_display_conditions_on ? $this->responsive_block_editor_addons_get_user_roles() : array(),
+				'ai_suite'                           => $this->rbea_get_ai_suite_indicators(),
 			)
 		);
 
@@ -1392,6 +1400,7 @@ class Responsive_Block_Editor_Addons {
 					'rst_redirect'          => admin_url( 'admin.php?page=responsive_add_ons' ),
 					'rae_redirect'          => admin_url( 'admin.php?page=rael_getting_started' ),
 					'responsive_redirect'   => admin_url( 'admin.php?page=responsive' ),
+					'ai_suite'              => $this->rbea_get_ai_suite_settings(),
 				)
 			);
 
@@ -1951,6 +1960,649 @@ class Responsive_Block_Editor_Addons {
 		update_option( 'rbea_default_container_gap', $value );
 
 		wp_send_json_success();
+	}
+
+	/**
+	 * Read the saved Ai Suite settings merged onto defaults.
+	 *
+	 * Used by the getting-started localize step (to hydrate the dashboard) and
+	 * by the AJAX save handler (to compute the "current" baseline before merge).
+	 *
+	 * @return array
+	 */
+	public function rbea_get_ai_suite_settings() {
+		$defaults = array(
+			'enable_ai_writer' => true,
+			'post_types'       => 'all',
+			'user_role_access' => 'editor',
+			'context'          => '',
+			'default_tone'     => 'professional',
+			'default_length'   => 'large',
+			'default_language' => 'english',
+			'max_tokens'       => 1500,
+		);
+		$saved = get_option( 'rbea_ai_suite_settings', array() );
+		if ( ! is_array( $saved ) ) {
+			$saved = array();
+		}
+		$merged = array_merge( $defaults, $saved );
+
+		// Treat stored empty strings as "unset" so defaults apply after first install / partial saves.
+		$fill_if_empty = array(
+			'post_types',
+			'user_role_access',
+			'default_tone',
+			'default_length',
+			'default_language',
+		);
+		foreach ( $fill_if_empty as $key ) {
+			if ( ! isset( $merged[ $key ] ) || '' === trim( (string) $merged[ $key ] ) ) {
+				$merged[ $key ] = $defaults[ $key ];
+			}
+		}
+
+		$mt = isset( $merged['max_tokens'] ) ? absint( $merged['max_tokens'] ) : 0;
+		if ( $mt < 100 ) {
+			$mt = 1500;
+		}
+		if ( $mt > 10000 ) {
+			$mt = 10000;
+		}
+		$merged['max_tokens'] = $mt;
+
+		return $merged;
+	}
+
+	/**
+	 * Settings array for `update_option` (drops computed keys).
+	 *
+	 * @param array $settings Merged settings.
+	 * @return array
+	 */
+	protected function rbea_ai_suite_settings_for_storage( array $settings ) {
+		return $settings;
+	}
+
+	/**
+	 * Language slug => English name for AI prompts (must match JS `src/utils/ai-suite-choices.js`).
+	 *
+	 * @return array<string, string>
+	 */
+	public function rbea_get_ai_suite_language_labels() {
+		static $labels = null;
+		if ( null !== $labels ) {
+			return $labels;
+		}
+
+		$labels = array(
+			'afrikaans'         => 'Afrikaans',
+			'amharic'           => 'Amharic',
+			'arabic'            => 'Arabic',
+			'azerbaijani'       => 'Azerbaijani',
+			'belarusian'        => 'Belarusian',
+			'bulgarian'         => 'Bulgarian',
+			'bengali'           => 'Bengali',
+			'bosnian'           => 'Bosnian',
+			'catalan'           => 'Catalan',
+			'cebuano'           => 'Cebuano',
+			'czech'             => 'Czech',
+			'welsh'             => 'Welsh',
+			'danish'            => 'Danish',
+			'german'            => 'German',
+			'greek'             => 'Greek',
+			'english'           => 'English',
+			'esperanto'        => 'Esperanto',
+			'spanish'           => 'Spanish',
+			'estonian'          => 'Estonian',
+			'basque'            => 'Basque',
+			'persian'           => 'Persian',
+			'finnish'           => 'Finnish',
+			'french'            => 'French',
+			'galician'          => 'Galician',
+			'gujarati'          => 'Gujarati',
+			'hebrew'            => 'Hebrew',
+			'hindi'             => 'Hindi',
+			'croatian'          => 'Croatian',
+			'hungarian'         => 'Hungarian',
+			'armenian'          => 'Armenian',
+			'indonesian'        => 'Indonesian',
+			'icelandic'         => 'Icelandic',
+			'italian'           => 'Italian',
+			'japanese'          => 'Japanese',
+			'javanese'          => 'Javanese',
+			'georgian'          => 'Georgian',
+			'kazakh'            => 'Kazakh',
+			'khmer'             => 'Khmer',
+			'kannada'           => 'Kannada',
+			'korean'            => 'Korean',
+			'kurdish'           => 'Kurdish',
+			'kyrgyz'            => 'Kyrgyz',
+			'lao'               => 'Lao',
+			'lithuanian'        => 'Lithuanian',
+			'latvian'           => 'Latvian',
+			'macedonian'        => 'Macedonian',
+			'malayalam'         => 'Malayalam',
+			'mongolian'         => 'Mongolian',
+			'marathi'           => 'Marathi',
+			'malay'             => 'Malay',
+			'burmese'           => 'Burmese',
+			'norwegian_bokmal'  => 'Norwegian Bokmål',
+			'nepali'            => 'Nepali',
+			'dutch'             => 'Dutch',
+			'norwegian_nynorsk' => 'Norwegian Nynorsk',
+			'occitan'           => 'Occitan',
+			'punjabi'           => 'Punjabi',
+			'polish'            => 'Polish',
+			'portuguese'        => 'Portuguese',
+			'romanian'          => 'Romanian',
+			'russian'           => 'Russian',
+			'sakha_yakut'       => 'Sakha (Yakut)',
+			'sindhi'            => 'Sindhi',
+			'sinhala'           => 'Sinhala',
+			'slovak'            => 'Slovak',
+			'slovenian'         => 'Slovenian',
+			'albanian'          => 'Albanian',
+			'serbian'           => 'Serbian',
+			'swedish'           => 'Swedish',
+			'swahili'           => 'Swahili',
+			'tamil'             => 'Tamil',
+			'telugu'            => 'Telugu',
+			'thai'              => 'Thai',
+			'tagalog'           => 'Tagalog',
+			'turkish'           => 'Turkish',
+			'tatar'             => 'Tatar',
+			'uyghur'            => 'Uyghur',
+			'ukrainian'         => 'Ukrainian',
+			'urdu'              => 'Urdu',
+			'uzbek'             => 'Uzbek',
+			'vietnamese'        => 'Vietnamese',
+			'yoruba'            => 'Yoruba',
+			'chinese'           => 'Chinese',
+		);
+
+		return $labels;
+	}
+
+	/**
+	 * Handles AJAX request to save the Ai Suite dashboard settings.
+	 *
+	 * Accepts each field as an individual `$_POST` key, sanitizes, merges with
+	 * the existing values, and persists into the `rbea_ai_suite_settings` option.
+	 */
+	public function rbea_save_ai_suite_settings() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Forbidden' ), 403 );
+			return;
+		}
+
+		$current = $this->rbea_get_ai_suite_settings();
+		$post    = wp_unslash( $_POST );
+
+		$text_fields = array(
+			'post_types',
+			'user_role_access',
+			'default_tone',
+			'default_length',
+			'default_language',
+		);
+
+		$clean = $current;
+
+		if ( array_key_exists( 'enable_ai_writer', $post ) ) {
+			$value                     = (string) $post['enable_ai_writer'];
+			$clean['enable_ai_writer'] = ( '1' === $value || 'true' === $value );
+		}
+
+		foreach ( $text_fields as $field ) {
+			if ( array_key_exists( $field, $post ) ) {
+				$clean[ $field ] = sanitize_text_field( (string) $post[ $field ] );
+			}
+		}
+
+		if ( array_key_exists( 'context', $post ) ) {
+			$clean['context'] = sanitize_textarea_field( (string) $post['context'] );
+		}
+
+		if ( array_key_exists( 'max_tokens', $post ) ) {
+			$clean['max_tokens'] = absint( $post['max_tokens'] );
+		}
+
+		$allowed_post_types = array( 'all', 'post', 'page' );
+		if ( ! in_array( (string) $clean['post_types'], $allowed_post_types, true ) ) {
+			$clean['post_types'] = 'all';
+		}
+
+		$allowed_roles = array( 'administrator', 'editor' );
+		if ( ! in_array( (string) $clean['user_role_access'], $allowed_roles, true ) ) {
+			$clean['user_role_access'] = 'editor';
+		}
+
+		$allowed_tones = array( 'informative', 'casual', 'friendly', 'professional', 'inspirational' );
+		if ( ! in_array( (string) $clean['default_tone'], $allowed_tones, true ) ) {
+			$clean['default_tone'] = 'professional';
+		}
+
+		$allowed_lengths = array( 'short', 'medium', 'large', 'big' );
+		if ( ! in_array( (string) $clean['default_length'], $allowed_lengths, true ) ) {
+			$clean['default_length'] = 'large';
+		}
+
+		$lang_labels = $this->rbea_get_ai_suite_language_labels();
+		if ( ! isset( $lang_labels[ (string) $clean['default_language'] ] ) ) {
+			$clean['default_language'] = 'english';
+		}
+
+		$max_tokens = absint( $clean['max_tokens'] );
+		if ( $max_tokens < 100 ) {
+			$max_tokens = 1500;
+		}
+		if ( $max_tokens > 10000 ) {
+			$max_tokens = 10000;
+		}
+		$clean['max_tokens'] = $max_tokens;
+
+		update_option( 'rbea_ai_suite_settings', $this->rbea_ai_suite_settings_for_storage( $clean ) );
+
+		wp_send_json_success( $clean );
+	}
+
+	/**
+	 * Whether the logged-in user satisfies Ai Suite "User Role Access" for the AI Write toolbar.
+	 *
+	 * @param string $user_role_access Saved setting: `administrator` or `editor`.
+	 * @return bool
+	 */
+	protected function rbea_ai_write_current_user_passes_role_gate( $user_role_access ) {
+		$user = wp_get_current_user();
+		if ( ! $user || ! $user->ID ) {
+			return false;
+		}
+		$uid = (int) $user->ID;
+		if ( function_exists( 'is_multisite' ) && is_multisite() && function_exists( 'is_super_admin' ) && is_super_admin( $uid ) ) {
+			return true;
+		}
+		$access = (string) $user_role_access;
+		if ( 'administrator' === $access ) {
+			return user_can( $user, 'manage_options' );
+		}
+		if ( 'editor' === $access ) {
+			return user_can( $user, 'edit_others_posts' ) || user_can( $user, 'manage_options' );
+		}
+		return false;
+	}
+
+	/**
+	 * Editor-safe Ai Suite indicators for `responsive_globals`.
+	 *
+	 * Mirrors the dashboard `ai_suite` shape but never sends the raw API key
+	 * to the editor — only `has_api_key` so the UI can show / hide the
+	 * "Connect your API key" notice. Includes `post_types` and `ai_write_role_allowed`
+	 * for AI Write toolbar gating (no API key).
+	 *
+	 * @return array
+	 */
+	public function rbea_get_ai_suite_indicators() {
+		$settings = $this->rbea_get_ai_suite_settings();
+		$wp_ai_supported = function_exists( 'wp_ai_client_prompt' ) && function_exists( 'wp_supports_ai' );
+		$has_ai          = false;
+		if ( $wp_ai_supported && wp_supports_ai() ) {
+			$has_ai = wp_ai_client_prompt( 'test' )->is_supported_for_text_generation();
+		}
+		$connectors_url = ( function_exists( 'is_multisite' ) && is_multisite() )
+			? network_admin_url( 'options-connectors.php' )
+			: admin_url( 'options-connectors.php' );
+		return array(
+			'enable_ai_writer'        => (bool) $settings['enable_ai_writer'],
+			// Back-compat shape for the editor UI: this now means "AI is available via WP Connectors".
+			'has_api_key'             => (bool) $has_ai,
+			'wp_ai_supported'         => (bool) $wp_ai_supported,
+			'default_tone'            => $settings['default_tone'],
+			'default_length'          => $settings['default_length'],
+			'default_language'        => $settings['default_language'],
+			'post_types'              => $settings['post_types'],
+			'ai_write_role_allowed'   => $this->rbea_ai_write_current_user_passes_role_gate( $settings['user_role_access'] ),
+			'settings_url'            => $connectors_url,
+		);
+	}
+
+	/**
+	 * AJAX handler — proxy a generation request to the configured AI provider.
+	 *
+	 * Accepts `prompt`, `length`, `tone`, and optional `language` from $_POST
+	 * (language falls back to saved Ai Suite default when omitted). Reads API
+	 * key, provider, model, and `max_tokens` from `rbea_ai_suite_settings`.
+	 * `maxOutputTokens` uses saved `max_tokens` (default 1500, clamped 100–10000).
+	 */
+	public function rbea_ai_generate() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Forbidden', 'responsive-block-editor-addons' ) ), 403 );
+			return;
+		}
+
+		if ( ! function_exists( 'wp_ai_client_prompt' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'AI features require WordPress 7.0 or newer.', 'responsive-block-editor-addons' ),
+				),
+				501
+			);
+			return;
+		}
+
+		$post   = wp_unslash( $_POST );
+		$prompt = isset( $post['prompt'] ) ? sanitize_textarea_field( (string) $post['prompt'] ) : '';
+		$length   = isset( $post['length'] ) ? sanitize_text_field( (string) $post['length'] ) : '';
+		$tone     = isset( $post['tone'] ) ? sanitize_text_field( (string) $post['tone'] ) : '';
+		$language = isset( $post['language'] ) ? sanitize_text_field( (string) $post['language'] ) : '';
+
+		$allowed_lengths_ajax = array( 'short', 'medium', 'large', 'big' );
+		$allowed_tones_ajax   = array( 'informative', 'casual', 'friendly', 'professional', 'inspirational' );
+
+		if ( '' === $prompt ) {
+			wp_send_json_error(
+				array( 'message' => __( 'Please enter a prompt before generating.', 'responsive-block-editor-addons' ) ),
+				400
+			);
+			return;
+		}
+
+		$settings = $this->rbea_get_ai_suite_settings();
+
+		if ( ! in_array( $length, $allowed_lengths_ajax, true ) ) {
+			$length = (string) $settings['default_length'];
+		}
+		if ( ! in_array( $length, $allowed_lengths_ajax, true ) ) {
+			$length = 'large';
+		}
+
+		if ( ! in_array( $tone, $allowed_tones_ajax, true ) ) {
+			$tone = (string) $settings['default_tone'];
+		}
+		if ( ! in_array( $tone, $allowed_tones_ajax, true ) ) {
+			$tone = 'professional';
+		}
+
+		$lang_labels = $this->rbea_get_ai_suite_language_labels();
+		if ( '' === $language ) {
+			$language = (string) $settings['default_language'];
+		}
+		if ( ! isset( $lang_labels[ $language ] ) ) {
+			$language = 'english';
+		}
+		$language_name = (string) $lang_labels[ $language ];
+
+		$max_output_tokens = absint( $settings['max_tokens'] );
+		if ( $max_output_tokens < 100 ) {
+			$max_output_tokens = 1500;
+		}
+		if ( $max_output_tokens > 10000 ) {
+			$max_output_tokens = 10000;
+		}
+
+		// Length → approximate word target (aligned with Ai Suite / AI Write UI).
+		$length_map  = array(
+			'short'  => __( 'Keep it very brief — about 5 to 15 words.', 'responsive-block-editor-addons' ),
+			'medium' => __( 'Aim for about 20 to 30 words.', 'responsive-block-editor-addons' ),
+			'large'  => __( 'Aim for about 40 to 60 words.', 'responsive-block-editor-addons' ),
+			'big'    => __( 'Aim for at least 80 words.', 'responsive-block-editor-addons' ),
+		);
+		$length_hint = isset( $length_map[ $length ] ) ? $length_map[ $length ] : '';
+
+		$tone_map  = array(
+			'informative'   => __( 'Use a clear, informative tone.', 'responsive-block-editor-addons' ),
+			'casual'        => __( 'Use a casual, conversational tone.', 'responsive-block-editor-addons' ),
+			'friendly'      => __( 'Use a warm, friendly tone.', 'responsive-block-editor-addons' ),
+			'professional'  => __( 'Use a professional, business-appropriate tone.', 'responsive-block-editor-addons' ),
+			'inspirational' => __( 'Use an inspirational, motivating tone.', 'responsive-block-editor-addons' ),
+		);
+		$tone_hint = isset( $tone_map[ $tone ] ) ? $tone_map[ $tone ] : '';
+
+		$language_hint = sprintf(
+			/* translators: %s: language name, e.g. "Spanish". */
+			__( 'Write entirely in %s.', 'responsive-block-editor-addons' ),
+			$language_name
+		);
+		$context = trim( (string) ( $settings['context'] ?? '' ) );
+
+		$instructions  = "Write content for the topic below. Return plain text only — no HTML, no Markdown, no surrounding quotes, no commentary.";
+		$instructions .= "\n" . $language_hint;
+		$instructions .= $tone_hint ? "\n" . $tone_hint : '';
+		$instructions .= $length_hint ? "\n" . $length_hint : '';
+		if ( '' !== $context ) {
+			$instructions .= "\n\n" . __(
+				'Use the site context below to align the response with the website purpose, target audience, and brand guidelines when relevant.',
+				'responsive-block-editor-addons'
+			);
+			$instructions .= "\n" . __( 'Site context:', 'responsive-block-editor-addons' ) . "\n" . $context;
+		}
+
+		$builder = wp_ai_client_prompt( 'Topic: ' . $prompt )
+			->using_system_instruction( $instructions )
+			->using_max_tokens( $max_output_tokens )
+			->using_temperature( 0.7 )
+			->using_model_preference( 'gemini-2.5-flash-lite' );
+
+		if ( ! $builder->is_supported_for_text_generation() ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No AI provider is configured. Install an AI provider plugin and add a key under Settings → Connectors.', 'responsive-block-editor-addons' ),
+				),
+				400
+			);
+			return;
+		}
+
+		$text = $builder->generate_text();
+		if ( is_wp_error( $text ) ) {
+			$error_data = $text->get_error_data();
+			$status     = is_array( $error_data ) && isset( $error_data['status'] ) ? (int) $error_data['status'] : 500;
+			wp_send_json_error(
+				array(
+					'message' => $this->rbea_ai_humanize_wp_ai_error( $text ),
+				),
+				$status
+			);
+			return;
+		}
+
+		wp_send_json_success( array( 'text' => $text ) );
+	}
+
+	/**
+	 * AJAX handler — rewrite existing text directly from the rewrite-mode popup.
+	 *
+	 * Accepts `text`, a `rewrite_action`, and optional `tone` / `language`.
+	 * Uses the saved Ai Suite provider/model/API key and returns rewritten plain text.
+	 */
+	public function rbea_ai_rewrite() {
+		check_ajax_referer( 'responsive_block_editor_ajax_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Forbidden', 'responsive-block-editor-addons' ) ), 403 );
+			return;
+		}
+
+		if ( ! function_exists( 'wp_ai_client_prompt' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'AI features require WordPress 7.0 or newer.', 'responsive-block-editor-addons' ),
+				),
+				501
+			);
+			return;
+		}
+
+		$post           = wp_unslash( $_POST );
+		$text           = isset( $post['text'] ) ? sanitize_textarea_field( (string) $post['text'] ) : '';
+		$rewrite_action = isset( $post['rewrite_action'] ) ? sanitize_text_field( (string) $post['rewrite_action'] ) : '';
+		$tone           = isset( $post['tone'] ) ? sanitize_text_field( (string) $post['tone'] ) : '';
+		$language       = isset( $post['language'] ) ? sanitize_text_field( (string) $post['language'] ) : '';
+
+		if ( '' === $text ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Enter or keep some text in the textarea before rewriting.', 'responsive-block-editor-addons' ),
+				),
+				400
+			);
+			return;
+		}
+
+		$allowed_rewrite_actions = array(
+			'simplify_language',
+			'make_longer',
+			'make_shorter',
+			'fix_spelling_grammar',
+			'change_tone',
+			'translate_to',
+		);
+		if ( ! in_array( $rewrite_action, $allowed_rewrite_actions, true ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Choose a valid rewrite action.', 'responsive-block-editor-addons' ),
+				),
+				400
+			);
+			return;
+		}
+
+		$settings = $this->rbea_get_ai_suite_settings();
+		$context  = trim( (string) ( $settings['context'] ?? '' ) );
+
+		$allowed_tones_ajax = array( 'informative', 'casual', 'friendly', 'professional', 'inspirational' );
+		$tone_map  = array(
+			'informative'   => __( 'Use a clear, informative tone.', 'responsive-block-editor-addons' ),
+			'casual'        => __( 'Use a casual, conversational tone.', 'responsive-block-editor-addons' ),
+			'friendly'      => __( 'Use a warm, friendly tone.', 'responsive-block-editor-addons' ),
+			'professional'  => __( 'Use a professional, business-appropriate tone.', 'responsive-block-editor-addons' ),
+			'inspirational' => __( 'Use an inspirational, motivating tone.', 'responsive-block-editor-addons' ),
+		);
+		$lang_labels = $this->rbea_get_ai_suite_language_labels();
+
+		$action_instruction = '';
+		switch ( $rewrite_action ) {
+			case 'simplify_language':
+				$action_instruction = __( 'Simplify the following text without changing its language. Preserve the original meaning and tone while making it easier to read and understand.', 'responsive-block-editor-addons' );
+				break;
+			case 'make_longer':
+				$action_instruction = __( 'Expand the text with a bit more detail while preserving the original meaning.', 'responsive-block-editor-addons' );
+				break;
+			case 'make_shorter':
+				$action_instruction = __( 'Shorten the text while preserving the key meaning and clarity.', 'responsive-block-editor-addons' );
+				break;
+			case 'fix_spelling_grammar':
+				$action_instruction = __( 'Fix spelling, grammar, punctuation, and awkward phrasing while preserving the meaning.', 'responsive-block-editor-addons' );
+				break;
+			case 'change_tone':
+				if ( ! in_array( $tone, $allowed_tones_ajax, true ) ) {
+					wp_send_json_error(
+						array(
+							'message' => __( 'Choose a tone before rewriting.', 'responsive-block-editor-addons' ),
+						),
+						400
+					);
+					return;
+				}
+				$action_instruction = isset( $tone_map[ $tone ] ) ? $tone_map[ $tone ] : '';
+				break;
+			case 'translate_to':
+				if ( ! isset( $lang_labels[ $language ] ) ) {
+					wp_send_json_error(
+						array(
+							'message' => __( 'Choose a language before rewriting.', 'responsive-block-editor-addons' ),
+						),
+						400
+					);
+					return;
+				}
+				$action_instruction = sprintf(
+					/* translators: %s: language name, e.g. "Spanish". */
+					__( 'Translate the text entirely into %s while preserving the meaning.', 'responsive-block-editor-addons' ),
+					(string) $lang_labels[ $language ]
+				);
+				break;
+		}
+
+		$max_output_tokens = absint( $settings['max_tokens'] );
+		if ( $max_output_tokens < 100 ) {
+			$max_output_tokens = 1500;
+		}
+		if ( $max_output_tokens > 10000 ) {
+			$max_output_tokens = 10000;
+		}
+
+		$instructions  = 'Rewrite the text below. Return plain text only — no HTML, no Markdown, no surrounding quotes, no commentary.';
+		if ( '' !== $context ) {
+			$instructions .= "\n\n" . __(
+				'Use the site context below to align the response with the website purpose, target audience, and brand guidelines when relevant.',
+				'responsive-block-editor-addons'
+			);
+			$instructions .= "\n" . __( 'Site context:', 'responsive-block-editor-addons' ) . "\n" . $context;
+		}
+		$instructions .= "\n" . $action_instruction;
+
+		$builder = wp_ai_client_prompt( "Text:\n" . $text )
+			->using_system_instruction( $instructions )
+			->using_max_tokens( $max_output_tokens )
+			->using_temperature( 0.5 )
+			->using_model_preference ( 'gemini-2.5-flash-lite' );
+
+		if ( ! $builder->is_supported_for_text_generation() ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No AI provider is configured. Install an AI provider plugin and add a key under Settings → Connectors.', 'responsive-block-editor-addons' ),
+				),
+				400
+			);
+			return;
+		}
+
+		$rewritten_text = $builder->generate_text();
+		if ( is_wp_error( $rewritten_text ) ) {
+			$error_data = $rewritten_text->get_error_data();
+			$status     = is_array( $error_data ) && isset( $error_data['status'] ) ? (int) $error_data['status'] : 500;
+			wp_send_json_error(
+				array(
+					'message' => $this->rbea_ai_humanize_wp_ai_error( $rewritten_text ),
+				),
+				$status
+			);
+			return;
+		}
+
+		wp_send_json_success( array( 'text' => $rewritten_text ) );
+	}
+
+	/**
+	 * Human-friendly error messages for WP AI Client failures.
+	 *
+	 * Since providers are configured in WordPress (Connectors), avoid provider-specific wording
+	 * and keep messages actionable without referencing models/billing.
+	 *
+	 * @param WP_Error $error Error returned by wp_ai_client_prompt()->generate_text().
+	 * @return string
+	 */
+	protected function rbea_ai_humanize_wp_ai_error( WP_Error $error ) {
+		$data   = $error->get_error_data();
+		$status = is_array( $data ) && isset( $data['status'] ) ? (int) $data['status'] : 0;
+
+		if ( 429 === $status ) {
+			return __( 'AI is temporarily unavailable due to usage limits. Please try again later.', 'responsive-block-editor-addons' );
+		}
+
+		if ( 401 === $status || 403 === $status ) {
+			return __( 'AI isn’t available due to a permissions issue. Please check the site’s AI provider configuration.', 'responsive-block-editor-addons' );
+		}
+
+		if ( $status >= 500 || 0 === $status ) {
+			return __( 'The AI provider is temporarily unavailable. Please try again in a moment.', 'responsive-block-editor-addons' );
+		}
+
+		return __( 'Couldn’t generate content right now. Please try again.', 'responsive-block-editor-addons' );
 	}
 
 	/**
