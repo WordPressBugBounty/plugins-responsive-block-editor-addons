@@ -37,6 +37,7 @@ import RbeaSupportControl from "../../../utils/components/rbea-support-control";
 import RbeaExtensions from "../../../extensions/RbeaExtensions";
 import { convertPositionToFocalPoint } from '../../../getImagePosition';
 import AutoRegisterCSSBlock from "../../../extensions/custom-css/AutoRegisterCSSBlock";
+import StarRating from "./starRating";
 
 const { __ } = wp.i18n;
 
@@ -64,6 +65,7 @@ const {
 } = wp.components;
 
 const { Component, Fragment } = wp.element;
+const { withSelect } = wp.data;
 
 class edit extends Component {
   constructor() {
@@ -163,6 +165,11 @@ class edit extends Component {
       nameBottomSpacing,
       nameBottomSpacingMobile,
       nameBottomSpacingTablet,
+      starRating,
+      starRange,
+      starAlignment,
+      starColor,
+      starUnmarkedColor,
       },
     } = this.props;
 
@@ -638,6 +645,14 @@ class edit extends Component {
       descTextDecoration,
       nameTextDecoration,
       companyTextDecoration,
+      starRating,
+      starRange,
+      starAlignment,
+      starColor,
+      starUnmarkedColor,
+      starSize,
+      starRatingToggle,
+      starGap
       },
       setAttributes,
       className,
@@ -668,7 +683,35 @@ class edit extends Component {
 			marginMobileBottom: 0,
 			marginMobileLeft: 0,
 		}
+    const starMarginResetValues = {
+			marginTop: 0,
+			marginRight: 0,
+			marginBottom: 0,
+			marginLeft: 0,
+			marginTabletTop: 0,
+			marginTabletRight: 0,
+			marginTabletBottom: 0,
+			marginTabletLeft: 0,
+			marginMobileTop: 0,
+			marginMobileRight: 0,
+			marginMobileBottom: 0,
+			marginMobileLeft: 0,
+		}
 		const blockPaddingResetValues = {
+			paddingTop: 0,
+			paddingRight: 0,
+			paddingBottom: 0,
+			paddingLeft: 0,
+			paddingTabletTop: 0,
+			paddingTabletRight: 0,
+			paddingTabletBottom: 0,
+			paddingTabletLeft: 0,
+			paddingMobileTop: 0,
+			paddingMobileRight: 0,
+			paddingMobileBottom: 0,
+			paddingMobileLeft: 0,
+		}
+    const starPaddingResetValues = {
 			paddingTop: 0,
 			paddingRight: 0,
 			paddingBottom: 0,
@@ -1507,8 +1550,17 @@ class edit extends Component {
     let arrows =
       ( ("arrows" == arrowDots || "arrows_dots" == arrowDots) && ( "none" !== arrowDots ) ) ? true : false;
 
+    const { deviceType } = this.props;
+    let slidesToShowEditor = columns;
+    const currentDevice = deviceType ? deviceType.toLowerCase() : "desktop";
+    if (currentDevice === "tablet") {
+      slidesToShowEditor = tcolumns || columns;
+    } else if (currentDevice === "mobile") {
+      slidesToShowEditor = mcolumns || columns;
+    }
+
     const settings = {
-      slidesToShow: columns,
+      slidesToShow: slidesToShowEditor,
       slidesToScroll: 1,
       autoplaySpeed: autoplaySpeed,
       autoplay: autoplay,
@@ -1648,6 +1700,113 @@ class edit extends Component {
     });
 
 
+    const rating_settings = (
+      <PanelBody
+        title={__("Star Ratings", "responsive-block-editor-addons")}
+        initialOpen={false}
+      >
+        {times(test_item_count, (index) => {
+          const ratingVal = (test_block[index] && typeof test_block[index].rating !== "undefined")
+            ? test_block[index].rating
+            : 5;
+          return (
+            <RbeaRangeControl
+              key={index}
+              label={__("Testimonial", "responsive-block-editor-addons") + " " + (index + 1) + " " + __("Rating", "responsive-block-editor-addons")}
+              value={ratingVal}
+              onChange={(value) => {
+                const newItems = test_block.map((item, thisIndex) => 
+                  index === thisIndex 
+                    ? { ...item, rating: value } 
+                    : item
+                );
+                setAttributes({ test_block: newItems });
+              }}
+              min={0}
+              max={starRange || 5}
+              step={0.1}
+            />
+          );
+        })}
+      </PanelBody>
+    );
+
+    const rating_styles = (
+      <PanelBody
+        title={__("Star Rating Style", "responsive-block-editor-addons")}
+        initialOpen={false}
+      >
+        <RbeaTabRadioControl
+          label={__("Range", "responsive-block-editor-addons")}
+          value={starRange === 10 ? 10 : 5}
+          onChange={(value) => {
+            const newRange = parseInt(value);
+            setAttributes({ 
+              starRange: newRange,
+              // Adjust rating if it exceeds the new range
+              starRating: starRating > newRange ? newRange : starRating
+            });
+          }}
+          options={[
+            { value: 5, label: __("1-5", "responsive-block-editor-addons") },
+            { value: 10, label: __("1-10", "responsive-block-editor-addons") },
+          ]}
+          defaultValue={5}
+        />
+        <BaseControl __nextHasNoMarginBottom>
+          <p>{__("Alignment", "responsive-block-editor-addons")}</p>
+          <div className="responsive-block-editor-addons-alignment">
+            <AlignmentToolbar
+              value={starAlignment}
+              onChange={(value) =>
+                setAttributes({ starAlignment: value })
+              }
+              controls={["left", "center", "right"]}
+              isCollapsed={false}
+            />
+          </div>
+        </BaseControl>
+        <RbeaColorControl
+          label={__("Star Color", "responsive-block-editor-addons")}
+          colorValue={starColor}
+          onChange={(newColor) => setAttributes({ starColor: newColor })}
+          resetColor={() => setAttributes({ starColor: "#f0ad4e" })}
+        />
+        <RbeaColorControl
+          label={__("Unmarked Color", "responsive-block-editor-addons")}
+          colorValue={starUnmarkedColor}
+          onChange={(newColor) => setAttributes({ starUnmarkedColor: newColor })}
+          resetColor={() => setAttributes({ starUnmarkedColor: "#ccd6df" })}
+        />
+        <RbeaRangeControl
+          label={__("Icon Size", "responsive-block-editor-addons")}
+          value={starSize}
+          onChange={(value) => setAttributes({ starSize: value })}
+          min={0}
+          max={500}
+          step={1}
+        />
+        <RbeaRangeControl
+          label={__("Icon Spacing", "responsive-block-editor-addons")}
+          value={starGap}
+          onChange={(value) => setAttributes({ starGap: value })}
+          min={0}
+          max={50}
+          step={1}
+        />
+        <ResponsiveNewPaddingControl
+          attrNameTemplate="star%s"
+          resetValues={starPaddingResetValues}
+          {...this.props}
+        />
+        <ResponsiveNewMarginControl
+          attrNameTemplate="star%s"
+          resetValues={starMarginResetValues}
+          {...this.props}
+        />
+      </PanelBody>
+    );
+
     // Global Controls.
     const inspect_control = (
       <InspectorControls>
@@ -1781,6 +1940,7 @@ class edit extends Component {
                           name: ["John Doe"],
                           company: ["Company" + (cloneTest_block.length + 1)],
                           image: "",
+                          rating: 5,
                         });
                       });
                     }
@@ -1873,6 +2033,14 @@ class edit extends Component {
                   { value: "bubble", label: __("Bubble", "responsive-block-editor-addons") },
                 ]}
               />
+              <ToggleControl
+                label={__("Enable Rating", "responsive-block-editor-addons")}
+                checked={starRatingToggle}
+                onChange={(value) =>
+                  setAttributes({ starRatingToggle: value })
+                }
+                __nextHasNoMarginBottom
+              />
             </PanelBody>
             {skin === "bubble" && (
               <PanelBody title={__("Bubble Settings", "responsive-block-editor-addons")} initialOpen={false}>
@@ -1903,7 +2071,7 @@ class edit extends Component {
 
             <PanelBody title={__("Image", "responsive-block-editor-addons")} initialOpen={false}>
               {times(test_item_count, (n) => tmControls(n))}
-              
+
 
               {cnt > 0 && (
                 <Fragment>
@@ -2041,9 +2209,12 @@ class edit extends Component {
                 </Fragment>
               )}
             </PanelBody>
+
+            {starRatingToggle && rating_settings}
             <RbeaSupportControl blockSlug={"testimonial-slider"} />
           </InspectorTab>
           <InspectorTab key={"style"}>
+            {starRatingToggle && rating_styles}
             {TypographySettings}
             {background_settings}
             {marginSettings}
@@ -2207,7 +2378,7 @@ class edit extends Component {
           <Slider
             className={classnames(
               "is-carousel",
-              `responsive-block-editor-addons-tm__columns-${columns}`,
+              `responsive-block-editor-addons-tm__columns-${slidesToShowEditor}`,
               "responsive-block-editor-addons-tm__items"
             )}
             {...settings}
@@ -2244,6 +2415,17 @@ class edit extends Component {
                           className="responsive-block-editor-addons-testinomial-text-wrap"
                           key={"text-wrap-" + index}
                         >
+                          {
+                            starRatingToggle && (
+                              <StarRating
+                                rating={typeof test.rating !== "undefined" ? test.rating : 5}
+                                range={starRange}
+                                alignment={starAlignment}
+                                starColor={starColor}
+                                starUnmarkedColor={starUnmarkedColor}
+                              />
+                            )
+                          }
                           <Description
                             attributes={this.props.attributes}
                             setAttributes={setAttributes}
@@ -2314,4 +2496,8 @@ class edit extends Component {
   
 }
 
-export default edit;
+export default withSelect((select) => {
+  return {
+    deviceType: select("core/editor")?.getDeviceType?.() || "Desktop",
+  };
+})(edit);
